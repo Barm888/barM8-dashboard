@@ -1,0 +1,82 @@
+.img-h-s {
+    display: none;
+}
+
+.page_1 {
+    margin: 0em auto;
+    max-width: 700px;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    height: 100%;
+}
+
+.box {
+    padding: 0.5em;
+    width: 100%;
+    margin: 0.5em;
+}
+
+.box-2 {
+    padding: 0.5em;
+    width: calc(100%/2 - 1em);
+}
+
+.options label,
+.options input {
+    width: 4em;
+    padding: 0.5em 1em;
+}
+
+.hide {
+    display: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+.cropper-drag-box{
+    border-radius: 4px;
+}
+
+.cropper-container {
+    box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);
+    border-radius: 4px;
+}
+
+.img-bkg {
+    box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);
+    border-radius: 4px;
+    width: 150px;
+}
+
+.modal-body {
+    padding: 20px 1px 17px 10px;
+}
+
+.modal-content {
+    border-radius: 4px !important;
+}
+
+.profile-pic {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-pic:hover .edit {
+    display: block;
+}
+
+.edit {
+    padding-top: 13px;
+    padding-right: 13px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: none;
+}
+
+.edit a {
+    color: #000;
+}

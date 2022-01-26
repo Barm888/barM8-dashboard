@@ -1,0 +1,905 @@
+<script>
+
+    function toggleClk(arg) {
+        $(".parentpanel").each(function () {
+            if ($(this).attr('id') != $(arg).data('targetid')) if ($(this).hasClass('in')) $(this).removeClass('in')
+        });
+        return false;
+    }
+
+    $(() => { $("#menuManager").css({ "opacity": "0.1" }); setTimeout(function () { $("#menuManager").css({ "opacity": "" }) }, 1000) }); function daysSelected(arg) { if ($(arg).attr('data-name') == 'Beer' && $(`#${$(arg).attr('id')}`).is(":checked")) { $(`#HHourSTime_SUN_${$(arg).attr('data-name')}`).removeAttr("disabled"); $(`#HHETime_SUN_${$(arg).attr('data-name')}`).removeAttr("disabled") } else { $(`#HHourSTime_SUN_${$(arg).attr('data-name')}`).attr("disabled", "true"); $(`#HHETime_SUN_${$(arg).attr('data-name')}`).attr("disabled", "true") } }
+</script>
+<style>
+    .md-switch-container {
+        height: 20px;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer
+    }
+
+    .md-switch-container .md-transition {
+        transition: all 100ms linear
+    }
+
+    .md-switch-container .md-switch-track {
+        width: 34px;
+        height: 14px;
+        border-radius: 34px;
+        background: #9e9e9e;
+        transition: all 100ms linear
+    }
+
+    .md-switch-container .md-switch-handle {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        left: 0;
+        border-radius: 100%;
+        background: white;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
+        transition: all 100ms linear
+    }
+
+    .md-switch-container .md-switch-label {
+        margin-left: 10px;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -o-user-select: none
+    }
+
+    .md-switch-container.checked .md-switch-track {
+        background: rgba(76, 175, 80, .47)
+    }
+
+    .md-switch-container.checked .md-switch-handle {
+        left: 14px;
+        background: #4CAF50
+    }
+
+    .chosen-single {
+        padding-top: 3px !important;
+    }
+
+    #page-wrapper {
+        padding: 0 0px;
+    }
+
+    .btn {
+        border-radius: 21px;
+    }
+
+    .card {
+        margin: 0rem 0 0rem 0
+    }
+
+    @media(min-width:768px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    .box-shadow-2 {
+        -webkit-box-shadow: 0 10px 18px 0 rgba(62, 57, 107, .2);
+        box-shadow: 0 10px 18px 0 rgba(62, 57, 107, .2)
+    }
+
+    .wrapper-content {
+        padding: 20px 10px 0px !important
+    }
+
+    .btnSeleted {
+        background-color: #4caf50 !important;
+    }
+
+    .popover {
+        color: #212121 !important;
+    }
+
+    @media (min-width: 768px) {
+        .modal-xl {
+            width: 80%;
+            max-width: 1000px;
+        }
+    }
+</style>
+<div class="wrapper wrapper-content" id="menuManager" ng-controller="menuManagerCtl">
+    <div class="m-t-sm" style="margin-top:3rem;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                <div class="row card eventCard">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                        <div class="autocomplete col-sm-12 col-xs-8 col-md-6 col-lg-6 col-xl-6"
+                            style="padding-right:0px;padding-left:0px;">
+                            <input id="autocompleteBusiness" type="text" name="BusinessName"
+                                placeholder="Enter Business name">
+                            <span id="businessErr" style="color:red;"></span>
+                        </div>
+                        <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                        <script
+                            type="text/javascript">autocomplete(document.getElementById("autocompleteBusiness"), 'manageEvent');</script>
+                        <div class="autocomplete col-sm-12 col-xs-4 col-md-6 col-lg-6 col-xl-6">
+                            <button type="button" ng-click="BusinessSelected('manageEvent')" id="businessSubmit"
+                                class="btn btn-raised btn-primary businessSubmit">
+                                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-show="mealsCategoryArray && mealsCategoryArray.length" style="margin-top:10px;">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col-xl-12">
+                <div class="panel panel-default" ng-repeat="(i,category) in mealsCategoryArray"
+                    style="margin:0rem 0rem 0.5rem 0rem;">
+                    <div class="panel-heading card"
+                        style="margin-top:10px;background-color:#f9a143;padding: 0px 0px 0px 20px;border-radius: 4px;">
+                        <div class="panel-title" style="margin-top:-10px;color:#fff !important;cursor:pointer;">
+                            <div class="row" style="padding-bottom: 3px;padding-top: 3px;">
+                                <script> $(document).ready(() => { $('.pop').popover({ html: true, animation: true }) }); $(document).on("click", ".popover .close", function () { $(this).parents(".popover").popover('hide') })</script>
+                                <div onclick="return toggleClk(this)" data-index="{{i}}"
+                                    data-category="{{category.category}}"
+                                    class="col-lg-6 col-md-5 col-sm-6 col-xs-6 col-xl-6" style="padding: 7px;"
+                                    data-toggle="collapse" data-targetid="{{category.id}}" data-parent="#accordion1"
+                                    data-parent="1" data-target="#{{category.id}}">
+                                    <a id="meals_category_{{category.id}}" data-menuheader="{{category.category}}"
+                                        href="javascript:;" style="color:#fff;"> <i
+                                            class="fas fa-utensils"></i><span>&nbsp;
+                                            {{category.category}}</span>
+                                    </a>
+                                </div>
+                                <div class="col-lg-4 col-md-5 col-sm-4 col-xs-4 col-xl-4">
+                                    <a href="javascript:;" ng-show="category.sunday.value" data-html="true"
+                                        id="popover_{{category.id}}" data-title="Sunday" class="pop"
+                                        data-toggle="popover" data-placement="top"
+                                        data-content="{{category.sunday.startTime}} to {{category.sunday.endTime}}">
+                                        <button class="btn" data-menu="{{category.shortName}}" data-day="sunday"
+                                            data-menuid="{{category.id}}" id="sunday_{{$index}}"
+                                            style="background-color: #fff;color: #000;">S</button>
+                                    </a>
+                                    <a href="javascript:;" ng-show="category.monday.value" data-html="true"
+                                        id="popover_{{category.id}}" data-title="Monday" class="pop"
+                                        data-toggle="popover" data-placement="top"
+                                        data-content="{{category.monday.startTime}} to {{category.monday.endTime}}">
+                                        <button class="btn" ng-click="daysClick($index , 'monday')"
+                                            data-menu="{{category.shortName}}" data-day="monday"
+                                            data-menuid="{{category.id}}" id="monday_{{$index}}"
+                                            style="background-color: #fff;color: #000;">M</button>
+                                    </a>
+                                    <a href="javascript:;" ng-show="category.tuesday.value" data-html="true"
+                                        id="popover_{{category.id}}" data-title="Tuesday" class="pop"
+                                        data-toggle="popover" data-placement="top"
+                                        data-content="{{category.tuesday.startTime}} to {{category.tuesday.endTime}}">
+                                        <button class="btn" data-menu="{{category.shortName}}" data-day="tuesday"
+                                            data-menuid="{{category.id}}" id="tuesday_{{$index}}"
+                                            style="background-color: #fff;color: #000;">T</button>
+                                    </a>
+                                    <a href="javascript:;" ng-show="category.wednesday.value" data-html="true"
+                                        id="popover_{{category.id}}" data-title="Wednesday" class="pop"
+                                        data-toggle="popover" data-placement="top"
+                                        data-content="{{category.wednesday.startTime}} to {{category.wednesday.endTime}}">
+                                        <button class="btn" data-menu="{{category.shortName}}" data-day="wednesday"
+                                            data-menuid="{{category.id}}" id="wednesday_{{$index}}"
+                                            style="background-color: #fff;color: #000;">W</button>
+                                    </a>
+                                    <a href="javascript:;" ng-show="category.thursday.value" data-html="true"
+                                        id="popover_{{category.id}}" data-title="Thursday" class="pop"
+                                        data-toggle="popover" data-placement="top"
+                                        data-content="{{category.thursday.startTime}} to {{category.thursday.endTime}}">
+                                        <button class="btn" data-menu="{{category.shortName}}" data-day="thursday"
+                                            data-menuid="{{category.id}}" id="thursday_{{$index}}"
+                                            style="background-color: #fff;color: #000;">T</button>
+                                    </a>
+                                    <a href="javascript:;" ng-show="category.friday.value" data-html="true"
+                                        id="popover_{{category.id}}" data-title="Friday" class="pop"
+                                        data-toggle="popover" data-placement="top"
+                                        data-content="{{category.friday.startTime}} to {{category.friday.endTime}}">
+                                        <button class="btn" data-menu="{{category.shortName}}" data-day="friday"
+                                            data-menuid="{{category.id}}" id="friday_{{$index}}"
+                                            style="background-color: #fff;color: #000;">F</button>
+                                    </a>
+                                    <a href="javascript:;" ng-show="category.saturday.value" data-html="true"
+                                        id="popover_{{category.id}}" data-title="Saturday" class="pop"
+                                        data-toggle="popover" data-placement="top"
+                                        data-content="{{category.saturday.startTime}} to {{category.saturday.endTime}}">
+                                        <button class="btn" data-menu="{{category.shortName}}" data-day="saturday"
+                                            data-menuid="{{category.id}}" id="saturday_{{$index}}"
+                                            style="background-color: #fff;color: #000;">S</button>
+                                    </a>
+                                </div>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-xl-1" style="margin-top: 3px;">
+                                    <button class="btn btn-primary abtn mealsCategoryEdit pull-right"
+                                        id="addMenuHeader_{{category.id}}"
+                                        ng-click="Add_Menu_Header_OPENMODAL(i, category.id , category.category);setIndex(i, j)"
+                                        style="padding: 1px 10px !important;background-color:#fff !important;color:#000 !important;">
+                                        <i class="fas fa-plus"></i> Add Header</button>
+                                </div>
+                                <script>
+                                    $(document).ready(() => { $('[data-toggle="tooltip"]').tooltip(); });
+                                </script>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-xl-1"
+                                    style="margin-top: 3px;margin-left: -5px;">
+                                    <button class="btn btn-primary abtn mealsCategoryEdit pull-right"
+                                        data-toggle="tooltip" data-placement="top" title="Delete"
+                                        id="_delete_menuHeader_{{category.id}}"
+                                        ng-click="deleteMealsCategory(i, category);setIndex(i, j)"
+                                        style="padding: 3px 8px !important;background-color:#fff !important;color:#000 !important;">
+                                        <i class="far fa-trash-alt"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="{{category.id}}" class="panel-collapse collapse  parentpanel {{(menuParentI==i?'in':'')}}">
+                        <div class="panel-body" style="padding: 5px;">
+                            <div class="row" ng-show="category.mealsDashLines && category.mealsDashLines.length>0">
+                                <div class="col-md-12 col-sm-12 col-lg-12 col-xl-12" style="margin-top:4px;">
+                                    <div class="panel panel-default" ng-repeat="(j,header) in category.mealsDashLines"
+                                        style="margin:0rem 0rem 0.5rem 0rem;">
+                                        <div class="panel-heading card"
+                                            style="background-color: #263238;padding: 0px 0px 0px 10px;border-radius: 4px;">
+                                            <div class="panel-title" style="color:#fff !important;cursor:pointer;">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <tbody>
+                                                            <tr data-index="[{{i}},{{j}}]" data-trid="{{header.id}}">
+                                                                <td class="col-lg-6 col-md-6 col-sm-6 col-xs-6 col-xl-6"
+                                                                    style="border-top: 0px solid #e7eaec;"
+                                                                    data-toggle="collapse" data-parent="2"
+                                                                    data-parent="#accordion1"
+                                                                    data-target="#{{header.id}}">
+                                                                    <a id="sub_menu_header_{{header.id}}"
+                                                                        data-submenuheader="{{header.menuHeader | capitalize}}"
+                                                                        href="javascript:;" style="color:#fff;">
+                                                                        <i class="fas fa-utensils"></i><span>&nbsp;
+                                                                            {{header.menuHeader |
+                                                                            capitalize}}</span>
+                                                                    </a>
+                                                                </td>
+                                                                <script>
+                                                                    $(document).ready(() => {
+                                                                        $('[data-toggle="popover"]').popover({ html: !0, animation: !0 });
+                                                                        $('[data-toggle="tooltip"]').tooltip();
+                                                                    });
+                                                                    $(document).on("click", ".popover .close", function () { $(this).parents(".popover").popover('hide') })
+                                                                </script>
+                                                                <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-xl-1"
+                                                                    style="border-top: 0px solid #e7eaec;">
+                                                                    <button id="header_level_addons_{{header.id}}"
+                                                                        ng-click="meals_add_on_Header_clk(j,header.id)"
+                                                                        class="btn abtn mealsCategoryEdit pull-right"
+                                                                        style="padding: 1px 10px !important;background-color:#fff !important;color:#000 !important;"><i
+                                                                            class="fas fa-puzzle-piece"></i>
+                                                                        &nbsp; Add-ons</button>
+                                                                </td>
+                                                                <td class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-xl-2"
+                                                                    style="border-top: 0px solid #e7eaec;">
+                                                                    <button id="addItem_{{header.id}}"
+                                                                        class="btn btn-primary abtn mealsCategoryEdit pull-right"
+                                                                        ng-click="Add_Menu_Item_OPENMODAL(j, header.id , header.menuHeaderId , category.category);colapseSetIndex(i,j);setIndex(i, j)"
+                                                                        style="padding: 1px 10px !important;background-color:#fff !important;color:#000 !important;">
+                                                                        <i class="fas fa-plus"></i> &nbsp; Add
+                                                                        Item</button>
+                                                                </td>
+                                                                <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-xl-1"
+                                                                    style="border-top: 0px solid #e7eaec;">
+                                                                    <button
+                                                                        class="btn btn-primary abtn mealsCategoryEdit pull-right"
+                                                                        ng-click="mealsHeaderEdit(j, header.id)"
+                                                                        id="meals_menuHeader_edit_Btn_{{header.id}}"
+                                                                        style="padding: 1px 10px !important;background-color:#fff !important;color:#000 !important;">
+                                                                        <i class="fas fa-pencil-alt"></i> &nbsp;
+                                                                        Edit</button>
+                                                                    <button
+                                                                        class="btn btn-primary abtn mealsCategoryEdit pull-right"
+                                                                        ng-click="mealsHeaderUpdate(j, header.id)"
+                                                                        id="meals_menuHeader_update_Btn_{{header.id}}"
+                                                                        style="padding: 1px 10px !important;background-color:#fff !important;color:#000 !important;display:none;">
+                                                                        <i class="fas fa-save"></i> &nbsp;
+                                                                        Update</button>
+                                                                </td>
+                                                                <td class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-xl-1"
+                                                                    style="border-top: 0px solid #e7eaec;">
+                                                                    <button id="menu_header_delete_{{header.id}}"
+                                                                        class="btn btn-primary abtn mealsCategoryEdit pull-right"
+                                                                        ng-click="mealsHeaderDelete(j, header.id);colapseSetIndex(i,j);setIndex(i, j)"
+                                                                        style="padding: 1px 10px !important;background-color:#fff !important;color:#000 !important;">
+                                                                        <i class="far fa-trash-alt"></i> &nbsp;
+                                                                        Delete</button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="{{header.id}}"
+                                            class="panel-collapse collapse {{(menuChildI==j?'in':'')}}">
+                                            <div class="panel-body" style="margin-top: 8px;">
+                                                <div class="row"
+                                                    ng-show="header.dashSubLines && header.dashSubLines.length>0">
+                                                    <div class="col-md-12 col-sm-12 col-xl-12 col-lg-12 col-xs-12"
+                                                        style="padding-left:0px; padding-right:0px;">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-hover"
+                                                                id="meals_header_table_{{header.id}}">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th
+                                                                            class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                                                            Price</th>
+                                                                        <th
+                                                                            class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                                                            Menu</th>
+                                                                        <th
+                                                                            class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                                                            Ingredients</th>
+                                                                        <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"
+                                                                            style="text-align:right;">
+                                                                            Available</th>
+                                                                        <th
+                                                                            class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                                                        </th>
+                                                                        <th
+                                                                            class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr data-index="[{{i}},{{j}}]"
+                                                                        data-trid="{{header.id}}"
+                                                                        ng-repeat="(m,subLine) in header.dashSubLines">
+                                                                        <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2"
+                                                                            data-name="price">{{subLine.price}}
+                                                                        </td>
+                                                                        <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2"
+                                                                            data-name="menu">{{subLine.menu}}
+                                                                        </td>
+                                                                        <td class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3"
+                                                                            data-name="ingredients">
+                                                                            {{subLine.ingredients}} </td>
+                                                                        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"
+                                                                            data-name="isAvailable"
+                                                                            style="text-align:right;">
+                                                                            <div data-tr="{{$index}}"
+                                                                                data-index="[{{i}},{{j}}]"
+                                                                                data-headerid="{{header.id}}"
+                                                                                data-itemmenu="{{subLine.menu}}"
+                                                                                data-shortname="{{category.shortName}}"
+                                                                                data-menuheaderid="{{header.menuHeaderId}}"
+                                                                                data-menuid="{{subLine.menuId}}"
+                                                                                data-category="{{category.category}}"
+                                                                                class="md-switch-container m_m_I_L_R_isAvailable {{subLine.isAvailable?'checked':''}}"
+                                                                                id="{{subLine.id}}"
+                                                                                data-name="isAvailable" data-status=""
+                                                                                style="padding:15px 0px;"
+                                                                                onclick="$(this).toggleClass('checked');itemChgAvailable(this);">
+                                                                                <div class="md-switch-track">
+                                                                                </div>
+                                                                                <div class="md-switch-handle">
+                                                                                </div>
+                                                                                <div class="md-switch-label">
+                                                                                    <b></b>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"
+                                                                            style="text-align: center;">
+                                                                            <span data-toggle="popover"
+                                                                                ng-click="setIndex(i, j)"
+                                                                                data-index="[{{i}},{{j}}]"
+                                                                                title="Days <a href='#' class='close' style='color:red;' title='Close' data-dismiss='alert'>&times;</a>"
+                                                                                data-placement="top"
+                                                                                data-content='{{ subLine | mealsShow: { name : "mealsItem" , parent : category } }}'
+                                                                                style="margin-right: 0px;cursor: pointer; margin-top: 0px; font-size: 20px;color: #000;border-radius: 50px; padding: 0px 4px;background-color:#fff; 
+                                                                                -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);  
+                                                                                 box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);">
+                                                                                <i class="far fa-calendar-check"></i>
+                                                                        </td>
+                                                                        <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"
+                                                                            style="text-align: right;">
+                                                                            <button
+                                                                                id="item_level_addons_{{subLine.id}}"
+                                                                                ng-click="meals_add_on_Modal_click(j,subLine.id)"
+                                                                                class="btn"
+                                                                                style="background-color: #009688;color: #fff;"><i
+                                                                                    class="fas fa-puzzle-piece"></i>
+                                                                                &nbsp; Add-ons</button>
+                                                                        </td>
+                                                                        <td
+                                                                            class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                                                            <button
+                                                                                class="btn btn-success pull-right card inAppSpecialUpdateBtn"
+                                                                                style="background-color: #4caf50 !important;padding: 5px 13px !important;display:none;"
+                                                                                name="Update"
+                                                                                id="melas_items_saveBtn_{{subLine.id}}_{{m}}"
+                                                                                type="button" title="Update"
+                                                                                ng-click="mealsItemUpdate(m, subLine.id, header.id)">
+                                                                                <i class="far fa-save"
+                                                                                    style="color:#ffffff;"></i>&nbsp;
+                                                                                Update
+                                                                            </button>
+                                                                            <button type="button"
+                                                                                ng-click="mealsItemsEdit(m,subLine.id, header.id)"
+                                                                                style="background-color: #2084c6 !important;padding: 5px 13px !important;"
+                                                                                name="edit"
+                                                                                id="melas_items_editBtn_{{subLine.id}}_{{m}}"
+                                                                                title="Edit"
+                                                                                class="btn btn-primary pull-right abtn">
+                                                                                <i class="far fa-edit"
+                                                                                    aria-hidden="true"></i>&nbsp;Edit
+                                                                            </button>
+                                                                        </td>
+                                                                        <td
+                                                                            class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                                                            <button type="button"
+                                                                                id="menu_item_delete_{{subLine.id}}"
+                                                                                ng-click="mealsItemDelete(m,subLine.id);colapseSetIndex(i,j);"
+                                                                                name="delete" title="Delete"
+                                                                                class="btn btn-primary abtn bistroHoursDelete"
+                                                                                style="padding: 5px 10px !important;background-color:#ff5722 !important;">
+                                                                                <i class="far fa-trash-alt"
+                                                                                    aria-hidden="true"></i>&nbsp;Delete
+                                                                            </button>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            function Save_Menu_Header_Clk(index, id, header) {
+                angular.element(document.getElementById('menuManager')).scope().addMealsItems()
+            }
+            Save_Menu_Header_Btn_Clk = (index, id, category) => {
+                angular.element(document.getElementById('menuManager')).scope().addMealsMenuHeader(index, id, category)
+            };
+            meals_addons_Delete_Click = (e) => {
+                angular.element(document.getElementById('menuManager')).scope().meals_addons_delete($(e).data('id'), $(e).data('parentid'))
+            };
+            meals_day_chg = (e) => {
+                let data = $(e).data('day'); if ($(`#menuHeader_${data}_ST`).prop('disabled') && $(`#menuHeader_${data}_ET`).prop('disabled')) { $(`#menuHeader_${data}_ST,#menuHeader_${data}_ET`).prop('disabled', !1) } else { $(`#menuHeader_${data}_ST,#menuHeader_${data}_ET`).val('').prop('disabled', !0) }
+            }
+            addOnsModelClk = (i, id) => {
+                if (id) { angular.element(document.getElementById('menuManager')).scope().addMealsSubMenuHeader(i, id) }
+            };
+            meals_addons_edit = (e) => {
+                if (e) { angular.element(document.getElementById('menuManager')).scope().addons_Edit_Meals(e) }
+            };
+            meals_addons_save = (e) => { if (e) { angular.element(document.getElementById('menuManager')).scope().addons_Update_Meals(e) } };
+            itemChgAvailable = (e) => { angular.element(document.getElementById('menuManager')).scope().itemChgAvailableUpdate(e) }; meals_addons_header_save = (e) => { angular.element(document.getElementById('menuManager')).scope().addons_Update_Meals_header_line(e) }; addOnsModelHeaderClk = (i, id) => { if (id) { angular.element(document.getElementById('menuManager')).scope().AddonsAddHeaderLevel(i, id) } }; meals_addons_Header_edit = (e) => { if (e) { angular.element(document.getElementById('menuManager')).scope().addons_HeaderLine_Edit_Meals(e) } }; meals_addons_Line_Delete_Clk = (e) => { angular.element(document.getElementById('menuManager')).scope().meals_addons_L_Level_delete_Clk($(e).data('addonsid'), $(e).data('parentid')) }
+            addAddonsInArray = () => { angular.element(document.getElementById('menuManager')).scope().addAddonsToArray() }; itemChginAppSpecial = (arg) => { angular.element(document.getElementById('menuManager')).scope().itemLevelInappSpecial(arg) }
+            headerlevelAddonsStatus = (arg) => { angular.element(document.getElementById('menuManager')).scope().headerAddonsStausChng(arg) }
+        </script>
+        <div id="meals_menu_Header_MODAL" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header"
+                        style="padding:5px !important;background-color:#f9a141;box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);">
+                        <button type="button" class="close btn" style="background-color:#fff;color:#f9a141;"
+                            data-dismiss="modal">&times;</button>
+                        <h3 style="color:#fff;">Add Menu Header</h3>
+                    </div>
+                    <div class="modal-body" style="text-align: left !important;padding:10px 10px 10px 10px !important;">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Categories</label>
+                                    </div>
+                                </div>
+                                <div class="row" ng-repeat="cate in mealsCategoryArray">
+                                    <div class="col-md-12">
+                                        <div class="md-switch-container meals_menu_header_radio_btn checked"
+                                            data-id="{{cate.id}}" data-menu="{{cate.category}}"
+                                            data-shortname="{{cate.shortName}}" style="padding:15px 0px;"
+                                            onClick="$(this).toggleClass('checked');">
+                                            <div class="md-switch-track"></div>
+                                            <div class="md-switch-handle"></div>
+                                            <div class="md-switch-label">
+                                                <b>{{cate.category}}</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label>Days</label>
+                                <div class="row ng-scope" ng-repeat="(key, day) in mealsDays">
+                                    <div class="col-md-12">
+                                        <div class="md-switch-container menu_Header_days {{(day?'checked':'')}}"
+                                            data-value="{{ day }}" data-menuid="{{day.id}}" data-day="{{key}}"
+                                            style="padding:15px 0px;" onclick="$(this).toggleClass('checked');">
+                                            <div class="md-switch-track"></div>
+                                            <div class="md-switch-handle"></div>
+                                            <div class="md-switch-label"><b class="ng-binding">{{key |
+                                                    capitalize}}</b></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="meals_menu_header_txt">Enter Menu Header</label>
+                                    <input type="text" class="form-control" placeholder="Ex : Dessert"
+                                        id="meals_menu_header_txt">
+                                    <span id="meals_Menu_Header_Error" style="color:#f44336;"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" id="meals_header_add_btn"
+                                    style="background-color:#4caf50 !important;margin-top:20px;"
+                                    class=" btn btn-primary pull-right abtn"><i class="fas fa-plus"></i>&nbsp;Add
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding: 0px !important;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="mealsMenuItem" class="modal fade" role="dialog"
+            style="z-index: 999999 !important;top:-1px !important;padding-left:1px !important;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header"
+                        style="padding:5px !important;background-color:#f9a141;box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);">
+                        <button type="button" class="close btn" style="background-color:#fff;color:#f9a141;"
+                            data-dismiss="modal">&times;</button>
+                        <h3 style="color:#fff;">Add Menu Item</h3>
+                    </div>
+                    <div class="modal-body"
+                        style="text-align:left !important;    padding: 12px 12px 10px 12px !important;">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-xl-3">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Categories</label>
+                                    </div>
+                                </div>
+                                <div class="row" ng-repeat="cate in mealsCategoryArray">
+                                    <div class="col-md-12">
+                                        <div class="md-switch-container meals_menu_Item_radio_Create checked"
+                                            data-id="{{cate.id}}" data-menu="{{cate.category}}"
+                                            data-shortname="{{cate.shortName}}" style="padding:15px 0px;"
+                                            onClick="$(this).toggleClass('checked');">
+                                            <div class="md-switch-track"></div>
+                                            <div class="md-switch-handle"></div>
+                                            <div class="md-switch-label">
+                                                <b>{{cate.category}}</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-xl-2">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Days</label>
+                                    </div>
+                                </div>
+                                <div class="row ng-scope" ng-repeat="day in weekday">
+                                    <div class="col-md-12">
+                                        <div class="md-switch-container meals-menu-item-for-week-days {{(mealsItemDashLineObj[day.val]?'checked':'')}}"
+                                            data-value="{{ day.val }}" data-day="{{day.name}}" style="padding:15px 0px;"
+                                            onclick="$(this).toggleClass('checked');">
+                                            <div class="md-switch-track"></div>
+                                            <div class="md-switch-handle"></div>
+                                            <div class="md-switch-label"><b class="ng-binding">{{ day.txt }}</b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 col-xl-2"
+                                style="padding-right: 1px;padding-left: 1px;">
+                                <div class="form-group">
+                                    <label for="meals_price_MenuItem">Price</label>
+                                    <input type="number" class="form-control  custom-input" style="padding: 6px 4px;"
+                                        id="meals_price_MenuItem">
+                                    <span id="meals_price_MenuItem_Error" style="color:#f44336;"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="meals_special_price_MenuItem">Special price</label>
+                                    <input type="number" class="form-control  custom-input" style="padding: 6px 4px;"
+                                        id="meals_special_price_MenuItem">
+                                    <span id="meals_special_price_MenuItem_Error" style="color:#f44336;"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 col-xl-5"
+                                style="padding-right: 5px;padding-left: 5px;">
+                                <div class="form-group">
+                                    <label for="meals_menu_MenuItem">Menu</label>
+                                    <input type="text" class="form-control custom-input" id="meals_menu_MenuItem">
+                                    <span id="meals_menu_Error_MenuItem" style="color:#f44336;display:none;">Menu
+                                        is required!</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="meals_ingredients_MenuItem">Ingredients</label>
+                                    <textarea id="meals_ingredients_MenuItem" row="5" class="form-control" style="    border: 2px solid #ddd !important;
+                                    font-size: 16px !important;"> </textarea>
+                                    <span id="meals_ingredients_Error_MenuItem"
+                                        style="color:#f44336;display:none;">Ingredients
+                                        is required!</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row card" style="margin-top: 10px;background-color: #004d40 !important;color:#fff;">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                <h4>Add Add-ons</h4>
+                            </div>
+                        </div>
+                        <div class="row itemaddonstable">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="table-responsive card">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="col-sm-3 col-md-3 col-lg-3 col-xl-3">Price</th>
+                                                <th class="col-sm-5 col-md-5 col-lg-5 col-xl-5">Description</th>
+                                                <th class="col-sm-2 col-md-2 col-lg-2 col-xl-2"></th>
+                                                <th class="col-sm-2 col-md-2 col-lg-2 col-xl-2"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="addons-item"> </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="pwd">Price</label>
+                                            <input type="text" class="form-control  custom-input"
+                                                id="header_level_price_addons_special">
+                                            <span id="header_level_price_addons_special_error"
+                                                style="color:#f44336;display:none;">Price
+                                                is required!</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="pwd">Description</label>
+                                            <input type="text" class="form-control  custom-input"
+                                                id="header_level_desc_addons_special">
+                                            <span id="header_level_desc_addons_special_addons_err"
+                                                style="color:#f44336;display:none;">Description is
+                                                required!</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-success card pull-right" id="header_level_addons_add_btn"
+                                            onclick="addAddonsInArray()"
+                                            style="background-color: #ff9800 !important; margin-top: 1.5rem;"
+                                            name="delete" id="menuHeader" type="button" title="Add"><i
+                                                class="fas fa-plus"></i>&nbsp;
+                                            Add</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 10px;">
+                                <button type="button" id="meals_menu_item_modal"
+                                    style="background-color:#4caf50 !important;margin-top:1.8rem;"
+                                    class=" btn btn-primary pull-right abtn"><i class="fas fa-plus"></i>&nbsp;Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 0px !important;"></div>
+            </div>
+        </div>
+    </div>
+    <div id="meals_Add_Ons_Line_Level" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header"
+                    style="padding:5px !important;background-color:#f9a141;box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);">
+                    <button type="button" class="close btn" style="background-color:#fff;color:#f9a141;"
+                        data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title" style="color:#fff;"><i class="fas fa-puzzle-piece"></i> &nbsp;
+                        Add-on</h3>
+                </div>
+                <div class="modal-body" style="text-align: left !important;padding: 8px 30px 5px 30px;">
+                    <div class="row" ng-show="addOnsHeaderLineLevelList && addOnsHeaderLineLevelList.length>0">
+                        <div class="col-md-12 card" style="padding-left:0px;padding-right:0px;">
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="add_ons_table_Header_Line">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-md-4 col-lg-4 col-xl-4">Price</th>
+                                            <th class="col-md-4 col-lg-4 col-xl-4">Desc</th>
+                                            <th class="col-md-4 col-lg-4 col-xl-4"></th>
+                                            <th class="col-md-4 col-lg-4 col-xl-4"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="addons in addOnsHeaderLineLevelList">
+                                            <td class="col-md-3 col-lg-3 col-xl-4" data-price="price">
+                                                {{addons.price}}</td>
+                                            <td class="col-md-6 col-lg-6 col-xl-6" data-desc="desc">
+                                                {{addons.desc}}</td>
+                                            <td class="col-md-2 col-lg-2 col-xl-2" style="text-align: right;">
+                                                <!-- <button type="button" id="meals_menu_header_line_edit_Btn_{{addons.id}}" onclick="meals_addons_Header_edit(this)"
+                                    data-i="{{ addons.id }}" data-index="{{$index}}" name="delete" title="Delete" class="btn btn-primary"
+                                    style="background-color: #2084c6 !important;padding:4px 13px !important;">
+                                    <i class="fas fa-pencil-alt"></i> &nbsp;Edit
+                                  </button>
+                                  <button type="button" id="meals_menu_header_line_update_Btn_{{addons.id}}" onclick="meals_addons_header_save(this)"
+                                    data-i="{{ addons.id }}" data-index="{{$index}}" name="delete" title="Delete" class="btn btn-success"
+                                    style="display:none;background-color: #4caf50 !important;">
+                                    <i class="far fa-save"></i> &nbsp;Save
+                                  </button> -->
+                                            </td>
+                                            <td class="col-md-1 col-lg-1 col-xl-1">
+                                                <button type="button" data-addonsid="{{addons.id}}"
+                                                    data-parentid={{addons.mealsDashLineId}}
+                                                    id="menu_header_addons_delete_{{addons.id}}"
+                                                    onclick="meals_addons_Line_Delete_Clk(this)" name="delete"
+                                                    title="Delete" class="btn btn-primary">
+                                                    <i class="far fa-trash-alt" aria-hidden="true"></i>&nbsp;Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="pwd">Price</label>
+                                <input type="text" class="form-control" id="meals_header_price_ADD_ONS">
+                                <span id="meals_header_price_Error_ADD_ONS" style="color:#f44336;display:none;">Price
+                                    is required!</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pwd">Description</label>
+                                <input type="text" class="form-control" id="meals_header_desc_ADD_ONS">
+                                <span id="meals_header_desc_Error_ADD_ONS"
+                                    style="color:#f44336;display:none;">Description is required!</span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-success card" id="modal_Add_header_ons_add_btn"
+                                style="background-color: #4caf50 !important; margin-top: 1.5rem;" name="delete"
+                                id="menuHeader" type="button" title="Add"><i class="fas fa-plus"></i>&nbsp;
+                                Add</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 0px;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="meals_Add_ons_MODAL" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"
+                    style="padding:5px !important;background-color:#f9a141;box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);">
+                    <button type="button" class="close btn" style="background-color:#fff;color:#f9a141;"
+                        data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title" style="color:#fff;"><i class="fas fa-puzzle-piece"></i> &nbsp;
+                        Add-on</h3>
+                </div>
+                <div class="modal-body" style="text-align: left !important;padding: 8px 30px 5px 30px;">
+                    <div class="row" ng-show="addOnsList && addOnsList.length>0">
+                        <div class="col-md-12 card" style="padding-left:0px;padding-right:0px;">
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="add_ons_table_meals">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-md-3 col-lg-3 col-xl-3">Price</th>
+                                            <th class="col-md-6 col-lg-6 col-xl-6">Desc</th>
+                                            <th class="col-md-2 col-lg-2 col-xl-2"></th>
+                                            <th class="col-md-1 col-lg-1 col-xl-1"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="addons in addOnsList">
+                                            <td class="col-md-3 col-lg-3 col-xl-3" data-price="price">
+                                                {{addons.price}}</td>
+                                            <td class="col-md-6 col-lg-6 col-xl-6" data-desc="desc">
+                                                {{addons.desc}}</td>
+                                            <td class="col-md-2 col-lg-2 col-xl-2" style="text-align: right;">
+                                                <button type="button" id="meals_menuHeader_edit_Btn_{{addons.id}}"
+                                                    onclick="meals_addons_edit(this)" data-i="{{ addons.id }}"
+                                                    data-index="{{$index}}" name="delete" title="Delete"
+                                                    class="btn btn-primary"
+                                                    style="background-color: #2084c6 !important;padding:4px 13px !important;">
+                                                    <i class="fas fa-pencil-alt"></i> &nbsp;Edit
+                                                </button>
+                                                <button type="button" id="meals_menuHeader_update_Btn_{{addons.id}}"
+                                                    onclick="meals_addons_save(this)" data-i="{{ addons.id }}"
+                                                    data-index="{{$index}}" name="delete" title="Delete"
+                                                    class="btn btn-success"
+                                                    style="display:none;background-color: #4caf50 !important;">
+                                                    <i class="far fa-save"></i> &nbsp;Update
+                                                </button>
+                                            </td>
+                                            <td class="col-md-1 col-lg-1 col-xl-1">
+                                                <button type="button" data-id="{{addons.id}}"
+                                                    data-parentid={{addons.mealsDashSubLineId}}
+                                                    onclick="meals_addons_Delete_Click(this)" name="delete"
+                                                    title="Delete" class="btn btn-primary">
+                                                    <i class="far fa-trash-alt" aria-hidden="true"></i>&nbsp;Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="pwd">Price</label>
+                                <input type="text" class="form-control" id="meals_sub_menu_price_ADD_ONS">
+                                <span id="meals_sub_menu_price_Error_ADD_ONS" style="color:#f44336;display:none;">Price
+                                    is required!</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pwd">Description</label>
+                                <input type="text" class="form-control" id="meals_sub_menu_header_ADD_ONS">
+                                <span id="meals_sub_menu_header_Error_ADD_ONS"
+                                    style="color:#f44336;display:none;">Description is required!</span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-success card" id="modal_Add_ons_add_btn"
+                                style="background-color: #4caf50 !important; margin-top: 1.5rem;" name="delete"
+                                id="menuHeader" type="button" title="Update"><i class="fas fa-plus"></i>&nbsp;
+                                Add</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="padding: 0px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @media (min-width: 992px) {
+        .modal-lg {
+            width: 992px;
+        }
+    }
+</style>

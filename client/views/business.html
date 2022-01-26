@@ -1,0 +1,401 @@
+<script>
+  function updateStatus(e) {
+    if ($(e).prop('checked')) $(e).prop('checked', false);
+    else $(e).prop('checked', true);
+    angular.element(document.getElementById('business')).scope().confirmStatus($(e).attr('data-avalue'), $(e).attr('data-businessId'))
+  }
+  function vStatus(e) {
+    let id = $(e).attr('id');
+    let venueId = $(e).attr('data-vid');
+    let status = $(`#${id} :selected`).val();
+    angular.element(document.getElementById('business')).scope().confirmStatus(status, venueId)
+  }
+
+  $("#status_f").on('change', function () {
+    angular.element(document.getElementById('business')).scope().searchSubmit()
+  })
+</script>
+
+<link rel="stylesheet" type="text/css" href="assets/css/dashboard.css" />
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link href="/assets/css/loading.css" rel="stylesheet" /> -->
+
+<div class="row" id="business" style="margin-top:3.5rem;" ng-show="currentUser.email">
+  <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-12">
+    <div class="row card">
+      <div class="col-xs-12 col-sm-12 com-md-12 col-lg-12 col-xl-12">
+        <div class="row" style="margin-top: 1rem;">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <h2 style="font-weight: 700;">Venue List</h2>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-12">
+        <button class="btn btn-primary" style="border-radius: 5%;padding: 4px 9px !important;
+        background-color:#f9a141 !important;color:#fff !important;font-size: 20px;margin-bottom:1rem;" title="Filter"
+          data-toggle="collapse" data-target="#filterCollapse" role="button" aria-expanded="false"
+          aria-controls="filterCollapse">
+          <i class="fas fa-filter"></i> Filter
+        </button>
+        <div class="collapse in" id="filterCollapse">
+          <div class="row" style="margin-top:0px;padding: 0px 10px 0px 0px;">
+            <div class="col-sm-6 col-xs-6 col-md-2 col-lg-2 col-xl-2">
+              <div class="form-group">
+                <select class="custom-input form-control" id="status_f">
+                  <option selected="selected" value="All">All</option>
+                  <option value="inactive">Inactive</option>
+                  <option value="Active L1">Active L1</option>
+                  <option value="Active L2">Active L2</option>
+                  <option value="active">Active L3</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-6 col-md-2 col-lg-2 col-xl-2">
+              <div class="form-group">
+                <input type="text" id="venueF" ng-model="businessNameFilter" placeholder="Venue"
+                  class="form-control custom-input">
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-6 col-md-2 col-lg-2 col-xl-2">
+              <div class="form-group">
+                <input type="text" ng-model="suburbFilter" id="suburbF" placeholder="Suburb"
+                  class="form-control custom-input">
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-6 col-md-2 col-lg-2 col-xl-2">
+              <div class="form-group">
+                <input type="text" ng-model="postcodeFilter" id="postcodeF" placeholder="Postcode"
+                  class="form-control custom-input">
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-6 col-md-2 col-lg-2 col-xl-2">
+              <div class="form-group">
+                <input type="text" ng-model="stateFilter" id="stateF" placeholder="State"
+                  class="form-control custom-input">
+              </div>
+            </div>
+            <!-- <div class="col-md-2 col-sm-2 col-xs-2 col-lg-2 col-xl-2">
+              <label class="material-checkbox">
+                <input type="checkbox" ng-model="businessActive" checked="checked">
+                <span style="font-size: 16px !important;">Active</span>
+              </label>
+            </div> -->
+            <div class="col-sm-6 col-xs-6 col-md-2 col-lg-2 col-xl-2">
+              <button type="button" class="btn btn-primary" ng-click="searchSubmit()"
+                style="background-color: #3aa518 !important;border-radius: 2px !important;font-size: 16px !important;border:1px solid #3aa518;">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                &nbsp;Search</button>
+            </div>
+          </div>
+        </div>
+        <div class="row" ng-show="appendBusiness.length">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="col-xs-4 col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                    <b style="font-size: 16px;">Venue</b>
+                  </th>
+                  <th class="col-xs-2 col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                    <b style="font-size: 16px;">Suburb</b>
+                  </th>
+                  <th class="col-xs-1 col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                    <b style="font-size: 16px;">Postcode</b>
+                  </th>
+                  <th class="col-xs-1 col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                    <b style="font-size: 16px;">State</b>
+                  </th>
+                  <th class="col-xs-1 col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                    <b style="font-size: 16px;">InApp Status</b>
+                  </th>
+                  <!-- <th class="col-xs-1 col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                    <b style="font-size: 16px;"></b>
+                  </th> -->
+                  <th class="col-xs-1 col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                    <b style="font-size: 16px;">Status</b>
+                  </th>
+                  <th class="col-xs-2 col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                    <!-- <b style="font-size: 16px;">Status</b> -->
+                  </th>
+                </tr>
+              </thead>
+              <!-- ng-mouseover="showTheMiddle($event, $index)"
+                  ng-mouseleave="hiddenTheMiddle($index)" style="position: relative;" -->
+              <tbody>
+                <tr ng-repeat="business in appendBusiness">
+                  <td class="col-xs-4 col-sm-4 col-md-4 col-xl-4 col-lg-4">{{business.businessName}}</td>
+                  <td class="col-xs-2 col-sm-2 col-md-2 col-xl-2 col-lg-2">{{business.suburb}}</td>
+                  <td class="col-xs-1 col-sm-1 col-md-1 col-xl-1 col-lg-1">{{business.zipCode}}</td>
+                  <td class="col-xs-1 col-sm-1 col-md-1 col-xl-1 col-lg-1">{{business.state}}</td>
+                  <td class="col-xs-1 col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                    <div style="margin-top: 0.5rem;"
+                      ng-show="business.status=='active' || business.status=='Active L1' || business.status=='Active L2'">
+                      <b ng-show="business.isAppLive" ng-click="confirmAppStatus(business.isAppLive , business.id)"
+                        class="statusBtn" style="background-color:#13a82c;padding:5px 15px;">Active</b>
+                      <b ng-show="!business.isAppLive" ng-click="confirmAppStatus(business.isAppLive , business.id)"
+                        style="background-color:#ff3e13;" class="statusBtn">Pending</b>
+                    </div>
+                    <div style="margin-top: 0.5rem;" ng-show="business.status=='inactive'">
+                      <b ng-show="business.isAppLive" class="statusBtn"
+                        style="background-color:#13a82c;padding:5px 15px;">Active</b>
+                      <b ng-show="!business.isAppLive" style="background-color:#ff3e13;" class="statusBtn">Pending</b>
+                    </div>
+                  </td>
+                  <!-- <td class="col-xs-1 col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                    <div>
+                      <input id="checkbox_{{business.id}}" ng-checked="business.status ==='active'"
+                        onchange="updateStatus(this)" data-avalue="{{business.status}}"
+                        data-businessId="{{business.id}}" type="checkbox" class="checkbox" />
+                      <label for="checkbox_{{business.id}}" class="switch">
+                        <span class="switch__circle">
+                          <span class="switch__circle-inner"></span>
+                        </span>
+                        <span class="switch__left"></span>
+                        <span class="switch__right"></span>
+                      </label>
+                    </div>
+                    <script>
+                      $(document).ready(() => { $('[data-toggle="tooltip"]').tooltip(); });
+                    </script>
+                  </td> -->
+                  <td class="col-xs-1 col-sm-1 col-md-1 col-xl-1 col-lg-1">
+                    <select class="form-input custom-input" data-vid="{{business.id}}" id="status_{{$index}}"
+                      onchange="vStatus(this)">
+                      <option ng-selected="business.status=='inactive'" value="inactive">Inactive</option>
+                      <option ng-selected="business.status=='Active L1'" value="Active L1">Active L1</option>
+                      <option ng-selected="business.status=='Active L2'" value="Active L2">Active L2</option>
+                      <option ng-selected="business.status=='active'" value="active">Active L3</option>
+                    </select>
+                    <!-- <div style="margin-top: 0.5rem;">
+                      <b ng-show="business.status=='active'" class="statusBtn"
+                        style="background-color:#13a82c;">Active</b>
+                      <b ng-show="business.status=='inactive'" style="background-color:#ff3e13;"
+                        class="statusBtn">In active
+                      </b>
+                    </div> -->
+                  </td>
+                  <td class="col-xs-2 col-sm-2 col-md-2 col-xl-2 col-lg-2">
+                    <button class="btn" ng-click="viewBusiness(business.id)" title="View"
+                      style="box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);  color: #2084c6 !important; padding: 5px 8px 1px 8px;z-index: 999999999;background-color:#fff !important;">
+                      <icon class="glyphicon glyphicon-eye-open"></icon>
+                    </button>
+                    &nbsp;
+                    <button class="btn" ng-click="businessDelete(business.id,business.businessName)"
+                      style="color: #f44336 !important;box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);padding: 1px 7px 1px 7px;z-index: 999999999;background-color:#fff !important;"
+                      title="Delete"><i class="far fa-trash-alt"></i></button>
+                  </td>
+                  <!-- <td class="middle_{{$index}}"
+                    style="display: none;background-color: rgba(250, 250, 250, 0);padding: 4.5px !important;border-top: 0px solid #e7eaec;z-index:9999999999 !important;">
+                    <button class="btn" ng-click="viewBusiness(business.id)" title="View"
+                      style="box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);  color: #2084c6 !important; padding: 5px 8px 1px 8px;z-index: 999999999;background-color:#fff !important;">
+                      <icon class="glyphicon glyphicon-eye-open"></icon>
+                    </button>
+                    &nbsp;
+                    <button class="btn" ng-click="businessDelete(business.id,business.businessName)"
+                      style="color: #f44336 !important;box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);padding: 1px 7px 1px 7px;z-index: 999999999;background-color:#fff !important;"
+                      title="Delete"><i class="far fa-trash-alt"></i></button>
+                    &nbsp;
+                  </td> -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="text-align: center;"
+            ng-show="pagination && pagination.t_Cnt!=1">
+            <ul class="md-ui component-pagination ">
+              <li class="pagination-arrow arrow-left" ng-click="pageNextPreClk('pre')" style="outline: none !important;"
+                ng-hide="pagination.a_Number==1">
+                <i class="material-icons">keyboard_arrow_left</i>
+              </li>
+              <li class="pagination-number {{pagination.a_Number==n?'current-number':''}}"
+                style="outline: none !important;" data-pageno="{{n}}" ng-click="pageNClk(n)"
+                ng-repeat="n in pagination.arrayPNo">
+                <span ng-hide="n=='...'">{{n}}</span>
+                <span ng-show="n=='...'">{{n}}</span>
+              </li>
+              <li class="pagination-arrow arrow-right" ng-hide="pagination.a_Number==pagination.t_Cnt"
+                ng-click="pageNextPreClk('next')" style="outline: none !important;"><i
+                  class="material-icons">keyboard_arrow_right</i></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-12" id="preloader"
+          style="padding-left:30px;display:none;    margin-top: 84px;    padding-top: 10rem;margin-bottom:0px;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="msgShow" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-md">
+      <!-- Modal content-->
+      <div class="modal-content animated fadeIn">
+        <div class="modal-header">
+          <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+          <!--<h4 class="modal-title">Modal Header</h4>-->
+        </div>
+        <div class="modal-body">
+          <h4 id="msgTxt"></h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger card" ng-click="removeBusiness(deleteId)"
+            style="background-color: #4caf50 !important;    margin: .5rem 0 0rem 0;" data-dismiss="modal"><i
+              class="fa fa-check" aria-hidden="true"></i>&nbsp;Yes</button>
+          <button type="button" class="btn btn-danger card" style="background-color: red !important;"
+            data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Roboto+Mono|Roboto+Slab|Roboto:400,400i,500,500i,700,700i"
+    rel="stylesheet">
+
+  <style>
+    .card {
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+      background-color: #ffffff;
+    }
+
+    /* #business {
+    height: 100vh !important;
+  } */
+
+    .h1,
+    .h2,
+    .h3,
+    h1,
+    h2,
+    h3 {
+      margin-top: 0px;
+      margin-bottom: 10px;
+    }
+
+    .modal-content {
+      border-radius: 0px;
+    }
+
+    .modal-header {
+      padding: 0px;
+      border-bottom: 0px solid #e5e5e5;
+    }
+
+    .modal-footer {
+      padding: 7px;
+      text-align: right;
+      border-top: 0px solid #e5e5e5;
+    }
+
+    @media (max-width:799px) {
+      #title {
+        padding: 20px 0px 54px 0px;
+      }
+    }
+
+    @media (min-width:800px) {
+      #title {
+        padding: 15px 0px 10px 0px;
+      }
+    }
+
+
+    .nav-tabs {
+      border-bottom: 0px solid #ddd;
+    }
+
+    .statusBtn {
+      cursor: pointer;
+      padding: 5px 8px;
+      color: #fff !important;
+      border-radius: 2px;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+      -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    .md-ui.component-pagination {
+      list-style: none;
+      padding: 8px;
+    }
+
+    .md-ui.component-pagination li {
+      border-radius: 2px;
+      color: #212121;
+      display: inline-block;
+      margin: 0;
+      transition: .15s ease-in;
+      cursor: pointer;
+    }
+
+    .md-ui.component-pagination li:hover {
+      background: #fff;
+      color: #000;
+      border-radius: 50%;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+      -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    .md-ui.component-pagination .pagination-number,
+    .md-ui.component-pagination .pagination-arrow i {
+      vertical-align: middle;
+    }
+
+    .md-ui.component-pagination .pagination-number {
+      font-family: "Roboto", sans-serif;
+      font-size: 16px;
+      text-align: center;
+      line-height: 23px;
+      min-width: 35px;
+      padding: 6px 0;
+    }
+
+    .md-ui.component-pagination .pagination-number.current-number {
+      background: #fba919;
+      font-size: 20px;
+      color: #fff;
+      border-radius: 50px;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+      -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    .md-ui.component-pagination .pagination-arrow i {
+      font-size: 24px;
+      padding: 8px;
+    }
+
+    .table>thead>tr>th,
+    .table>tbody>tr>th,
+    .table>tfoot>tr>th,
+    .table>thead>tr>td,
+    .table>tbody>tr>td,
+    .table>tfoot>tr>td {
+      border-top: 1px solid #e7eaec;
+      line-height: 1.42857;
+      padding: 0px;
+      vertical-align: top;
+    }
+
+    th {
+      padding: 10px !important;
+    }
+
+    td {
+      padding: 6px !important;
+    }
+
+    .plain-button {
+      font-size: 16px !important;
+    }
+
+    #preloader {
+      height: 115vh !important;
+      left: 7% !important;
+    }
+  </style>
+
+</div>
+<div class="row" ng-show="!currentUser.email">
+  <div class="col-md-12" style="margin-top:5rem;text-align:center;">
+    <h2>Loading...</h2>
+  </div>
+</div>

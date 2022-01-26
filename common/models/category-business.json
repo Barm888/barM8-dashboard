@@ -1,0 +1,41 @@
+{
+  "name": "CategoryBusiness",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "createTs": {
+      "type": "date"
+    },
+    "createProgId": {
+      "type": "string"
+    },
+    "modifyTs": {
+      "type": "date"
+    },
+    "modifyProgId": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": ""
+    },
+    "category": {
+      "type": "belongsTo",
+      "model": "Category",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

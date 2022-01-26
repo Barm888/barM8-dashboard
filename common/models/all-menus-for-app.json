@@ -1,0 +1,39 @@
+{
+  "name": "AllMenusForApp",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "_name": {
+      "type": "string"
+    },
+    "class": {
+      "type": "array"
+    },
+    "iconClass": {
+      "type": "array"
+    },
+    "iconUrl": {
+      "type": "array"
+    },
+    "category": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

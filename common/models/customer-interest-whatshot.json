@@ -1,0 +1,87 @@
+{
+  "name": "CustomerInterestWhatshot",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "interestTime": {
+      "type": "string"
+    },
+    "interestDateTime": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "isScan": {
+      "type": "string",
+      "default": "no"
+    },
+    "scanTimeString": {
+      "type": "string"
+    },
+    "scanTimeDate": {
+      "type": "date"
+    },
+    "scanTimeDateUtc": {
+      "type": "date"
+    },
+    "redeemCouponDateUtc": {
+      "type": "date"
+    },
+    "redeemCouponTimeString": {
+      "type": "string"
+    },
+    "redeemCouponTimeDate": {
+      "type": "date"
+    },
+    "timeZone": {
+      "type": "string"
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    },
+    "createTs": {
+      "type": "date"
+    },
+    "createProgId": {
+      "type": "string"
+    },
+    "modifyTs": {
+      "type": "date"
+    },
+    "modifyProgId": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "dashLine": {
+      "type": "belongsTo",
+      "model": "DashLine",
+      "foreignKey": ""
+    },
+    "customer": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": ""
+    },
+    "whatshotAnalytics": {
+      "type": "belongsTo",
+      "model": "WhatshotAnalytics",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

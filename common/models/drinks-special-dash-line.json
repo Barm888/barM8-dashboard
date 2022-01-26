@@ -1,0 +1,72 @@
+{
+  "name": "DrinksSpecialDashLine",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "groupId": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "brand": {
+      "type": "string"
+    },
+    "desc": {
+      "type": "string"
+    },
+    "dispenseType": {
+      "type": "string",
+      "default": null
+    },
+    "_dispenseType": {
+      "type": "string",
+      "default": null
+    },
+    "brandTxt": {
+      "type": "string"
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "drinksSpecialDashSubLines": {
+      "type": "hasMany",
+      "model": "DrinksSpecialDashSubLine",
+      "foreignKey": ""
+    },
+    "drinksSpecialCategory": {
+      "type": "belongsTo",
+      "model": "DrinksSpecialCategory",
+      "foreignKey": ""
+    },
+    "drinksMixers": {
+      "type": "hasMany",
+      "model": "DrinksMixer",
+      "foreignKey": ""
+    },
+    "drinksExtras": {
+      "type": "hasMany",
+      "model": "DrinksExtras",
+      "foreignKey": ""
+    },
+    "drinksOrderLines": {
+      "type": "hasMany",
+      "model": "DrinksOrderLine",
+      "foreignKey": ""
+    },
+    "drinksType": {
+      "type": "belongsTo",
+      "model": "DrinksType",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

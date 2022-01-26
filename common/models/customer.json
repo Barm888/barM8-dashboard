@@ -1,0 +1,335 @@
+{
+  "name": "Customer",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "fbId": {
+      "type": "string",
+      "default": null
+    },
+    "uid": {
+      "type": "string"
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "countryDailCode": {
+      "type": "number"
+    },
+    "mobile": {
+      "type": "number"
+    },
+    "postCode": {
+      "type": "number"
+    },
+    "dob": {
+      "type": "date"
+    },
+    "imageUrl": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "string"
+    },
+    "deviceId": {
+      "type": "string"
+    },
+    "stripeTestId": {
+      "type": "string"
+    },
+    "stripeLiveId": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "landmark": {
+      "type": "string"
+    },
+    "addressLine1": {
+      "type": "string"
+    },
+    "addressLine2": {
+      "type": "string"
+    },
+    "location": {
+      "type": "geopoint"
+    },
+    "age": {
+      "type": "number",
+      "default": 0
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    },
+    "likesBusinessIdArray": {
+      "type": "array",
+      "default": []
+    },
+    "createTs": {
+      "type": "date"
+    },
+    "createProgId": {
+      "type": "string"
+    },
+    "modifyTs": {
+      "type": "date"
+    },
+    "modifyProgId": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    },
+    "idFrontImgUrl": {
+      "type": "string"
+    },
+    "idBackImgUrl": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "visits": {
+      "type": "hasMany",
+      "model": "Visit",
+      "foreignKey": ""
+    },
+    "loyalty": {
+      "type": "hasOne",
+      "model": "Loyalty",
+      "foreignKey": ""
+    },
+    "referrals": {
+      "type": "hasMany",
+      "model": "Referral",
+      "foreignKey": ""
+    },
+    "rewards": {
+      "type": "embedsMany",
+      "model": "Reward",
+      "property": "rewardse",
+      "options": {
+        "validate": true,
+        "forceId": true
+      }
+    },
+    "rewardsh": {
+      "type": "hasMany",
+      "model": "Reward",
+      "foreignKey": ""
+    },
+    "instantPrizeWinners": {
+      "type": "hasMany",
+      "model": "InstantPrizeWinner",
+      "foreignKey": ""
+    },
+    "weeklyPrizeWinners": {
+      "type": "hasMany",
+      "model": "weeklyPrizeWinner",
+      "foreignKey": ""
+    },
+    "notifications": {
+      "type": "hasMany",
+      "model": "Notification",
+      "foreignKey": ""
+    },
+    "instantPrizeNotifications": {
+      "type": "hasMany",
+      "model": "InstantPrizeNotification",
+      "foreignKey": ""
+    },
+    "weeklyPrizeNotifications": {
+      "type": "hasMany",
+      "model": "WeeklyPrizeNotification",
+      "foreignKey": ""
+    },
+    "whatshotNotifications": {
+      "type": "hasMany",
+      "model": "WhatshotNotification",
+      "foreignKey": ""
+    },
+    "loyaltyLines": {
+      "type": "hasMany",
+      "model": "LoyaltyLines",
+      "foreignKey": ""
+    },
+    "instantPrizeAdminNotifications": {
+      "type": "hasMany",
+      "model": "InstantPrizeAdminNotification",
+      "foreignKey": ""
+    },
+    "inAppSpecialNotifications": {
+      "type": "hasMany",
+      "model": "InAppSpecialNotification",
+      "foreignKey": ""
+    },
+    "bulkPushNotifications": {
+      "type": "hasMany",
+      "model": "BulkPushNotification",
+      "foreignKey": ""
+    },
+    "customerScans": {
+      "type": "hasMany",
+      "model": "CustomerScan",
+      "foreignKey": ""
+    },
+    "inAppSpecialInterCustomers": {
+      "type": "hasMany",
+      "model": "InAppSpecialInterCustomer",
+      "foreignKey": ""
+    },
+    "customerScanLoyalties": {
+      "type": "hasMany",
+      "model": "CustomerScanLoyalty",
+      "foreignKey": ""
+    },
+    "customerInterestWhatshots": {
+      "type": "hasMany",
+      "model": "CustomerInterestWhatshot",
+      "foreignKey": ""
+    },
+    "couponNotifications": {
+      "type": "hasMany",
+      "model": "CouponNotification",
+      "foreignKey": ""
+    },
+    "orders": {
+      "type": "hasMany",
+      "model": "Order",
+      "foreignKey": ""
+    },
+    "promoNotifications": {
+      "type": "hasMany",
+      "model": "PromoNotification",
+      "foreignKey": ""
+    },
+    "promoWinners": {
+      "type": "hasMany",
+      "model": "PromoWinner",
+      "foreignKey": ""
+    },
+    "carts": {
+      "type": "hasMany",
+      "model": "cart",
+      "foreignKey": ""
+    },
+    "groupOrders": {
+      "type": "hasMany",
+      "model": "GroupOrder",
+      "foreignKey": ""
+    },
+    "bookings": {
+      "type": "hasMany",
+      "model": "Booking",
+      "foreignKey": ""
+    },
+    "eventBookings": {
+      "type": "hasMany",
+      "model": "EventBooking",
+      "foreignKey": ""
+    },
+    "eventLikes": {
+      "type": "hasMany",
+      "model": "EventLikes",
+      "foreignKey": ""
+    },
+    "orderLineDrinks": {
+      "type": "hasMany",
+      "model": "OrderLineDrink",
+      "foreignKey": ""
+    },
+    "drinksOrders": {
+      "type": "hasMany",
+      "model": "DrinksOrder",
+      "foreignKey": ""
+    },
+    "reservations": {
+      "type": "hasMany",
+      "model": "Reservation",
+      "foreignKey": ""
+    },
+    "currentVisits": {
+      "type": "hasMany",
+      "model": "CurrentVisit",
+      "foreignKey": ""
+    },
+    "viewscoupons": {
+      "type": "hasMany",
+      "model": "viewscoupon",
+      "foreignKey": ""
+    },
+    "claimscoupons": {
+      "type": "hasMany",
+      "model": "claimscoupon",
+      "foreignKey": ""
+    },
+    "visitVenueFromCoupons": {
+      "type": "hasMany",
+      "model": "VisitVenueFromCoupon",
+      "foreignKey": ""
+    },
+    "pokerExtraBookings": {
+      "type": "hasMany",
+      "model": "PokerExtraBooking",
+      "foreignKey": ""
+    },
+    "whatsOnTeamMembers": {
+      "type": "hasMany",
+      "model": "WhatsOnTeamMember",
+      "foreignKey": ""
+    },
+    "allCategoryCharts": {
+      "type": "hasMany",
+      "model": "AllCategoryChart",
+      "foreignKey": ""
+    },
+    "allCategoryCustomerHits": {
+      "type": "hasMany",
+      "model": "AllCategoryCustomerHits",
+      "foreignKey": ""
+    },
+    "sportsReservations": {
+      "type": "hasMany",
+      "model": "SportsReservation",
+      "foreignKey": ""
+    },
+    "venueAccessLevels": {
+      "type": "hasMany",
+      "model": "VenueAccessLevel",
+      "foreignKey": ""
+    },
+    "feedBacks": {
+      "type": "hasOne",
+      "model": "FeedBack",
+      "foreignKey": ""
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW",
+      "property": "pwdReset"
+    }
+  ],
+  "methods": {}
+}

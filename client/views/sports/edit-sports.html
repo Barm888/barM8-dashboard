@@ -1,0 +1,387 @@
+<style>
+    .btn {
+        border-radius: 21px;
+    }
+
+    #page-wrapper {
+        padding: 0 0px;
+    }
+
+    .header-happenings {
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .3);
+        padding-top: 4px;
+        background-color: #f9a141;
+        border-radius: 4px;
+    }
+</style>
+<link href="/assets/css/jquery.timepicker.min.css" type="text/css" rel="stylesheet" />
+<script src="/assets/js/jquery.timepicker.min.js"></script>
+<div class="wrapper wrapper-content" id="editSports" ng-controller="EditSportsCtl">
+    <div class="m-t-sm" style="margin-top:2.5rem;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row card">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <a href="#" onclick="history.back();">
+                                    <i style="color: #ff9800 !important;vertical-align: -0.4em !important;"
+                                        class="fas fa-long-arrow-alt-left fa-4x"></i>
+                                    <b class="back-txt">Back to Overview</b>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <b class="manage-txt" style="margin-left: 1rem;">Edit Sports</b>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                        style="padding-right: 30px;padding-left:30px;">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12">
+                                <div class="row" style="margin-top: 1rem;">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label for="sports_name" class="required">Sports
+                                            </label>
+                                            <input type="text" disabled
+                                                ng-model="sportsRes.sportsScheduleForAdmin.sportsSchedule.name"
+                                                class="form-control custom-input">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label for="sp_competion" class="required">Competition</label>
+                                            <input type="text" disabled
+                                                ng-model="sportsRes.sportsScheduleForAdmin.competitionSchedule.name"
+                                                class="form-control custom-input">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                <label class="required">Teams</label>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="form-control custom-input" aria-disabled="true">
+                                                    <b class="match-show" aria-disabled="true"
+                                                        style="text-align: left;font-weight:400;display:flex;">
+                                                        <div><img
+                                                                src="{{sportsRes.sportsScheduleForAdmin.sportsTeamA.img.path}}"
+                                                                style="width:33px;height:33px;">
+                                                            <span>{{sportsRes.sportsScheduleForAdmin.sportsTeamA.name}}</span>
+                                                            <span
+                                                                style="color:gray;"><i>VS</i></span>&nbsp;&nbsp;<span>{{sportsRes.sportsScheduleForAdmin.sportsTeamB.name}}</span>&nbsp;<img
+                                                                src="{{sportsRes.sportsScheduleForAdmin.sportsTeamB.img.path}}"
+                                                                style="width:33px;height:33px;">
+                                                        </div>
+                                                    </b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                        <div class="form-group">
+                                            <label for="sp_date" class="required">Date</label>
+                                            <input type="date" disabled ng-model="sDate" id="sport-date"
+                                                class="form-control custom-input">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-xl-3">
+                                        <div class="form-group">
+                                            <label for="sp_date" class="required">Time</label>
+                                            <input type="text" id="sport-time" disabled
+                                                ng-model="sportsRes.sportsScheduleForAdmin.time"
+                                                class="form-control custom-input time">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <label for="sports_desc" class="required">Description</label>
+                                        <textarea class="form-control" style="border: 2px solid #ddd !important;
+                                        font-size: 16px !important;" id="sports_desc" ng-model="sportsRes.fullDesc"
+                                            rows="5"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 1rem;">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+                                        ng-show="!sportsRes.primaryImg || sportsRes.primaryImg.length==0">
+                                        <label for="sports_desc">Primary image <span
+                                                style="color: gray;">(optional)</span></label>
+                                        <div class="pri-image">
+                                            <!-- <input type="file" class="form-control custom-input"
+                                                id="primary-img" accept="image/gif, image/jpeg, image/png">
+                                            <span style="color: gray;">Image size 700*350</span>
+                                            <span style="color: red;display: none;"
+                                                id="p_img_width_height">Incorrect
+                                                the width or height!</span> -->
+                                            <div class="form-group img-c-s" style="margin-bottom: 0px;">
+                                                <input type="file" id="primary-img" accept="image/png, image/jpeg"
+                                                    style="display: none;">
+                                                <button class="btn btn-primary"
+                                                    style="font-size: 1.25rem;padding:8px 10px !important;border-radius: 4px !important;"
+                                                    onclick="$('#primary-img').trigger('click'); return false;">Choose
+                                                    Image file</button>
+                                            </div>
+                                            <script>
+                                                $("#primary-img").on('change', function (e) {
+                                                    angular.element(document.getElementById('editSports')).scope().clickImageSection(e.target.files[0]);
+                                                })
+                                            </script>
+                                            <div class="form-group img-h-s" style="margin-bottom: 0px;display:none;">
+                                                <div class="profile-pic" style="padding: 5px;">
+                                                    <img src="" class="img-resposive img-bkg" id="img-pre"
+                                                        style="width: 306px;height: 180px;">
+                                                    <div class="edit">
+                                                        <a class="btn" id="delete_i_index" data-toggle="tooltip"
+                                                            data-placement="top" title="Delete"
+                                                            style="background-color: #fff;color:#d50000;padding: 5px 10px!important;border-radius:25px;"
+                                                            href="javascript:;"><i class="far fa-trash-alt"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <link rel="stylesheet" href="/views/sports/upload-img.css">
+                                    <link rel="stylesheet"
+                                        href="https://fengyuanchen.github.io/cropperjs/css/cropper.css">
+                                    <script src="https://fengyuanchen.github.io/cropperjs/js/cropper.js"></script>
+                                    <div class="modal" id="image-crop-md" tabindex="-1" role="dialog">
+                                        <div class="modal-dialog opacity-animate3 modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <div class="row page">
+                                                        <div class="box-2">
+                                                            <div class="result"></div>
+                                                        </div>
+                                                        <div class="box-2 img-result hide">
+                                                            <img class="cropped" src="" alt="">
+                                                        </div>
+                                                        <div class="box">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8"
+                                                            style="text-align: left;">
+                                                        </div>
+                                                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                                            <button class="btn btn-primary" id="crop-btn"
+                                                                style="background-color: #388e3c !important; color: #fff;
+                                                    border: 1px solid #388e3c !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Crop</button>
+                                                            <button class="btn btn-primary" id="modalClose"
+                                                                style="background-color: #d32f2f !important; color: #fff;
+                                                    border: 1px solid #d32f2f !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+                                        ng-show="sportsRes.primaryImg.length">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                                <label for="category">Primary Image </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                                <div class="profile-pic">
+                                                    <img ng-src="{{sportsRes.primaryImg[0].path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png' }}"
+                                                        class="card" data-toggle="tooltip" data-placement="top"
+                                                        title="{{sportsRes.primaryImg[0].fileName || 'No Image'}}"
+                                                        style="width: 200px; height: 170px; object-fit: contain;"
+                                                        alt="{{sportsRes.primaryImg[0].fileName || 'No Image'}}">
+                                                    <div class="edit">
+                                                        <a class="btn" id="delete_{{sportsRes.id}}"
+                                                            data-toggle="tooltip" data-placement="top" title="Delete"
+                                                            ng-click="deleteImage(sportsRes.id , sportsRes.primaryImg[0], 'primary')"
+                                                            style="background-color: #fff;color:#d50000;padding: 5px 10px!important;border-radius: 50%;"
+                                                            href="javascript:;"><i class="far fa-trash-alt"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+                                        ng-show="!sportsRes.secondaryImg || sportsRes.secondaryImg.length==0">
+                                        <label for="sports_desc">Secondary image <span
+                                                style="color: gray;">(optional)</span></label>
+                                        <div class="secon-image">
+                                            <!-- <input type="file" class="form-control custom-input"
+                                                id="secondary-img" accept="image/gif, image/jpeg, image/png">
+                                            <span style="color: gray;">Image size 600*450</span>
+                                            <span style="color: red;display: none;"
+                                                id="secon_img_width_height">Incorrect
+                                                the width or height!</span> -->
+                                            <div class="form-group img-c-s-s" style="margin-bottom: 0px;">
+                                                <input type="file" id="secondary-img" accept="image/png, image/jpeg"
+                                                    style="display: none;">
+                                                <button class="btn btn-primary"
+                                                    style="font-size: 1.25rem;padding:8px 10px !important;border-radius: 4px !important;"
+                                                    onclick="$('#secondary-img').trigger('click'); return false;">Choose
+                                                    Image file</button>
+                                            </div>
+                                            <script>
+                                                $("#secondary-img").on('change', function (e) {
+                                                    angular.element(document.getElementById('editSports')).scope().clickImgSecond(e.target.files[0]);
+                                                })
+                                            </script>
+                                            <div class="form-group img-h-s-s" style="margin-bottom: 0px;display:none;">
+                                                <div class="profile-pic" style="padding: 5px;">
+                                                    <img src="" class="img-resposive img-bkg" id="img-second-pre"
+                                                        style="width: 260px;height: 200px;">
+                                                    <div class="edit">
+                                                        <a class="btn" id="delete_i_s_index" data-toggle="tooltip"
+                                                            data-placement="top" title="Delete"
+                                                            style="background-color: #fff;color:#d50000;padding: 5px 10px!important;border-radius:25px;"
+                                                            href="javascript:;"><i class="far fa-trash-alt"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <link rel="stylesheet" href="/views/whatson-event/upload-img-second.css">
+                                    <link rel="stylesheet"
+                                        href="https://fengyuanchen.github.io/cropperjs/css/cropper.css">
+                                    <script src="https://fengyuanchen.github.io/cropperjs/js/cropper.js"></script>
+                                    <div class="modal" id="image-crop-second-md" tabindex="-1" role="dialog">
+                                        <div class="modal-dialog opacity-animate3 modal-lg" role="document"
+                                            style=" max-width: 685px;">
+                                            <div class="modal-content">
+                                                <div class="modal-body">
+                                                    <div class="row page_1">
+                                                        <div class="box-2">
+                                                            <div class="result-second"></div>
+                                                        </div>
+                                                        <div class="box-2 img-result hide">
+                                                            <img class="cropped" src="" alt="">
+                                                        </div>
+                                                        <div class="box">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8"
+                                                            style="text-align: left;">
+                                                        </div>
+                                                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                                            <button class="btn btn-primary" id="crop-s-btn"
+                                                                style="background-color: #388e3c !important; color: #fff;
+                                                        border: 1px solid #388e3c !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Crop</button>
+                                                            <button class="btn btn-primary" id="modalClose_second"
+                                                                style="background-color: #d32f2f !important; color: #fff;
+                                                        border: 1px solid #d32f2f !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
+                                        ng-show="sportsRes.secondaryImg.length">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                                <label for="category">Secondary Image </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                                <div class="profile-pic">
+                                                    <img ng-src="{{sportsRes.secondaryImg[0].path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png' }}"
+                                                        class="card" data-toggle="tooltip" data-placement="top"
+                                                        title="{{sportsRes.secondaryImg[0].fileName || 'No Image'}}"
+                                                        style="width: 200px; height: 170px; object-fit: contain;"
+                                                        alt="{{sportsRes.secondaryImg[0].fileName || 'No Image'}}">
+                                                    <div class="edit">
+                                                        <a class="btn" id="delete_{{sportsRes.id}}"
+                                                            data-toggle="tooltip" data-placement="top" title="Delete"
+                                                            ng-click="deleteImage(sportsRes.id ,sportsRes.secondaryImg[0],  'secondary')"
+                                                            style="background-color: #fff;color:#d50000;padding: 5px 10px!important;border-radius: 50%;"
+                                                            href="javascript:;"><i class="far fa-trash-alt"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <button class="btn btn-outline pull-right" id="sports_add_btn"
+                                            ng-click="uploadSports(sportsRes)"
+                                            style=" color:#fff !important;background-color:#f9a141; border-radius: 3px;padding: 4px 25px!important;border: 1px solid #f9a141 !important;margin-bottom:10px;margin-top:10px;font-size:1.4rem;">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('.time').timepicker({ 'scrollDefault': 'now', 'timeFormat': 'h:i a', 'step': 5 });
+        $(function () {
+            var now = new Date();
+
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+            var today = now.getFullYear() + "-" + (month) + "-" + (day);
+            $("input[type='date']").attr('min', today);
+        });
+    });
+</script>
+<style>
+    .ui-timepicker-wrapper {
+        width: 15rem !important;
+        height: 20rem !important;
+        max-height: 20rem !important;
+    }
+
+    hr {
+        margin-top: 0px !important;
+        margin-bottom: 1px !important;
+        border: 0;
+        border-top: 1px solid #443737b5 !important;
+    }
+
+    .profile-pic {
+        position: relative;
+        display: inline-block;
+    }
+
+    .profile-pic:hover .edit {
+        display: block;
+    }
+
+    .edit {
+        padding-top: 13px;
+        padding-right: 13px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        display: none;
+    }
+
+    .edit a {
+        color: #000;
+    }
+
+    .manage-txt {
+        font-size: 1.4rem;
+        color: #000 !important;
+    }
+
+    .back-txt {
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #000 !important;
+    }
+</style>

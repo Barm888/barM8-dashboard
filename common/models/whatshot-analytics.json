@@ -1,0 +1,235 @@
+{
+  "name": "WhatshotAnalytics",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "dashDate": {
+      "type": "string"
+    },
+    "dashDateString": {
+      "type": "string"
+    },
+    "dateNo": {
+      "type": "string"
+    },
+    "year": {
+      "type": "string"
+    },
+    "month": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "bundle": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    },
+    "startTime": {
+      "type": "string"
+    },
+    "endTime": {
+      "type": "string"
+    },
+    "_24_startTime": {
+      "type": "string"
+    },
+    "_24_endTime": {
+      "type": "string"
+    },
+    "_24_time": {
+      "type": "string"
+    },
+    "_12_time": {
+      "type": "string"
+    },
+    "whatshotFullMsg": {
+      "type": "string"
+    },
+    "popupMsgBeforeInterestedClick": {
+      "type": "string"
+    },
+    "popupMsgAfterInterestedClick": {
+      "type": "string"
+    },
+    "popupMsgAfterScan": {
+      "type": "string"
+    },
+    "timeUtc": {
+      "type": "date"
+    },
+    "price": {
+      "type": "string"
+    },
+    "startTimeDateFormat": {
+      "type": "date"
+    },
+    "endTimeDateFormat": {
+      "type": "date"
+    },
+    "utcStartTime": {
+      "type": "date"
+    },
+    "utcEndTime": {
+      "type": "date"
+    },
+    "sequence": {
+      "type": "number"
+    },
+    "mainCategory": {
+      "type": "string"
+    },
+    "freebie": {
+      "type": "string"
+    },
+    "freebieAdmin": {
+      "type": "string"
+    },
+    "frequency": {
+      "type": "string"
+    },
+    "frequencyWeekday": {
+      "type": "string"
+    },
+    "isGroup": {
+      "type": "string",
+      "default": "no"
+    },
+    "name": {
+      "type": "string"
+    },
+    "startDate": {
+      "type": "date"
+    },
+    "endDate": {
+      "type": "date"
+    },
+    "primaryImage": {
+      "type": "array"
+    },
+    "teaserMessage": {
+      "type": "string"
+    },
+    "desc": {
+      "type": "string"
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    },
+    "isActive": {
+      "type": "string"
+    },
+    "promoCode": {
+      "type": "string"
+    },
+    "promoMessage": {
+      "type": "string"
+    },
+    "interestedCount": {
+      "type": "number",
+      "default": 0
+    },
+    "notInterestedCount": {
+      "type": "number",
+      "default": 0
+    },
+    "interestedCustArray": {
+      "type": [
+        "string"
+      ],
+      "default": []
+    },
+    "notInterestedCustArray": {
+      "type": [
+        "string"
+      ],
+      "default": []
+    },
+    "country": {
+      "type": "string"
+    },
+    "countryWhatshotStartTime": {
+      "type": "date"
+    },
+    "countryWhatshotEndTime": {
+      "type": "date"
+    },
+    "timeZone": {
+      "type": "string"
+    },
+    "timeZoneOffSet": {
+      "type": "string"
+    },
+    "drawDuration": {
+      "type": "string"
+    },
+    "entryCutofftime": {
+      "type": "string"
+    },
+    "entryCutoffDateAndTimeUtc": {
+      "type": "date"
+    },
+    "entryPromo": {
+      "type": "string"
+    },
+    "isDraw": {
+      "type": "boolean",
+      "default": false
+    },
+    "isCutoff": {
+      "type": "boolean",
+      "default": false
+    },
+    "entryMessage": {
+      "type": "string"
+    },
+    "drawDateAndTimeUtc": {
+      "type": "date"
+    },
+    "giveaways": {
+      "type": "string"
+    },
+    "createTs": {
+      "type": "date"
+    },
+    "createProgId": {
+      "type": "string"
+    },
+    "modifyTs": {
+      "type": "date"
+    },
+    "modifyProgId": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "customerInterestWhatshots": {
+      "type": "hasMany",
+      "model": "CustomerInterestWhatshot",
+      "foreignKey": ""
+    },
+    "dashLine": {
+      "type": "belongsTo",
+      "model": "DashLine",
+      "foreignKey": ""
+    },
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

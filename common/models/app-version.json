@@ -1,0 +1,29 @@
+{
+  "name": "AppVersion",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "iosVersion": {
+      "type": "number"
+    },
+    "androidVersion": {
+      "type": "number"
+    },
+    "iosForceUpdate": {
+      "type": "boolean"
+    },
+    "androidForceUpdate": {
+      "type": "boolean"
+    },
+    "mapApikey": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,179 @@
+
+angular
+  .module('app')
+  .controller('customerForgotPassword', ['$scope', 'Business', '$http', 'AuthService', '$state', '$rootScope', '$stateParams', 'Customer',
+    function ($scope, Business, $http, AuthService, $state, $rootScope, $stateParams, Customer) {
+
+
+      $scope.changePassword = () => {
+        let isTrue = true;
+        $("#cmdErr,#pwdErr,dontMatchError").text('');
+        if (!$("#newPwd").val()) {
+          isTrue = false;
+          $("#pwdErr").text('Password is required!');
+        }
+        if (!$("#cmdPwd").val()) {
+          isTrue = false;
+          $("#cmdErr").text('Confirm Password is required!');
+        }
+        if (isTrue) {
+          if ($("#cmdPwd").val() == $("#newPwd").val()) {
+            if ($stateParams.id) {
+              Customer.pwdReset({ details: { id: $stateParams.id, password: $("#newPwd").val() } }).$promise.then((res) => {
+                if (res && res.data && res.data.isSuccess) {
+                  $state.go('barmate_business');
+                  toastr.success('Password has been successfully changed!.');
+                  toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                } else {
+                  toastr.error('Please try again!');
+                  toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                }
+              }, (err) => {
+                toastr.error('Please try again!');
+                toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+              });
+            } else {
+              alert();
+              toastr.error('Please try again!');
+              toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+            }
+          } else {
+            $("#dontMatchError").text('Confirm password does not match!');
+          }
+        }
+      };
+    }])
+  .controller('AuthLoginController', ['$scope', 'Business', '$http', 'AuthService', '$state', '$rootScope', 'UserLoginDetails',
+    function ($scope, Business, $http, AuthService, $state, $rootScope, UserLoginDetails) {
+
+
+      $scope.user = {};
+
+      $scope.login = function () {
+
+        $("#loginBtn").prop('disabled', true);
+        $("#emailErr,#pwdErr,#errMessage").css({ display: "none" });
+        $scope.usernameErr = false;
+        $scope.pwdErr = false;
+        if ($scope.user.email) {
+          if ($scope.user.password) {
+            Business.login({ email: $scope.user.email, password: $scope.user.password }).$promise
+              .then((res) => {
+                if (res.data) {
+                  if (res.data.error) {
+                    if (res.data.error.statusCode == "401" || res.data.error.name == "Error") {
+                      if (res.data.error.code == "LOGIN_FAILED_EMAIL_NOT_VERIFIED") {
+                        $scope.error = res.data.error.message;
+                      }
+                      else {
+                        $scope.error = "Invaild User!. Please try again.";
+                      }
+                    }
+                  } else {
+                    $scope.error = "Invaild User!. Please try again.";
+                  }
+                }
+                else {
+                  if (res && res.user) {
+                    if (res.user.status != "pending" || res.user.email == "admin@barm8.com.au") {
+
+                      var userDetails = {};
+                      if (res.user.id) {
+
+                        $('html, body').css({ overflow: 'hidden', height: '100%' });
+
+                        userDetails = {
+                          "id": res.user.id,
+                          "tokenId": res.id,
+                          "email": $scope.user.email,
+                          "businessName": $scope.user.businessName,
+                          "loginId": res.user.id
+                        };
+
+                        $("#preloader").css('display', 'block').delay(100).fadeOut('slow');
+
+                        localStorage.setItem("userSession", JSON.stringify(userDetails));
+                        $rootScope.currentUser = {};
+                        $rootScope.currentUser = userDetails;
+                        $state.go('dashboard');
+                        $("#navSidebar").css('display', 'block');
+
+                        UserLoginDetails.create({ "isLogin": "yes", "userId": res.user.id });
+                      }
+                      else {
+                        $("#errMessage").css({ display: "block" });
+                        $scope.error = "Invaild User!. Please try again.";
+                      }
+                    }
+                    else {
+                      $("#errMessage").css({ display: "block" });
+                      $scope.error = "Inactive User!. Please try again.";
+                    }
+                  } else {
+                    $("#errMessage").css({ display: "block" });
+                    $scope.error = "Invaild User!. Please try again.";
+                  }
+                }
+              }, function (err) {
+                $("#errMessage").css({ display: "block" });
+                //  $("#preloader").css('display', 'block').delay(5).fadeOut('fast');
+                $scope.error = "Invaild User or Password!. Please try again.";
+              });
+          } else {
+            $("#emailErr,#pwdErr").css({ display: "block" });
+          }
+        } else {
+          $("#emailErr").css({ display: "block" });
+        }
+        $("#loginBtn").prop('disabled', false);
+      };
+    }])
+  .controller('AuthLogoutController', ['$scope', 'AuthService', '$state', 'UserLoginDetails', '$location',
+    function ($scope, AuthService, $state, UserLoginDetails, $location) {
+      //var userDetails = JSON.parse(localStorage.getItem("userSession"));
+      //$("#preloader").css('display', 'block').delay(6000).fadeOut('slow');
+      //UserLoginDetails.upsert({ "id": userDetails.loginId, "isLogin": "no", "isLogout": (new Date()).toJSON() }, function (err, res) {
+      //  console.log(JSON.stringify(res));
+      //});
+      AuthService.logout()
+        .then(function () {
+          var localstoreKey = localStorage.key("userSession");
+          try {
+            localStorage.removeItem(localstoreKey);
+            localStorage.removeItem("userSession");
+            localStorage.clear();
+            var element = angular.element('<a/>');
+            element.attr({ href: '/' })[0].click();
+          }
+          catch (e) {
+            console.log("localstoreage remove Error");
+          }
+        });
+
+    }])
+  .controller('SignUpController', ['$scope', 'AuthService', '$state',
+    function ($scope, AuthService, $state) {
+      $scope.user = {
+        email: 'baz@qux.com',
+        password: 'bazqux'
+      };
+
+      $scope.register = function () {
+        AuthService.register($scope.user.email, $scope.user.password)
+          .then(function () {
+            $state.transitionTo('sign-up-success');
+          });
+      };
+    }])
+  .controller('contactUsQuestion', ['$scope', 'AuthService', '$state', '$rootScope', function ($scope, AuthService, $state, $rootScope) {
+    $scope.loginClk = () => {
+      $state.go('barmate_business');
+      $rootScope.activateNoLandline = false;
+      $rootScope.login = true;
+    };
+
+    //barmate_business
+    $scope.businessList = () => {
+      $state.go('barmate_business');
+    };
+  }]);

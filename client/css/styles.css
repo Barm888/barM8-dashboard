@@ -1,0 +1,14 @@
+body {
+  padding-top:50px
+}
+.glyphicon-remove:hover {
+  cursor:pointer
+}
+
+#result{
+	text-shadow: 2px 2px;
+	text-align: center;
+    border: 2px solid green ;
+    border-style: solid;
+	box-shadow: 10px 10px;
+}

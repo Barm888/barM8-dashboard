@@ -1,0 +1,30 @@
+{
+  "name": "MenuCategory",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "shortName": {
+      "type": "string"
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "menuHours": {
+      "type": "hasMany",
+      "model": "MenuHours",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

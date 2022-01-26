@@ -1,0 +1,44 @@
+{
+  "name": "DailySpecialCategory",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "_name": {
+      "type": "string"
+    },
+    "isSpecial": {
+      "type": "boolean",
+      "default": false
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "dailySpecials": {
+      "type": "hasMany",
+      "model": "DailySpecial",
+      "foreignKey": ""
+    },
+    "allCategoryCharts": {
+      "type": "hasOne",
+      "model": "AllCategoryChart",
+      "foreignKey": ""
+    },
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

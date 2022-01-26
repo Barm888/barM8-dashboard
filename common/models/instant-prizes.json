@@ -1,0 +1,87 @@
+{
+  "name": "InstantPrizes",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "startTime": {
+      "type": "date"
+    },
+    "endTime": {
+      "type": "date"
+    },
+    "frequency": {
+      "type": "number"
+    },
+    "freebie": {
+      "type": "string"
+    },
+    "promoCode": {
+      "type": "string"
+    },
+    "promoMessage": {
+      "type": "string"
+    },
+    "offset": {
+      "type": "number",
+      "default": 600
+    },
+    "giveawayMessage": {
+      "type": "string",
+      "default": "Scan to Enter"
+    },
+    "datesArray": {
+      "type": [
+        "string"
+      ]
+    },
+    "createTs": {
+      "type": "date"
+    },
+    "createProgId": {
+      "type": "string"
+    },
+    "modifyTs": {
+      "type": "date"
+    },
+    "modifyProgId": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    },
+    "slots": {
+      "type": "hasMany",
+      "model": "slot",
+      "foreignKey": ""
+    },
+    "dashLine": {
+      "type": "belongsTo",
+      "model": "DashLine",
+      "foreignKey": ""
+    },
+    "instantPrizeWinners": {
+      "type": "hasMany",
+      "model": "InstantPrizeWinner",
+      "foreignKey": ""
+    },
+    "couponNotifications": {
+      "type": "hasMany",
+      "model": "CouponNotification",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

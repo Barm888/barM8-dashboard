@@ -1,0 +1,27 @@
+{
+  "name": "WhatshotCategory",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "category": {
+      "type": "string"
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "dashLines": {
+      "type": "hasMany",
+      "model": "DashLine",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

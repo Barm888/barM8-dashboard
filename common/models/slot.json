@@ -1,0 +1,52 @@
+{
+  "name": "slot",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "date": {
+      "type": "date"
+    },
+    "time": {
+      "type": "string"
+    },
+    "hour": {
+      "type": "number"
+    },
+    "minutes": {
+      "type": "number"
+    },
+    "isFirstSlot": {
+      "type": "boolean",
+      "default": false
+    },
+    "createTs": {
+      "type": "date"
+    },
+    "createProgId": {
+      "type": "string"
+    },
+    "modifyTs": {
+      "type": "date"
+    },
+    "modifyProgId": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "instantPrizes": {
+      "type": "belongsTo",
+      "model": "InstantPrizes",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

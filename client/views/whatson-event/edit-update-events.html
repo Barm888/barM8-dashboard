@@ -1,0 +1,1361 @@
+<div class="wrapper wrapper-content" id="whatsOnEventsEditUpdate" ng-controller="whatsOnEventsEdit">
+    <div class="m-t-sm" style="margin-top:2.5rem;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <a href="#" onclick="history.back();" class="btn btn-s m-b">Back </a>
+            </div>
+        </div>
+        <div class="row card">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <h2 class="v-h">Edit events</h2>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 1rem;">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <label>What kind of event are you
+                            running?</label>
+                    </div>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <div class="form-group">
+                            <select class="form-control custom-input" id="selectedcategoryId" ng-disabled="true">
+                                <option ng-repeat="cate in happeningsCategories" value="cate.id"
+                                    ng-selected="{{ cate.name == editHappenings.happeningsCategory.name }}">
+                                    {{cate.name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <label>What do you want to call this
+                            event?</label>
+                    </div>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <div class="form-group">
+                            <input type="text" class="form-control custom-input" ng-model="editHappenings.title"
+                                id="event-title">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <label>Tell us a bit about your event (max.
+                            100
+                            characters)</label>
+                    </div>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <div class="form-group">
+                            <textarea class="form-control custom-textarea" id="desc" ng-model="editHappenings.fullDesc"
+                                placeholder="Including any details about the artist and their recent work." rows="4"
+                                style="font-size: 18px !important;"></textarea>
+                            <span id="desc-error" style="color: red;"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <h2 class="v-h">Your Offer Image</h2>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <span class="manage-txt">Upload an image for your event</span>
+                        <p class="c-p-1">(For the best results we recommend uploading an
+                            image
+                            that is
+                            700*350
+                            pixels in size)</p>
+                    </div>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <div class="form-group" ng-show="editHappenings.primaryImg && editHappenings.primaryImg.path">
+                            <!-- <div class="profile-pic">
+                                <img style="width: 15rem;height: 8rem;border-radius: 2px;
+                                                                        box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);"
+                                    ng-src="{{editHappenings.primaryImg.path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png' }}">
+                                <div class="edit">
+                                    <a class="btn" id="delete_{{editHappenings.id}}" data-toggle="tooltip"
+                                        data-placement="top" title="Delete"
+                                        ng-click="delete(editHappenings.id, 'primary')"
+                                        style="background-color: #fff;color:#d50000;padding: 5px 10px!important;"
+                                        href="javascript:;"><i class="far fa-trash-alt"></i></a>
+                                </div>
+                            </div> -->
+                            <div class="img-content">
+                                <div class="content-overlay"></div>
+                                <img class="content-image"
+                                    ng-src="{{editHappenings.primaryImg.path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png'}}"
+                                    style="box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);webkit-box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);border-radius: 4px;">
+                                <div class="content-details fadeIn-bottom">
+                                    <button class="btn replaceScnryImg" ng-click="replaceImg()" title="Replace"><i
+                                            class="fas fa-image"></i>&nbsp;Replace</button>
+                                    <button class="btn btn-danger" ng-click="delete(editHappenings.id, 'primary')"
+                                        title="Remove"><i class="far fa-trash-alt"></i>&nbsp;Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="!editHappenings.primaryImg || !editHappenings.primaryImg.path">
+                            <!-- <div class="form-group img-c-s" style="margin-bottom: 0px;">
+                                <input type="file" id="ticketEventImg" accept="image/png, image/jpeg"
+                                    style="display: none;">
+                                <button class="btn btn-primary"
+                                    style="font-size: 1.25rem;padding:8px 10px !important;border-radius: 4px !important;"
+                                    onclick="$('#ticketEventImg').trigger('click'); return false;">Choose
+                                    Image file</button>
+                            </div> -->
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
+                                    <input type="file" id="ticketEventImg" accept="image/png, image/jpeg"
+                                        style="display: none;">
+                                    <div class="drag-img-up" id="drag-drop-img"
+                                        onclick="$('#ticketEventImg').trigger('click'); return false;">
+                                        <img src="https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/add-image-icon.svg"
+                                            class="def-img">
+                                        <p>Drag & drop or click to add image.</p>
+                                        <span>JPEG or PNG</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <script>
+                                $("#ticketEventImg").on('change', function (e) {
+                                    angular.element(document.getElementById('whatsOnEventsEditUpdate')).scope().clickImageSection(e.target.files[0]);
+                                })
+                            </script>
+                            <div class="form-group img-h-s" style="margin-bottom: 0px;display:none;">
+                                <div class="profile-pic" style="padding: 5px;">
+                                    <img src="" class="img-resposive img-bkg" id="img-pre"
+                                        style="width: 306px;height: 180px;">
+                                    <div class="edit">
+                                        <a class="btn" id="delete_i_index" data-toggle="tooltip" data-placement="top"
+                                            title="Delete"
+                                            style="background-color: #fff;color:#d50000;padding: 5px 10px!important;border-radius:25px;"
+                                            href="javascript:;"><i class="far fa-trash-alt"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <link rel="stylesheet" href="/views/whatson-event/upload-img.css">
+                <link rel="stylesheet" href="https://fengyuanchen.github.io/cropperjs/css/cropper.css">
+                <script src="https://fengyuanchen.github.io/cropperjs/js/cropper.js"></script>
+                <div class="modal" id="image-crop-md" tabindex="-1" role="dialog">
+                    <div class="modal-dialog opacity-animate3 modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="row page">
+                                    <div class="box-2">
+                                        <div class="result"></div>
+                                    </div>
+                                    <div class="box-2 img-result hide">
+                                        <img class="cropped" src="" alt="">
+                                    </div>
+                                    <div class="box">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8" style="text-align: left;">
+                                    </div>
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                        <button class="btn btn-primary" id="crop-btn"
+                                            style="background-color: #388e3c !important; color: #fff;
+                                                    border: 1px solid #388e3c !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Crop</button>
+                                        <button class="btn btn-primary" id="modalClose"
+                                            style="background-color: #d32f2f !important; color: #fff;
+                                                    border: 1px solid #d32f2f !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <span class="manage-txt">Upload secondary image for your event
+                        </span>
+                        <p class="c-p-1">(For the best results we recommend uploading an
+                            image
+                            that is
+                            600*450
+                            pixels in size)</p>
+                    </div>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <div class="form-group"
+                            ng-show="editHappenings.secondaryImg && editHappenings.secondaryImg.path">
+                            <!-- <div class="profile-pic">
+                                <img style="width: 15rem;height: 8rem;border-radius: 2px;
+                                                                        box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);"
+                                    ng-src="{{editHappenings.secondaryImg.path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png' }}">
+                                <div class="edit">
+                                    <a class="btn" id="delete_{{editHappenings.id}}" data-toggle="tooltip"
+                                        data-placement="top" title="Delete"
+                                        ng-click="delete(editHappenings.id, 'secondary')"
+                                        style="background-color: #fff;color:#d50000;padding: 5px 10px!important;"
+                                        href="javascript:;"><i class="far fa-trash-alt"></i></a>
+                                </div>
+                            </div> -->
+                            <div class="img-content">
+                                <div class="content-overlay"></div>
+                                <img class="content-image"
+                                    ng-src="{{editHappenings.secondaryImg.path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png'}}"
+                                    style="box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);webkit-box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);border-radius: 4px;">
+                                <div class="content-details fadeIn-bottom">
+                                    <button class="btn replaceScnryImg" ng-click="replaceImg()" title="Replace"><i
+                                            class="fas fa-image"></i>&nbsp;Replace</button>
+                                    <button class="btn btn-danger" ng-click="delete(editHappenings.id, 'secondary')"
+                                        title="Remove"><i class="far fa-trash-alt"></i>&nbsp;Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group"
+                            ng-show="!editHappenings.secondaryImg || !editHappenings.secondaryImg.path">
+                            <!-- <input type="file" id="ticketEventSeImg" class="form-control custom-input">
+                            <span style="color: red;display: none;" id="image_err">Image is
+                                required</span>
+                            <span style="color: red;display: none;" id="image_se_width_height">Incorrect the
+                                width or height!</span> -->
+                            <!-- <div class="form-group img-c-s-s" style="margin-bottom: 0px;">
+                                <input type="file" id="ticketEventSeImg" accept="image/png, image/jpeg"
+                                    style="display: none;">
+                                <button class="btn btn-primary"
+                                    style="font-size: 1.25rem;padding:8px 10px !important;border-radius: 4px !important;"
+                                    onclick="$('#ticketEventSeImg').trigger('click'); return false;">Choose
+                                    Image file</button>
+                            </div> -->
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
+                                    <input type="file" id="ticketEventSeImg" accept="image/png, image/jpeg"
+                                        style="display: none;">
+                                    <div class="drag-img-up" id="drag-drop-img"
+                                        onclick="$('#ticketEventSeImg').trigger('click'); return false;">
+                                        <img src="https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/add-image-icon.svg"
+                                            class="def-img">
+                                        <p>Drag & drop or click to add image.</p>
+                                        <span>JPEG or PNG</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <script>
+                                $("#ticketEventSeImg").on('change', function (e) {
+                                    angular.element(document.getElementById('whatsOnEventsEditUpdate')).scope().clickImgSecond(e.target.files[0]);
+                                })
+                            </script>
+                            <!-- <div class="form-group img-h-s-s" style="margin-bottom: 0px;display:none;">
+                                <div class="profile-pic" style="padding: 5px;">
+                                    <img src="" class="img-resposive img-bkg" id="img-second-pre"
+                                        style="width: 260px;height: 200px;">
+                                    <div class="edit">
+                                        <a class="btn" id="delete_i_s_index" data-toggle="tooltip"
+                                            data-placement="top" title="Delete"
+                                            style="background-color: #fff;color:#d50000;padding: 5px 10px!important;border-radius:25px;"
+                                            href="javascript:;"><i class="far fa-trash-alt"></i></a>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <link rel="stylesheet" href="/views/whatson-event/upload-img-second.css">
+                <link rel="stylesheet" href="https://fengyuanchen.github.io/cropperjs/css/cropper.css">
+                <script src="https://fengyuanchen.github.io/cropperjs/js/cropper.js"></script>
+                <div class="modal" id="image-crop-second-md" tabindex="-1" role="dialog">
+                    <div class="modal-dialog opacity-animate3 modal-lg" role="document" style=" max-width: 685px;">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="row page_1">
+                                    <div class="box-2">
+                                        <div class="result-second"></div>
+                                    </div>
+                                    <div class="box-2 img-result hide">
+                                        <img class="cropped" src="" alt="">
+                                    </div>
+                                    <div class="box">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8" style="text-align: left;">
+                                    </div>
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                        <button class="btn btn-primary" id="crop-s-btn"
+                                            style="background-color: #388e3c !important; color: #fff;
+                                    border: 1px solid #388e3c !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Crop</button>
+                                        <button class="btn btn-primary" id="modalClose_second"
+                                            style="background-color: #d32f2f !important; color: #fff;
+                                    border: 1px solid #d32f2f !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"
+                    ng-show="editHappenings.happeningsCategory.name!='Poker' && editHappenings.happeningsCategory.name!='Trivia'">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <b style="font-size: 1.3rem;">Upload Primary Video for you event
+                            (maximum file size 15mb)</b>
+                    </div>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                        <div class="form-group"
+                            ng-show="editHappenings.primaryVideo && editHappenings.primaryVideo.path">
+                            <div class="profile-pic">
+                                <video ng-if="editHappenings.primaryVideo.path" muted
+                                    style="width: 210px !important;height:140px !important;" loop="true" autoplay="true"
+                                    controls>
+                                    <source src="{{editHappenings.primaryVideo.path}}" type="video/mp4">
+                                    <source src="{{editHappenings.primaryVideo.path}}" type="video/ogg">
+                                </video>
+                                <div class="edit">
+                                    <a class="btn" id="delete_{{editHappenings.id}}" data-toggle="tooltip"
+                                        data-placement="top" title="Delete"
+                                        ng-click="delete(editHappenings.id, 'primaryVideo')"
+                                        style="background-color: #fff;color:#d50000;padding: 5px 10px!important;"
+                                        href="javascript:;"><i class="far fa-trash-alt"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group"
+                            ng-show="!editHappenings.primaryVideo || !editHappenings.primaryVideo.path">
+                            <input type="file" class="form-control custom-input" id="ticketAllEventVideo"
+                                accept="video/mp4,video/x-m4v,video/*">
+                            <span style="color: red;display: none;" id="video_size_error">Maximum
+                                file size 15mb!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" ng-show="editHappenings.happeningsCategory.name!='Poker'">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <h2 class="v-h">Your Offer Availability</h2>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <label for="select_dates" class="manage-txt">Select Dates &amp;
+                            Time</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                <div class="form-group">
+                                    <label for="events_date">Date</label>
+                                    <input type="date" ng-model="editHappenings.date" class="form-control custom-input"
+                                        disabled id="events_date" aria-invalid="false">
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+                                ng-show="editHappenings.happeningsCategory.name=='Trivia'">
+                                <div class="form-group">
+                                    <label for="events_start_time">Registration Closes</label>
+                                    <input type="text" ng-model="editHappenings.registrationTime"
+                                        class="form-control time custom-input" id="events_registrationTime_trivia"
+                                        aria-invalid="false">
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                <div class="form-group">
+                                    <label for="events_start_time">Start time</label>
+                                    <input type="text" ng-model="editHappenings.startTime"
+                                        class="form-control time custom-input" id="events_start_time"
+                                        aria-invalid="false">
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+                                ng-show="editHappenings.happeningsCategory.name!='Trivia'">
+                                <div class="form-group">
+                                    <label for="events_end_time">End time</label>
+                                    <input type="text" ng-model="editHappenings.endTime"
+                                        class="form-control time custom-input" id="events_end_time"
+                                        aria-invalid="false">
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+                                ng-show="editHappenings.happeningsCategory.name=='Trivia'">
+                                <div class="form-group">
+                                    <label for="events_end_time">Entry</label>
+                                    <select class="form-control custom-input" id="entry_type"
+                                        ng-change="entryTypeChange()" ng-model="editHappenings.entryType">
+                                        <option value="Paid" ng-selected="editHappenings.entryType=='Paid'">Paid
+                                        </option>
+                                        <option value="Free" ng-selected="editHappenings.entryType=='Free'">Free
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+                                ng-show="editHappenings.happeningsCategory.name=='Trivia'">
+                                <div class="form-group">
+                                    <label for="events_end_time">Entry fee</label>
+                                    <div class="dollar">
+                                        <input type="number" ng-model="editHappenings.entryFee"
+                                            class="form-control custom-input" id="entry_fee" aria-invalid="false">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row card" ng-show="editHappenings.isTicketedEvent">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                <h2 style="font-weight: 400;">Let’s set up your tickets for this event.</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="row">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th><span>Ticket name</span></th>
+                                        <th><span>Quantity available</span></th>
+                                        <th><span>Price</span></th>
+                                        <th><span>Ticket type</span></th>
+                                        <th><span>Actions</span></th>
+                                    </tr>
+                                </tbody>
+                                <tbody>
+                                    <tr ng-repeat="ticket in editHappeningsTicket" style="text-align: center;">
+                                        <td><span>{{ticket.ticketName}}</span></td>
+                                        <td><span>{{ticket.ticketQty}}</span></td>
+                                        <td><span>$&nbsp;{{ticket.salePrice}}</span></td>
+                                        <td><span>{{ticket.ticketType | capitalize}}</span></td>
+                                        <td>
+                                            <button class="btn btn-success" ng-click="ticketView(ticket.id)"
+                                                style="background-color: #10ac0d !important;    padding: 5.5px 9px !important;"><i
+                                                    class="far fa-eye"></i></button>
+                                            <button class="btn btn-success" ng-click="ticketEdit(ticket.id)"
+                                                style="background-color: rgb(63,81,181) !important;    padding: 5.5px 9px !important;"><i
+                                                    class="fas fa-pencil-alt"></i></button>
+                                            <button class="btn btn-success" ng-click="ticketDelete(ticket.id)"
+                                                style="background-color:#dd2c00 !important;    padding: 5.5px 9px !important;"><i
+                                                    class="far fa-trash-alt"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot ng-show="editHappeningsTicket && editHappeningsTicket.length==0">
+                                    <tr>
+                                        <td colspan="5" style="text-align: center;">
+                                            <span style="font-size: 1.4rem;font-weight:600;">No Data!</span>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="ticketDeleteModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <!-- <h4 class="modal-title">Modal Header</h4> -->
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <h3>Are you sure you want delete this tickets?</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-s" ng-click="confirmTicketDelete()">Yes</button>
+                                <button type="button" class="btn btn-r" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="ticketViewAndEditModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header" style="padding: 20px !important;">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h2 class="modal-title" style="font-weight: 600;font-size:1.4rem;" id="ticket_header">
+                                </h2>
+                            </div>
+                            <div class="modal-body"
+                                style="text-align: left !important; padding: 0px 30px 0px 30px !important;">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <div class="row">
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="ticket_name" class="label-size">Ticket
+                                                        name</label>
+                                                    <input type="text" ng-model="editTicket.ticketName"
+                                                        ng-disabled="ticketDisabled" class="form-control custom-input"
+                                                        id="ticket_name">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="ticket_sale_qty" class="label-size">Quantity
+                                                        available</label>
+                                                    <input type="text" ng-model="editTicket.ticketQty"
+                                                        ng-disabled="ticketDisabled" class="form-control custom-input"
+                                                        id="ticket_sale_qty">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="ticket_ticketType" class="label-size">Ticket
+                                                        type</label>
+                                                    <!-- <input type="text" ng-model="editTicket.ticketType | capitalize" ng-disabled="ticketDisabled"
+                                                class="form-control custom-input" id="ticket_ticketType"> -->
+                                                    <select class="form-control custom-input" id="ticket_type">
+                                                        <option value="free"
+                                                            ng-selected="editTicket.ticketType=='free'">Free
+                                                        </option>
+                                                        <option value="paid"
+                                                            ng-selected="editTicket.ticketType=='paid'">Paid
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="ticket_salePrice" class="label-size">Price</label>
+                                                    <input type="text" ng-model="editTicket.salePrice"
+                                                        ng-disabled="ticketDisabled" class="form-control custom-input"
+                                                        id="ticket_salePrice">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="form-group">
+                                                    <label for="_ticket_desc_0" class="label-size">Ticket
+                                                        description</label>
+                                                    <textarea rows="3" ng-model="editTicket.ticketDesc"
+                                                        ng-disabled="ticketDisabled"
+                                                        class="form-control custom-textarea"
+                                                        id="_ticket_desc_0"></textarea>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="ticket_salesStartDate" class="label-size">Ticket
+                                                        sales start</label>
+                                                    <input type="date" ng-model="editTicket.salesStartDate"
+                                                        ng-disabled="ticketDisabled" class="form-control custom-input"
+                                                        id="ticket_salesStartDate">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="ticket_salesStartTime" class="label-size">Time</label>
+                                                    <input type="text" ng-model="editTicket.salesStartTime"
+                                                        ng-disabled="ticketDisabled"
+                                                        class="form-control custom-input time ui-timepicker-input"
+                                                        id="ticket_salesStartTime">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="ticket_salesEndDate" class="label-size">Ticket
+                                                        sales end</label>
+                                                    <input type="date" ng-model="editTicket.salesEndDate"
+                                                        ng-disabled="ticketDisabled" class="form-control custom-input"
+                                                        id="ticket_salesEndDate">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                                <div class="form-group">
+                                                    <label for="ticket_salesEndTime" class="label-size">Time</label>
+                                                    <input type="text" ng-model="editTicket.salesEndTime"
+                                                        ng-disabled="ticketDisabled"
+                                                        class="form-control custom-input time ui-timepicker-input"
+                                                        id="ticket_salesEndTime">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="ticket_max" class="label-size">Tickets allowed
+                                                        per order (Max)</label>
+                                                    <input type="number" ng-model="editTicket.maxTicket"
+                                                        ng-disabled="ticketDisabled" class="form-control custom-input"
+                                                        id="ticket_max">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="ticket_min" class="label-size">Tickets allowed
+                                                        per order (Min)</label>
+                                                    <input type="number" ng-model="editTicket.minTicket"
+                                                        ng-disabled="ticketDisabled" class="form-control custom-input"
+                                                        id="ticket_min">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                ng-show="!ticketDisabled" style="text-align: right;"
+                                                ng-click="edit_update_ticket()">
+                                                <button class="btn btn-s">Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"
+                    ng-show="editHappenings.happeningsCategory.name!='Poker' && editHappenings.happeningsCategory.name!='Trivia'">
+                    <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-bottom: 1rem;">
+                        <button class="btn btn-primary pull-right update-btn" ng-click="updateAllEvents()"
+                            style="font-size: 20px; border-radius: 2px;background-color:#149436 !important;">Update</button>
+                    </div> -->
+                    <div class="col-xs-3 col-sm-6 col-md-8 col-lg-9 col-xl-9" style="text-align: right;">
+                        <div class="form-check">
+                            <button class="btn btn-s" ng-show="upAllStatus=='Live'"
+                                ng-click="chanCStatus(editHappenings.id, 'Live')">Live</button>
+                            <button class="btn btn-r" ng-show="upAllStatus=='Pending'"
+                                ng-click="chanCStatus(editHappenings.id, 'Pending')">Pending</button>
+                        </div>
+                    </div>
+                    <div class="col-xs-9 col-sm-6 col-md-4 col-lg-3 col-xl-3" style="text-align: right;">
+                        <div class="btn-group" data-toggle="buttons" style="margin-bottom: 1rem;">
+                            <label class="btn btn-s" ng-click="updateAllEvents()">Update All
+                            </label>
+                            <label class="btn" style="font-size: 17.5px !important;">OR </label>
+                            <label class="btn btn-s" ng-click="updateEvents()">Update
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!-- Trivia Section -->
+                <div class="row" ng-show="editHappenings.happeningsCategory.name=='Trivia'">
+                    <div class="col-xs-3 col-sm-6 col-md-8 col-lg-9 col-xl-9" style="text-align: right;">
+                        <div class="form-check">
+                            <button class="btn btn-s" ng-show="triviaUpAllStatus=='Live'"
+                                ng-click="chanCStatus(editHappenings.id, 'Live')">Live</button>
+                            <button class="btn btn-r" ng-show="triviaUpAllStatus=='Pending'"
+                                ng-click="chanCStatus(editHappenings.id, 'Pending')">Pending</button>
+                        </div>
+                    </div>
+                    <div class="col-xs-9 col-sm-6 col-md-4 col-lg-3 col-xl-3"
+                        style="margin-bottom: 0.5rem;text-align:right;">
+
+                        <div class="btn-group" data-toggle="buttons" style="margin-bottom: 1rem;">
+                            <label class="btn btn-s" ng-click="updateAllTrivia()">Update All
+                            </label>
+                            <label class="btn" style="font-size: 17.5px !important;">OR </label>
+                            <label class="btn btn-s" ng-click="updateTrivia()">Update
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!-- Poker Section -->
+                <div class="row" ng-show="editHappenings.happeningsCategory.name=='Poker'">
+                    <div>
+                        <div class="row card" style="margin-bottom: 10px;">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12" style="padding: 10px;">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="3"><span>Event</span></th>
+                                            <th colspan="2"><span>Registration</span></th>
+                                            <th colspan="2"><span>Prize</span></th>
+                                        </tr>
+                                        <tr>
+                                            <th><span>Game/Type</span></th>
+                                            <th><span>Date</span></th>
+                                            <th><span>Time</span></th>
+                                            <th><span>Closes</span></th>
+                                            <th><span>Late Rego</span></th>
+                                            <th><span>Gurantinee</span></th>
+                                            <th><span>Added</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <input type="text" ng-model="editHappenings.gameType"
+                                                        class="form-control custom-input" id="gameType">
+                                                    <span id="gameType-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <input type="date" ng-model="editHappenings.date"
+                                                        class="form-control custom-input" id="poker_date">
+                                                    <span id="date-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <input class="form-control custom-input time"
+                                                        ng-model="editHappenings.startTime" type="text" id="event_time">
+                                                    <span id="poker-start-time-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <input class="form-control custom-input time"
+                                                        ng-model="editHappenings.registrationCloses" type="text"
+                                                        id="closes_time">
+                                                    <span id="closes_time_err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <input type="text" class="form-control custom-input time"
+                                                        ng-model="editHappenings.lateRegoTime" id="late_rego">
+                                                    <span id="late_rego_err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <div class="dollar">
+                                                        <input type="number" ng-model="editHappenings.guarantee"
+                                                            class="form-control custom-input" id="guarantee">
+                                                    </div>
+                                                    <span id="guarantee_err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <div class="dollar">
+                                                        <input type="number" ng-model="editHappenings.added"
+                                                            class="form-control custom-input" id="event_added">
+                                                    </div>
+                                                    <span id="event_added_err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row card">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12" style="padding: 10px;">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <label for="buy-in" class="label-txt">Buy-in</label>
+                                                    <div class="dollar">
+                                                        <input type="number" ng-model="editHappenings.buyIn"
+                                                            class="form-control custom-input" id="buy-in">
+                                                    </div>
+                                                    <span id="gameType-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <label for="buy-in" class="label-txt">Re-buy</label>
+                                                    <div class="dollar">
+                                                        <input type="number" ng-model="editHappenings.reBuy"
+                                                            class="form-control custom-input" id="re-buy-in">
+                                                    </div>
+                                                    <span id="gameType-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <label for="buy-in" class="label-txt">Add-ons</label>
+                                                    <div class="dollar">
+                                                        <input type="number" ng-model="editHappenings.addon"
+                                                            class="form-control custom-input" id="add-ons-in">
+                                                    </div>
+                                                    <span id="gameType-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <label for="buy-in" class="label-txt">Re-entry</label>
+                                                    <div class="dollar">
+                                                        <input type="number" class="form-control custom-input"
+                                                            ng-model="editHappenings.reEntry" id="re-entry-in">
+                                                    </div>
+                                                    <span id="gameType-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <label for="buy-in" class="label-txt">Starting
+                                                        stack</label>
+                                                    <input type="number" class="form-control custom-input"
+                                                        ng-model="editHappenings.startingStack" id="starting-stack">
+                                                    <span id="gameType-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <label for="buy-in" class="label-txt">Re-Buy
+                                                        stack</label>
+                                                    <input type="number" class="form-control custom-input"
+                                                        ng-model="editHappenings.reBuyStack" id="re-buy-stack">
+                                                    <span id="gameType-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <label for="buy-in" class="label-txt">Add-on
+                                                        stack</label>
+                                                    <input type="number" class="form-control custom-input"
+                                                        ng-model="editHappenings.addOnStack" id="add-on-stack">
+                                                    <span id="gameType-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <label for="buy-in" class="label-txt">Re-entry
+                                                        stack</label>
+                                                    <input type="number" class="form-control custom-input"
+                                                        ng-model="editHappenings.reEntryStack" id="re-entry-stack">
+                                                    <span id="gameType-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <label for="buy-in" class="label-txt">Buy-in
+                                                        closes</label>
+                                                    <input type="text" ng-model="editHappenings.buyInCloses"
+                                                        class="form-control custom-input time" id="buy_in_closes">
+                                                    <span id="gameType-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <label for="buy-in" class="label-txt">Re-buy
+                                                        closes</label>
+                                                    <input type="text" ng-model="editHappenings.reBuyCloses"
+                                                        class="form-control custom-input time" id="re_buy_in_closes">
+                                                    <span id="gameType-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <label for="buy-in" class="label-txt">Add-on
+                                                        closes</label>
+                                                    <input type="text" ng-model="editHappenings.addOnCloses"
+                                                        class="form-control custom-input time" id="addon_closes">
+                                                    <span id="gameType-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <label for="buy-in" class="label-txt">Re-entry
+                                                        closes</label>
+                                                    <input type="text" ng-model="editHappenings.reEntryCloses"
+                                                        class="form-control custom-input time" id="re_entry_closes">
+                                                    <span id="gameType-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <label for="buy-in" class="label-txt">Max no of
+                                                        re-buys</label>
+                                                    <input type="text" class="form-control custom-input"
+                                                        ng-model="editHappenings.maxNoOfReBuy" id="maxNoOfReBuys">
+                                                    <span id="gameType-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <label for="buy-in" class="label-txt">Max no of
+                                                        add-ons</label>
+                                                    <input type="text" class="form-control custom-input"
+                                                        ng-model="editHappenings.maxNoOfAddOns" id="maxNoOfAddons">
+                                                    <span id="gameType-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group" style="margin-bottom:0px;">
+                                                    <label for="buy-in" class="label-txt">Max no of
+                                                        re-entry</label>
+                                                    <input type="text" class="form-control custom-input"
+                                                        ng-model="editHappenings.maxNoOfReEntry" id="maxNoOfReEntry">
+                                                    <span id="gameType-poker-err" style="color: red;"></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row" ng-show="editHappenings.happeningsCategory.name=='Poker'">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-bottom: 1rem;">
+                        <button class="btn btn-s pull-right update-btn" ng-click="updatePoker()">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="/assets/css/jquery.timepicker.min.css" type="text/css" rel="stylesheet" />
+<script src="/assets/js/jquery.timepicker.min.js"></script>
+<script>
+    $("#ticketEventImg").on('change', function () {
+        let h, w;
+        $("#image_width_height").css({ display: 'none' });
+        let reader = new FileReader();
+        reader.onload = () => {
+            let tmpImgNode = document.createElement("img");
+            tmpImgNode.onload = function () {
+                h = this.naturalHeight;
+                w = this.naturalWidth;
+                if (h == 350 && w == 700) {
+                    $(".update-btn").removeAttr('disabled');
+                } else {
+                    $(".update-btn").attr('disabled', true);
+                    $("#image_width_height").css({ display: 'block' });
+                }
+            };
+
+            tmpImgNode.src = reader.result;
+        };
+        reader.readAsDataURL($("#ticketEventImg")[0].files[0]);
+    });
+    $("#ticketEventSeImg").on('change', function () {
+        let h, w;
+        $("#image_se_width_height").css({ display: 'none' });
+        let reader = new FileReader();
+        reader.onload = () => {
+            let tmpImgNode = document.createElement("img");
+            tmpImgNode.onload = function () {
+                h = this.naturalHeight;
+                w = this.naturalWidth;
+                if (h == 450 && w == 600) {
+                    $(".update-btn").removeAttr('disabled');
+                } else {
+                    $(".update-btn").attr('disabled', true);
+                    $("#image_se_width_height").css({ display: 'block' });
+                }
+            };
+
+            tmpImgNode.src = reader.result;
+        };
+        reader.readAsDataURL($("#ticketEventSeImg")[0].files[0]);
+    });
+    $('.time').timepicker({ 'scrollDefault': 'now', 'timeFormat': 'h:i a', 'step': 30 });
+
+    function formatBytes(bytes, decimals, binaryUnits) {
+        if (bytes == 0) return '0 Bytes';
+
+        var unitMultiple = (binaryUnits) ? 1024 : 1000;
+        var unitNames = (unitMultiple === 1024) ?
+            ['Bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'] :
+            ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        var unitChanges = Math.floor(Math.log(bytes) / Math.log(unitMultiple));
+        return parseFloat((bytes / Math.pow(unitMultiple, unitChanges)).toFixed(decimals || 0)) + ' ' + unitNames[unitChanges];
+    }
+
+    $("#ticketAllEventVideo").on('change', function () {
+
+        $("#video_size_error").css("display", "none");
+        let size = formatBytes(this.files[0].size);
+
+        if (size) size = size.split(' ');
+
+        if (size[1] == "MB" || size[1] == "KB" || size[1] == "Bytes") {
+            if (size[1] == "MB") {
+                if (Number(size[0]) <= 15) {
+                    $(".update-btn").prop("disabled", false);
+                    $("#video_size_error").css("display", "none");
+                } else {
+                    $(".update-btn").prop("disabled", true);
+                    $("#video_size_error").css("display", "block");
+                }
+            } else if (size[1] == "KB" || size[1] == "Bytes") {
+                $(".update-btn").prop("disabled", false);
+                $("#video_size_error").css("display", "none");
+            } else {
+                $(".update-btn").prop("disabled", true);
+                $("#video_size_error").css("display", "block");
+            }
+        } else {
+            $(".update-btn").prop("disabled", true);
+            $("#video_size_error").css("display", "block");
+        }
+
+    })
+</script>
+<style>
+    .profile-pic {
+        position: relative;
+        display: inline-block;
+    }
+
+    b,
+    strong {
+        font-weight: 400 !important;
+    }
+
+    .edit {
+        padding-top: 13px;
+        padding-right: 13px;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .edit a {
+        color: #000;
+    }
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0
+    }
+
+    .styled-checkbox+label {
+        position: relative;
+        cursor: pointer;
+        padding: 0
+    }
+
+    .styled-checkbox+label:before {
+        content: "";
+        margin-right: 5px;
+        display: inline-block;
+        vertical-align: text-top;
+        width: 16px;
+        height: 16px;
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, .12);
+        background: #fafafa
+    }
+
+    .styled-checkbox:hover+label:before {
+        background: rgba(0, 0, 0, .87)
+    }
+
+    .styled-checkbox:focus+label:before {
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, .12)
+    }
+
+    .styled-checkbox:checked+label:before {
+        background: rgba(0, 0, 0, .87)
+    }
+
+    .styled-checkbox:disabled+label {
+        color: #b8b8b8;
+        cursor: auto
+    }
+
+    .styled-checkbox:checked+label:after {
+        content: "";
+        position: absolute;
+        left: 3px;
+        top: 6px;
+        background: white;
+        width: 2px;
+        height: 2px;
+        box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg)
+    }
+
+    .ui-timepicker-wrapper {
+        width: 11.5em !important;
+    }
+
+    .ui-timepicker-wrapper {
+        max-height: 280px !important;
+    }
+
+    .col-xs-5ths,
+    .col-sm-5ths,
+    .col-md-5ths,
+    .col-lg-5ths,
+    .col-xl-5ths,
+    .col-xs-two5ths,
+    .col-sm-two5ths,
+    .col-md-two5ths,
+    .col-lg-two5ths,
+    .col-xl-two5ths,
+    .col-xs-three5ths,
+    .col-sm-three5ths,
+    .col-md-three5ths,
+    .col-lg-three5ths,
+    .col-xl-three5ths,
+    .col-xs-four5ths,
+    .col-sm-four5ths,
+    .col-md-four5ths,
+    .col-lg-four5ths,
+    .col-xl-four5ths,
+    .col-xs-five5ths,
+    .col-sm-five5ths,
+    .col-md-five5ths,
+    .col-lg-five5ths,
+    .col-xl-five5ths {
+        position: relative;
+        min-height: 1px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .dollar {
+        display: block;
+        position: relative;
+    }
+
+    .dollar input {
+        padding-left: 20px;
+    }
+
+    .dollar:before {
+        position: absolute;
+        content: "$";
+        left: 5px;
+        top: 10px;
+        font-size: 15px;
+        color: #999;
+    }
+
+    .table-bordered>thead>tr>th,
+    .table-bordered>thead>tr>td {
+        background-color: #fff !important;
+    }
+
+    th>span {
+        font-size: 1.3rem;
+        font-weight: 500;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    .label-txt {
+        font-size: 1.3rem;
+        font-weight: 500;
+    }
+
+    td>span {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .label-size {
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-primary:active,
+    .btn-primary.active,
+    .open .dropdown-toggle.btn-primary,
+    .btn-primary:active:focus,
+    .btn-primary:active:hover,
+    .btn-primary.active:hover,
+    .btn-primary.active:focus {
+        border-color: #388e3c !important;
+    }
+
+    #page-wrapper {
+        padding: 0 0px;
+    }
+
+    @media(min-width:768px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+
+
+    .manage-txt-1 {
+        font-size: 1.044rem;
+        color: #000 !important;
+    }
+
+    .manage-txt {
+        font-size: 1.3526rem;
+        color: #000 !important;
+    }
+
+    .v-h {
+        font-weight: 600;
+    }
+
+    .v-h-1 {
+        color: gray;
+    }
+
+    .c-p-1 {
+        font-size: 15px;
+        color: gray;
+    }
+
+    .btn-s {
+        color: #000;
+        border: 3px solid green !important;
+        background-color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .btn-s:hover {
+        color: #fff !important;
+        background: green !important;
+    }
+
+    .btn-s:active {
+        letter-spacing: 1px;
+    }
+
+    .btn-r {
+        color: #000;
+        border: 3px solid red !important;
+        background-color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .btn-r:hover {
+        color: #fff !important;
+        background: red !important;
+    }
+
+    .btn-r:active {
+        letter-spacing: 1px;
+    }
+
+    .m-b {
+        margin-bottom: 0.5rem;
+    }
+
+    .img-container {
+        padding: 0 0 0.5rem 0;
+        float: left;
+        width: 50%;
+    }
+
+    @media screen and (max-width: 640px) {
+        .img-container {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    @media screen and (min-width: 900px) {
+        .img-container {
+            width: 33.33333%;
+        }
+    }
+
+    .img-container .title {
+        color: #1a1a1a;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .img-content {
+        position: relative;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .img-content .content-overlay {
+        background: rgba(0, 0, 0, 0.7);
+        position: absolute;
+        height: 99%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        opacity: 0;
+        -webkit-transition: all 0.4s ease-in-out 0s;
+        -moz-transition: all 0.4s ease-in-out 0s;
+        transition: all 0.4s ease-in-out 0s;
+    }
+
+    .img-content:hover .content-overlay {
+        opacity: 1;
+    }
+
+    .content-image {
+        width: 100%;
+    }
+
+    .content-details {
+        position: absolute;
+        text-align: center;
+        padding-left: 1em;
+        padding-right: 1em;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        opacity: 0;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        -webkit-transition: all 0.3s ease-in-out 0s;
+        -moz-transition: all 0.3s ease-in-out 0s;
+        transition: all 0.3s ease-in-out 0s;
+    }
+
+    .img-content:hover .content-details {
+        top: 50%;
+        left: 50%;
+        opacity: 1;
+    }
+
+    .content-details button {
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        margin-bottom: 0.5em;
+    }
+
+    .content-details p {
+        color: #fff;
+        font-size: 0.8em;
+    }
+
+    .def-img {
+        width: 79px;
+        height: 79px;
+    }
+
+    .drag-img-up {
+        padding: 20px;
+        border: 1px dotted gray;
+        text-align: center;
+    }
+
+    .drag-img-up span {
+        color: gray;
+    }
+</style>

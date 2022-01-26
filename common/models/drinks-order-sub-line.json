@@ -1,0 +1,50 @@
+{
+  "name": "DrinksOrderSubLine",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "qty": {
+      "type": "number",
+      "default": 0
+    },
+    "noGlass": {
+      "type": "number",
+      "default": 0
+    },
+    "totalPrice": {
+      "type": "number",
+      "default": 0
+    },
+    "price": {
+      "type": "number",
+      "default": 0
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "drinksOrderLine": {
+      "type": "belongsTo",
+      "model": "DrinksOrderLine",
+      "foreignKey": ""
+    },
+    "drinksDashSubLine": {
+      "type": "belongsTo",
+      "model": "DrinksDashSubLine",
+      "foreignKey": ""
+    },
+    "drinksSpecialDashSubLine": {
+      "type": "belongsTo",
+      "model": "DrinksSpecialDashSubLine",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

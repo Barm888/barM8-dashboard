@@ -1,0 +1,893 @@
+<script>
+    $(function () {
+        $('.time').timepicker({ 'scrollDefault': 'now', 'timeFormat': 'h:i a', 'step': 15 });
+    });
+</script>
+<link href="/assets/css/jquery.timepicker.min.css" type="text/css" rel="stylesheet" />
+<script src="/assets/js/jquery.timepicker.min.js"></script>
+<link href="/assets/datepicker.min.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/assets/bootstrap-datepicker.min.js"></script>
+<div class="wrapper wrapper-content" id="happyHoursCtl" ng-controller="happyHoursCtl">
+    <div class="m-t-sm" style="margin-top:2.5rem;">
+        <div class="row" ng-show="userDetails.isAdmin">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12" style="padding-left: 0px;padding-right:0px;">
+                <div class="row card cCard" style="margin: 0rem 0 0.5rem 0 !important;">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                        <div class="autocomplete col-sm-12 col-xs-8 col-md-6 col-lg-6 col-xl-6">
+                            <input id="autocompleteBusiness" type="text" name="BusinessName"
+                                placeholder="Enter Business name">
+                            <span id="businessErr" style="color:red;"></span>
+                        </div>
+                        <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                        <script
+                            type="text/javascript">autocomplete(document.getElementById("autocompleteBusiness"), 'happyHours');</script>
+                        <div class="autocomplete col-sm-12 col-xs-4 col-md-6 col-lg-6 col-xl-6">
+                            <button type="button" ng-click="BusinessSelected('happyHours')" id="businessSubmit"
+                                class="btn btn-raised btn-primary businessSubmit">
+                                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 padding-space">
+                <div class="row c-1 is-adm">
+                    <style ng-if="userDetails.isAdmin">
+                        .is-adm {
+                            margin-top: 0.2rem !important;
+                        }
+                    </style>
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12" style="margin-bottom: 0.5rem;">
+                        <button class="btn btn-s" style="padding: 6px 20px !important;"
+                            onclick="window.history.go(-1); return false;">Back</button>
+                    </div>
+                </div>
+                <div class="row card">
+                    <div class="col-sm-12 col-xs-12 col-md-10 col-xl-10 col-lg-10">
+                        <div class="row" style="margin-bottom:0.5rem;">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <h2 class="v-h">Your Offer Details</h2>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <p class="manage-txt">Enter details of your Offer for users to see
+                                    on the Barm8 app.</p>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 cl-xl-12 col-lg-12" style="margin-bottom: 1rem;">
+                                <div class="form-group" style="margin-bottom: 0px !important;">
+                                    <label class="required">Category</label>
+                                    <label> - Select a category from the drowndown list for which this Offer is
+                                        available.</label>
+                                    <label>If Happy Hour is selected, all categories are selected by default, therefore
+                                        uncheck ones that are not available during Happy Hour.</label>
+                                </div>
+                                <div class="form-group">
+                                    <select class="category" id="category"
+                                        style="display: block;
+                                        padding: 6px 12px;
+                                        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;width: 100%;font-size:14px !important;border: 2px solid #ddd !important;    height: 48px !important;">
+                                        <option value="" disabled selected hidden>Eg. Happy
+                                            Hour,
+                                            Beer</option>
+                                        <option value="Happy Hour">Happy Hour</option>
+                                        <option value="Beer">Beer</option>
+                                        <option value="Wine">Wine</option>
+                                        <option value="Cocktail">Cocktail</option>
+                                        <option value="Spirit">Spirit</option>
+                                        <option value="Cider">Cider</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-12 col-md-5-cols col-lg-5-cols">
+                                        <input id="Beer_category" class="l-categoey" name="category" data-values="Beer"
+                                            type="checkbox">
+                                        <label for="Beer_category">&nbsp; Beer</label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-5-cols col-lg-5-cols">
+                                        <input id="Wine_category" class="l-categoey" name="category" data-values="Wine"
+                                            type="checkbox">
+                                        <label for="Wine_category">&nbsp; Wine</label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-5-cols col-lg-5-cols">
+                                        <input id="Cocktail_category" class="l-categoey" name="category"
+                                            data-values="Cocktail" type="checkbox">
+                                        <label for="Cocktail_category">&nbsp; Cocktail</label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-5-cols col-lg-5-cols">
+                                        <input id="Spirit_category" class="l-categoey" name="category"
+                                            data-values="Spirit" type="checkbox">
+                                        <label for="Spirit_category">&nbsp; Spirit</label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-5-cols col-lg-5-cols">
+                                        <input id="Cider_category" class="l-categoey" name="category"
+                                            data-values="Cider" type="checkbox">
+                                        <label for="Cider_category">&nbsp; Cider</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <span style="color: red;display: none;" id="category_err">Category is
+                                        required</span>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 cl-xl-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="title" class="sub-title required">Title - What do you want to
+                                        name this Offer?</label>
+                                    <input type="text" class="form-control custom-input" placeholder="Eg. 2-4-1 Coctail"
+                                        id="title">
+                                    <span style="color: red;display: none;" id="title_err">Title is
+                                        required</span>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 cl-xl-12 col-lg-12">
+                                <div class="form-group">
+                                    <label class="sub-title required" for="desc">Description - Tell us a bit
+                                        about your Offer (max. 100 characters)</label>
+                                    <textarea class="form-control"
+                                        placeholder="Eg. Order any two cocktails from our Signature range but pay for only one!"
+                                        style="border: 2px solid #ddd !important;
+                                    font-size: 16px !important;" rows="5" id="desc"></textarea>
+                                    <span style="color: red;display: none;" id="desc_err">Description is
+                                        required</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row card c-1">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <h2 class="v-h">Your Offer Image</h2>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <label class="required manage-txt">Upload an image of your Offer</label>
+                                &nbsp;
+                                <span style="color: gray;cursor:pointer;" data-toggle="popover" data-index="0"
+                                    data-placement="top"
+                                    data-content='Inbuilt cropping tool is available to resize image'><i
+                                        class="fas fa-info"></i></span>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <p class="c-p-1">(For the best results we recommend uploading an image 300*300
+                                    pixels in size)</p>
+                            </div>
+                        </div>
+                        <script>
+                            $(document).ready(() => {
+                                $('[data-toggle="popover"]').popover({ html: !0, animation: !0, trigger: "hover" });
+                            });
+                            $(document).ready(function () {
+                                var holder = document.getElementById('drag-drop-img');
+                                holder.ondragover = function () { return false; };
+                                holder.ondrop = function (e) {
+                                    e.preventDefault();
+                                    angular.element(document.getElementById('happyHoursCtl')).scope().clickImageSection(e.dataTransfer.files[0]);
+                                };
+                            });
+                        </script>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4" style="margin-bottom: 1rem;">
+                                <div class="form-group" style="margin-bottom: 0px;"
+                                    ng-show="!primaryImgS || primaryImgS.length==0">
+                                    <input type="file" id="primary-img" accept="image/png, image/jpeg"
+                                        style="display: none;">
+                                    <div class="drag-img-up" id="drag-drop-img"
+                                        onclick="$('#primary-img').trigger('click'); return false;">
+                                        <img src="https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/add-image-icon.svg"
+                                            class="def-img">
+                                        <p>Drag & drop or click to add image.</p>
+                                        <span>JPEG or PNG</span>
+                                    </div>
+                                </div>
+                                <script>
+                                    $("#primary-img").on('change', function (e) {
+                                        angular.element(document.getElementById('happyHoursCtl')).scope().clickImageSection(e.target.files[0]);
+                                    })
+                                </script>
+                                <div class="form-group" ng-show="primaryImgS.length!=0" style="margin-bottom: 0px;">
+                                    <div class="img-content">
+                                        <div class="content-overlay"></div>
+                                        <img class="content-image" ng-src="primaryImgS[0].path"
+                                            src="{{primaryImgS[0].path}}"
+                                            style="box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);webkit-box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);border-radius: 4px;">
+                                        <div class="content-details fadeIn-bottom">
+                                            <button class="btn replaceScnryImg" ng-click="replaceImg()"
+                                                title="Replace"><i class="fas fa-image"></i>&nbsp;Replace</button>
+                                            <button class="btn btn-danger" ng-click="imageDelete(primaryImgS)"
+                                                title="Remove"><i class="far fa-trash-alt"></i>&nbsp;Remove</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <link rel="stylesheet" href="/views/happyHours/happuhour-img.css">
+                        <link rel="stylesheet" href="https://fengyuanchen.github.io/cropperjs/css/cropper.css">
+                        <script src="https://fengyuanchen.github.io/cropperjs/js/cropper.js"></script>
+                        <div class="modal" id="image-crop-md" tabindex="-1" role="dialog">
+                            <div class="modal-dialog opacity-animate3 modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="row page">
+                                            <div class="box-2">
+                                                <div class="result"></div>
+                                            </div>
+                                            <div class="box-2 img-result hide">
+                                                <img class="cropped" src="" alt="">
+                                            </div>
+                                            <div class="box">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                            </div>
+                                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8"
+                                                style="text-align: right;">
+                                                <button class="btn btn-primary" id="crop-btn"
+                                                    style="background-color: #388e3c !important; color: #fff;margin-right:0.5rem;
+                                        border: 1px solid #388e3c !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Crop</button>
+                                                <button class="btn btn-primary" id="modalClose"
+                                                    style="background-color: #d32f2f !important; color: #fff;margin-right:1rem;
+                                        border: 1px solid #d32f2f !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row card c-1">
+                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-10" style="margin-bottom:1rem;">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <h2 class="v-h">Your Offer Availability</h2>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <label for="select_dates" class="manage-txt">Select Dates &
+                                    Time</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <div class="calendar">
+                                            <label for="happy_hour_date" class="required">Date</label>
+                                            <input type="text" readonly id="happy_hour_date"
+                                                placeholder="Select single or multiple dates you wish to show this Offer"
+                                                class="form-control form-c custom-input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 0.5rem;">
+                                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <div class="time_i">
+                                                <label for="startTime" class="required">Start
+                                                    time</label>
+                                                <input type="text" placeholder="Select Start time for this Offer"
+                                                    class="form-control custom-input time" id="startTime">
+                                            </div>
+                                            <span id="startTimeErr" style="display: none;color: red;">Start time
+                                                is
+                                                required!</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <div class="time_i">
+                                                <label for="endTime" class="required">End
+                                                    time</label>
+                                                <input type="text" placeholder="Select End time for this Offer"
+                                                    class="form-control custom-input time" id="endTime">
+                                            </div>
+                                            <span id="endTimeErr" style="display: none;color: red;">End
+                                                time is
+                                                required!</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 0.5rem;">
+                                <button class="btn btn-s pull-right" ng-click="addDateAndTime()"
+                                    style="padding: 6px 14px !important;">Add</button>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="hapHourDate && hapHourDate.length"
+                            style="margin-bottom: 1rem;margin-top:0.5rem;">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <th>
+                                                <span>Date</span>
+                                            </th>
+                                            <th>
+                                                <span>Start Time</span>
+                                            </th>
+                                            <th>
+                                                <span>End Time</span>
+                                            </th>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="data in hapHourDate">
+                                                <td>{{data.dateFormat}}</td>
+                                                <td>{{data.startTime}}</td>
+                                                <td>{{data.endTime}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12" style="margin-bottom: 1rem;">
+                        <button class="btn btn-s pull-right" id="createBtn" disabled ng-click="createHappyHour()">Save
+                            and
+                            Preview</button>
+                        <div class="checkbox pull-right" style="margin-right: 1rem;">
+                            <label><input type="checkbox" id="happyhour_btn_status" value="">Go Live</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="myCalendarModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2" style="margin-top:7.4rem;">
+                        <div ng-repeat="v in [1, 2, 3, 4, 5, 6]"
+                            style="display: flex; flex-flow: column; justify-content: space-between;margin-left:15px;">
+                            <input type="checkbox" id="_row_c_{{v}}" data-i="{{v}}" name="r-s-check"
+                                style="margin-top: 16px;" onclick="setRChecked(this)">
+                        </div>
+                    </div>
+                    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10"
+                        style="padding-left: 0px;padding-right:0px;">
+                        <div id="datepicker_hh_s"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align: right !important;">
+                <button type="button" class="btn btn-success" onclick="AddCdates()"
+                    style="background-color: green;border:1px solid green;color:#fff;font-size: 1.2rem;">Save</button>
+                <button type="button" class="btn btn-danger"
+                    style="background-color: red;border:1px solid red;color:#fff;font-size: 1.2rem;"
+                    data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(() => {
+        $('#category').on('change', function () {
+            $(".l-categoey").prop('checked', false);
+            if ($(this).val().toString().includes('Happy Hour')) {
+                $(".l-categoey").prop('checked', true);
+            } else $(`#${$(this).val()}_category`).prop('checked', true);
+        });
+    })
+
+    $("#happy_hour_date").on('click', function () {
+        $("#datepicker_hh_s .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').not('.disabled').removeClass('active');
+        $('input[name^="r-s-check"]:checked').each(function (i) {
+            $(this).prop('checked', false);
+        });
+        $('input[name^="c-cal-check"]:checked').each(function (i) {
+            $(this).prop('checked', false);
+        });
+        $("#happy_hour_date").val('');
+        $('#myCalendarModal').modal({
+            show: 'true'
+        });
+    })
+
+    $('#datepicker_hh_s').datepicker({ multidate: true, startDate: new Date(), todayHighlight: false });
+
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+
+    var AddCdates = () => {
+        var items = $.map($("#datepicker_hh_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+        var month = ($("#datepicker_hh_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+        var year = ($("#datepicker_hh_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+        var monthIndex = monthNames.indexOf(month) + 1;
+        var datesAdd = [];
+        $.each(items, function (key, val) {
+            datesAdd.push(`${val}-${monthIndex}-${year}`);
+        });
+        $('#myCalendarModal').modal('hide');
+        let stVa = '';
+        for (let val of datesAdd) stVa += `${val},`;
+        $("#happy_hour_date").val(stVa.replace(/,(?=\s*$)/, ''));
+    }
+
+    var setChecked = (e) => {
+        setTimeout(function () {
+            if ($(e).prop("checked")) {
+                $(`#datepicker_hh_s table tbody tr td:nth-child(${$(e).attr('data-i')})`).removeClass('active');
+                $(e).prop('checked', false);
+                var items = $.map($("#datepicker_hh_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+                var month = ($("#datepicker_hh_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+                var year = ($("#datepicker_hh_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+                var monthIndex = monthNames.indexOf(month) + 1;
+                var datesAdd = [];
+                $.each(items, function (key, val) {
+                    datesAdd.push(new Date(parseInt(year), parseInt((monthIndex - 1)), parseInt(val)));
+                });
+                $('#datepicker_hh_s').datepicker('setDates', datesAdd);
+            }
+            else {
+                $(`#datepicker_hh_s table tbody tr td:nth-child(${$(e).attr('data-i')})`)
+                    .not('.old')
+                    .not('.new')
+                    .not('.disabled')
+                    .addClass('active');
+                $(e).prop('checked', true);
+                var items = $.map($("#datepicker_hh_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+                var month = ($("#datepicker_hh_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+                var year = ($("#datepicker_hh_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+                var monthIndex = monthNames.indexOf(month) + 1;
+                var datesAdd = [];
+                $.each(items, function (key, val) {
+                    datesAdd.push(new Date(parseInt(year), parseInt((monthIndex - 1)), parseInt(val)));
+                });
+                $('#datepicker_hh_s').datepicker('setDates', datesAdd);
+            }
+        }, 1)
+    }
+
+    var setRChecked = (e) => {
+        let i = $(e).attr('data-i');
+        if ($(e).prop("checked")) {
+            $("#datepicker_hh_s .datepicker-days .table-condensed tbody tr:nth-child(" + i + ") td").not('.old').not('.new').not('.disabled').addClass('active');
+            var items = $.map($("#datepicker_hh_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+            var month = ($("#datepicker_hh_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+            var year = ($("#datepicker_hh_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+            var monthIndex = monthNames.indexOf(month) + 1;
+            var datesAdd = [];
+            $.each(items, function (key, val) {
+                datesAdd.push(new Date(parseInt(year), parseInt((monthIndex - 1)), parseInt(val)));
+            });
+            $('#datepicker_hh_s').datepicker('setDates', datesAdd);
+        } else {
+            $("#datepicker_hh_s .datepicker-days .table-condensed tbody tr:nth-child(" + i + ") td").not('.old').not('.new').not('.disabled').removeClass('active');
+            var items = $.map($("#datepicker_hh_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+            var month = ($("#datepicker_hh_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+            var year = ($("#datepicker_hh_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+            var monthIndex = monthNames.indexOf(month) + 1;
+            var datesAdd = [];
+            $.each(items, function (key, val) {
+                datesAdd.push(new Date(parseInt(year), parseInt((monthIndex - 1)), parseInt(val)));
+            });
+            $('#datepicker_hh_s').datepicker('setDates', datesAdd);
+        }
+    }
+
+
+    var cVCal = ['_1_col_ck', '_2_col_ck', '_3_col_ck', '_4_col_ck', '_5_col_ck', '_6_col_ck', '_7_col_ck']
+    $(() => {
+        let cVal = '';
+        for (let v of cVCal) {
+            let i = v.split('_')[1];
+            cVal += `<td> <input type="checkbox" name="c-cal-check" id="${v}" data-i="${i}" onclick="setChecked(this)"></td>`;
+        }
+        $('#datepicker_hh_s table thead tr:nth-child(1)').before(`<tr>${cVal}</tr>`);
+    })
+
+    $(() => {
+        $("#category").css({ 'color': '#80808094', 'background-color': '#8080800f', 'font-size': '14px' })
+        $("#category").on('click', function () {
+            $("#category").css({ 'color': '#000', 'background-color': '#8080800f', 'font-size': '14px' })
+        })
+    })
+
+
+</script>
+<style>
+    .c-p-1 {
+        font-size: 15px;
+        color: gray;
+    }
+
+    .calendar {
+        display: block;
+        position: relative;
+    }
+
+    .calendar input {
+        padding-left: 40px;
+    }
+
+    .calendar:before {
+        font-family: 'FontAwesome';
+        content: '\f133';
+        position: absolute;
+        left: 10px;
+        top: 33px;
+        font-size: 20px;
+        color: #000;
+    }
+
+
+    .time_i {
+        display: block;
+        position: relative;
+    }
+
+    .time_i input {
+        padding-left: 40px;
+    }
+
+    .time_i:before {
+        font-family: 'FontAwesome';
+        content: '\f017';
+        position: absolute;
+        left: 10px;
+        top: 33px;
+        font-size: 20px;
+        color: #000;
+    }
+
+    .def-img {
+        width: 79px;
+        height: 79px;
+    }
+
+    .drag-img-up {
+        padding: 20px;
+        border: 1px dotted gray;
+        text-align: center;
+    }
+
+    .drag-img-up span {
+        color: gray;
+    }
+
+    .padding-space {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    input[type=checkbox] {
+        zoom: 1.2;
+    }
+
+    .ui-timepicker-wrapper {
+        width: 11.5em !important;
+    }
+
+    .manage-txt {
+        font-size: 1.3526rem !important;
+        color: #000 !important;
+    }
+
+    @media(max-width:767px) {
+        .cCard {
+            padding: 15px;
+        }
+    }
+
+    @media(min-width:768px) {
+        .cCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .cCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .cCard {
+            padding: 20px;
+        }
+    }
+
+    .tCard {
+        border-radius: 2px;
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    .card {
+        margin: 0rem 0 0.5rem 0 !important;
+    }
+
+    .sub-title {
+        font-size: 1.2rem;
+        font-weight: 400 !important;
+    }
+
+    .label-txt {
+        font-size: 16px;
+        margin-top: 13.5px;
+        margin-bottom: 13.5px;
+    }
+
+    .form-group {
+        margin-bottom: 8px;
+    }
+
+    label {
+        font-size: 1.2rem !important;
+    }
+
+
+    .datepicker.dropdown-menu th,
+    .datepicker.datepicker-inline th,
+    .datepicker.dropdown-menu td,
+    .datepicker.datepicker-inline td {
+        padding: 8px 10px !important;
+    }
+
+    .ui-timepicker-wrapper {
+        overflow-y: auto;
+        max-height: 300px;
+        width: 11em;
+    }
+
+    .form-control {
+        font-size: 15px !important;
+    }
+
+    .btn-primary.disabled,
+    .btn-primary.disabled:hover,
+    .btn-primary.disabled:focus,
+    .btn-primary.disabled:active,
+    .btn-primary.disabled.active,
+    .btn-primary[disabled],
+    .btn-primary[disabled]:hover,
+    .btn-primary[disabled]:focus,
+    .btn-primary[disabled]:active,
+    .btn-primary.active[disabled],
+    fieldset[disabled] .btn-primary,
+    fieldset[disabled] .btn-primary:hover,
+    fieldset[disabled] .btn-primary:focus,
+    fieldset[disabled] .btn-primary:active,
+    fieldset[disabled] .btn-primary.active {
+        background-color: #fba919;
+        border-color: #fba919;
+    }
+
+    .datepicker table tr td.active:hover,
+    .datepicker table tr td.active:hover:hover,
+    .datepicker table tr td.active.disabled:hover,
+    .datepicker table tr td.active.disabled:hover:hover,
+    .datepicker table tr td.active:active,
+    .datepicker table tr td.active:hover:active,
+    .datepicker table tr td.active.disabled:active,
+    .datepicker table tr td.active.disabled:hover:active,
+    .datepicker table tr td.active.active,
+    .datepicker table tr td.active:hover.active,
+    .datepicker table tr td.active.disabled.active,
+    .datepicker table tr td.active.disabled:hover.active,
+    .datepicker table tr td.active.disabled,
+    .datepicker table tr td.active:hover.disabled,
+    .datepicker table tr td.active.disabled.disabled,
+    .datepicker table tr td.active.disabled:hover.disabled,
+    .datepicker table tr td.active[disabled],
+    .datepicker table tr td.active:hover[disabled],
+    .datepicker table tr td.active.disabled[disabled],
+    .datepicker table tr td.active.disabled:hover[disabled] {
+        background-color: #faa141 !important;
+    }
+
+    .datepicker table tr td.active,
+    .datepicker table tr td.active:hover,
+    .datepicker table tr td.active.disabled,
+    .datepicker table tr td.active.disabled:hover {
+        background-color: #faa141;
+        background-image: -moz-linear-gradient(top, #faa141, #faa141);
+        background-image: -ms-linear-gradient(top, #faa141, #faa141);
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#faa141), to(#faa141));
+        background-image: -webkit-linear-gradient(top, #faa141, #faa141);
+        background-image: -o-linear-gradient(top, #faa141, #faa141);
+        background-image: linear-gradient(top, #faa141, #faa141);
+        background-repeat: repeat-x;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa141', endColorstr='#faa141', GradientType=0);
+        border-color: #faa141 #faa141 #faa141;
+        border-color: rgba(0, 0, 0, .1) rgba(0, 0, 0, .1) rgba(0, 0, 0, .25);
+        filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+        color: #fff;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
+    }
+
+    .dollar {
+        display: block;
+        position: relative;
+    }
+
+    .dollar input {
+        padding-left: 20px;
+    }
+
+    .dollar:before {
+        position: absolute;
+        content: "$";
+        left: 5px;
+        top: 14px;
+        font-size: 15px;
+        color: #999;
+    }
+
+    input,
+    input::-webkit-input-placeholder,
+    textarea::placeholder {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .datepicker td,
+    .datepicker th {
+        -webkit-border-radius: 40px;
+        -moz-border-radius: 40px;
+        border-radius: 40px;
+    }
+
+    .back-txt {
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #000 !important;
+    }
+
+    .col-xs-5-cols,
+    .col-sm-5-cols,
+    .col-md-5-cols,
+    .col-lg-5-cols {
+        position: relative;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    .col-xs-5-cols {
+        width: 20%;
+        float: left;
+    }
+
+    @media (min-width: 768px) {
+        .col-sm-5-cols {
+            width: 20%;
+            float: left;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .col-md-5-cols {
+            width: 20%;
+            float: left;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .col-lg-5-cols {
+            width: 20%;
+            float: left;
+        }
+    }
+
+
+
+    .img-container {
+        padding: 0 0 0.5rem 0;
+        float: left;
+        width: 50%;
+    }
+
+    @media screen and (max-width: 640px) {
+        .img-container {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    @media screen and (min-width: 900px) {
+        .img-container {
+            width: 33.33333%;
+        }
+    }
+
+    .img-container .title {
+        color: #1a1a1a;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .img-content {
+        position: relative;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .img-content .content-overlay {
+        background: rgba(0, 0, 0, 0.7);
+        position: absolute;
+        height: 99%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        opacity: 0;
+        -webkit-transition: all 0.4s ease-in-out 0s;
+        -moz-transition: all 0.4s ease-in-out 0s;
+        transition: all 0.4s ease-in-out 0s;
+    }
+
+    .img-content:hover .content-overlay {
+        opacity: 1;
+    }
+
+    .content-image {
+        width: 100%;
+    }
+
+    .content-details {
+        position: absolute;
+        text-align: center;
+        padding-left: 1em;
+        padding-right: 1em;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        opacity: 0;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        -webkit-transition: all 0.3s ease-in-out 0s;
+        -moz-transition: all 0.3s ease-in-out 0s;
+        transition: all 0.3s ease-in-out 0s;
+    }
+
+    .img-content:hover .content-details {
+        top: 50%;
+        left: 50%;
+        opacity: 1;
+    }
+
+    .content-details button {
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        margin-bottom: 0.5em;
+    }
+
+    .content-details p {
+        color: #fff;
+        font-size: 0.8em;
+    }
+
+    .manage-txt-1 {
+        font-size: 1.5rem !important;
+    }
+
+    .btn-s {
+        color: #000;
+        border: 3px solid green !important;
+        background-color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .btn-s:hover {
+        color: #fff !important;
+        background: green !important;
+    }
+
+    .btn-s:active {
+        letter-spacing: 1px;
+    }
+</style>

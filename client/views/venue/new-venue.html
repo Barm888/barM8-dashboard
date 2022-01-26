@@ -1,0 +1,1541 @@
+<div class="wrapper wrapper-content" id="newVenueCreate" ng-controller="venueCreateCtl">
+    <div class="m-t-sm" style="margin-top:2.5rem;margin-bottom:0.5rem;">
+        <div class="row">
+            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <a class="btn btn-s" href="#" onclick="history.back();">
+                            <span>Back</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="row card c-1" style="margin: 0.5rem 0 0.5rem 0 !important;">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <h2 class="v-h">Venue profile</h2>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <div class="form-group">
+                            <p class="c-p-1">Your venue’s details are shown in
+                                the iOS and
+                                Android apps,
+                                allowing customers to know more about your business. For the best
+                                customer
+                                experience, make sure your details are always up to date.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row card c-1" style="margin: 0rem 0 0.5rem 0 !important;">
+                    <div class="col-sm-12 col-xs-12 col-md-10 col-xl-10 col-lg-10">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <h2 class="v-h">Details</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="venuename" class="required">Venue Name</label>
+                                    <input type="text" class="form-control custom-input" id="venuename"
+                                        autocomplete="off">
+                                    <span style="color: red;" id="venuenameErr"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6 col-xl-6s">
+                                <div class="form-group">
+                                    <label for="inputABN">ABN</label>
+                                    <input type="text" class="form-control custom-input" id="inputABN"
+                                        autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="form-group">
+                                    <label for="venueInformation">Venue
+                                        Information</label>
+                                    <textarea class="form-control" style="border: 2px solid #ddd !important;
+                                    font-size: 16px !important;" id="venueInformation" autocomplete="off"
+                                        rows="4"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="website">Venue URL</label>
+                                    <input type="text" id="website" autocomplete="off"
+                                        class="form-control custom-input">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="phone">Booking Phone number</label>
+                                    <input type="text" id="phone" class="form-control custom-input" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="booking_url">Booking URL</label>
+                                    <input type="text" id="booking_url" autocomplete="off"
+                                        class="form-control custom-input">
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                <label>Address</label>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" style="text-align: right;">
+                                <span class="s-txt">Drag the pin to adjust your store’s location.</span>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="box">
+                                    <div class="container-2">
+                                        <input type="search" id="location" placeholder="Enter / Change address..." />
+                                    </div>
+                                </div>
+                                <div id="map_search"> </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="street_address" name="address_1" class="required">Venue
+                                        address</label>
+                                    <input type="text" class="form-control custom-input" id="street_address"
+                                        ng-model="venueNewData.addressLine1">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="inputAddres_2">Building / Suite</label>
+                                    <input type="text" class="form-control custom-input" name="inputAddres_2"
+                                        id="inputAddres_2" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="city" class="required">City</label>
+                                    <input type="text" class="form-control custom-input" id="city">
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="state" class="required">State</label>
+                                    <input type="text" class="form-control custom-input" id="state">
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="zipCode" class="required">Postcode</label>
+                                    <input type="text" class="form-control custom-input" id="zipCode">
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="country" class="required">Country</label>
+                                    <input type="text" class="form-control custom-input" id="country">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row card c-1" style="margin: 0rem 0 0.5rem 0 !important;">
+                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-10" style="margin-bottom: 1rem;">
+                        <link rel="stylesheet" href="/views/venue/upload-img.css">
+                        <link rel="stylesheet" href="https://fengyuanchen.github.io/cropperjs/css/cropper.css">
+                        <script src="https://fengyuanchen.github.io/cropperjs/js/cropper.js"></script>
+                        <div class="modal" id="image-crop-md-pri" tabindex="-1" role="dialog">
+                            <div class="modal-dialog opacity-animate3 modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="row page">
+                                            <div class="box-2">
+                                                <div class="result"></div>
+                                            </div>
+                                            <div class="box-2 img-result hide">
+                                                <img class="cropped" src="" alt="">
+                                            </div>
+                                            <div class="box">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8"
+                                                style="text-align: left;">
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                                <button class="btn btn-primary" id="crop-btn"
+                                                    style="background-color: #388e3c !important; color: #fff;
+                                            border: 1px solid #388e3c !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Crop</button>
+                                                <button class="btn btn-primary" id="modalClose"
+                                                    style="background-color: #d32f2f !important; color: #fff;
+                                            border: 1px solid #d32f2f !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <h2 class="v-h">Branding and personalisation</h2>
+                                <p class="v-h-1">Bring your Venue to life by adding your venue images</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <label>Primary image</label>
+                                &nbsp; <span style="color: gray;cursor:pointer;" data-toggle="popover" data-index="0"
+                                    data-placement="top" data-content='Primary image appears in the 
+                                    Explore page of the App and 
+                                    is the first image customers see
+                                    of your venue.'>
+                                    <i class="fas fa-info"></i></span>
+                                <p class="c-p-1">Use image in PNG or JPG/JPEG format <i>(recommended size
+                                        700*300 pixels).</i> Cropping tool in image loader will assist to resize
+                                    larger images to size.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-bottom: 1rem;">
+                                <div class="form-group img-c-s-p" style="margin-bottom: 0px;">
+                                    <input type="file" id="primary-img" accept="image/png, image/jpeg"
+                                        style="display: none;">
+                                    <div class="drag-img-up" id="drag-drop-img"
+                                        onclick="$('#primary-img').trigger('click'); return false;">
+                                        <img src="https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/add-image-icon.svg"
+                                            class="def-img">
+                                        <p>Drag & drop or click to add image.</p>
+                                        <span>JPEG or PNG</span>
+                                    </div>
+                                </div>
+                                <script>
+                                    $("#primary-img").on('change', function (e) {
+                                        angular.element(document.getElementById('newVenueCreate')).scope().clickImageSection(e.target.files[0]);
+                                    })
+                                    $(document).ready(function () {
+                                        var holder = document.getElementById('drag-drop-img');
+                                        holder.ondragover = function () { return false; };
+                                        holder.ondrop = function (e) {
+                                            e.preventDefault();
+                                            angular.element(document.getElementById('newVenueCreate')).scope().clickImageSection(e.dataTransfer.files[0]);
+                                        };
+                                    });
+                                </script>
+                                <div class="form-group img-h-s-p" style="margin-bottom: 0px;display:none;">
+                                    <div class="img-container">
+                                        <div class="img-content">
+                                            <div class="content-overlay"></div>
+                                            <img class="content-image img-bkg-pri" src="" id="img-pre-pri"
+                                                style="box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);webkit-box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);border-radius: 4px;">
+                                            <div class="content-details fadeIn-bottom">
+                                                <button class="btn btn-danger" id="delete_i_index" title="Remove"><i
+                                                        class="far fa-trash-alt"></i>&nbsp;Remove</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <label>Secondary image/s</label>
+                                &nbsp; <span style="color: gray;cursor:pointer;" data-toggle="popover" data-index="0"
+                                    data-placement="top"
+                                    data-content='Secondary images appear on your venues profile or landing page. Upto 5 images are allowed to showcase your venue to patrons.'><i
+                                        class="fas fa-info"></i></span>
+                                <p class="c-p-1">Use image in PNG or JPG/JPEG format <i>(recommended size
+                                        700*875 pixels).</i> Cropping tool in image loader will assist to resize
+                                    larger images to size.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-bottom: 1rem;">
+                                <div class="row">
+                                    <script>
+                                        function open_file(e) {
+                                            document.getElementById(`${$(e).attr('data-fileid')}`).click();
+                                            $(`#${$(e).attr('data-fileid')}`).on('change', function (file) {
+                                                angular.element(document.getElementById('newVenueCreate')).scope().clickImgSecond(file.target.files[0]);
+                                                $(`#${$(e).attr('data-fileid')}`).val('');
+                                            })
+                                            localStorage.removeItem('se-img-i-venue');
+                                            localStorage.setItem('se-img-i-venue', $(e).attr('data-index'));
+                                        }
+
+                                        function dragover(evt) {
+                                            evt.preventDefault();
+                                        }
+
+                                        function drop(evt, target) {
+                                            evt.preventDefault();
+                                            localStorage.removeItem('se-img-i-venue');
+                                            localStorage.setItem('se-img-i-venue', $(target).attr('data-index'));
+                                            angular.element(document.getElementById('newVenueCreate')).scope().clickImgSecond(evt.dataTransfer.files[0]);
+                                        }
+                                        function sIDelete(params) {
+                                            angular.element(document.getElementById('newVenueCreate')).scope().secondImgDelete(params);
+                                        }
+                                    </script>
+                                    <div class="col-xs-12 col-sm-6 col-md-5ths col-lg-5ths col-xl-5ths img-p"
+                                        ng-repeat="x in imgSeArr track by $index">
+                                        <div ng-if="!x || !x.path" class="drag-img-up"
+                                            data-fileid="secondaryImage_{{$index}}" id="drag-drop-img-second_{{$index}}"
+                                            onclick="open_file(this)" style="cursor: pointer;" data-index="{{$index}}"
+                                            ondragover="dragover(event)" ondrop="drop(event, this)">
+                                            <div id="img-d-s-{{$index}}">
+                                                <input type="file" id="secondaryImage_{{$index}}"
+                                                    accept="image/png, image/jpeg" style="display: none;" />
+                                                <img src="https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/add-image-icon.svg"
+                                                    class="def-img">
+                                                <p>Drag & drop or click to add image.</p>
+                                                <span>JPEG or PNG</span>
+                                            </div>
+
+                                        </div>
+                                        <div ng-show="x.path">
+                                            <div class="img-content">
+                                                <div class="content-overlay"></div>
+                                                <img class="content-image" ng-src="x.path" src="{{x.path}}"
+                                                    style="box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);webkit-box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);border-radius: 4px;">
+                                                <div class="content-details fadeIn-bottom">
+                                                    <button class="btn btn-danger" ng-click="secondImgDelete($index)"
+                                                        title="Remove"><i
+                                                            class="far fa-trash-alt"></i>&nbsp;Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <link rel="stylesheet" href="/views/venue/upload-img-second.css">
+                        <link rel="stylesheet" href="https://fengyuanchen.github.io/cropperjs/css/cropper.css">
+                        <script src="https://fengyuanchen.github.io/cropperjs/js/cropper.js"></script>
+                        <div class="modal" id="image-crop-second-md" tabindex="-1" role="dialog">
+                            <div class="modal-dialog opacity-animate3 modal-lg" role="document"
+                                style=" max-width: 335px;width: 335px;">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="row page_1">
+                                            <div class="box-2">
+                                                <div class="result-second"></div>
+                                            </div>
+                                            <div class="box-2 img-result hide">
+                                                <img class="cropped" src="" alt="">
+                                            </div>
+                                            <div class="box">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                style="text-align: right;">
+                                                <div style="margin-right: 16px;margin-top:0.6rem;">
+                                                    <button class="btn btn-primary" id="crop-s-btn"
+                                                        style="background-color: #388e3c !important; color: #fff;
+                                            border: 1px solid #388e3c !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Crop</button>
+                                                    <button class="btn btn-primary" id="modalClose_second"
+                                                        style="background-color: #d32f2f !important; color: #fff;
+                                            border: 1px solid #d32f2f !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <label>Video</label>&nbsp;<span style="color: gray;cursor:pointer;"
+                                    data-toggle="popover" data-index="0" data-placement="top" data-content='You can load a profile video clip of your 
+                                    venue upto 20Mb instead of secondary images.
+                                    The video will play when patrons land on your
+                                    venue profile or landing page.'><i class="fas fa-info"></i></span>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <p class="c-p-1">Venue Profile Video upto 20Mb in MP4 format is recommended.</p>
+                            </div>
+                        </div>
+                        <div class="row video-s-h">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="form-group video-u" style="margin-bottom: 0px;">
+                                    <input type="file" id="video" class="form-control custom-input" name="file[]"
+                                        accept="video/mp4,video/x-m4v,video/*" style="display: none;">
+                                    <div class="drag-img-up" id="video-img"
+                                        onclick="$('#video').trigger('click'); return false;">
+                                        <img src="https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/add-image-icon.svg"
+                                            class="def-img">
+                                        <p>click to add video.</p>
+                                        <span>MP4</span>
+                                    </div>
+                                </div>
+                                <span style="color: red;display: none;" id="video_se_width_height">Try to upload
+                                    file less than 20MB!</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                                <div class="form-group">
+                                    <div class="img-content">
+                                        <div class="content-overlay"></div>
+                                        <div class="video-show"></div>
+                                        <div class="content-details fadeIn-bottom">
+                                            <button class="btn btn-danger" onclick="videoDelete()" title="Remove"><i
+                                                    class="far fa-trash-alt"></i>&nbsp;Remove</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row card c-1" style="margin: 0rem 0 0.5rem 0 !important;">
+                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <h2 class="v-h">Venue Attributes</h2>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <div class="form-group">
+                                    <p class="c-p-1"> Users use Barm8 app to discover new venues. Features and
+                                        Bar Type are
+                                        Filter options in Explore page of the App. Venue Tags appear in the
+                                        venue landing page. Select options in each Category that best describe
+                                        or is most relevent to your venue, so it will feature in the search
+                                        results.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <h1 style="margin-top:10px;font-size: 1.5rem;font-weight: 400;">Features
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3"
+                                style="margin-top: 0.4rem;margin-bottom:0.4rem;"
+                                ng-repeat="features in venueFeaturesData">
+                                <div class="form-group">
+                                    <input type="checkbox" name="_features" onchange="checkboxChg(this)"
+                                        value="{{features.name}}" data-namefeatures="{{features._name}}"
+                                        id="_features_{{features._name}}">
+                                    <label for="_features_{{features._name}}">&nbsp;{{features.name}}</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <h1 style="margin-top:10px;font-size: 1.5rem;font-weight: 400;">Bar Type
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3"
+                                style="margin-top: 0.4rem;margin-bottom:0.4rem;" ng-repeat="barType in barTypeData">
+                                <div class="form-group">
+                                    <input type="checkbox" name="_bar_type" onchange="checkboxChg(this)"
+                                        value="{{barType.name}}" data-namebartype="{{barType._name}}"
+                                        id="_bar_type_{{barType._name}}" data-namefeatures="{{barType._name}}">
+                                    <label for="_bar_type_{{barType._name}}">&nbsp;{{barType.name}}</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <h1 style="margin-top:10px;font-size: 1.5rem;font-weight: 400;">Venue Tags
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3"
+                                style="margin-top: 0.4rem;margin-bottom:0.4rem;" ng-repeat="venuetag in venueTagData">
+                                <div class="form-group">
+                                    <input type="checkbox" name="_venue_tag" class="styled-checkbox"
+                                        value="{{venuetag.name}}" data-nameVenueTags="{{venuetag._name}}"
+                                        id="_venue_tag_{{venuetag._name}}">
+                                    <label for="_venue_tag_{{venuetag._name}}">&nbsp;{{venuetag.name}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row card c-1" style="margin: 0rem 0 0.5rem 0 !important;">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <h2 class="v-h">Hours</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <h1 style="margin-top:10px;font-size: 1.5rem;font-weight: 400;">Operating Hours
+                                </h1>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <p class="c-p-1">Your operating hours should reflect when your venue
+                                    is
+                                    physically open and
+                                    providing service to customers.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+                                <div class="form-group">
+                                    <label>Start time</label>
+                                    <input type="text" id="open_hours_stime" class="form-control custom-input time"
+                                        autocomplete="off" required>
+                                    <span id="weeklystarttimingErr" style="color:#f44336;"></span>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2">
+                                <div class="form-group">
+                                    <label>End time</label>
+                                    <input type="text" id="open_hours_etime" class="form-control custom-input time"
+                                        autocomplete="off" required>
+                                    <span id="weeklyendtimingErr" style="color:#f44336;"></span>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+                                <label>Days</label>
+                                <div class="row">
+                                    <div class="btn-p-s pop">
+                                        <script>
+                                            $(".pop").popover({ trigger: "manual", html: true, animation: true })
+                                                .on("mouseenter", function () {
+                                                    var _this = this;
+                                                    $(this).popover("show");
+                                                    $(".popover").on("mouseleave", function () {
+                                                        $(_this).popover('hide');
+                                                    });
+                                                }).on("mouseleave", function () {
+                                                    var _this = this;
+                                                    setTimeout(function () {
+                                                        if (!$(".popover:hover").length) {
+                                                            $(_this).popover("hide");
+                                                        }
+                                                    });
+                                                });
+                                        </script>
+                                        <button data-toggle="popover" data-placement="top" data-content="{{day.txt}}"
+                                            ng-repeat="day in mealsWeekDays" data-dayname="{{day.val}}"
+                                            data-selected="false" id="weekdays_{{day.val}}"
+                                            class="btn pop day-btn-s btnBeforemenu"
+                                            ng-class="day.isSeleced ? 'day-btn-diasbled' :'daysBtn oHoursDaysOpenBtn day-btn-s'"
+                                            style="border-radius: 3px;background-color:#757575;color:#fff;"
+                                            ng-click="!day.isSeleced && daysSelected('weekdays_', day.val , day.name)">{{day.name}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-1 col-lg-1 col-xl-1"
+                                style="float: right !important;">
+                                <button class="btn btn-s pull-right" ng-click="addOpeningHours()"
+                                    style="margin-top:2rem;">Add</button>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse"
+                                            data-parent="#accordion" data-target="#openingHoursCollapse"
+                                            href="javascript:;" aria-expanded="true"
+                                            aria-controls="openingHoursCollapse">
+                                            <h4 class="panel-title">
+                                                <a role="button">
+                                                    Manage Operating Hours
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="openingHoursCollapse" class="panel-collapse collapse" role="tabpanel"
+                                            aria-labelledby="headingOne">
+                                            <div class="panel-body">
+                                                <table class="table  table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                <span>Days</span>
+                                                            </th>
+                                                            <th>
+                                                                <span>Start Time</span>
+                                                            </th>
+                                                            <th>
+                                                                <span>End Time</span>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="list in openingHoursData"
+                                                            ng-mouseover="showTheMiddle($event, $index)"
+                                                            ng-mouseleave="hiddenTheMiddle($index)"
+                                                            style="position: relative;">
+                                                            <td data-name="day">
+                                                                {{ list.day }}
+                                                            </td>
+                                                            <td data-name="startTime">
+                                                                {{ list.startTime }}
+                                                            </td>
+                                                            <td data-name="endTime">
+                                                                {{ list.endTime }}
+                                                            </td>
+                                                            <td class="middle_{{$index}}"
+                                                                style="display: none;background-color: rgba(250, 250, 250, 0);padding: 4.5px !important;border: 0px solid #e7eaec;">
+                                                                <button class="btn" style="border-radius: 50%;padding: 4px 9px !important;
+                                                        background-color: #d50000 !important;color:#fff !important;"
+                                                                    ng-click="weeklyDaysDelete($index)"
+                                                                    title="Delete"><i class="fas fa-trash"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr ng-show="openingHoursData && openingHoursData.length==0">
+                                                            <td colspan="4">
+                                                                <div class="row">
+                                                                    <div class="col-md-12"
+                                                                        style="text-align: center;margin-top:1rem;margin-bottom:1rem;">
+                                                                        <span>No Data!</span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                        <h1 style="margin-top:10px;font-size: 1.5rem;font-weight: 400;">Bistro
+                                            Hours
+                                        </h1>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                        <p class="c-p-1">Bistro hours is creating and assigning service
+                                            periods or
+                                            Menus. For example, if
+                                            your venue has Lunch menu, select Lunch from the dropdown below,
+                                            then select the
+                                            days and the start and end time for the service period or Lunch
+                                            Menu.</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                                <label>Select Menu</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-xs-6 col-md-2 col-xl-2 col-lg-2">
+                                                <div class="form-group">
+                                                    <select class="form-control custom-input" id="selectedMenu">
+                                                        <option selected>Select an option</option>
+                                                        <option ng-repeat="menu in menus" value="{{menu.name}}"
+                                                            ng-disabled="menu.disabled">{{menu.name}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-xs-6 col-md-2 col-xl-2 col-lg-2">
+                                                <script>
+                                                    $(() => {
+                                                        $('.time').timepicker({ 'scrollDefault': 'now', 'timeFormat': 'h:i a', 'step': 15 });
+                                                    });
+                                                </script>
+                                                <div class="form-group" style="margin-bottom: 8px;">
+                                                    <input type="text" placeholder="Start time"
+                                                        class="form-control custom-input time" id="_start_time">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-xs-6 col-md-2 col-xl-2 col-lg-2">
+                                                <div class="form-group" style="margin-bottom: 8px;">
+                                                    <input type="text" placeholder="End time"
+                                                        class="form-control custom-input time" id="_end_time">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-xs-12 col-md-5 col-lg-5 col-xl-5">
+                                                <div class="row">
+                                                    <div class="btn-p-s pop">
+                                                        <button ng-repeat="day in days" data-toggle="popover"
+                                                            data-placement="top" data-content="{{day.time || day.day}}"
+                                                            class="btn pop day-btn-s btnBistroBeforemenu"
+                                                            ng-class="day.isSeleced ? 'day-btn-diasbled' :'daysBtn oHoursDaysBtn day-btn-s'"
+                                                            data-dayname="{{day.val}}" data-selected="false"
+                                                            id="weekdays_bistro_{{day.val}}"
+                                                            ng-click="!day.isSeleced && bistrodaysSelected('weekdays_bistro_', day.val , day.name)">{{day.name}}
+                                                            <script>
+                                                                $(".pop").popover({ trigger: "manual", html: true, animation: true })
+                                                                    .on("mouseenter mouseover", function () {
+                                                                        var _this = this;
+                                                                        $(this).popover("show");
+                                                                        $(".popover").on("mouseleave", function () {
+                                                                            $(_this).popover('hide');
+                                                                        });
+                                                                    }).on("mouseleave", function () {
+                                                                        var _this = this;
+                                                                        setTimeout(function () {
+                                                                            if (!$(".popover:hover").length) {
+                                                                                $(_this).popover("hide");
+                                                                            }
+                                                                        });
+                                                                    });
+                                                            </script>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-1 col-lg-1 col-xl-1"
+                                                style="margin-bottom: 1rem;">
+                                                <button class="btn btn-s pull-right" id="createbtn"
+                                                    ng-click="createBistro()">Add</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                        style="margin-bottom: 1rem;">
+                                        <div class="panel-group" id="accordion" role="tablist"
+                                            aria-multiselectable="true">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading" role="tab" id="headingOne"
+                                                    data-toggle="collapse" data-parent="#accordion"
+                                                    data-target="#bistroCollapse" href="javascript:;"
+                                                    aria-expanded="true" aria-controls="bistroCollapse">
+                                                    <h4 class="panel-title">
+                                                        <a role="button">
+                                                            Manage Bistro Hours
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="bistroCollapse" class="panel-collapse collapse" role="tabpanel"
+                                                    aria-labelledby="headingOne">
+                                                    <div class="panel-body">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th><b>Menu</b></th>
+                                                                    <th><b>Sunday</b></th>
+                                                                    <th><b>Monday</b></th>
+                                                                    <th><b>Tuesday</b></th>
+                                                                    <th><b>Wednesday</b></th>
+                                                                    <th><b>Thursday</b></th>
+                                                                    <th><b>Friday</b></th>
+                                                                    <th><b>Saturday</b></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="data in bistros"
+                                                                    ng-mouseover="showTheMiddle($event, $index)"
+                                                                    ng-mouseleave="hiddenTheMiddle($index)"
+                                                                    style="position: relative;">
+                                                                    <td>{{data.menu}}</td>
+                                                                    <td>
+                                                                        <span
+                                                                            ng-show="data.sunday.startTime && data.sunday.endTime">
+                                                                            {{data.sunday.startTime}} -
+                                                                            {{data.sunday.endTime}}
+                                                                        </span>
+                                                                        <span
+                                                                            ng-show="!data.sunday.startTime || !data.sunday.endTime">
+                                                                            <i>NA</i>
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span
+                                                                            ng-show="data.monday.startTime && data.monday.endTime">
+                                                                            {{data.monday.startTime}} -
+                                                                            {{data.monday.endTime}}
+                                                                        </span>
+                                                                        <span
+                                                                            ng-show="!data.monday.startTime || !data.monday.endTime">
+                                                                            <i>NA</i>
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span
+                                                                            ng-show="data.tuesday.startTime && data.tuesday.endTime">
+                                                                            {{data.tuesday.startTime}} -
+                                                                            {{data.tuesday.endTime}}
+                                                                        </span>
+                                                                        <span
+                                                                            ng-show="!data.tuesday.startTime || !data.tuesday.endTime">
+                                                                            <i>NA</i>
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span
+                                                                            ng-show="data.wednesday.startTime && data.wednesday.endTime">
+                                                                            {{data.wednesday.startTime}} -
+                                                                            {{data.wednesday.endTime}}
+                                                                        </span>
+                                                                        <span
+                                                                            ng-show="!data.wednesday.startTime || !data.wednesday.endTime">
+                                                                            <i>NA</i>
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span
+                                                                            ng-show="data.thursday.startTime && data.thursday.endTime">
+                                                                            {{data.thursday.startTime}} -
+                                                                            {{data.thursday.endTime}}
+                                                                        </span>
+                                                                        <span
+                                                                            ng-show="!data.thursday.startTime || !data.thursday.endTime">
+                                                                            <i>NA</i>
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span
+                                                                            ng-show="data.friday.startTime && data.friday.endTime">
+                                                                            {{data.friday.startTime}} -
+                                                                            {{data.friday.endTime}}
+                                                                        </span>
+                                                                        <span
+                                                                            ng-show="!data.friday.startTime || !data.friday.endTime">
+                                                                            <i>NA</i>
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span
+                                                                            ng-show="data.saturday.startTime && data.saturday.endTime">
+                                                                            {{data.saturday.startTime}} -
+                                                                            {{data.saturday.endTime}}
+                                                                        </span>
+                                                                        <span
+                                                                            ng-show="!data.saturday.startTime || !data.saturday.endTime">
+                                                                            <i>NA</i>
+                                                                        </span>
+                                                                    </td>
+                                                                    <td class="middle_{{$index}}"
+                                                                        style="display: none;background-color: rgba(250, 250, 250, 0);padding: 4.5px !important;margin-top:2px;border: 0px solid #e7eaec;">
+                                                                        <button class="btn"
+                                                                            style="border-radius: 50%;padding: 4px 9px !important;
+                                                            background-color: #d50000 !important;color:#fff !important;"
+                                                                            ng-click="bistrosDelete($index)"
+                                                                            title="Delete"><i
+                                                                                class="fas fa-trash"></i></button>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr ng-show="bistros && bistros.length==0">
+                                                                    <td colspan="8">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12"
+                                                                                style="text-align: center;margin-top:1rem;margin-bottom:1rem;">
+                                                                                <span>No Data!</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row card c-1" style="margin: 0rem 0 0.5rem 0 !important;">
+                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-xs-12 col-xl-12 col-lg-12">
+                                <h2 class="v-h">IBeacon Details</h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="eddystoneNameSpaceId" class="control-label">Eddystone Namespace
+                                        Id</label>
+                                    <input type="text" id="eddystoneNameSpaceId" class="form-control focus custom-input"
+                                        name="eddystoneNameSpaceId" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="eddystoneInstanceId" class="control-label">Eddystone Instance
+                                        Id</label>
+                                    <input type="text" id="eddystoneInstanceId" class="form-control custom-input"
+                                        name="eddystoneInstanceId" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="eddystoneUrl" class="control-label">Eddystone Url</label>
+                                    <input type="text" id="eddystoneUrl" class="form-control custom-input"
+                                        autocomplete="off" name="eddystoneUrl">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="iBeaconId" class="control-label">IBeacon Id</label>
+                                    <input type="text" id="iBeaconId" class="form-control custom-input" name="iBeaconId"
+                                        autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="majorId" class="control-label">Major Id</label>
+                                    <input type="text" id="majorId" class="form-control custom-input" name="majorId"
+                                        autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="minorId" class="control-label">Minor Id</label>
+                                    <input type="text" id="minorId" class="form-control custom-input" name="minorId"
+                                        autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row card c-1" style="margin: 0rem 0 0.5rem 0 !important;">
+                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-12">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
+                                <h2 class="v-h">Contact details</h2>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <p class="c-p-1">The details below will only be used for communication between
+                                    Barm8 and your business Customers will not see this Information</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="contact_first_name" class="control-label">First Name</label>
+                                    <input type="text" name="contact1" id="contact_first_name" autocomplete="off"
+                                        class="form-control custom-input">
+                                    <span style="color: red;" id="contact_first_nameErr"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="contact_last_name" class="control-label">Last Name</label>
+                                    <input type="text" name="contact1" id="contact_last_name" autocomplete="off"
+                                        class="form-control custom-input">
+                                    <!-- <span style="color: red;" id="contact1Err"></span> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="inputRole" class="control-label">Role</label>
+                                    <input type="text" class="form-control focus custom-input" id="inputRole"
+                                        autocomplete="off">
+                                    <span style="color: red;" id="inputRoleErr"></span>
+                                </div>
+                            </div> -->
+                            <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="contact_email" class="control-label">Email</label>
+                                    <input type="email" class="form-control custom-input" name="contact_email"
+                                        id="contact_email">
+                                    <span style="color: red;" id="contact_emailErr"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="contactNumber" class="control-label">Phone number</label>
+                                    <input type="text" class="form-control custom-input" id="contactNumber"
+                                        autocomplete="off">
+                                    <!-- <span style="color: red;" id="inputRoleErr"></span> -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="password" class="control-label">Password</label>
+                                    <input type="text" id="password" autocomplete="off"
+                                        class="form-control custom-input">
+                                    <span style="color: red;" id="inputPasswordErr"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="confirmPassword" class="control-label">Confirm Password</label>
+                                    <input type="text" id="confirmPassword" autocomplete="off"
+                                        class="form-control custom-input">
+                                    <span style="color: red;" id="confirmPasswordErr"></span>
+                                    <span style="color: red;" id="PasswordconfirmPasswordErr"></span>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="row card c-1" style="margin: 0rem 0 0.5rem 0 !important;">
+                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-12">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
+                                <h2 class="v-h">Login details</h2>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <p class="c-p-1">New section below Account details This email is for venue login
+                                    only.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- <div class="col-md-6 col-xs-12 col-sm-12 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="inputRole" class="control-label">Role</label>
+                                    <input type="text" class="form-control focus custom-input" id="inputRole"
+                                        autocomplete="off">
+                                    <span style="color: red;" id="inputRoleErr"></span>
+                                </div>
+                            </div> -->
+                            <div class="col-md-4 col-xs-12 col-sm-12 col-lg-4 col-xl-4">
+                                <div class="form-group">
+                                    <label for="login_Email" class="control-label">Login Email</label>
+                                    <input type="email" class="form-control custom-input" name="email" id="login_Email">
+                                    <span style="color: red;" id="inputEmailErr"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xs-12 col-sm-12 col-lg-4 col-xl-4">
+                                <div class="form-group">
+                                    <label for="password" class="control-label">Password</label>
+                                    <input type="text" id="password" autocomplete="off"
+                                        class="form-control custom-input">
+                                    <span style="color: red;" id="inputPasswordErr"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xs-12 col-sm-12 col-lg-4 col-xl-4">
+                                <div class="form-group">
+                                    <label for="confirmPassword" class="control-label">Confirm Password</label>
+                                    <input type="text" id="confirmPassword" autocomplete="off"
+                                        class="form-control custom-input">
+                                    <span style="color: red;" id="confirmPasswordErr"></span>
+                                    <span style="color: red;" id="PasswordconfirmPasswordErr"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 col-xl-12">
+                        <div class="form-group">
+                            <button class="btn btn-s pull-right" id="createBtn" ng-click="createNewvenue()"
+                                style="margin-bottom: 1rem;">Submit</button>
+                        </div>
+                    </div>
+                </div>
+                <style type="text/css">
+                    @media (max-width:800px) {
+                        .wrapper-content {
+                            padding: 20px 0px 10px;
+                        }
+                    }
+
+                    .btn-del {
+                        margin-top: -10.2rem;
+                        margin-left: 17.5rem;
+                    }
+                </style>
+                <link href="/assets/css/jquery.timepicker.min.css" type="text/css" rel="stylesheet" />
+                <script src="/assets/js/jquery.timepicker.min.js"></script>
+                <script type="text/javascript">
+
+                    $(document).on('change', 'input[name="_venue_tag"]', function () {
+                        if ($(this).prop('checked')) $(this).prop('checked', false);
+                        else $(this).prop('checked', true);
+                    });
+
+                    function checkboxChg(e) {
+                        if ($(e).is(':checked')) {
+                            $(`#_venue_tag_${$(e).data('namefeatures')}`).prop('checked', true);
+                        } else $(`#_venue_tag_${$(e).data('namefeatures')}`).prop('checked', false);
+                    }
+
+                    var units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+                    function niceBytes(x) {
+
+                        let l = 0, n = parseInt(x, 10) || 0;
+
+                        while (n >= 1024 && ++l) {
+                            n = n / 1024;
+                        }
+                        //include a decimal point and a tenths-place digit if presenting
+                        //less than ten of KB or greater units
+                        return (n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l]);
+                    }
+
+                    $("#video").on('change', function () {
+                        let files = $("#video").prop('files');
+                        $("#video_se_width_height,#video_file_cnt").css({ display: 'none' });
+                        // $("#createBtn").removeAttr('disabled');
+                        if (files.length <= 5) {
+                            for (let file of files) {
+                                let fSize = niceBytes(file.size);
+                                if (fSize) {
+                                    let sIzE = fSize.split(' ');
+                                    if (sIzE[1] == 'MB' && sIzE[0] > 20) {
+                                        $("#update _b tn").attr('disabled', true);
+                                        $("#video_se_width_height").css({ display: 'block' })
+                                    } else {
+                                        $(".video-s-h").css({ display: 'none' });
+                                        $(".video-show").html(null).css({ display: 'block' })
+                                        var video = $('<video />', {
+                                            id: 'video',
+                                            src: URL.createObjectURL(this.files[0]),
+                                            type: 'video/mp4',
+                                            controls: true
+                                        });
+                                        video.appendTo($('.video-show'));
+                                        $("#video").val('');
+                                    }
+                                }
+                            }
+                        } else {
+                            // $("#createBtn").attr('disabled', true);
+                        }
+                    })
+
+                    function videoDelete() {
+                        $(".video-s-h").css({ display: 'block' })
+                        $(".video-show").css({ display: 'none' })
+                    }
+
+                    $(document).ready(() => {
+                        $('[data-toggle="popover"]').popover({ html: !0, animation: !0, trigger: "hover" });
+                    });
+
+                    $(() => {
+                        $('.time').timepicker({ 'scrollDefault': 'now', 'timeFormat': 'h:i a', 'step': 5 });
+                    });
+                    $("#selectedMenu").on('change', function () {
+                        if ($("#selectedMenu").val() && $("#selectedMenu").val() != 'Select an option') {
+                            angular.element(document.getElementById('newVenueCreate')).scope().getMenusObj($(this).val())
+                        }
+                    })
+                    $('.panel-collapse').on('show.bs.collapse', function () {
+                        $(this).siblings('.panel-heading').addClass('active');
+                    });
+
+                    $('.panel-collapse').on('hide.bs.collapse', function () {
+                        $(this).siblings('.panel-heading').removeClass('active');
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    .btn-s {
+        color: #000;
+        border: 3px solid green !important;
+        background-color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .btn-s:hover {
+        color: #fff !important;
+        background: green !important;
+    }
+
+    .btn-s:active {
+        letter-spacing: 1px;
+    }
+
+    .panel-heading a:before {
+        font-family: 'Glyphicons Halflings';
+        content: "\e114";
+        float: right;
+        transition: all 0.5s;
+    }
+
+    .panel-heading.active a:before {
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+
+    .day-btn-diasbled {
+        border-radius: 3px;
+        background-color: red !important;
+        border: 1px solid red !important;
+        color: #fff !important;
+    }
+
+    .dropdown-menu {
+        min-width: 120px !important;
+    }
+
+    .dropdown-menu>span {
+        padding: 10px 10px !important;
+        font-size: 1.2rem !important;
+        font-weight: 400 !important;
+        cursor: pointer;
+    }
+
+
+    .ui-timepicker-wrapper {
+        overflow-y: auto;
+        max-height: 300px;
+        width: 11em;
+    }
+
+
+    .day-btn-s {
+        border-radius: 3px;
+        background-color: #757575;
+        color: #fff;
+        max-width: 50px;
+        width: 100%;
+    }
+
+    .btn-p-s {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .cropper-view-box {
+        display: block;
+        height: 100%;
+        outline: 4px solid #303f9f;
+        outline-color: #3949ab;
+        overflow: hidden;
+        width: 100%;
+    }
+
+    #drag-drop-img,
+    #video-img {
+        width: 100%;
+        max-width: 400px;
+        max-height: auto;
+        height: auto;
+    }
+
+    @media (max-width:749px) {
+        .btn-del {
+            margin-top: -10.2rem;
+            margin-left: 14.5rem;
+        }
+    }
+
+    .manage-txt {
+        font-size: 1.4rem;
+        color: #000 !important;
+    }
+
+    .back-txt {
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #000 !important;
+    }
+
+    .img-resposive {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        border-radius: 5px;
+    }
+
+    .img-resposive {
+        border-radius: 5px;
+    }
+
+    #page-wrapper {
+        padding: 0 0px;
+    }
+
+    .box-shadow-2 {
+        -webkit-box-shadow: 0 10px 18px 0 rgba(62, 57, 107, .2);
+        box-shadow: 0 10px 18px 0 rgba(62, 57, 107, .2)
+    }
+
+    .wrapper-content {
+        padding: 20px 10px 0px !important
+    }
+
+    .nav a {
+        color: #f9a141;
+        padding: 5px 30px;
+        text-decoration: none;
+    }
+
+    input[type=checkbox] {
+        -ms-transform: scale(1.3);
+        -moz-transform: scale(1.3);
+        -webkit-transform: scale(1.3);
+        -o-transform: scale(1.3);
+        transform: scale(1.3);
+        padding: 10px;
+    }
+
+    #map_search {
+        position: relative;
+        width: auto;
+        height: 300px;
+        overflow: hidden;
+        border: 2px solid rgb(211, 211, 211);
+        border-radius: 3px;
+        margin-bottom: 1rem;
+    }
+
+    .padding-space {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .back-txt {
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #000 !important;
+    }
+
+    .v-h {
+        font-weight: 600;
+    }
+
+    .v-h-1 {
+        color: gray;
+    }
+
+    .c-p-1 {
+        font-size: 15px;
+        color: gray;
+    }
+
+    .s-txt {
+        color: #a09d9d;
+    }
+
+    .def-img {
+        width: 79px;
+        height: 79px;
+    }
+
+    .drag-img-up {
+        padding: 20px;
+        border: 1px dotted gray;
+        text-align: center;
+    }
+
+    .drag-img-up span {
+        color: gray;
+    }
+
+    input[type=checkbox] {
+        -ms-transform: scale(1.3);
+        -moz-transform: scale(1.3);
+        -webkit-transform: scale(1.3);
+        -o-transform: scale(1.3);
+        transform: scale(1.3);
+        padding: 10px;
+    }
+
+    .box {
+        margin: auto;
+        width: auto;
+        height: auto;
+        position: absolute;
+        z-index: 9;
+    }
+
+    .container-2 {
+        width: 500px;
+        vertical-align: middle;
+        white-space: nowrap;
+        position: relative;
+    }
+
+    .container-2 input#location {
+        width: 200px;
+        height: 20px;
+        background: #fff;
+        border: 1px solid #fff !important;
+        float: left;
+        color: #000;
+        font-size: 1rem;
+        padding-left: 20px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        margin: 10px;
+        -webkit-transition: width .55s ease;
+        -moz-transition: width .55s ease;
+        -ms-transition: width .55s ease;
+        -o-transition: width .55s ease;
+        transition: width .55s ease;
+    }
+
+    .pac-container:after {
+        background-image: none !important;
+        height: 0px;
+    }
+
+    .container-2 input#location::-webkit-input-placeholder {
+        color: #65737e;
+    }
+
+    .container-2 input#location:-moz-placeholder {
+        /* Firefox 18- */
+        color: #65737e;
+    }
+
+    .container-2 input#location::-moz-placeholder {
+        /* Firefox 19+ */
+        color: #65737e;
+    }
+
+    .container-2 input#location:-ms-input-placeholder {
+        color: #65737e;
+    }
+
+    .container-2 input#location:focus,
+    .container-2 input#location:active {
+        outline: none;
+        width: 500px;
+    }
+
+    .container-2:hover input#location {
+        width: 500px;
+    }
+
+    @media only screen and (max-width: 600px) {
+
+        .container-2 input#location:focus,
+        .container-2 input#location:active {
+            outline: none;
+            width: 350px;
+        }
+
+        .container-2:hover input#location {
+            width: 350px;
+        }
+    }
+
+    .profile-pic {
+        position: relative;
+        display: inline-block;
+    }
+
+    .profile-pic:hover .edit {
+        display: block;
+    }
+
+    .edit {
+        padding-top: 13px;
+        padding-right: 13px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        display: none;
+    }
+
+    .edit a {
+        color: #000;
+    }
+
+    .img-container {
+        padding: 0 0 0.5rem 0;
+        float: left;
+        width: 50%;
+    }
+
+    @media screen and (max-width: 640px) {
+        .img-container {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    @media screen and (min-width: 900px) {
+        .img-container {
+            width: 33.33333%;
+        }
+    }
+
+    .img-container .title {
+        color: #1a1a1a;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .img-content {
+        position: relative;
+        width: 100%;
+        max-width: 420px;
+        margin: auto;
+        overflow: hidden;
+    }
+
+    .img-content .content-overlay {
+        background: rgba(0, 0, 0, 0.7);
+        position: absolute;
+        height: 99%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        opacity: 0;
+        -webkit-transition: all 0.4s ease-in-out 0s;
+        -moz-transition: all 0.4s ease-in-out 0s;
+        transition: all 0.4s ease-in-out 0s;
+    }
+
+    .img-content:hover .content-overlay {
+        opacity: 1;
+    }
+
+    .content-image {
+        width: 100%;
+    }
+
+    .content-details {
+        position: absolute;
+        text-align: center;
+        padding-left: 1em;
+        padding-right: 1em;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        opacity: 0;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        -webkit-transition: all 0.3s ease-in-out 0s;
+        -moz-transition: all 0.3s ease-in-out 0s;
+        transition: all 0.3s ease-in-out 0s;
+    }
+
+    .img-content:hover .content-details {
+        top: 50%;
+        left: 50%;
+        opacity: 1;
+    }
+
+    .content-details button {
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        margin-bottom: 0.5em;
+    }
+
+    .content-details p {
+        color: #fff;
+        font-size: 0.8em;
+    }
+</style>

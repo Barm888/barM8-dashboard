@@ -1,0 +1,262 @@
+<style>
+    @media(min-width:768px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    .padding-space {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .back-txt {
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #000 !important;
+    }
+
+    .manage-txt {
+        font-size: 1.4rem;
+        color: #000 !important;
+    }
+
+    .manage-txt-1 {
+        font-size: 1.044rem;
+        color: #000 !important;
+    }
+
+    .form-c {
+        height: 40px;
+    }
+
+    .right {
+        float: right;
+    }
+
+    .create-btn {
+        background-color: #1d951d;
+        color: #fff;
+        font-size: 1.4rem;
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    .manage-txt {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    th>b {
+        font-size: 1.2rem;
+    }
+
+    .table>thead>tr>th,
+    .table>tbody>tr>th,
+    .table>tfoot>tr>th,
+    .table>thead>tr>td,
+    .table>tbody>tr>td,
+    .table>tfoot>tr>td {
+        padding: 10.8px !important;
+    }
+
+    th>span {
+        font-size: 18px;
+    }
+</style>
+<div class="wrapper wrapper-content" id="requestOfferCtl" ng-controller="requestOfferCtl">
+    <div class="m-t-sm" style="margin-top:2.5rem;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 padding-space">
+                <div class="row card eventCard" style="margin: 0rem 0 0rem 0 !important;">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                        <div class="autocomplete col-sm-12 col-xs-8 col-md-6 col-lg-6 col-xl-6"
+                            style="padding-right:0px;padding-left:0px;">
+                            <input id="autocompleteBusiness" type="text" name="BusinessName"
+                                placeholder="Enter Business name">
+                            <span id="businessErr" style="color:red;"></span>
+                        </div>
+                        <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                        <script
+                            type="text/javascript">autocomplete(document.getElementById("autocompleteBusiness"), 'requestOffer');</script>
+                        <div class="autocomplete col-sm-12 col-xs-4 col-md-6 col-lg-6 col-xl-6">
+                            <button type="button" ng-click="BusinessSelected('requestOffer')" id="businessSubmit"
+                                class="btn btn-raised btn-primary businessSubmit">
+                                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12 padding-space">
+                <div class="row card" style="margin: 0.5rem 0 0rem 0 !important;padding:5px;">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <a href="#">
+                                    <i style="color: #ff9800 !important;vertical-align: -0.4em !important;"
+                                        class="fas fa-long-arrow-alt-left fa-4x"></i>
+                                    <b class="back-txt">Back to Overview</b>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-2 col-md-12 col-lg-12 col-xl-12">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <button class="btn btn-primary"
+                                            style="border-radius: 5%;padding: 4px 9px !important;
+                                        background-color:#f9a141 !important;color:#fff !important;font-size: 20px;margin-bottom:1rem;margin-top:1rem;"
+                                            title="Filter" data-toggle="collapse" data-target="#filterCollapse"
+                                            role="button" aria-expanded="false" aria-controls="filterCollapse">
+                                            <i class="fas fa-filter"></i> Filter
+                                        </button>
+                                        <div class="collapse" id="filterCollapse">
+                                            <div class="row">
+                                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                                    <div class="form-group">
+                                                        <label for="f-date"
+                                                            style="font-size: 16px !important;">Date</label>
+                                                        <input type="Date" class="form-control"
+                                                            style="font-size: 16px !important;" id="f-date"
+                                                            placeholder="Date">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                                    <div class="form-group">
+                                                        <label for="f-offer-name"
+                                                            style="font-size: 16px !important;">Offer</label>
+                                                        <input type="text" class="form-control"
+                                                            style="font-size: 16px !important;" id="f-offer-name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                                    <div class="form-group">
+                                                        <label for="f-date"
+                                                            style="font-size: 16px !important;">Status</label>
+                                                        <select name="category" class="form-control"
+                                                            style="font-size: 16px !important;" id="f-type">
+                                                            <option value="select">Select</option>
+                                                            <option value="Claimed">Claimed</option>
+                                                            <option value="Redeemed">Redeemed</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3"
+                                                    style="text-align: center !important">
+                                                    <button class="btn btn-primary" ng-click="filterClk()"
+                                                        style="background-color: #f9a141 !important;border-radius: 2px;margin-top:1.6rem;font-size:18px !important;"><i
+                                                            class="fa fa-search" aria-hidden="true"></i>
+                                                        &nbsp; Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <span>Date</span>
+                                            </th>
+                                            <th>
+                                                <span>Time</span>
+                                            </th>
+                                            <th>
+                                                <span>Offer</span>
+                                            </th>
+                                            <th>
+                                                <span>Name</span>
+                                            </th>
+                                            <th>
+                                                <span>Qty</span>
+                                            </th>
+                                            <th>
+                                                <span>Claimed Time</span>
+                                            </th>
+                                            <th>
+                                                <span>Redeemed Time</span>
+                                            </th>
+                                            <th>
+                                                <span>Status</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="list in requestOfferList"
+                                            ng-mouseover="showTheMiddle($event, $index)"
+                                            ng-mouseleave="hiddenTheMiddle($index)" style="position: relative;">
+                                            <td>{{list.coupons.date | date : "EEE, dd MMM , y"}}</td>
+                                            <td>{{list.coupons.time}}</td>
+                                            <td>{{list.title}}</td>
+                                            <td>{{list.coupons.customer.firstName}}
+                                                {{list.coupons.customer.lastName}}</td>
+                                            <td>{{list.coupons.cnt}}</td>
+                                            <td>
+                                                <span ng-show="list.coupons.claimTime">{{list.coupons.claimTime}}</span>
+                                                <span ng-show="!list.coupons.claimTime"><i>NA</i></span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    ng-show="list.coupons.redeemedTime">{{list.coupons.redeemedTime}}</span>
+                                                <span ng-show="!list.coupons.redeemedTime"><i>NA</i></span>
+                                            </td>
+                                            <td>
+                                                <span ng-show="list.coupons.isRedeemed && list.coupons.isClaim"
+                                                    class="isRedeemed">Redeemed</span>
+                                                <span ng-show="list.coupons.isRedeemed==false && list.coupons.isClaim"
+                                                    class="isClaimed">Claimed</span>
+                                            </td>
+                                        </tr>
+                                        <tr ng-show="requestOfferList && requestOfferList.length==0">
+                                            <td colspan="8">
+                                                <center><b>No Data!</b></center>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .isRedeemed {
+        background-color: green;
+        padding: 2px 5px;
+        color: #fff;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2);
+    }
+
+    .isClaimed {
+        background-color: #3f51b5;
+        padding: 2px 14px;
+        color: #fff;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2);
+    }
+</style>

@@ -1,0 +1,155 @@
+<div class="wrapper wrapper-content" id="foodServiceCtl" ng-controller="foodServiceCtl">
+    <div class="m-t-sm" style="margin-top:2.5rem;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12" style="padding-left: 0px;padding-right:0px;">
+                <div class="row card cCard" style="margin: 0rem 0 0.5rem 0 !important;">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                        <div class="autocomplete col-sm-12 col-xs-8 col-md-6 col-lg-6 col-xl-6">
+                            <input id="autocompleteBusiness" type="text" name="BusinessName"
+                                placeholder="Enter Business name">
+                            <span id="businessErr" style="color:red;"></span>
+                        </div>
+                        <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                        <script
+                            type="text/javascript">autocomplete(document.getElementById("autocompleteBusiness"), 'foodServiceOption');</script>
+                        <div class="autocomplete col-sm-12 col-xs-4 col-md-6 col-lg-6 col-xl-6">
+                            <button type="button" ng-click="BusinessSelected('foodServiceOption')" id="businessSubmit"
+                                class="btn btn-raised btn-primary businessSubmit">
+                                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-right: -30px;margin-left: -30px;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                <div class="row card" style="margin: 0rem 0 0.5rem 0 !important;">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <h2 style="font-size: 23px;font-weight: 400;padding: 10px 0px;margin-top:10px !important;">
+                            Manage service
+                            option</h2>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                <div class="form-group">
+                                    <input type="checkbox" name="_table_service" data-cname="table-service"
+                                        class="styled-checkbox" value="table-service" id="_table_service">
+                                    <label for="_table_service" style="font-size: 15px;">&nbsp;Table
+                                        Service</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                <div class="form-group">
+                                    <input type="checkbox" name="_collect_bar" data-cname="collect-bar"
+                                        class="styled-checkbox" value="table-service" id="_collect_bar">
+                                    <label for="_collect_bar" style="font-size: 15px;">&nbsp;Collect@Bar</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <h3>Table Number</h3>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                                            <input type="text" placeholder="Start" class="form-control custom-input"
+                                                id="table-start">
+                                            <span id="table-start-err" style="color: red;"></span>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                                            <input type="text" placeholder="End" class="form-control custom-input"
+                                                id="table-end">
+                                            <span id="table-end-err" style="color: red;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12" style="padding:20px;">
+                        <button class="btn btn-primary" style="font-size: 18px;
+                        background-color:#18af18;
+                        padding:4px 30px !important;border:1px solid #18af18;" ng-click="saveServiceOption()"
+                            id="foodCreateBtn">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .cCard {
+        padding: 20px;
+    }
+
+    .back-txt {
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #000 !important;
+    }
+
+    .manage-txt {
+        font-size: 23px;
+        font-weight: 400;
+        padding: 10px;
+        margin-top: 0px !important;
+    }
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0
+    }
+
+    .styled-checkbox+label {
+        position: relative;
+        cursor: pointer;
+        padding: 0
+    }
+
+    .styled-checkbox+label:before {
+        content: "";
+        margin-right: 5px;
+        display: inline-block;
+        vertical-align: text-top;
+        width: 16px;
+        height: 16px;
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, .12);
+        background: #fafafa
+    }
+
+    .styled-checkbox:hover+label:before {
+        background: rgba(0, 0, 0, .87)
+    }
+
+    .styled-checkbox:focus+label:before {
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, .12)
+    }
+
+    .styled-checkbox:checked+label:before {
+        background: rgba(0, 0, 0, .87)
+    }
+
+    .styled-checkbox:disabled+label {
+        color: #b8b8b8;
+        cursor: auto
+    }
+
+    .styled-checkbox:checked+label:after {
+        content: "";
+        position: absolute;
+        left: 3px;
+        top: 6px;
+        background: white;
+        width: 2px;
+        height: 2px;
+        box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg)
+    }
+</style>

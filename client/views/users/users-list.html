@@ -1,0 +1,259 @@
+<style>
+    #page-wrapper {
+        padding: 0 0px;
+    }
+
+    @media(min-width:768px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+</style>
+<div class="wrapper wrapper-content" id="userPermissionListCtl" ng-controller="userPermissionListCtl">
+    <div class="m-t-sm" style="margin-top:2.5rem;" ng-show="isBusinessSelect">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                <div class="row card eventCard">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                        <div class="autocomplete col-sm-12 col-xs-8 col-md-6 col-lg-6 col-xl-6"
+                            style="padding-right:0px;padding-left:0px;">
+                            <input id="autocompleteBusiness" type="text" name="BusinessName"
+                                placeholder="Enter Business name">
+                            <span id="businessErr" style="color:red;"></span>
+                        </div>
+                        <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                        <script
+                            type="text/javascript">autocomplete(document.getElementById("autocompleteBusiness"), 'userPermission');</script>
+                        <div class="autocomplete col-sm-12 col-xs-4 col-md-6 col-lg-6 col-xl-6" id="AUTO_BUS_0">
+                            <button type="button" ng-click="BusinessSelected('userPermission')" id="businessSubmit"
+                                class="btn btn-raised btn-primary businessSubmit">
+                                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row card" style="padding: 10px;margin: -0.5rem 0 1rem 0 !important;">
+                    <div class="col-xs-12 col-md-12 col-xl-12 col-sm-12" style="text-align: right;">
+                        <a class="btn" ui-sref="new-user-permission"
+                            style="background-color:green;color:#fff !important;font-size: 1.2rem !important;">Create a
+                            new user</a>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 1rem;">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <span>Name</span>
+                                    </th>
+                                    <th>
+                                        <span>Email</span>
+                                    </th>
+                                    <th>
+                                        <span>Status</span>
+                                    </th>
+                                    <th>
+                                        <span>Actions</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="list in venueUserList">
+                                    <td>{{list.firstName}} &nbsp; {{list.lastName}}</td>
+                                    <td>{{list.email}}</td>
+                                    <td>{{list.status}}</td>
+                                    <td>
+                                        <button class="btn" ng-click="viewUserData(list.id)"
+                                            style="background-color:blue;color: #fff;"><i
+                                                class="far fa-eye"></i></button>
+                                        <button class="btn" ng-click="editPermission(list.id)"
+                                            style="background-color: green;color: #fff;"><i
+                                                class="fas fa-pencil-alt"></i></button>
+                                        <button class="btn" ng-click="requestDelete(list.id)"
+                                            style="background-color: red;color: #fff;"><i
+                                                class="far fa-trash-alt"></i></button>
+                                    </td>
+                                </tr>
+                                <tr ng-if="venueUserList.length==0">
+                                    <td colspan="4" style="text-align: center;">
+                                        <span>No Data!</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="deleteConfirm" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #FF9800;color:#fff;">
+                        <h3 class="modal-title" style="padding: 8px;">Message</h3>
+                    </div>
+                    <div class="modal-body"
+                        style="text-align: center !important;padding: 20px 30px 0px 30px !important;">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                <h3>Do you want to proceed?</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="confirmDeleteBtn" style="background-color: #4CAF50 !important;padding: 4px 12px!important;border-radius: 3px;
+                            border:1px solid #4CAF50; font-size:20px;" ng-click="confirmDelete()">Yes</button>
+                        <button type="button" class="btn btn-secondary" style="background-color: red !important;border-radius: 3px;color:#fff !important;padding:4px 14px !important;
+                            border:1px solid red;font-size:20px;" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="viewUsers" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: #FF9800;color:#fff;">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3 class="modal-title" style="padding: 8px;">User Details</h3>
+
+                    </div>
+                    <div class="modal-body" style="padding: 20px 30px 0px 30px !important;text-align: left !important;">
+
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                        <h2 style="margin-top: 0px !important;">Users</h2>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label for="firstName" style="font-size: 1.2rem;">First Name</label>
+                                            <input type="text" class="form-control custom-input" ng-disabled="true"
+                                                ng-model="userPMData.firstName" id="firstName">
+                                            <span id="firstNameErr" style="color: red;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label for="lastName" style="font-size: 1.2rem;">Last Name</label>
+                                            <input type="text" class="form-control custom-input" ng-disabled="true"
+                                                ng-model="userPMData.lastName" id="lastName">
+                                            <span id="lastNameErr" style="color: red;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label for="email" style="font-size: 1.2rem;">Email</label>
+                                            <input type="text" class="form-control custom-input" ng-disabled="true"
+                                                ng-model="userPMData.email" id="email">
+                                            <span id="emailErr" style="color: red;"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label for="phoneNo" style="font-size: 1.2rem;">Phone</label>
+                                            <input type="text" class="form-control custom-input" ng-disabled="true"
+                                                ng-model="userPMData.phoneNo" id="phoneNo">
+                                            <span id="phoneNoErr" style="color: red;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                        <h2 style="margin-top: 0px !important;">User Permissions</h2>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3 col-xl-3"
+                                        ng-repeat="list in userPMData.venuePermissions">
+                                        <!-- Admin -->
+                                        <div class="row card" ng-show="list._name=='is_this_user_an_admin'">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                style="padding: 47px 5px 40px 5px !important;">
+                                                <div class="form-group" style="text-align: center;">
+                                                    <input type="checkbox" id="{{list._name}}" onclick="return false;"
+                                                        ng-checked="list.isChecked">
+                                                    <label for="{{list._name}}" style="font-size: 1.2rem;">&nbsp;
+                                                        {{list.name}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- user -->
+                                        <div class="row card" ng-show="list._name!='is_this_user_an_admin'">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                style="margin-top: 0.8rem;">
+                                                <b style="font-size: 1.3rem;">{{list.name}}</b>
+                                                <hr>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="form-group" style="margin-bottom: 12px !important;">
+                                                    <input type="checkbox" id="{{list._name}}_create"
+                                                        onclick="return false;" class="is-a-ch"
+                                                        ng-checked="list.isCreate">
+                                                    <label for="{{list._name}}_create" style="font-size: 1.1rem;">&nbsp;
+                                                        Create</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="form-group" style="margin-bottom: 12px !important;">
+                                                    <input type="checkbox" id="{{list._name}}_edit"
+                                                        onclick="return false;" class="is-a-ch"
+                                                        ng-checked="list.isEdit">
+                                                    <label for="{{list._name}}_edit" style="font-size: 1.1rem;">&nbsp;
+                                                        Edit</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="form-group" style="margin-bottom: 12px !important;">
+                                                    <input type="checkbox" id="{{list._name}}_delete"
+                                                        onclick="return false;" class="is-a-ch"
+                                                        ng-checked="list.isDelete">
+                                                    <label for="{{list._name}}_delete" style="font-size: 1.1rem;">&nbsp;
+                                                        Delete</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-primary" id="confirmDeleteBtn" 
+                            style="background-color: #4CAF50 !important;padding: 4px 12px!important;border-radius: 3px;
+                            border:1px solid #4CAF50; font-size:20px;" ng-click="confirmDelete()">Yes</button>
+                        <button type="button" class="btn btn-secondary" style="background-color: red !important;border-radius: 3px;color:#fff !important;padding:4px 14px !important;
+                            border:1px solid red;font-size:20px;" data-dismiss="modal">No</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    th>span {
+        font-size: 1.4rem !important;
+    }
+</style>

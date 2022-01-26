@@ -1,0 +1,42 @@
+{
+  "name": "Register",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "profileName": {
+      "type": "string"
+    },
+    "businessName": {
+      "type": "string"
+    },
+    "businessNumber": {
+      "type": "number"
+    },
+    "address": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "contactName": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "number"
+    },
+    "password": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,431 @@
+<div id="wrapper">
+    <div ng-include="'views/barm8-menus.html'"></div>
+    <div id="page-wrapper" class="gray-bg topBar">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top white-bg navbarTop" role="navigation"
+                style="margin-bottom: 0;box-shadow: 0 2px 5px 0 rgba(0,0,0,.3);">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary"
+                        style="background-color: #f9a141 !important;" id="minimize" href="javascript:;">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <a ui-sref="logout" id="logout"
+                            style="text-align:right !important;  color: #363636 !important;">
+                            <i class="fas fa-sign-out-alt"></i> Log out
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="wrapper wrapper-content" id="bistroHoursCtl" ng-controller="bistroHoursCtl">
+            <div class="m-t-sm" style="margin-top:2.5rem;">
+                <div class="row" ng-show="userDetails.isAdmin">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12"
+                        style="padding-left: 0px;padding-right:0px;">
+                        <div class="row card cCard" style="margin: 0rem 0 0.5rem 0 !important;">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                                <div class="autocomplete col-sm-12 col-xs-8 col-md-6 col-lg-6 col-xl-6">
+                                    <input id="autocompleteBusiness" type="text" name="BusinessName"
+                                        placeholder="Enter Business name">
+                                    <span id="businessErr" style="color:red;"></span>
+                                </div>
+                                <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                                <script
+                                    type="text/javascript">autocomplete(document.getElementById("autocompleteBusiness"), 'bistroHours');</script>
+                                <div class="autocomplete col-sm-12 col-xs-4 col-md-6 col-lg-6 col-xl-6">
+                                    <button type="button" ng-click="BusinessSelected('bistroHours')" id="businessSubmit"
+                                        class="btn btn-raised btn-primary businessSubmit">
+                                        <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 card">
+                        <div class="row" style="margin-top: 1rem;">
+                            <div class="col-sm-6 col-xs-6 col-md-6 col-xl-6 col-lg-6">
+                                <b class="manage-txt">Manage Bistro hours</b>
+                            </div>
+                            <div class="col-sm-6 col-xs-6 col-md-6 col-xl-6 col-lg-6">
+                                <a class="btn btn-primary pull-right" ui-sref="create-bistro-hour"
+                                    style="background-color: #4caf50;font-size:1.2rem;border:1px solid #4caf50 !important;">Setup
+                                    Bistro Hours</a>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 1rem;margin-top:1rem;">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th><b>Booking</b></th>
+                                            <th><b>Menu</b></th>
+                                            <th><b>Sunday</b></th>
+                                            <th><b>Monday</b></th>
+                                            <th><b>Tuesday</b></th>
+                                            <th><b>Wednesday</b></th>
+                                            <th><b>Thursday</b></th>
+                                            <th><b>Friday</b></th>
+                                            <th><b>Saturday</b></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="data in bistros" ng-mouseover="showTheMiddle($event, $index)"
+                                            ng-mouseleave="hiddenTheMiddle($index)" style="position: relative;">
+                                            <td style="text-align: center;">
+                                                <input type="checkbox" id="isLive_{{data.id}}" ng-model="data.isAppLive"
+                                                    ng-change="updateiSLive(data.id)">
+                                            </td>
+                                            <td>{{data.menu}}</td>
+                                            <td>
+                                                <span ng-show="data.sunday.startTime && data.sunday.endTime">
+                                                    {{data.sunday.startTime}} - {{data.sunday.endTime}}
+                                                </span>
+                                                <span ng-show="!data.sunday.startTime || !data.sunday.endTime">
+                                                    <i>NA</i>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span ng-show="data.monday.startTime && data.monday.endTime">
+                                                    {{data.monday.startTime}} - {{data.monday.endTime}}
+                                                </span>
+                                                <span ng-show="!data.monday.startTime || !data.monday.endTime">
+                                                    <i>NA</i>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span ng-show="data.tuesday.startTime && data.tuesday.endTime">
+                                                    {{data.tuesday.startTime}} - {{data.tuesday.endTime}}
+                                                </span>
+                                                <span ng-show="!data.tuesday.startTime || !data.tuesday.endTime">
+                                                    <i>NA</i>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span ng-show="data.wednesday.startTime && data.wednesday.endTime">
+                                                    {{data.wednesday.startTime}} - {{data.wednesday.endTime}}
+                                                </span>
+                                                <span ng-show="!data.wednesday.startTime || !data.wednesday.endTime">
+                                                    <i>NA</i>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span ng-show="data.thursday.startTime && data.thursday.endTime">
+                                                    {{data.thursday.startTime}} - {{data.thursday.endTime}}
+                                                </span>
+                                                <span ng-show="!data.thursday.startTime || !data.thursday.endTime">
+                                                    <i>NA</i>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span ng-show="data.friday.startTime && data.friday.endTime">
+                                                    {{data.friday.startTime}} - {{data.friday.endTime}}
+                                                </span>
+                                                <span ng-show="!data.friday.startTime || !data.friday.endTime">
+                                                    <i>NA</i>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span ng-show="data.saturday.startTime && data.saturday.endTime">
+                                                    {{data.saturday.startTime}} - {{data.saturday.endTime}}
+                                                </span>
+                                                <span ng-show="!data.saturday.startTime || !data.saturday.endTime">
+                                                    <i>NA</i>
+                                                </span>
+                                            </td>
+                                            <td class="middle_{{$index}}"
+                                                style="display: none;background-color: rgba(250, 250, 250, 0);padding: 4.5px !important;margin-top:2px;border: 0px solid #e7eaec;">
+                                                &nbsp;
+                                                <button class="btn" style="border-radius: 50%;padding: 4px 7.5px !important;
+                                    background-color: #3f51b5 !important;color:#fff !important;"
+                                                    ng-click="viewBistroHours(data.id)" title="View"><i
+                                                        class="fas fa-eye"></i></button>
+                                                &nbsp;
+                                                <button class="btn" style="border-radius: 50%;padding: 4px 8px !important;
+                                    background-color: #2e7d32 !important;color:#fff !important;"
+                                                    ng-click="editBistroHours(data.id)" title="Edit"><i
+                                                        class="fas fa-pencil-alt"></i></button>
+                                                &nbsp;
+                                                <button class="btn" style="border-radius: 50%;padding: 4px 9px !important;
+                                    background-color: #d50000 !important;color:#fff !important;"
+                                                    ng-click="deleteBistroHours(data.id)" title="Delete"><i
+                                                        class="fas fa-trash"></i></button>
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr ng-show="bistros && bistros.length==0">
+                                            <td colspan="8">
+                                                <div class="row">
+                                                    <div class="col-md-12"
+                                                        style="text-align: center;margin-top:1rem;margin-bottom:1rem;">
+                                                        <span>No Data!</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="modal" id="deleteConfirm" tabindex="-1" role="dialog">
+                            <div class="modal-dialog opacity-animate3" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="margin-top: 10px;
+                                margin-left: 26px;">
+                                        <!-- <h2 class="modal-title"  style="font-size: 19px;font-weight: 700;">View Bistro Hours</h2> -->
+                                        <button type="button" class="close" style="margin-top: -7px;
+                                  margin-right: 7px;" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                <h3>Do you want to proceed?</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" id="confirmDeleteBtn" data-id=""
+                                            ng-click="confirmDelete()" style="background-color: #4CAF50 !important;padding: 4px 12px!important;border-radius: 3px;
+                                  border:1px solid #4CAF50;font-size: 20px;">Yes</button>
+                                        <button type="button" class="btn btn-secondary" style="background-color: red !important;border-radius: 3px;color:#fff !important;padding:4px 14px !important;
+                                  border:1px solid red;font-size:20px;" data-dismiss="modal">No</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal" id="viewModal" tabindex="-1" role="dialog">
+                            <div class="modal-dialog opacity-animate3" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="margin-top: 10px;
+                                margin-left: 26px;">
+                                        <h2 class="modal-title" style="font-size: 19px;font-weight: 700;">View Bistro
+                                            Hours</h2>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                <table class="table table-bordered">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Menu</th>
+                                                            <td>{{viewdata.menu}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Sunday</th>
+                                                            <td>
+                                                                <span
+                                                                    ng-show="viewdata.sunday.startTime && viewdata.sunday.endTime">
+                                                                    {{viewdata.sunday.startTime}} -
+                                                                    {{viewdata.sunday.endTime}}
+                                                                </span>
+                                                                <span
+                                                                    ng-show="!viewdata.sunday.startTime || !viewdata.sunday.endTime">
+                                                                    <i>NA</i>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Monday</th>
+                                                            <td>
+                                                                <span
+                                                                    ng-show="viewdata.monday.startTime && viewdata.monday.endTime">
+                                                                    {{viewdata.monday.startTime}} -
+                                                                    {{viewdata.monday.endTime}}
+                                                                </span>
+                                                                <span
+                                                                    ng-show="!viewdata.monday.startTime || !viewdata.monday.endTime">
+                                                                    <i>NA</i>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Tuesday</th>
+                                                            <td>
+                                                                <span
+                                                                    ng-show="viewdata.tuesday.startTime && viewdata.tuesday.endTime">
+                                                                    {{viewdata.tuesday.startTime}} -
+                                                                    {{viewdata.tuesday.endTime}}
+                                                                </span>
+                                                                <span
+                                                                    ng-show="!viewdata.tuesday.startTime || !viewdata.tuesday.endTime">
+                                                                    <i>NA</i>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th>Wednesday</th>
+                                                            <td>
+                                                                <span
+                                                                    ng-show="viewdata.wednesday.startTime && viewdata.wednesday.endTime">
+                                                                    {{viewdata.wednesday.startTime}} -
+                                                                    {{viewdata.wednesday.endTime}}
+                                                                </span>
+                                                                <span
+                                                                    ng-show="!viewdata.wednesday.startTime || !viewdata.wednesday.endTime">
+                                                                    <i>NA</i>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Thursday</th>
+                                                            <td>
+                                                                <span
+                                                                    ng-show="viewdata.thursday.startTime && viewdata.thursday.endTime">
+                                                                    {{viewdata.thursday.startTime}} -
+                                                                    {{viewdata.thursday.endTime}}
+                                                                </span>
+                                                                <span
+                                                                    ng-show="!viewdata.thursday.startTime || !viewdata.thursday.endTime">
+                                                                    <i>NA</i>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Friday</th>
+                                                            <td>
+                                                                <span
+                                                                    ng-show="viewdata.friday.startTime && viewdata.friday.endTime">
+                                                                    {{viewdata.friday.startTime}} -
+                                                                    {{viewdata.friday.endTime}}
+                                                                </span>
+                                                                <span
+                                                                    ng-show="!viewdata.friday.startTime || !viewdata.friday.endTime">
+                                                                    <i>NA</i>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Saturday</th>
+                                                            <td>
+                                                                <span
+                                                                    ng-show="viewdata.saturday.startTime && viewdata.saturday.endTime">
+                                                                    {{viewdata.saturday.startTime}} -
+                                                                    {{viewdata.saturday.endTime}}
+                                                                </span>
+                                                                <span
+                                                                    ng-show="!viewdata.saturday.startTime || !viewdata.saturday.endTime">
+                                                                    <i>NA</i>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <!-- <button type="button" class="btn btn-primary">Save changes</button>
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    th>b {
+        font-size: 1.2rem;
+    }
+
+    .modal-header .close {
+        margin-top: -33px;
+        margin-right: 7px;
+    }
+
+    .m-l-r {
+        margin-left: 6.5px;
+        margin-right: 6.5px;
+    }
+
+    .manage-txt {
+        font-size: 1.4rem;
+        color: #000 !important;
+    }
+
+    .back-txt {
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #000 !important;
+    }
+
+    .card {
+        position: relative;
+        margin: .5rem 0 1rem 0;
+        background-color: #fff;
+        -webkit-transition: -webkit-box-shadow .25s;
+        transition: -webkit-box-shadow .25s;
+        transition: box-shadow .25s;
+        transition: box-shadow .25s, -webkit-box-shadow .25s;
+        border-radius: 2px;
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    .cardRadius {
+        position: relative;
+        margin: .5rem 0 1rem 0;
+        background-color: #fff;
+        -webkit-transition: -webkit-box-shadow .25s;
+        transition: -webkit-box-shadow .25s;
+        transition: box-shadow .25s;
+        transition: box-shadow .25s, -webkit-box-shadow .25s;
+        border-radius: 0px;
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    @media(min-width:768px) {
+        .cCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .cCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .cCard {
+            padding: 20px;
+        }
+    }
+
+    .tCard {
+        border-radius: 2px;
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    }
+
+
+    input[type=checkbox]:checked:after {
+        background: green !important;
+        color: black !important;
+    }
+
+    .table>thead>tr>th,
+    .table>tbody>tr>th,
+    .table>tfoot>tr>th,
+    .table>thead>tr>td,
+    .table>tbody>tr>td,
+    .table>tfoot>tr>td {
+        padding: 10.8px 2px 10.8px 2px !important;
+    }
+</style>

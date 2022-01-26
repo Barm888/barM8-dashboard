@@ -1,0 +1,52 @@
+{
+  "name": "WeeklyTiming",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "status": {
+      "type": "string",
+      "default": "Open"
+    },
+    "day": {
+      "type": "string"
+    },
+    "sequence": {
+      "type": "number"
+    },
+    "startTime": {
+      "type": "string"
+    },
+    "endTime": {
+      "type": "string"
+    },
+    "startHour": {
+      "type": "number"
+    },
+    "startMinute": {
+      "type": "number"
+    },
+    "endHour": {
+      "type": "number"
+    },
+    "endMinute": {
+      "type": "number"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

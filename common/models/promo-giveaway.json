@@ -1,0 +1,66 @@
+{
+  "name": "PromoGiveaway",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "startTime": {
+      "type": "date"
+    },
+    "endTime": {
+      "type": "date"
+    },
+    "slotTimeUtc": {
+      "type": "date"
+    },
+    "freebie": {
+      "type": "string"
+    },
+    "promoCode": {
+      "type": "string"
+    },
+    "promoMessage": {
+      "type": "string"
+    },
+    "offset": {
+      "type": "number",
+      "default": 600
+    },
+    "giveawayMessage": {
+      "type": "string"
+    },
+    "createTs": {
+      "type": "date"
+    },
+    "createProgId": {
+      "type": "string"
+    },
+    "modifyTs": {
+      "type": "date"
+    },
+    "modifyProgId": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "slotPromos": {
+      "type": "hasOne",
+      "model": "SlotPromo",
+      "foreignKey": ""
+    },
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

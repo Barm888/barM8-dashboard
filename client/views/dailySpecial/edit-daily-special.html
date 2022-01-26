@@ -1,0 +1,487 @@
+<script>
+    $(function () {
+        $('.time').timepicker({ 'scrollDefault': 'now', 'timeFormat': 'h:i a', 'step': 15 });
+    });
+</script>
+<link href="/assets/css/jquery.timepicker.min.css" type="text/css" rel="stylesheet" />
+<script src="/assets/js/jquery.timepicker.min.js"></script>
+<div class="wrapper wrapper-content" id="editDailySpecialCtl" ng-controller="editDailySpecialCtl">
+    <div class="m-t-sm" style="margin-top:2.5rem;margin-bottom:0.5rem;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 padding-space">
+                <div class="row c-1" style="margin: 0rem 0 0.5rem 0 !important;">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <button class="btn btn-s" style="padding: 6px 20px !important;margin-left:-1rem;"
+                            onclick="window.history.go(-1); return false;">Back</button>
+                    </div>
+                </div>
+                <div class="row card c-1">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <h2 class="v-h">Your Offer Details</h2>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <span class="manage-txt">Enter details of your Daily Special for users to see on the
+                            BarM8 app.</span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-10 col-xl-10 col-lg-10"
+                        style="margin-top: 0.5rem;margin-bottom:0.5rem;">
+                        <div class="row">
+                            <!-- <div class="col-xs-6 col-sm-6 col-md-3 col-xl-3 col-lg-3">
+                                <div class="form-group">
+                                    <label for="date">Date</label>
+                                    <input type="text" disabled="disabled" id="date"
+                                        class="form-control custom-input"
+                                        ng-model="editDailySpecialData.dateFormat">
+                                </div>
+                            </div> -->
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="date">Category</label>
+                                    <input type="text" disabled="disabled" id="Category"
+                                        class="form-control custom-input" ng-model="editDailySpecialData.category">
+                                </div>
+                            </div>
+                            <!-- <div class="col-xs-6 col-sm-6 col-md-3 col-xl-3 col-lg-3">
+                                <div class="form-group">
+                                    <label for="start_time">Start time</label>
+                                    <input type="text" id="start_time" disabled
+                                        class="form-control custom-input"
+                                        ng-model="editDailySpecialData.startTime">
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-xl-3 col-lg-3">
+                                <div class="form-group">
+                                    <label for="end_time">End time</label>
+                                    <input type="text" id="end_time" disabled class="form-control custom-input"
+                                        ng-model="editDailySpecialData.endTime">
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 cl-xl-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="title" class="required">Title - What do you want to name this
+                                        Daily Special?</label>
+                                    <input type="text" ng-model="editDailySpecialData.title"
+                                        class="form-control custom-input" id="title">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 cl-xl-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="desc" class="required">Description - Tell us a bit about your
+                                        Daily Special (max. 100 characters)</label>
+                                    <textarea class="form-control" ng-model="editDailySpecialData.desc" style="border: 2px solid #ddd !important;
+                                    font-size: 16px !important;" rows="5" id="desc"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row card c-1">
+                    <div class="col-xs-12 col-sm-12 col-md-10 col-xl-10 col-lg-10" style="margin-bottom: 1rem;">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 cl-xl-12 col-lg-12">
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                        <h2 class="v-h">Your Offer Image</h2>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                        <span class="required manage-txt">Upload an image of your Daily
+                                            Special</span>
+                                        &nbsp; <span style="color: gray;cursor:pointer;" data-toggle="popover"
+                                            data-index="0" data-placement="top"
+                                            data-content='Inbuilt cropping tool is available to resize image'><i
+                                                class="fas fa-info"></i></span>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                        <label style="font-size:1rem !important; color: gray;">
+                                            <i>(For the best results we recommend uploading an image 300*300
+                                                pixels in size)</i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-4 cl-xl-4 col-lg-4">
+                                <div ng-show="editDailySpecialData.img && editDailySpecialData.img.length==0">
+                                    <div class="form-group img-c-s" style="margin-bottom: 0px;">
+                                        <input type="file" id="primary-img" accept="image/png, image/jpeg"
+                                            style="display: none;">
+                                        <div class="drag-img-up" id="drag-drop-img"
+                                            onclick="$('#primary-img').trigger('click'); return false;">
+                                            <img src="https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/add-image-icon.svg"
+                                                class="def-img">
+                                            <p>Drag & drop or click to add image.</p>
+                                            <span>JPEG or PNG</span>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        $(document).ready(() => {
+                                            $('[data-toggle="popover"]').popover({ html: !0, animation: !0, trigger: "hover" });
+                                        });
+                                        $("#primary-img").on('change', function (e) {
+                                            angular.element(document.getElementById('editDailySpecialCtl')).scope().clickImageSection(e.target.files[0]);
+                                        })
+                                        $(document).ready(function () {
+                                            var holder = document.getElementById('drag-drop-img');
+                                            holder.ondragover = function () { return false; };
+                                            holder.ondrop = function (e) {
+                                                e.preventDefault();
+                                                angular.element(document.getElementById('editDailySpecialCtl')).scope().clickImageSection(e.dataTransfer.files[0]);
+                                            };
+                                        });
+                                        $("#replace-i-img").on('change', function (e) {
+                                            angular.element(document.getElementById('editDailySpecialCtl')).scope().imgReplaceSection(e.target.files[0]);
+                                        })
+                                    </script>
+                                    <!-- <div class="form-group img-h-s" style="margin-bottom: 0px;display:none;">
+                                        <div class="profile-pic" style="padding: 5px;">
+                                            <img src="" class="img-resposive img-bkg" id="img-pre"
+                                                style="width: 200px;height: 200px;">
+                                            <div class="edit">
+                                                <a class="btn" id="delete_i_index" data-toggle="tooltip"
+                                                    data-placement="top" title="Delete"
+                                                    style="background-color: #fff;color:#d50000;padding: 5px 10px!important;border-radius:25px;"
+                                                    href="javascript:;"><i class="far fa-trash-alt"></i></a>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                                <link rel="stylesheet" href="/views/dailySpecial/up-img.css">
+                                <link rel="stylesheet" href="https://fengyuanchen.github.io/cropperjs/css/cropper.css">
+                                <script src="https://fengyuanchen.github.io/cropperjs/js/cropper.js"></script>
+                                <div class="modal" id="image-crop-md" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog opacity-animate3 modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <div class="row page">
+                                                    <div class="box-2">
+                                                        <div class="result"></div>
+                                                    </div>
+                                                    <div class="box-2 img-result hide">
+                                                        <img class="cropped" src="" alt="">
+                                                    </div>
+                                                    <div class="box">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                                    </div>
+                                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8"
+                                                        style="text-align: right;">
+                                                        <button class="btn btn-primary" id="crop-btn"
+                                                            style="background-color: #388e3c !important; color: #fff;
+                                border: 1px solid #388e3c !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Crop</button>
+                                                        <button class="btn btn-primary" id="modalClose"
+                                                            style="background-color: #d32f2f !important; color: #fff;margin-right:1rem;
+                                border: 1px solid #d32f2f !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group"
+                                    ng-show="editDailySpecialData.img && editDailySpecialData.img.length">
+                                    <div class="img-content">
+                                        <div class="content-overlay"></div>
+                                        <img class="content-image" ng-src="editDailySpecialData.img[0].path"
+                                            src="{{editDailySpecialData.img[0].path}}"
+                                            style="box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);webkit-box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);border-radius: 4px;">
+                                        <div class="content-details fadeIn-bottom">
+                                            <input type="file" id="replace-i-img" accept="image/png, image/jpeg"
+                                                style="display: none;">
+                                            <button class="btn replaceScnryImg"
+                                                onclick="$('#replace-i-img').trigger('click'); return false;"
+                                                title="Replace"><i class="fas fa-image"></i>&nbsp;Replace</button>
+                                            <button class="btn btn-danger" ng-click="deleteImage()" title="Remove"><i
+                                                    class="far fa-trash-alt"></i>&nbsp;Remove</button>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="profile-pic" style="padding: 5px;">
+                                        <img ng-src="{{editDailySpecialData.img[0].path}}"
+                                            alt="{{editDailySpecialData.img[0].path}}" style="-webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+                                box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+                                width: 100%;height:100%;" class="img-thumbnail">
+                                        <div class="edit"><a class="btn" id="delete_{{editDailySpecialData.id}}"
+                                                data-toggle="tooltip" data-placement="top" title="Delete"
+                                                ng-click="deleteImage()"
+                                                style="background-color: #fff;color:#d50000;padding: 5px 10px!important;border-radius: 50px;"
+                                                href="javascript:;"><i class="far fa-trash-alt"></i></a>
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row card c-1">
+                    <div class="col-x-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <h2 class="v-h">Your Offer Availability</h2>
+                    </div>
+                    <div class="col-x-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <span class="manage-txt">Select Dates & Time</span>
+                    </div>
+                    <div class="col-x-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="text" disabled="disabled" id="date" class="form-control custom-input"
+                                ng-model="editDailySpecialData.dateFormat">
+                        </div>
+                    </div>
+                    <div class="col-x-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <div class="form-group">
+                            <label for="start_time">Start time</label>
+                            <input type="text" id="start_time" disabled class="form-control custom-input"
+                                ng-model="editDailySpecialData.startTime">
+                        </div>
+                    </div>
+                    <div class="col-x-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" style="margin-bottom: 0.5rem;">
+                        <div class="form-group">
+                            <label for="end_time">End time</label>
+                            <input type="text" id="end_time" disabled class="form-control custom-input"
+                                ng-model="editDailySpecialData.endTime">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12" style="margin-bottom: 1rem;">
+                                <button class="btn btn-s pull-right" id="updateBtn"
+                                    ng-click="updateDailySpecial()">Update</button>
+                                <!-- <div class="checkbox pull-right" style="margin-right: 1rem;">
+                                    <label><input type="checkbox" id="daily_s_update_toall" value="">Update to
+                                        all</label>
+                                </div> -->
+                                <button class="btn btn-primary pull-right" style="background-color: #fff; color: gray;border:1px solid #fff;font-size: 16px;
+                                padding: 6.5px 10px !important;border-radius:0px !important;">OR</button>
+                                <button class="btn btn-s pull-right" ng-click="updateDailySpecialAll()"
+                                    id="updateBtn">Update all</button>
+
+                                <button class="btn btn-s pull-right" style="margin-right: 2rem;"
+                                    ng-show="statusEV=='Live'" ng-click="updateStatus(statusEV)">Live</button>
+                                <button class="btn btn-r pull-right" style="margin-right: 2rem;"
+                                    ng-show="statusEV=='Pending'" ng-click="updateStatus(statusEV)">Pending</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .c-1 {
+        margin-top: 0.3rem;
+    }
+
+
+    .def-img {
+        width: 79px;
+        height: 79px;
+    }
+
+    .drag-img-up {
+        padding: 20px;
+        border: 1px dotted gray;
+        text-align: center;
+    }
+
+    .drag-img-up span {
+        color: gray;
+    }
+
+    .padding-space {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .ui-timepicker-wrapper {
+        width: 11.5em !important;
+    }
+
+    .manage-txt {
+        font-size: 1.3526rem !important;
+        color: #000 !important;
+    }
+
+    .back-txt {
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #000 !important;
+    }
+
+    @media(max-width:767px) {
+        .cCard {
+            padding: 15px;
+        }
+    }
+
+    @media(min-width:768px) {
+        .cCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .cCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .cCard {
+            padding: 20px;
+        }
+    }
+
+    .tCard {
+        border-radius: 2px;
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    .sub-title {
+        font-size: 1.2rem;
+    }
+
+    .label-txt {
+        font-size: 16px;
+        margin-top: 13.5px;
+        margin-bottom: 13.5px;
+    }
+
+    .form-group {
+        margin-bottom: 8px;
+    }
+
+    .profile-pic {
+        position: relative;
+        display: inline-block;
+    }
+
+    .profile-pic:hover .edit {
+        display: block;
+    }
+
+    .edit {
+        padding-top: 13px;
+        padding-right: 13px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        display: none;
+    }
+
+    .edit a {
+        color: #000;
+    }
+
+    .card {
+        position: relative;
+        margin: 0rem 0 0.5rem 0;
+    }
+
+    .img-container .title {
+        color: #1a1a1a;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .img-content {
+        position: relative;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .img-content .content-overlay {
+        background: rgba(0, 0, 0, 0.7);
+        position: absolute;
+        height: 99%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        opacity: 0;
+        -webkit-transition: all 0.4s ease-in-out 0s;
+        -moz-transition: all 0.4s ease-in-out 0s;
+        transition: all 0.4s ease-in-out 0s;
+    }
+
+    .img-content:hover .content-overlay {
+        opacity: 1;
+    }
+
+    .content-image {
+        width: 100%;
+    }
+
+    .content-details {
+        position: absolute;
+        text-align: center;
+        padding-left: 1em;
+        padding-right: 1em;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        opacity: 0;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        -webkit-transition: all 0.3s ease-in-out 0s;
+        -moz-transition: all 0.3s ease-in-out 0s;
+        transition: all 0.3s ease-in-out 0s;
+    }
+
+    .img-content:hover .content-details {
+        top: 50%;
+        left: 50%;
+        opacity: 1;
+    }
+
+    .content-details button {
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        margin-bottom: 0.5em;
+    }
+
+    .content-details p {
+        color: #fff;
+        font-size: 0.8em;
+    }
+
+    .btn-s {
+        color: #000;
+        border: 3px solid green !important;
+        background-color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .btn-s:hover {
+        color: #fff !important;
+        background: green !important;
+    }
+
+    .btn-s:active {
+        letter-spacing: 1px;
+    }
+
+    .btn-r {
+        color: #000;
+        border: 3px solid red !important;
+        background-color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .btn-r:hover {
+        color: #fff !important;
+        background: red !important;
+    }
+
+    .btn-r:active {
+        letter-spacing: 1px;
+    }
+</style>

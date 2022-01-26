@@ -1,0 +1,80 @@
+.btn, .btn-primary.disabled, .btn-primary.disabled:hover, .btn-primary.disabled:focus, .btn-primary.disabled:active, .btn-primary.disabled.active, .btn-primary[disabled], .btn-primary[disabled]:hover, .btn-primary[disabled]:focus, .btn-primary[disabled]:active, .btn-primary.active[disabled], fieldset[disabled] .btn-primary, fieldset[disabled] .btn-primary:hover, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary:active, fieldset[disabled] .btn-primary.active {
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+}
+
+.navCard {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.sidenav {
+  height: 100%;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  background-color: #f9a141
+;
+  overflow-x: hidden;
+}
+
+.plain-button {
+  box-shadow: 0px -1px 4px 0px rgba(255,255,255,.15), -1px 2px 9px 0px rgba(255,255,255,.15);
+  font-size: 20px;
+  display: inline;
+  border: none;
+  padding: 0px 0px 0px 0px;
+  background: none;
+  outline: none;
+  border-radius: 30px;
+}
+
+.vi {
+  color: #49a4f2;
+}
+
+.de {
+  color: #e53935;
+}
+
+.navbarTop {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index:999 !important;
+}
+
+.nav > li.active {
+  border-left: 4px solid #f3f3f4;
+}
+
+body: not(.fixed-sidebar):not(.canvas-menu).mini-navbar .nav li:hover > .nav-second-level, .mini-navbar .nav li:focus > .nav-second-level {
+  display: block;
+  border-radius: 0 2px 2px 0;
+  min-width: 200px;
+}
+
+body.ng-scope.pace-done.pace-done.pace-done.pace-done {
+  background-color: #f3f3f4;
+}
+
+.middle-box.text-center.loginscreen.animated.fadeInDown.ng-scope {
+  margin-left: 39%;
+  margin-top: 70px;
+}
+
+.pace-running .s3-loader {
+  zoom: 1;
+  filter: alpha(opacity=10);
+  opacity: 0.1;
+}
+
+.pace-done .s3-loader {
+  zoom: 1;
+  filter: alpha(opacity=100);
+  opacity: 1;
+  -webkit-transition: opacity 1s linear;
+  -moz-transition: opacity 1s linear;
+  -o-transition: opacity 1s linear;
+  transition: opacity 1s linear;
+}

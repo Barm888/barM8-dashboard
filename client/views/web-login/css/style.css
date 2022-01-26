@@ -1,0 +1,262 @@
+/*
+	Rocket Internet by TEMPLATE STOCK
+    templatestock.co @templatestock
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+*/
+
+/* Typography CSS */
+body
+{
+    font-family: 'Lato', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #41484b;
+}
+
+
+
+/* Heder */
+/* #homeFullScreen {
+    width: 100%;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+    background-position: top center;
+} */
+
+/* #homeFullScreen {
+    background-image: url('../images/login-page.png');
+    overflow: hidden;
+}
+
+#homeFullScreen {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    margin: auto;
+} */
+
+.header-text h1
+{
+    font-size: 60px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.header-text .vertical-line
+{
+    height: 2px;
+    background-color: #fff;
+    width: 150px;
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.header-text p
+{
+    font-size: 26px;
+    color: #fff;
+}
+
+.logo-section {
+	max-width: 250px;
+    margin: 0 auto;
+}
+.logo-section img {
+	max-width: 100%;
+}
+.form-section {
+	max-width: 625px;
+    margin: 0 auto;
+    padding: 40px 50px 0;
+    border-radius: 3px;
+    background: #151541;
+    background: -webkit-linear-gradient(top, #151541, #24c62700);
+    background: -moz-linear-gradient(top, #151541, #24c62700);
+    background: linear-gradient(to bottom, #151541, #24c62700);
+}
+.form-section h2 {
+	margin: 0;
+    color: #fff;
+	font-weight: 600;
+	position: relative;
+	padding-bottom: 25px;
+}
+.form-section h2:after {
+	position: absolute;
+    display: block;
+    content: '';
+    width: 20px;
+    height: 2px;
+    background: #FAA141;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin: 0 auto;
+    bottom: 12px;
+}
+.header-text .form-section p {
+	font-size: 16px;
+    color: #c5c5c5;
+    max-width: 300px;
+    margin: 0 auto;
+}
+form .cc-form {
+	display: block;
+    max-width: 400px;
+    margin: 0 auto;
+	padding-top: 15px;
+}
+form .cc-form input[type=email], form .cc-form input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 14px 0;
+    display: inline-block;
+    border: 1px solid #5b5b61;
+    box-sizing: border-box;
+    background: transparent;
+    color: #fff;
+    border-radius: 5px;
+}
+form .psw {
+	display: block;
+    text-align: left;
+	color: #c5c5c5;
+	padding-bottom: 20px;
+}
+form .psw a {
+	color: #FBA919;
+}
+form button {
+	background: #FBA919;
+    color: #000;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 800;
+    padding: 5px 25px;
+    border-radius: 5px;
+    border: 0;
+}
+/* Extra Small devices  */
+@media (max-width: 480px) {
+	
+}
+
+/* Extra Small devices  */
+@media (max-width: 767px) {
+    .header-text h1 {
+        font-size: 45px;
+    }
+
+    .header-text .vertical-line {        
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .header-text p {
+        font-size: 20px;
+        color: #fff;
+    }
+
+}
+
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {  
+    .header-text h1 {
+        font-size: 45px;
+    }
+
+    .header-text p {
+        font-size: 20px;
+        color: #fff;
+    }
+
+    
+
+}
+
+
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    /* Typography CSS */
+body
+{
+    font-family: 'Lato', sans-serif;
+    color: #41484b;
+}
+
+
+
+/* Heder */
+/* #homeFullScreen {
+    width: 100%;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+    background-position: top center;
+} */
+
+/* #homeFullScreen {
+    background-image: url('../images/header.png');
+    overflow: hidden;
+} */
+.login-outer{
+    position: relative;
+}
+.login-outer::before{
+    background-image: url('../images/login-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position:center;
+    min-height: 100vh;
+    width: 100%;
+    position: absolute;
+}
+/* #homeFullScreen {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    margin: auto;
+} */
+
+.header-text h1
+{
+    font-size: 60px;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.header-text .vertical-line
+{
+    height: 2px;
+    background-color: #fff;
+    width: 150px;
+    margin: 0 auto;
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.header-text p
+{
+    font-size: 26px;
+    color: #fff;
+}
+
+
+
+}
+
+
+.login-outer{
+    min-height: 100vh;
+    padding: 0;
+    background: #000;
+    position: relative;
+}
+
+.login-box{
+    position: relative;
+    z-index: 99;
+}

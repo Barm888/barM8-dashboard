@@ -1,0 +1,46 @@
+{
+  "name": "VenuePermission",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "_name": {
+      "type": "string"
+    },
+    "isDelete": {
+      "type": "boolean",
+      "default": false
+    },
+    "isChecked": {
+      "type": "boolean",
+      "default": false
+    },
+    "isEdit": {
+      "type": "boolean",
+      "default": false
+    },
+    "isCreate": {
+      "type": "boolean",
+      "default": false
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "venueUser": {
+      "type": "belongsTo",
+      "model": "VenueUser",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

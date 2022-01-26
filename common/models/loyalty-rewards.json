@@ -1,0 +1,89 @@
+{
+  "name": "LoyaltyRewards",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "startTime": {
+      "type": "any"
+    },
+    "_24startTimeFormat": {
+      "type": "any"
+    },
+    "endTime": {
+      "type": "any"
+    },
+    "_24endTimeFormat": {
+      "type": "any"
+    },
+    "offsetFormat": {
+      "type": "any"
+    },
+    "offsetHour": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "year": {
+      "type": "string"
+    },
+    "month": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "isGroup": {
+      "type": "string",
+      "default": "no"
+    },
+    "dateNo": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    },
+    "startDateFormat": {
+      "type": "date"
+    },
+    "endDateFormat": {
+      "type": "date"
+    },
+    "promoCode": {
+      "type": "string"
+    },
+    "promoMessage": {
+      "type": "string"
+    },
+    "createTs": {
+      "type": "date"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    },
+    "couponNotifications": {
+      "type": "hasMany",
+      "model": "CouponNotification",
+      "foreignKey": ""
+    },
+    "slotLoyalties": {
+      "type": "hasOne",
+      "model": "SlotLoyalty",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

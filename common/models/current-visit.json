@@ -1,0 +1,77 @@
+{
+  "name": "CurrentVisit",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "tableNo": {
+      "type": "string"
+    },
+    "scanInTime": {
+      "type": "date"
+    },
+    "scanInDate": {
+      "type": "string"
+    },
+    "scanInTimeTxt": {
+      "type": "string"
+    },
+    "scanOutTime": {
+      "type": "date"
+    },
+    "scanOutTimeTxt": {
+      "type": "string"
+    },
+    "isScanIn": {
+      "type": "boolean",
+      "default": false
+    },
+    "isScanOut": {
+      "type": "boolean",
+      "default": false
+    },
+    "isBusinessScan": {
+      "type": "boolean",
+      "default": false
+    },
+    "location": {
+      "type": "geopoint"
+    },
+    "date": {
+      "type": "number"
+    },
+    "month": {
+      "type": "number"
+    },
+    "year": {
+      "type": "number"
+    },
+    "hour": {
+      "type": "number"
+    },
+    "minute": {
+      "type": "number"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    },
+    "customer": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

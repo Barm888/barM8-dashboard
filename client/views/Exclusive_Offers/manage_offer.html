@@ -1,0 +1,962 @@
+<link href="/assets/datepicker.min.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/assets/bootstrap-datepicker.min.js"></script>
+<div class="wrapper wrapper-content" id="exclusiveOffer" ng-controller="manageExclusiveOfferCtl">
+    <div class="m-t-sm" style="margin-top:2.5rem;">
+        <div class="row" ng-show="userDetails.isAdmin">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 padding-space">
+                <div class="row card eventCard" style="margin: 0rem 0 0rem 0 !important;">
+                    <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                    <div class="autocomplete col-sm-12 col-xs-8 col-md-6 col-lg-6 col-xl-6"
+                        style="padding-right:0px;padding-left:0px;">
+                        <input id="autocompleteBusiness" type="text" name="BusinessName"
+                            placeholder="Enter Business name">
+                        <span id="businessErr" style="color:red;"></span>
+                    </div>
+                    <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                    <script
+                        type="text/javascript">autocomplete(document.getElementById("autocompleteBusiness"), 'createNewOffer');</script>
+                    <div class="autocomplete col-sm-12 col-xs-4 col-md-6 col-lg-6 col-xl-6">
+                        <button type="button" ng-click="BusinessSelected('createNewOffer')" id="businessSubmit"
+                            class="btn btn-raised btn-primary businessSubmit">
+                            <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row" ng-show="!userDetails.isAdmin && couponsList.length">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <a ui-sref="create-new-offer" class="btn create-btn"
+                    style="padding: 6px 29px !important;margin-top:0.5rem;margin-bottom:0.5rem;margin-left:-1rem;">Create
+                    Limited Offer</a>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-xl-12 col-lg-12 card" style="margin-top: 0.5rem !important;">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12 padding-space">
+                        <div class="row" style="margin: 0rem 0 0rem 0 !important;">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="row" ng-show="couponsList.length==0">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                <h2 class="v-h">Your Limited Offers</h2>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                <p class="c-p-1">Limited Offers can be of Food, Drinks or Event
+                                                    type. These Offers are mostly promoted as a one-off or
+                                                    limited by numbers of offers available. To create a new
+                                                    offer, click Create Daily Special button. Once created, the
+                                                    offer will appear here as “Pending” in the App Status
+                                                    column. If the details look correct and you are ready to
+                                                    make the offer “Live” on the App, click the red “Pending”
+                                                    button and it will change to green “Live”. The offer is now
+                                                    visible on the App.</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12 center">
+                                                <br>
+                                                <img src="assets/img/manage-img.png">
+                                                <br>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12 center">
+                                                <p class="manage-txt">No current Special offers!</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12"
+                                                style="text-align: center;margin-bottom:1rem;">
+                                                <a ui-sref="create-new-offer" class="btn btn-s"
+                                                    style="padding: 6px 29px !important;">Create Limited
+                                                    Offer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="couponsList.length">
+                                    <div class="col-sm-12 col-xs-12 col-md-6 col-xl-6 col-lg-6"
+                                        style="margin-bottom: 0.5rem;">
+                                        <h2 class="v-h">Manage Limited Offers at your venue</h2>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                                        <a ui-sref="create-new-offer" class="btn right btn-s"
+                                            style="padding: 6px 29px !important;margin-top:1rem;">Create Limited
+                                            Offer</a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                        <p class="c-p-1">Manage Limited Offers at your venue
+                                            You can View, Edit or Delete an offer for a single day or multiple
+                                            days. Simply click on Edit icon, make the change and click Update or
+                                            Update-all. You can also use Edit option to change the in App Status
+                                            of the offer by clicking on Pending to go Live and vice versa. Click
+                                            Update to make a single change or Update-all for multiple days for
+                                            which the offer is available.</p>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="couponsList.length">
+                                    <!-- <div class="col-xs-6 col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                                        <button data-toggle="collapse" data-target="#filterCollapse" class="btn"
+                                            style="border-radius: 5%;padding: 4px 9px !important;
+                                    background-color:#f9a141 !important;color:#fff !important;font-size: 20px;"
+                                            title="Filter"><i class="fas fa-filter"></i> Filter</button>
+
+                                    </div> -->
+
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <div id="filterCollapse" class="collapse in">
+                                            <div class="row card" style="padding:10px 10px 20px 10px;
+                                                margin-top:0.1rem;margin-bottom:0.5rem;">
+                                                <div class="col-sm-6 col-xs-6 col-md-3 col-lg-3 col-xl-3">
+                                                    <div class="from-group">
+                                                        <label for="_offer_view" style="font-size: 16px;">View</label>
+                                                        <select id="_offer_view" class="form-control custom-input">
+                                                            <option selected value="All">All</option>
+                                                            <option value="7">7 days</option>
+                                                            <option value="14">14 days</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-xs-6 col-md-3 col-lg-3 col-xl-3">
+                                                    <div class="from-group">
+                                                        <label for="_offer_type" style="font-size: 16px;">Offer
+                                                            type</label>
+                                                        <select id="_offer_type" class="form-control custom-input">
+                                                            <option selected value="All">All</option>
+                                                            <option value="Food">Food</option>
+                                                            <option value="Drinks">Drinks</option>
+                                                            <option value="Event">Event</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-6 col-xs-6 col-md-3 col-lg-3 col-xl-3">
+                                                    <div class="from-group">
+                                                        <label for="_offer_category"
+                                                            style="font-size: 16px;">Category</label>
+                                                        <select id="_offer_category" class="form-control custom-input">
+                                                            <option value="select">Select</option>
+                                                            <option value="{{offer.name}}"
+                                                                ng-repeat="offer in offerTypes | filter: { type : offerType }">
+                                                                {{offer.name}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-xs-6 col-md-3 col-lg-3 col-xl-3">
+                                                    <div class="from-group">
+                                                        <label for="_offer_offer_name"
+                                                            style="font-size: 16px;">Title</label>
+                                                        <select id="_offer_offer_name"
+                                                            class="form-control custom-input">
+                                                            <option value="select">Select</option>
+                                                            <option value="{{offer.titleTxt}}"
+                                                                ng-repeat="offer in offerNamesList">
+                                                                {{offer.title}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="couponsList.length>0">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12 deleteAllDiv"
+                        style="margin-top: 0.5rem;margin-bottom:0.5rem;display:none;">
+                        <button class="btn right"
+                            style="padding: 6px 20px !important;background-color:red; color: #fff; font-size: 16px;"
+                            ng-click="DeleteToAll()">Delete
+                            All</button>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12"
+                        style="margin-bottom: 1rem;margin-top:0.1rem;">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"
+                                        style="text-align: center;">
+                                        <div class="form-check">
+                                            <input class="form-check-input position-static" onclick="SelectAllClk()"
+                                                type="checkbox" id="selectAllCheck" value="All">
+
+                                        </div>
+                                        <span>Select All</span>
+                                    </th>
+                                    <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2"><span>Image</span>
+                                    </th>
+                                    <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"><span>Offer
+                                            Type</span></th>
+                                    <!-- <th class="col-md-1 col-lg-1 col-xl-1"><span>Category</span></th> -->
+                                    <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"><span>Title</span>
+                                    </th>
+                                    <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                        <span>Description</span>
+                                    </th>
+                                    <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"><span>Offer
+                                            Value</span></th>
+                                    <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"><span>Date</span>
+                                    </th>
+                                    <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"><span>Start
+                                            Time</span></th>
+                                    <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                        <!-- <span>End Time</span> -->
+                                    </th>
+                                    <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"><span>Status</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="coupon in couponsList" ng-mouseover="showTheMiddle($event, $index)"
+                                    ng-mouseleave="hiddenTheMiddle($index)" style="position: relative;">
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1"
+                                        style="text-align: center;">
+                                        <div class="form-check">
+                                            <input class="form-check-input tw-s-box" type="checkbox" id="_{{coupon.id}}"
+                                                value="{{coupon.id}}" onclick="checkBoxClick()">
+                                        </div>
+                                    </td>
+                                    <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                        <div class="imgwrapper">
+                                            <img ng-src="{{coupon.img[0].path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png' }}"
+                                                class="img-thumbnail img-responsive"
+                                                alt="{{coupon.img[0].fileName || 'No Image'}}"
+                                                title="{{coupon.img[0].fileName}}">
+                                        </div>
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                        <b>{{coupon.offerType}}</b>
+                                    </td>
+                                    <!-- <td class="col-md-1 col-lg-1 col-xl-1"><b>{{coupon.subOfferType}}</b></td> -->
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                        <b>{{coupon.title}}</b>
+                                    </td>
+                                    <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                        <b>{{coupon.desc}}</b>
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                        <b ng-show="coupon.price"> $ {{coupon.price}}</b>
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                        <b>{{coupon.offerDateTxt}}</b>
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                        <b>{{coupon.startTimeTxt}}</b>
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                        <!-- <b>{{coupon.offerExpiryTimeTxt}}</b> -->
+                                        <button class="btn btn-primary"
+                                            style="background-color: #3f51b5 !important;color:#fff !important;padding: 5px 26px !important;border: 1px solid #3f51b5 !important;"
+                                            ng-click="initiallDeal(coupon.id);firstOpenCal();">Deal</button>
+                                    </td>
+                                    <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                        <b class="btn" ng-click="updateStatus(coupon.id, 'Pending')"
+                                            ng-show="coupon.status=='Pending'"
+                                            style="background-color: red !important;color:#fff !important;">{{coupon.status}}</b>
+                                        <b class="btn" ng-click="updateStatus(coupon.id, 'Live')"
+                                            ng-show="coupon.status=='Live'"
+                                            style="background-color: green !important;color:#fff !important;padding: 5px 26px !important;">{{coupon.status}}</b>
+                                    </td>
+                                    <td class="middle_{{$index}}"
+                                        style="display: none;background-color:transparent;padding: 4.5px !important;margin-top:4rem;border: 0px solid #e7e7e7;">
+                                        &nbsp;
+                                        <button class="btn" style="border-radius: 50%;padding: 4px 7.5px !important;
+                                        background-color: #3f51b5 !important;color:#fff !important;"
+                                            ng-click="couponView(coupon.id)" title="View"><i
+                                                class="fas fa-eye"></i></button>
+                                        &nbsp;
+                                        <button class="btn" style="border-radius: 50%;padding: 4px 8px !important;
+                                        background-color: #2e7d32 !important;color:#fff !important;"
+                                            ng-click="couponEdit(coupon.id)" title="Edit"><i
+                                                class="fas fa-pencil-alt"></i></button>
+                                        &nbsp;
+                                        <button class="btn" style="border-radius: 50%;padding: 4px 9px !important;
+                                        background-color: #d50000 !important;color:#fff !important;"
+                                            ng-click="deleteConfirm(coupon.id)" title="Delete"><i
+                                                class="fas fa-trash"></i></button>
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal" tabindex="-1" id="create-Select-date" role="dialog">
+                        <div class="modal-dialog modal-sm opacity-animate3" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color: #FF9800;color:#fff;">
+                                    <h3 class="modal-title" style="padding: 8px;">Select Dates</h3>
+                                </div>
+                                <div class="modal-body"
+                                    style="text-align: center !important;padding: 10px 00px 0px 10px !important;">
+                                    <div class="row">
+                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2"
+                                            style="margin-top:7.4rem;">
+                                            <div ng-repeat="v in [1, 2, 3, 4, 5, 6]"
+                                                style="display: flex; flex-flow: column; justify-content: space-between;margin-left:15px;">
+                                                <input type="checkbox" id="_row_c_{{v}}" data-i="{{v}}" name="r-s-check"
+                                                    style="margin-top: 13.8px;" onclick="setRChecked(this)">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10"
+                                            style="padding-left: 0px;padding-right:0px;">
+                                            <div id="datepicker_dd_s"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer" style="text-align: right !important;">
+                                    <button type="button" class="btn btn-s" id="confirmDeleteBtn" data-id=""
+                                        ng-click="confirmCreateDeal()">Submit</button>
+                                    <button type="button" class="btn btn-r" ng-click="modelClose()"
+                                        style="margin-right:10px;">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal" tabindex="-1" id="deleteConfirmPopup" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color: #FF9800;color:#fff;">
+                                    <h3 class="modal-title" style="padding: 8px;">Message</h3>
+                                </div>
+                                <div class="modal-body"
+                                    style="text-align: center !important;padding: 20px 30px 0px 30px !important;">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                            <h3>Do you want to proceed?</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="confirmDeleteBtn"
+                                        ng-click="couponDelete()"
+                                        style="background-color: #4CAF50 !important;padding: 4px 14px!important;border-radius: 3px;font-size:16px;color:#fff !important;">Yes</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        style="background-color: red !important;border-radius: 3px;color:#fff !important;padding:4px 18px !important;font-size:16px;"
+                                        data-dismiss="modal">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="viewOffer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-2">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header" style=" text-align:right;">
+                                    <button type="button" class="btn btn-dialog" style="background-color: red;
+                                    color: #fff; border-radius: 50%; border: 3px solid #fff;" data-dismiss="modal">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="text-align: initial !important;max-height: 30rem;
+                                height: 30rem; overflow-x: auto;">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+                                                    <br>
+                                                    <div class="form-group">
+                                                        <label for="name">What do you want to name this
+                                                            offer?</label>
+                                                        <input type="text" id="title" disabled="disabled"
+                                                            class="form-control form-c" id="name"
+                                                            style="font-size: 15px !important;"
+                                                            ng-model="couponViews.title">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <!-- <button type="button" class="btn btn-dialog" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-dialog">Ok</button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="dateAndTime" tabindex="-1" role="dialog"
+                        aria-labelledby="myModalLabel-2">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+
+                                <div class="modal-header" style=" text-align:right;">
+                                    <button type="button" class="btn btn-dialog" style="background-color: red;
+                                    color: #fff; border-radius: 50%; border: 3px solid #fff;" data-dismiss="modal">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+
+                                <div class="modal-body" style="text-align: initial !important;max-height: 30rem;
+                                height: 30rem; overflow-x: auto;">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th><b>Offer Date</b></th>
+                                                        <th><b>Offer Start Time</b></th>
+                                                        <th><b>Offer Vailded</b></th>
+                                                        <th><b>Coupons Offered</b></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="dates in couponDisplayDates">
+                                                        <td>{{dates.offerDate | date : "EEE, dd MMM , y"}}</td>
+                                                        <td>{{dates.startTimeTxt}}</td>
+                                                        <td>{{dates.offerExpiryTimeTxt}}</td>
+                                                        <td>{{dates.availableCnt}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <!-- <button type="button" class="btn btn-dialog" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-dialog">Ok</button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    var theMonths = ["January", "February", "March", "April", "May",
+        "June", "July", "August", "September", "October", "November", "December"];
+
+    $("#_offer_type").on('change', function () {
+        if ($("#_offer_type").val() && $("#_offer_type").val() != 'select') {
+            $("#_offer_category").prop('disabled', false);
+        }
+        angular.element(document.getElementById('exclusiveOffer')).scope().getAllOffers();
+    })
+    $("#_offer_category").on('change', function () {
+        $("#_offer_offer_name").val('select');
+        angular.element(document.getElementById('exclusiveOffer')).scope().getAllOffers();
+    })
+    $("#_offer_offer_name").on('change', function () {
+        angular.element(document.getElementById('exclusiveOffer')).scope().getAllOffers();
+    })
+    $("#_offer_view").on('change', function () {
+        angular.element(document.getElementById('exclusiveOffer')).scope().getAllOffers();
+    })
+    function SelectAllClk() {
+        $(".tw-s-box").prop('checked', false);
+        if ($("#selectAllCheck").is(':checked')) $(".tw-s-box").prop('checked', true);
+        angular.element(document.getElementById('exclusiveOffer')).scope().checkedOffers();
+    }
+    function checkBoxClick() {
+        angular.element(document.getElementById('exclusiveOffer')).scope().checkedOffers();
+    }
+    $(function () {
+        // Do initial resize
+        let resizeFrame = () => {
+            console.log($(window).width());
+            if ($(window).width() < 900) {
+                $(".img-res").addClass('img-center');
+
+                // $('#h-hour-ta tbody tr')
+                $('#h-hour-ta tbody tr').each(function () {
+                    customeheight = $(this).height();
+                    console.log($(this).height());
+                    let maxHeight = 200;
+                    $(this).css('line-height', maxHeight + 'px !important'); //nothing happens!
+                    $(this).css('height', maxHeight + 'px !important'); //nothing happens!
+                    $(this).height(maxHeight); //nothing happens!
+                    //  alert(customeheight);
+                })
+            } else {
+                $(".img-res").removeClass('img-center');
+                $('#h-hour-ta tbody tr').eq(1).css('height', '');
+            }
+        }
+        resizeFrame();
+
+        // Register for window resize
+        $(window).resize(resizeFrame);
+    });
+
+
+    var date = new Date();
+
+    $('#datepicker_dd_s').datepicker({
+        startDate: new Date(), todayHighlight: false, multidate: true,
+        endDate: new Date(date.getFullYear(), date.getMonth() + 2, 0),
+        autoclose: true
+    });
+
+    $('#datepicker_dd_s').on('changeDate', function (params) {
+        if (params.dates) {
+            params.dates.forEach(v => {
+                let dateN = new Date(v);
+                let va_d = `${("0" + dateN.getDate()).slice(-2)}-${("0" + (dateN.getMonth() + 1)).slice(-2)}-${dateN.getFullYear()}`;
+                angular.element(document.getElementById('exclusiveOffer')).scope().addDates(va_d);
+            })
+        }
+        if (params.date) {
+            angular.element(document.getElementById('exclusiveOffer')).scope().clickDateAndFind(params);
+        } else {
+            let values = $(".datepicker-switch").html();
+            values = values.split(' ');
+            let fMonthIndex = theMonths.findIndex(m => m == values[0]);
+            angular.element(document.getElementById('exclusiveOffer')).scope().getMonthData(`${fMonthIndex}_${values[1]}`);
+        }
+    });
+
+    $('.next').on('click', function (params) {
+        let values = $(".datepicker-switch").html();
+        values = values.split(' ');
+        let fMonthIndex = theMonths.findIndex(m => m == values[0]);
+        angular.element(document.getElementById('exclusiveOffer')).scope().getMonthData(`${fMonthIndex + 1}_${values[1]}`);
+    })
+
+    $('.prev').on('click', function (params) {
+        let values = $(".datepicker-switch").html();
+        values = values.split(' ');
+        let fMonthIndex = theMonths.findIndex(m => m == values[0]);
+        angular.element(document.getElementById('exclusiveOffer')).scope().getMonthData(`${fMonthIndex - 1}_${values[1]}`);
+    })
+
+    var cVCal = ['_1_col_ck', '_2_col_ck', '_3_col_ck', '_4_col_ck', '_5_col_ck', '_6_col_ck', '_7_col_ck'];
+    $(() => {
+        let cVal = '';
+        for (let v of cVCal) {
+            let i = v.split('_')[1];
+            cVal += `<td> <input type="checkbox" name="c-cal-check" id="${v}" data-i="${i}" onclick="setChecked(this)"></td>`;
+        }
+        $('#datepicker_dd_s table thead tr:nth-child(1)').before(`<tr>${cVal}</tr>`);
+    })
+
+    var setChecked = (e) => {
+        setTimeout(function () {
+            if ($(e).prop("checked")) {
+                $(`#datepicker_dd_s table tbody tr td:nth-child(${$(e).attr('data-i')})`).removeClass('active');
+                $(e).prop('checked', false);
+                var items = $.map($("#datepicker_dd_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+                var month = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+                var year = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+                var monthIndex = monthNames.indexOf(month) + 1;
+                var datesAdd = [];
+                $.each(items, function (key, val) {
+                    datesAdd.push(new Date(parseInt(year), parseInt((monthIndex - 1)), parseInt(val)));
+                });
+                $('#datepicker_dd_s').datepicker('setDates', datesAdd);
+            }
+            else {
+                $(`#datepicker_dd_s table tbody tr td:nth-child(${$(e).attr('data-i')})`)
+                    .not('.old')
+                    .not('.new')
+                    .not('.disabled')
+                    .addClass('active');
+                $(e).prop('checked', true);
+                var items = $.map($("#datepicker_dd_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+                var month = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+                var year = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+                var monthIndex = monthNames.indexOf(month) + 1;
+                var datesAdd = [];
+                $.each(items, function (key, val) {
+                    datesAdd.push(new Date(parseInt(year), parseInt((monthIndex - 1)), parseInt(val)));
+                });
+                $('#datepicker_dd_s').datepicker('setDates', datesAdd);
+            }
+        }, 1)
+    }
+
+    var setRChecked = (e) => {
+        let i = $(e).attr('data-i');
+        if ($(e).prop("checked")) {
+            $("#datepicker_dd_s .datepicker-days .table-condensed tbody tr:nth-child(" + i + ") td").not('.old').not('.new').not('.disabled').addClass('active');
+            var items = $.map($("#datepicker_dd_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+            var month = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+            var year = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+            var monthIndex = monthNames.indexOf(month) + 1;
+            var datesAdd = [];
+            $.each(items, function (key, val) {
+                datesAdd.push(new Date(parseInt(year), parseInt((monthIndex - 1)), parseInt(val)));
+            });
+            $('#datepicker_dd_s').datepicker('setDates', datesAdd);
+        } else {
+            $("#datepicker_dd_s .datepicker-days .table-condensed tbody tr:nth-child(" + i + ") td").not('.old').not('.new').not('.disabled').removeClass('active');
+            var items = $.map($("#datepicker_dd_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+            var month = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+            var year = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+            var monthIndex = monthNames.indexOf(month) + 1;
+            var datesAdd = [];
+            $.each(items, function (key, val) {
+                datesAdd.push(new Date(parseInt(year), parseInt((monthIndex - 1)), parseInt(val)));
+            });
+            $('#datepicker_dd_s').datepicker('setDates', datesAdd);
+        }
+    }
+</script>
+<style>
+    @media(min-width:768px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    .padding-space {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .back-txt {
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #000 !important;
+    }
+
+    .manage-txt {
+        font-size: 1.4rem;
+        color: #000 !important;
+    }
+
+    .manage-txt-1 {
+        font-size: 1.044rem;
+        color: #000 !important;
+    }
+
+    .form-c {
+        height: 40px;
+    }
+
+    .right {
+        float: right;
+    }
+
+    .create-btn {
+        background-color: #1d951d;
+        color: #fff;
+        font-size: 1.4rem;
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    .manage-txt {
+        font-weight: 600;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    th>b {
+        font-size: 1.2rem;
+    }
+
+    .table>thead>tr>th,
+    .table>tbody>tr>th,
+    .table>tfoot>tr>th,
+    .table>thead>tr>td,
+    .table>tbody>tr>td,
+    .table>tfoot>tr>td {
+        padding: 3px !important;
+    }
+
+    .btn-s {
+        color: #000;
+        border: 3px solid green !important;
+        background-color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .btn-s:hover {
+        color: #fff !important;
+        background: green !important;
+    }
+
+    .btn-s:active {
+        letter-spacing: 1px;
+    }
+
+    .v-h {
+        font-weight: 600;
+    }
+
+    .v-h-1 {
+        color: gray;
+    }
+
+    .c-p-1 {
+        font-size: 15px;
+        color: gray;
+    }
+
+    th>span {
+        font-size: 1.1rem !important;
+    }
+
+    input[type=checkbox] {
+        zoom: 1.2;
+    }
+
+    .modal.fade .modal-dialog {
+        opacity: 0;
+        -webkit-transform: scale(0.1);
+        -ms-transform: scale(0.1);
+        -o-transform: scale(0.1);
+        transform: scale(0.1);
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+    }
+
+    .modal.fade.in .modal-dialog {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+        transform: scale(1);
+        -webkit-transform: translate3d(0%, 0, 0);
+        -ms-transform: translate3d(0%, 0, 0);
+        -o-transform: translate3d(0%, 0, 0);
+        transform: translate3d(0%, 0, 0);
+    }
+
+    /* DIALOG CONTENT */
+    .modal-content {
+        border: none;
+        border-radius: 2px;
+        -webkit-box-shadow: 0 40px 77px rgba(0, 0, 0, 0.22), 0 27px 24px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 40px 77px rgba(0, 0, 0, 0.22), 0 27px 24px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 40px 77px rgba(0, 0, 0, 0.22), 0 27px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    /* DIALOG HEADER */
+    .modal-header {
+        min-height: 16px;
+        padding: 24px;
+        border-bottom: none;
+    }
+
+    .modal-title {
+        font-weight: 500;
+        font-size: 21px;
+    }
+
+    /* DIALOG BODY */
+    .modal-body {
+        padding: 0 24px;
+    }
+
+    .modal-body p {
+        font-weight: 400;
+        font-size: 14px;
+        color: #212121;
+    }
+
+    .modal-body .lead {
+        font-weight: 300;
+        font-size: 16px;
+        color: #757575;
+    }
+
+    .modal-body p:last-child,
+    .modal-body .lead:last-child {
+        margin-bottom: 0;
+    }
+
+    /* DIALOG FOOTER */
+    .modal-footer {
+        margin-top: 24px;
+        padding: 8px 0;
+        border-top: none;
+    }
+
+    .modal-footer .btn {
+        height: 36px;
+        margin-right: 8px;
+        padding: 8px 10px;
+        /* border: none;
+        border-radius: 0;
+        text-transform: uppercase;
+        font-weight: 500;
+        color: #009688;
+        background-color: #fff; */
+    }
+
+    .modal-footer .btn:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    .modal-footer .btn:focus,
+    .modal-footer .btn:hover {
+        color: #00796B;
+    }
+
+    .modal-footer .btn+.btn {
+        margin-left: 0;
+    }
+
+    .modal-footer .btn+.btn:last-child {
+        margin-left: -4px;
+    }
+
+
+    .demo {
+        padding-top: 60px;
+        padding-bottom: 110px;
+    }
+
+    .btn-demo {
+        margin: 15px;
+        padding: 10px 15px;
+        border-radius: 0;
+        font-size: 16px;
+        background-color: #FFFFFF;
+    }
+
+    .btn-demo:focus {
+        outline: none;
+    }
+
+    .demo-footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        padding: 15px;
+        background-color: #212121;
+        text-align: center;
+    }
+
+    .demo-footer>a {
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 16px;
+        color: #fff;
+    }
+
+    .img-center {
+        width: 100%;
+        padding: 10px 10px 20px 10px !important;
+        text-align: center;
+    }
+
+    .imgwrapper {
+        max-width: 180px;
+    }
+
+    .datepicker.dropdown-menu th,
+    .datepicker.datepicker-inline th,
+    .datepicker.dropdown-menu td,
+    .datepicker.datepicker-inline td {
+        padding: 8px 10px !important;
+    }
+
+    .datepicker table tr td.active:hover,
+    .datepicker table tr td.active:hover:hover,
+    .datepicker table tr td.active.disabled:hover,
+    .datepicker table tr td.active.disabled:hover:hover,
+    .datepicker table tr td.active:active,
+    .datepicker table tr td.active:hover:active,
+    .datepicker table tr td.active.disabled:active,
+    .datepicker table tr td.active.disabled:hover:active,
+    .datepicker table tr td.active.active,
+    .datepicker table tr td.active:hover.active,
+    .datepicker table tr td.active.disabled.active,
+    .datepicker table tr td.active.disabled:hover.active,
+    .datepicker table tr td.active.disabled,
+    .datepicker table tr td.active:hover.disabled,
+    .datepicker table tr td.active.disabled.disabled,
+    .datepicker table tr td.active.disabled:hover.disabled,
+    .datepicker table tr td.active[disabled],
+    .datepicker table tr td.active:hover[disabled],
+    .datepicker table tr td.active.disabled[disabled],
+    .datepicker table tr td.active.disabled:hover[disabled] {
+        background-color: #faa141 !important;
+    }
+
+    .datepicker table tr td.active,
+    .datepicker table tr td.active:hover,
+    .datepicker table tr td.active.disabled,
+    .datepicker table tr td.active.disabled:hover {
+        background-color: #faa141;
+        background-image: -moz-linear-gradient(top, #faa141, #faa141);
+        background-image: -ms-linear-gradient(top, #faa141, #faa141);
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#faa141), to(#faa141));
+        background-image: -webkit-linear-gradient(top, #faa141, #faa141);
+        background-image: -o-linear-gradient(top, #faa141, #faa141);
+        background-image: linear-gradient(top, #faa141, #faa141);
+        background-repeat: repeat-x;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa141', endColorstr='#faa141', GradientType=0);
+        border-color: #faa141 #faa141 #faa141;
+        border-color: rgba(0, 0, 0, .1) rgba(0, 0, 0, .1) rgba(0, 0, 0, .25);
+        filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+        color: #fff;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
+    }
+
+    .datepicker td,
+    .datepicker th {
+        -webkit-border-radius: 40px;
+        -moz-border-radius: 40px;
+        border-radius: 40px;
+    }
+
+    @media (min-width: 768px) {
+        .modal-sm {
+            width: 350px;
+        }
+    }
+
+    .loader {
+        z-index: 999999 !important;
+    }
+
+    .btn-r {
+        color: #000;
+        border: 3px solid red !important;
+        background-color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .btn-r:hover {
+        color: #fff !important;
+        background: red !important;
+    }
+
+    .cal-s {
+        color: #fff;
+        background-color: green;
+        border-radius: 50px !important;
+        cursor: default !important;
+    }
+
+    .cal-s:hover {
+        color: #fff !important;
+        background-color: green !important;
+        border-radius: 50px;
+    }
+
+    input[type=checkbox] {
+        zoom: 1.3;
+    }
+</style>

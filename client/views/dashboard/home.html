@@ -1,0 +1,340 @@
+<div class="wrapper wrapper-content" id="dashboard-view" ng-controller="dashboardHomeCtl">
+    <div class="m-t-sm" style="margin-top:2.5rem;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <h2 class="v-h">Welcome back! Here’s What’s On at
+                            {{userDetails.businessName}} today.
+                        </h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 center">
+                                <b class="title-s">Today’s Events</b>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 scrollbar" id="style-4">
+                                <div class="row" ng-show="whatsOnData && whatsOnData.length>0">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                        ng-repeat="list in whatsOnData">
+                                        <div class="img-container">
+                                            <div class="content">
+                                                <div class="content-overlay"></div>
+                                                <img src="{{list.primaryImg.path}}"
+                                                    ng-src="{{list.primaryImg.path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png' }}"
+                                                    class="content-image" data-toggle="tooltip" data-placement="top"
+                                                    title="{{list.primaryImg.fileName || 'No Image'}}"
+                                                    alt="{{list.primaryImg.fileName || 'No Image'}}">
+                                                <div class="content-details fadeIn-top">
+                                                    <b class="c-title-c">{{list.title}}</b>
+                                                    <h3 class="time-txt">{{list.startTime}} - {{list.endTime}}</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="whatsOnData && whatsOnData.length==0">
+                                    <div class="col-xs-12 col-md-12 col-xl-12 col-lg-12"
+                                        style="text-align: center;margin-top:1rem !important">
+                                        <div style="padding: 3.5rem;background-color: #fff;">
+                                            <b class="no-data">No Events!</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 center">
+                                <b class="title-s">Today’s Drink Specials
+                                </b>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 scrollbar" id="style-4">
+                                <div class="row" ng-show="HappyHourData && HappyHourData.length>0">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                        ng-repeat="list in HappyHourData">
+                                        <div class="img-container">
+                                            <div class="content">
+                                                <div class="content-overlay"></div>
+                                                <img src="{{list.img[0].path}}"
+                                                    ng-src="{{list.img[0].path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png' }}"
+                                                    class="content-image" data-toggle="tooltip" data-placement="top"
+                                                    title="{{list.img[0].fileName || 'No Image'}}"
+                                                    alt="{{list.img[0].fileName || 'No Image'}}">
+                                                <div class="content-details fadeIn-top">
+                                                    <b class="c-title-c">{{list.title}}</b>
+                                                    <h3 class="time-txt">{{list.startTime}} - {{list.endTime}}</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="HappyHourData && HappyHourData.length==0">
+                                    <div class="col-xs-12 col-md-12 col-xl-12 col-lg-12"
+                                        style="text-align: center;margin-top:1rem !important">
+                                        <div style="padding: 3.5rem;background-color: #fff;">
+                                            <b class="no-data">No Drink Specials!</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 center">
+                                <b class="title-s">Today’s Daily Specials
+                                </b>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 scrollbar" id="style-4">
+                                <div class="row" ng-show="DailySpecialData && DailySpecialData.length>0">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                        ng-repeat="list in DailySpecialData">
+                                        <div class="img-container">
+                                            <div class="content">
+                                                <div class="content-overlay"></div>
+                                                <img src="{{list.img[0].path}}"
+                                                    ng-src="{{list.img[0].path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png' }}"
+                                                    class="content-image" data-toggle="tooltip" data-placement="top"
+                                                    title="{{list.img[0].fileName || 'No Image'}}"
+                                                    alt="{{list.img[0].fileName || 'No Image'}}">
+                                                <div class="content-details fadeIn-top">
+                                                    <b class="c-title-c">{{list.title}}</b>
+                                                    <h3 class="time-txt">{{list.startTime}} - {{list.endTime}}</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="DailySpecialData && DailySpecialData.length==0">
+                                    <div class="col-xs-12 col-md-12 col-xl-12 col-lg-12"
+                                        style="text-align: center;margin-top:1rem !important">
+                                        <div style="padding: 3.5rem;background-color: #fff;">
+                                            <b class="no-data">No Daily Specials!</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 center">
+                                <b class="title-s">Today’s Limited Offers
+                                </b>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 scrollbar" id="style-4">
+                                <div class="row" ng-show="LimitedOfferData && LimitedOfferData.length>0">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                        ng-repeat="list in LimitedOfferData">
+                                        <div class="img-container">
+                                            <div class="content">
+                                                <div class="content-overlay"></div>
+                                                <img src="{{list.img[0].path}}"
+                                                    ng-src="{{list.img[0].path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png' }}"
+                                                    class="content-image" data-toggle="tooltip" data-placement="top"
+                                                    title="{{list.img[0].fileName || 'No Image'}}"
+                                                    alt="{{list.img[0].fileName || 'No Image'}}">
+                                                <div class="content-details fadeIn-top">
+                                                    <b class="c-title-c">{{list.title}}</b>
+                                                    <h3 class="time-txt">{{list.startTimeTxt}} -
+                                                        {{list.offerExpiryTimeTxt}}
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="LimitedOfferData && LimitedOfferData.length==0">
+                                    <div class="col-xs-12 col-md-12 col-xl-12 col-lg-12"
+                                        style="text-align: center;margin-top:1rem !important">
+                                        <div style="padding: 3.5rem;background-color: #fff;">
+                                            <b class="no-data">No Offers!</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .no-data {
+        font-size: 16px;
+    }
+
+    .c-title-c {
+        color: #f9a141;
+        font-size: 1.1rem;
+    }
+
+    .title-s {
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    @media(min-width:768px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    #page-wrapper {
+        padding: 0 0px !important;
+    }
+
+    .img-container {
+        padding: 1em 0;
+        float: left;
+        width: 100%;
+    }
+
+    /* @media screen and (max-width: 640px) {
+        .img-container {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    @media screen and (min-width: 900px) {
+        .img-container {
+            width: 33.33333%;
+        }
+    } */
+
+    .time-txt {
+        font-size: 12px;
+    }
+
+    .img-container .title {
+        color: #1a1a1a;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .content {
+        position: relative;
+        width: 100%;
+        max-width: 400px;
+        margin: auto;
+        overflow: hidden;
+    }
+
+    .content .content-overlay {
+        background: rgb(0 0 0 / 20%);
+        position: absolute;
+        height: 99%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        opacity: 0;
+        -webkit-transition: all 0.4s ease-in-out 0s;
+        -moz-transition: all 0.4s ease-in-out 0s;
+        transition: all 0.4s ease-in-out 0s;
+    }
+
+    .content:hover .content-overlay {
+        opacity: 1;
+        border-radius: 10px;
+    }
+
+    .content-image {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .content-details {
+        position: absolute;
+        text-align: center;
+        padding-left: 1em;
+        padding-right: 1em;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        opacity: 0;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        -webkit-transition: all 0.3s ease-in-out 0s;
+        -moz-transition: all 0.3s ease-in-out 0s;
+        transition: all 0.3s ease-in-out 0s;
+    }
+
+    .content:hover .content-details {
+        top: 50%;
+        left: 50%;
+        opacity: 1;
+    }
+
+    .content-details h3 {
+        color: #fff;
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        margin-bottom: 0.5em;
+        text-transform: uppercase;
+    }
+
+    .content-details p {
+        color: #fff;
+        font-size: 0.8em;
+    }
+
+    .fadeIn-bottom {
+        top: 80%;
+    }
+
+    .fadeIn-top {
+        top: 20%;
+    }
+
+    .fadeIn-left {
+        left: 20%;
+    }
+
+    .fadeIn-right {
+        left: 80%;
+    }
+
+    #style-4::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: #F5F5F5;
+    }
+
+    #style-4::-webkit-scrollbar {
+        width: 4px;
+        background-color: #F5F5F5;
+    }
+
+    #style-4::-webkit-scrollbar-thumb {
+        background-color: #555555;
+        border: 1px solid #555555;
+    }
+
+    .scrollbar {
+        height: 500px;
+        width: 100%;
+        background: #F5F5F5;
+        overflow-y: scroll;
+        margin-bottom: 25px;
+    }
+</style>

@@ -1,0 +1,36 @@
+{
+  "name": "VenueSignUp",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "contactNo": {
+      "type": "string"
+    },
+    "countryCode": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "venueName": {
+      "type": "string"
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

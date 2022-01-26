@@ -1,0 +1,921 @@
+<script>
+
+  $(() => { $("#drinksmenu").css({ "opacity": "0.1" }); setTimeout(function () { $("#drinksmenu").css({ "opacity": "" }) }, 1000) });
+
+  $(document).ready(function () {
+    $('.HH_time').timepicker({ 'scrollDefault': 'now', 'timeFormat': 'h:i a', 'step': 5 });
+  });
+
+</script>
+<style type="text/css" class="ng-scope">
+  .chosen-container-single .chosen-single {
+    line-height: 33px !important;
+  }
+
+  .ui-timepicker-wrapper {
+    width: 7.5em !important
+  }
+
+  .fa-spin {
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear
+  }
+
+  @-webkit-keyframes fa-spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg)
+    }
+
+    100% {
+      -webkit-transform: rotate(359deg);
+      transform: rotate(359deg)
+    }
+  }
+
+  @keyframes fa-spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+      transform: rotate(0deg)
+    }
+
+    100% {
+      -webkit-transform: rotate(359deg);
+      transform: rotate(359deg)
+    }
+  }
+
+  span.eventDesc {
+    display: inline-block;
+    width: 180px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis
+  }
+
+  .popover .btn {
+    border-radius: 3px !important
+  }
+
+  body {
+    background-color: #f3f3f4 !important
+  }
+
+
+  button:disabled,
+  button[disabled],
+  button[disabled]:hover {
+    border: 1px solid rgba(0, 0, 0, .2);
+    background-color: #cccccc40 !important;
+    color: #666666 !important;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2) !important
+  }
+
+  .spanRound {
+    padding: 5px;
+    border: 2px solid #f9a141;
+    border-radius: 62px;
+    margin: 5px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2);
+    background-color: #f9a141;
+    color: #fff
+  }
+
+  .spanRound_2 {
+    padding: 1px 5px;
+    border: 2px solid #f9a141;
+    border-radius: 62px;
+    margin: 1px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2);
+    background-color: #f9a141;
+    color: #fff
+  }
+
+  .timeStyle:hover {
+    background-color: #f9a141;
+    color: #fff !important
+  }
+
+  .styled-checkbox {
+    position: absolute;
+    opacity: 0
+  }
+
+  .styled-checkbox+label {
+    position: relative;
+    cursor: pointer;
+    padding: 0
+  }
+
+  .styled-checkbox+label:before {
+    content: "";
+    margin-right: 5px;
+    display: inline-block;
+    vertical-align: text-top;
+    width: 16px;
+    height: 16px;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, .12);
+    background: #fafafa
+  }
+
+  .styled-checkbox:hover+label:before {
+    background: rgba(0, 0, 0, .87)
+  }
+
+  .styled-checkbox:focus+label:before {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, .12)
+  }
+
+  .styled-checkbox:checked+label:before {
+    background: rgba(0, 0, 0, .87)
+  }
+
+  .styled-checkbox:disabled+label {
+    color: #b8b8b8;
+    cursor: auto
+  }
+
+  .styled-checkbox:checked+label:after {
+    content: "";
+    position: absolute;
+    left: 3px;
+    top: 6px;
+    background: white;
+    width: 2px;
+    height: 2px;
+    box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg)
+  }
+
+  .panel-body {
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2);
+    border-radius: 5px
+  }
+
+  .model_Event_body {
+    max-height: 500px;
+    height: 500px;
+    overflow-y: scroll
+  }
+
+  .popover-title {
+    color: #000 !important
+  }
+
+  #page-wrapper {
+    padding: 0 0
+  }
+
+  .btn {
+    border-radius: 21px
+  }
+
+  .card {
+    margin: 0rem 0 0rem 0
+  }
+
+  @media(min-width:768px) {
+    .drinksCard {
+      padding: 20px
+    }
+  }
+
+  @media(min-width:992px) {
+    .drinksCard {
+      padding: 20px
+    }
+  }
+
+  @media(min-width:1200px) {
+    .drinksCard {
+      padding: 20px
+    }
+  }
+
+  .header-style {
+    text-align: center;
+    visibility: visible;
+    padding-right: 0;
+    padding-left: 0;
+    background-color: #f9a141 !important;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2);
+    border-left: 1px solid #e8e8e8 !important;
+    color: #fff
+  }
+
+  .ui-timepicker-wrapper {
+    width: 10.5em !important;
+  }
+
+  .beer-price {
+    margin-top: 1.7rem;
+  }
+
+  .beer-price-text {
+    margin-top: 2.4rem;
+  }
+</style>
+<div id="wrapper">
+  <div ng-include="'views/barm8-menus.html'"></div>
+  <div id="page-wrapper" class="gray-bg topBar">
+    <div class="row border-bottom">
+      <nav class="navbar navbar-static-top white-bg navbarTop" role="navigation"
+        style="margin-bottom: 0;box-shadow: 0 2px 5px 0 rgba(0,0,0,.3);">
+        <div class="navbar-header">
+          <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" style="background-color: #f9a141 !important;"
+            id="minimize" href="javascript:;">
+            <i class="fa fa-bars"></i>
+          </a>
+        </div>
+        <ul class="nav navbar-top-links navbar-right">
+          <li>
+            <a ui-sref="logout" id="logout" style="text-align:right !important;  color: #363636 !important;">
+              <i class="fas fa-sign-out-alt"></i> Log out
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <link rel="stylesheet" type="text/css" href="assets/css/dashboard.css" />
+    <style>
+      .nav-tabs>li>a {
+        padding: 4px 1px 9px 0px !important;
+      }
+    </style>
+    <link rel="stylesheet" type="text/css" href="assets/css/single-img.css" />
+    <link href="/assets/css/jquery.timepicker.min.css" type="text/css" rel="stylesheet" />
+    <script src="/assets/js/jquery.timepicker.min.js"></script>
+    <div class="wrapper wrapper-content" id="drinksmenu" ng-controller="drinksctl">
+      <div class="m-t-sm" style="margin-top:2.5rem;">
+        <div class="row" ng-show="isBusinessSelect">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+            <div class="row card drinksCard" style="margin: 0rem 0 0.4rem 0;">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                <div class="autocomplete col-sm-12 col-xs-8 col-md-6 col-lg-6 col-xl-6"
+                  style="padding-right:0px;padding-left:0px;">
+                  <input id="autocompleteBusiness" type="text" name="BusinessName" placeholder="Enter Business name">
+                  <span id="businessErr" style="color:red;"></span>
+                </div>
+                <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                <script
+                  type="text/javascript">autocomplete(document.getElementById("autocompleteBusiness"), 'manageEvent');</script>
+                <div class="autocomplete col-sm-12 col-xs-4 col-md-6 col-lg-6 col-xl-6">
+                  <button type="button" ng-click="BusinessSelected('manageEvent')" id="businessSubmit"
+                    class="btn btn-raised btn-primary businessSubmit" style="padding: 8px 10px !important;
+                    font-size: 1.2rem;border-radius:2px;">
+                    <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" id="previewSection">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+            <div class="row card" style="margin: 0rem 0 0.5rem 0 !important;">
+              <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                <h2 class="manage-txt">Manage menu item</h2>
+              </div>
+              <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row">
+                  <div class="col-md-12 col-sm-12 col-lg-12">
+                    <ul class="nav nav-tabs " id="analyticsTab" role="tablist">
+                      <li ng-repeat="happyhour in happyhours track by $index" data-name="{{ happyhour.name }}"
+                        data-id="beverages"
+                        class="col-sm-5ths col-xs-5ths col-md-5ths col-lg-5ths col-xl-5ths card beverages"
+                        ng-class="{ 'active' : $index == 0 }"
+                        style="text-align:center;padding-left:0px;padding-right:0px;">
+                        <a style="color: #333 !important;" data-target="#happyHour_{{ happyhour.name }}"
+                          href="javascript:;" role="tab" data-toggle="tab">
+                          <img ng-src="{{ happyhour.img_url }}" style="width:20px;height:20px;" />
+                          {{happyhour.displayTxt}}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="row" ng-show="happyhours && happyhours.length">
+                  <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-12">
+                    <div class="tab-content" style="background-color: #fff;">
+                      <div class="tab-pane" ng-repeat="happyhour in happyhours track by $index"
+                        id="happyHour_{{ happyhour.name }}" ng-class="{ 'active' : $index == 0 }"
+                        style="margin-top: 5px;">
+                        <!-- Beer -->
+                        <div class="row" id="beverages" ng-if="happyhour.name=='Beer'">
+                          <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                            <div class="row" style="margin-top: 1rem;">
+                              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                <b style="font-size: 1.1rem;">Classification</b>
+                                <!-- <select chosen="wineTypes" id="drinksType"
+                                  ng-if="happyhour.name=='_wine_bubbles'" class="form-control"
+                                  ng-options="types.type for types in wineTypes" ng-model="drinksType"
+                                  ng-change="drinksTypeChg(drinksType)"></select> -->
+                                <div class="form-group">
+                                  <select chosen="wineTypes" id="drinksType" ng-if="happyhour.name=='Beer'"
+                                    class="form-control" ng-options="types.type for types in beerTypes"
+                                    ng-model="drinksType" ng-change="drinksTypeChg(drinksType)"></select>
+                                  <span id="_{{happyhour.name}}_type_err" class="error"
+                                    style="color:red;display: none;">Classification is
+                                    required!</span>
+                                </div>
+                              </div>
+                              <div class="col-xs-4 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                <b style="font-size: 1.1rem;">Dispense</b>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-xs-6 col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                                <div class="row">
+                                  <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                    <b style="font-size: 1.1rem;">Brand</b>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control custom-input"
+                                        id="_{{happyhour.name}}_brand">
+                                      <span id="_{{happyhour.name}}_brand_err" style="color:red;display: none;">Brand is
+                                        required!</span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <b style="font-size: 1.1rem;">Type</b>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control custom-input"
+                                        id="_{{happyhour.name}}_type">
+                                      <span id="_{{happyhour.name}}_type_err" style="color:red;display: none;">Type is
+                                        required!</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-xs-6 col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                                <ul ng-if="happyhour.name=='Beer'"
+                                  style="margin-top: -50px;margin-bottom: 10px;margin-left: -2.8rem;">
+                                  <li style="list-style-type: none !important;">
+                                    <h4>On Tap</h4>
+                                  </li>
+                                  <li
+                                    ng-if="happyhour.name=='Beer' && (despense._type!='bottle' && despense._type!='can')"
+                                    ng-repeat="despense in happyhour.drinksDispenses"
+                                    style="padding-top:16px;list-style-type: none !important;">
+                                    <div class="row">
+                                      <div class="col-xs-4 col-md-4 col-xl-4 col-lg-4">
+                                        <input type="checkbox" name="_despense_{{ happyhour.name }}"
+                                          onClick="dispenseClick(this)" data-cname="{{despense.shortForm}}"
+                                          data-pricename="_{{happyhour.name}}_{{despense.shortForm}}_price"
+                                          class="happyhour_Beer_Class styled-checkbox" value="{{despense.type}}"
+                                          data-order="{{despense.order}}"
+                                          id="_{{happyhour.name}}_{{despense.shortForm}}_{{despense.id}}">
+                                        <label
+                                          for="_{{happyhour.name}}_{{despense.shortForm}}_{{despense.id}}">&nbsp;{{despense.type}}</label>
+                                      </div>
+                                      <div class="col-xs-4 col-md-4 col-lg-4" style="margin-top: -10px;">
+                                        <div class="dollar">
+                                          <input type="number" class="form-control" disabled="disabled"
+                                            id="_{{happyhour.name}}_{{despense.shortForm}}_price" style="border: 2px solid #ddd !important;
+                                                 font-size: 16px !important;">
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </li>
+
+                                </ul>
+
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-xs-6 col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                                <b style="font-size: 1.1rem;">Description</b>
+                                <div class="form-group">
+                                  <textarea type="text" rows="4" class="form-control"
+                                    style="padding: 8px 12px;border: 2px solid #ddd !important;font-size: 16px !important;"
+                                    id="_{{happyhour.name}}_desc"></textarea>
+                                  <span id="_{{happyhour.name}}_desc_err" style="color:red;display: none;">Description
+                                    is required!</span>
+                                </div>
+                              </div>
+                              <div class="col-xs-6 col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                                <li ng-if="happyhour.name=='Beer'" style="list-style-type: none !important;">
+                                  <h4 style="margin-bottom: 0px;margin-top:10px;">Bottle & Can</h4>
+                                </li>
+                                <li
+                                  ng-if="happyhour.name=='Beer' && (despense._type=='bottle' || despense._type=='can')"
+                                  ng-repeat="despense in happyhour.drinksDispenses"
+                                  style="padding-top:16px;list-style-type: none !important;">
+                                  <div class="row">
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                      <input type="checkbox" name="_despense_{{ happyhour.name }}"
+                                        onClick="dispenseClick(this)" data-cname="{{despense.shortForm}}"
+                                        data-pricename="_{{happyhour.name}}_{{despense.shortForm}}_price"
+                                        class="happyhour_Beer_Class styled-checkbox" value="{{despense.type}}"
+                                        data-order="{{despense.order}}"
+                                        id="_{{happyhour.name}}_{{despense.shortForm}}_{{despense.id}}">
+                                      <label
+                                        for="_{{happyhour.name}}_{{despense.shortForm}}_{{despense.id}}">&nbsp;{{despense.type}}</label>
+
+                                    </div>
+
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+                                      style="margin-top: -10px;">
+                                      <div class="dollar">
+                                        <input type="number" class="form-control" disabled="disabled"
+                                          id="_{{happyhour.name}}_{{despense.shortForm}}_price" style="border: 2px solid #ddd !important;
+                                               font-size: 16px !important;">
+                                      </div>
+                                    </div>
+                                  </div>
+                              </div>
+                              </li>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12">
+                              <button class="btn btn-primary pull-right" id="drinks_save_{{happyhour.name}}"
+                                ng-click="drinksCreate(happyhour)" style="background-color: #4caf50!important;border-radius: 2px;font-size:1.4rem;border:1px solid #4caf50 !important;   
+                                   padding: 4px 54px !important;margin-bottom:1rem;margin-left:1rem;">
+                                &nbsp;Save</button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row" id="beverages" ng-if="happyhour.name=='_wine_bubbles'">
+                          <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                            <div class="row" style="margin-top: 1rem;">
+                              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                <div class="row">
+                                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <b style="font-size: 1.1rem;">Classification</b>
+                                    <select chosen="wineTypes" id="drinksType" ng-if="happyhour.name=='_wine_bubbles'"
+                                      class="form-control" ng-options="types.type for types in wineTypes"
+                                      ng-model="drinksType" ng-change="drinksTypeChg(drinksType)"></select>
+                                    <div class="form-group">
+                                      <select chosen="wineTypes" id="drinksType" ng-if="happyhour.name=='Beer'"
+                                        class="form-control" ng-options="types.type for types in beerTypes"
+                                        ng-model="drinksType" ng-change="drinksTypeChg(drinksType)"></select>
+                                      <span id="_{{happyhour.name}}_type_err" class="error"
+                                        style="color:red;display: none;">Classification is
+                                        required!</span>
+                                    </div>
+                                  </div>
+                                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+
+                                    <b style="font-size: 1.1rem;">Type</b>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control custom-input"
+                                        id="_{{happyhour.name}}_type">
+                                      <span id="_{{happyhour.name}}_type_err" style="color:red;display: none;">Type is
+                                        required!</span>
+                                    </div>
+                                  </div>
+                                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="row">
+                                      <div class="col-xs-6 col-md-6 col-xl-6 col-lg-6">
+                                        <b style="font-size: 1.1rem;">Dispense</b>
+                                      </div>
+                                      <div class="col-xs-6 col-md-6 col-xl-6 col-lg-6">
+                                        <b style="font-size: 1.1rem;">Price</b>
+                                      </div>
+                                    </div>
+                                    <div class="row" ng-repeat="dispense in happyhour.drinksDispenses"
+                                      style="margin-top: 5px;margin-bottom:5px;">
+                                      <div class="col-xs-6 col-md-6 col-xl-6 col-lg-6">
+                                        <input type="checkbox" name="_despense_{{ happyhour.name }}"
+                                          onClick="dispenseClick(this)" data-cname="{{dispense.type}}"
+                                          data-pricename="_{{happyhour.name}}_{{dispense.shortForm}}_price"
+                                          class="happyhour_Beer_Class styled-checkbox" value="{{dispense.type}}"
+                                          data-order="{{dispense.order}}"
+                                          id="{{happyhour.name}}_{{dispense.shortForm}}">
+                                        <label
+                                          for="{{happyhour.name}}_{{dispense.shortForm}}">&nbsp;{{dispense.type}}</label>
+                                      </div>
+                                      <div class="col-xs-6 col-md-6 col-xl-6 col-lg-6">
+                                        <div class="dollar">
+                                          <input type="number" class="form-control price-txt"
+                                            id="_{{happyhour.name}}_{{dispense.shortForm}}_price" style="border: 2px solid #ddd !important;
+                                                   font-size: 16px !important;">
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-xs-6 col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                                <div class="row">
+                                  <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                    <b style="font-size: 1.1rem;">Brand</b>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control custom-input"
+                                        id="_{{happyhour.name}}_brand">
+                                      <span id="_{{happyhour.name}}_brand_err" style="color:red;display: none;">Brand is
+                                        required!</span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                    <b style="font-size: 1.1rem;">Description</b>
+                                    <div class="form-group">
+                                      <textarea type="text" rows="3" class="form-control"
+                                        style="padding: 8px 12px;border: 2px solid #ddd !important;font-size: 16px !important;"
+                                        id="_{{happyhour.name}}_desc"></textarea>
+                                      <span id="_{{happyhour.name}}_desc_err"
+                                        style="color:red;display: none;">Description
+                                        is required!</span>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                              <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                <button class="btn btn-primary pull-right" id="drinks_save_{{happyhour.name}}"
+                                  ng-click="wineDrinksCreate(happyhour)" style="background-color: #4caf50!important;border-radius: 2px;font-size:1.4rem;border:1px solid #4caf50 !important;   
+                                         padding: 4px 54px !important;margin-bottom:1rem;margin-left:1rem;">
+                                  &nbsp;Save</button>
+                              </div>
+                            </div>
+
+                          </div>
+
+
+                        </div>
+                        <div class="row" ng-if="happyhour.name=='Cocktail'">
+                          <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                            <div class="row">
+                              <div class="col-xs-6 col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                                <div class="row">
+                                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <b style="font-size: 1.1rem;">Type</b>
+                                    <div class="form-group">
+                                      <input type="text" class="form-control custom-input"
+                                        id="_{{happyhour.name}}_type">
+                                      <span id="_{{happyhour.name}}_type_err" style="color:red;display: none;">Type is
+                                        required!</span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-xs-12 col-sm-121 col-md-12 col-lg-12 col-xl-12">
+                                    <b style="font-size: 1.1rem;">Description</b>
+                                    <div class="form-group">
+                                      <textarea type="text" rows="3" class="form-control"
+                                        style="padding: 8px 12px;border: 2px solid #ddd !important;font-size: 16px !important;"
+                                        id="_{{happyhour.name}}_desc"></textarea>
+                                      <span id="_{{happyhour.name}}_desc_err"
+                                        style="color:red;display: none;">Description
+                                        is required!</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-6 col-md-6 col-xl-6 col-lg-6 col-xl-6">
+                                <div class="row">
+                                  <div class="col-xs-6 col-md-6 col-xl-6 col-lg-6">
+                                    <b style="font-size: 1.1rem;">Dispense</b>
+                                  </div>
+                                  <div class="col-xs-6 col-md-6 col-xl-6 col-lg-6">
+                                    <b style="font-size: 1.1rem;">Price</b>
+                                  </div>
+                                </div>
+                                <div class="row" ng-repeat="dispense in happyhour.drinksDispenses"
+                                  style="margin-top: 15px;margin-bottom:15px;">
+                                  <div class="col-xs-4 col-md-4 col-xl-4 col-lg-4">
+                                    <input type="checkbox" name="_despense_{{ happyhour.name }}"
+                                      onClick="dispenseClick(this)" data-cname="{{dispense.shortForm}}"
+                                      data-pricename="{{happyhour.name}}_{{dispense.shortForm}}"
+                                      class="happyhour_Beer_Class styled-checkbox" value="{{dispense.shortForm}}"
+                                      data-order="{{dispense.order}}" id="{{happyhour.name}}_{{dispense.shortForm}}">
+                                    <label
+                                      for="{{happyhour.name}}_{{dispense.shortForm}}">&nbsp;{{dispense.type}}</label>
+                                  </div>
+                                  <div class="col-xs-4 col-md-4 col-xl-4 col-lg-4">
+                                    <div class="dollar">
+                                      <input type="number" class="form-control"
+                                        id="_{{happyhour.name}}_{{dispense.shortForm}}_price" style="border: 2px solid #ddd !important;
+                                               font-size: 16px !important;">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                <button class="btn btn-primary pull-right" id="drinks_save_{{happyhour.name}}"
+                                  ng-click="createCocktail(happyhour)" style="background-color: #4caf50!important;
+                                  border-radius: 2px;font-size:1.4rem;border:1px solid #4caf50 !important;   
+                                     padding: 4px 54px !important;margin-left:1rem;margin-bottom:2rem;">
+                                  &nbsp;Save</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row" ng-if="happyhour.name=='Spirit'">
+                          <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                            <div class="row">
+                              <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4 col-xl-4">
+                                <div class="row">
+                                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="form-group">
+                                      <label style="font-size: 1.2rem;font-weight: 600;">Classification</label>
+                                      <select chosen="spiritTypes" id="drinksType" class="form-control"
+                                        ng-options="types.type for types in spiritTypes" ng-model="drinksType"
+                                        ng-change="drinksTypeChg(drinksType)"></select>
+                                      <span id="_{{happyhour.name}}_classification_err" class="error"
+                                        style="color:red;display: none;">Classification is
+                                        required!</span>
+                                    </div>
+                                  </div>
+                                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="form-group">
+                                      <label style="font-size: 1.2rem;font-weight: 600;">Brand</label>
+                                      <input type="text" class="form-control custom-input"
+                                        id="_{{happyhour.name}}_brand">
+                                      <span id="_{{happyhour.name}}_brand_err" style="color:red;display: none;">Brand is
+                                        required!</span>
+                                    </div>
+                                  </div>
+                                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="form-group">
+                                      <label style="font-size: 1.2rem;font-weight: 600;">Type</label>
+                                      <input type="text" class="form-control custom-input"
+                                        id="_{{happyhour.name}}_type">
+                                      <span id="_{{happyhour.name}}_type_err" style="color:red;display: none;">Type is
+                                        required!</span>
+                                    </div>
+                                  </div>
+                                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="form-group">
+                                      <label style="font-size: 1.2rem;font-weight: 600;">Description</label>
+                                      <textarea type="text" rows="5" class="form-control" id="_{{happyhour.name}}_desc"
+                                        style="border: 2px solid #ddd !important;
+                                          font-size: 16px !important;"></textarea>
+                                      <span id="_{{happyhour.name}}_desc_err"
+                                        style="color:red;display: none;">Description
+                                        is required!</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-12 col-xs-12 col-md-5 col-lg-5 col-xl-5">
+                                <div class="row" style="margin-top: 10px;">
+                                  <div class="col-sm-6 col-xs-6 col-md-6 col-lg-6 col-xl-6" style="padding-left:20px;">
+                                    <label
+                                      style="margin-bottom: 5px;padding-left:10px;font-size: 1.2rem;font-weight: 600;">Mixer</label>
+                                    <div class="form-group" ng-repeat="mixer in mixers"
+                                      style="margin-bottom: 5px;padding-left:10px;">
+                                      <input type="checkbox" name="_{{happyhour.name}}_mixer"
+                                        data-cname="{{mixer.value}}" class="styled-checkbox" value="{{mixer.name}}"
+                                        id="_{{happyhour.name}}_{{mixer.value}}">
+                                      <label for="_{{happyhour.name}}_{{mixer.value}}">&nbsp;{{mixer.name}}</label>
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-6 col-xs-6 col-md-6 col-lg-6 col-xl-6">
+                                    <div class="row">
+                                      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <label
+                                          style="margin-bottom: 5px; font-size: 1.2rem;font-weight: 600;">Extras</label>
+                                        <div class="form-group" ng-repeat="extra in extras" style="margin-bottom: 5px;">
+                                          <input type="checkbox" name="_{{happyhour.name}}_extra"
+                                            data-cname="{{extra.value}}" class="styled-checkbox" value="{{extra.name}}"
+                                            id="_{{happyhour.name}}_{{extra.value}}">
+                                          <label for="_{{happyhour.name}}_{{extra.value}}">&nbsp;{{extra.name}}</label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                <div class="row">
+                                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                    style="margin-top: 1rem;">
+                                    <label
+                                      style="margin-bottom: 5px; font-size: 1.2rem;font-weight: 600;">Dispense</label>
+                                    <div class="form-group" ng-repeat="dispense in spiritDispense"
+                                      style="margin-bottom: 5px;">
+                                      <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                          <input type="checkbox" name="_{{happyhour.name}}_dispense"
+                                            data-cname="{{dispense.name}}" style="margin-top: 3px;margin-bottom:3px"
+                                            class="styled-checkbox" value="{{dispense._name}}"
+                                            id="_{{happyhour.name}}_{{dispense._name}}">
+                                          <label
+                                            for="_{{happyhour.name}}_{{dispense._name}}">&nbsp;{{dispense.name}}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                          <input type="text" class="form-control custom-input"
+                                            id="_{{happyhour.name}}_{{dispense.name}}_dispense_price"
+                                            style="height: 30px !important;">
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                style="margin-top: 10px;margin-bottom:10px;">
+                                <button class="btn btn-primary pull-right" id="spirit_save"
+                                  ng-click="spiritCreate(happyhour)"
+                                  style="background-color: #4caf50!important;border-radius: 2px;font-size:1.4rem;border:1px solid #4caf50 !important;margin-right: 1rem;    padding: 4px 54px !important;">
+                                  &nbsp;Save</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row" ng-if="happyhour.name=='Non_Alcoholic'">
+                          <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                              <div class="row">
+                                <div class="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                                  <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                      <div class="form-group">
+                                        <label style="font-size: 1.2rem;font-weight: 600;">Classification</label>
+                                        <select chosen="spiritTypes" id="drinksType" class="form-control"
+                                          ng-options="types.type for types in nonAlcoholicTypes" ng-model="drinksType"
+                                          ng-change="drinksTypeChg(drinksType)"></select>
+                                        <span id="_{{happyhour.name}}_classification_err" class="error"
+                                          style="color:red;display: none;">Classification is
+                                          required!</span>
+                                      </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                      <div class="form-group">
+                                        <label style="font-size: 1.2rem;font-weight: 600;">Brand</label>
+                                        <input type="text" class="form-control custom-input"
+                                          id="_{{happyhour.name}}_brand">
+                                        <span id="_{{happyhour.name}}_brand_err" style="color:red;display: none;">Brand
+                                          is
+                                          required!</span>
+                                      </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                      <div class="form-group">
+                                        <label style="font-size: 1.2rem;font-weight: 600;">Type</label>
+                                        <input type="text" class="form-control custom-input"
+                                          id="_{{happyhour.name}}_type">
+                                        <span id="_{{happyhour.name}}_type_err" style="color:red;display: none;">Type is
+                                          required!</span>
+                                      </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                      <div class="form-group">
+                                        <label style="font-size: 1.2rem;font-weight: 600;">Description</label>
+                                        <textarea type="text" rows="5" class="form-control"
+                                          id="_{{happyhour.name}}_desc" style="border: 2px solid #ddd !important;
+                                            font-size: 16px !important;"></textarea>
+                                        <span id="_{{happyhour.name}}_desc_err"
+                                          style="color:red;display: none;">Description
+                                          is required!</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-sm-12 col-xs-12 col-md-3 col-lg-3 col-xl-3">
+                                  <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                      <label
+                                        style="margin-bottom: 5px; font-size: 1.2rem;font-weight: 600;">Extras</label>
+                                      <div class="form-group" ng-repeat="extra in extras" style="margin-bottom: 5px;">
+                                        <input type="checkbox" name="_{{happyhour.name}}_extra"
+                                          data-cname="{{extra.value}}" class="styled-checkbox" value="{{extra.name}}"
+                                          id="_{{happyhour.name}}_{{extra.value}}">
+                                        <label for="_{{happyhour.name}}_{{extra.value}}">&nbsp;{{extra.name}}</label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                  <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                      style="margin-top: 1rem;">
+                                      <label
+                                        style="margin-bottom: 5px; font-size: 1.2rem;font-weight: 600;">Dispense</label>
+                                      <div class="form-group" ng-repeat="dispense in happyhour.drinksDispenses"
+                                        style="margin-bottom: 5px;">
+                                        <div class="row">
+                                          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                            <input type="checkbox" name="_dispense_{{happyhour.name}}"
+                                              data-cname="{{dispense.type}}" style="margin-top: 3px;margin-bottom:3px"
+                                              class="styled-checkbox" value="{{dispense.type}}"
+                                              id="_{{happyhour.name}}_{{dispense.type}}">
+                                            <label
+                                              for="_{{happyhour.name}}_{{dispense.type}}">&nbsp;{{dispense.type}}</label>
+                                          </div>
+                                          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                            <input type="text" class="form-control custom-input"
+                                              id="_{{happyhour.name}}_{{dispense.type}}_price"
+                                              style="height: 30px !important;">
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                  style="margin-top: 10px;margin-bottom:10px;">
+                                  <button class="btn btn-primary pull-right" id="spirit_save"
+                                    ng-click="nonAlcoholicCReate(happyhour)"
+                                    style="background-color: #4caf50!important;border-radius: 2px;font-size:1.4rem;border:1px solid #4caf50 !important;margin-right: 1rem;    padding: 4px 54px !important;">
+                                    &nbsp;Save</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" ng-show="happyhours && happyhours.length==0">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="text-align: center;">
+                    <h2>Loading...</h2>
+                  </div>
+                </div>
+                <script>
+                  addNewDrinksType = (arg) => {
+                    $("#type_err").css({ display: "none" });
+                    if ($("#drinksTypeVal").val()) angular.element(document.getElementById('drinksmenu')).scope().addNewDrinksTypes(arg)
+                    else $("#type_err").css({ display: "block" });
+                  };
+                </script>
+                <div id="addTypes" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header"
+                        style="padding: 10px !important;border-bottom: 0px solid #f9a141 !important;background-color: #f9a141;color: #fff;    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+                        box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Add New Type</h4>
+                      </div>
+                      <div class="modal-body" style="padding: 20px 30px 0px 30px;">
+                        <div class="row">
+                          <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                            <div class="form-group" style="text-align: left;">
+                              <input class="form-control" id="drinksTypeVal" placeholder="Enter a type">
+                              <span id="type_err" style="color: red; display:none;">Type is required</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer" id="_addTypeFooter" style="text-align: right !important;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .chosen-container-single .chosen-single {
+    padding: 0 0 0 9px !important;
+    border: 2px solid #e7eaec !important;
+    min-height: 40px !important;
+    line-height: 36px !important;
+  }
+
+  .chosen-container-active.chosen-with-drop .chosen-single div b {
+    background-position: -16px 8px !important;
+  }
+
+  .dollar {
+    display: block;
+    position: relative;
+  }
+
+  .dollar input {
+    padding-left: 20px;
+  }
+
+  .dollar:before {
+    position: absolute;
+    content: "$";
+    left: 5px;
+    top: 5px;
+    font-size: 18px;
+    color: #999;
+  }
+
+  .chosen-container-single .chosen-single {
+    border: 2px solid #ddd !important;
+  }
+</style>
+<script>
+  function dispenseClick(e) {
+    let id = $(e).data('pricename');
+    if (id && $(e).is(':checked')) {
+      $(`#${id}`).removeAttr("disabled");
+    } else $(`#${id}`).prop('disabled', true);
+  }
+</script>

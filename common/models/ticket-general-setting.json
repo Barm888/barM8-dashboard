@@ -1,0 +1,75 @@
+{
+  "name": "TicketGeneralSetting",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "isCheckedFixedFee": {
+      "type": "Boolean",
+      "default": "false"
+    },
+    "fixedFee": {
+      "type": "string",
+      "default": "0"
+    },
+    "isCheckedPercent": {
+      "type": "Boolean",
+      "default": "false"
+    },
+    "percent": {
+      "type": "string",
+      "default": "0"
+    },
+    "ticketInfo": {
+      "type": "string",
+      "default": ""
+    },
+    "pricingInfo": {
+      "type": "string",
+      "default": ""
+    },
+    "deliveryInfo": {
+      "type": "string",
+      "default": ""
+    },
+    "salesChannel": {
+      "type": "object",
+      "default": {
+        "appOnly": false,
+        "appAndDoor": false,
+        "doorOnly": false
+      }
+    },
+    "restrictionsMin": {
+      "type": "string"
+    },
+    "restrictionsMax": {
+      "type": "string"
+    },
+    "returnPolicy": {
+      "type": "object",
+      "default": {
+        "_1Day": false,
+        "_7Days": false,
+        "_30Days": false,
+        "_noRefund": false
+      }
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "eventDates": {
+      "type": "belongsTo",
+      "model": "EventDates",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

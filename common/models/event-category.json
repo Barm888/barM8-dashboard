@@ -1,0 +1,30 @@
+{
+  "name": "EventCategory",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "category": {
+      "type": "string"
+    },
+    "shortName": {
+      "type": "string"
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "eventGenres": {
+      "type": "hasMany",
+      "model": "EventGenre",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

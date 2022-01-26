@@ -1,0 +1,159 @@
+<!-- questions section -->
+<style>
+    #question_msg {
+        background-color: #fff !important;
+        padding: 4px 30px;
+        outline: 0px;
+        border-radius: 30px;
+        border: 0px solid #0e0d0dd6 !important;
+        color: #000;
+    }
+
+    #question_email,
+    #question_contact_No,
+    #question_surname,
+    #question_name {
+        background-color: #fff !important;
+        height: 60px;
+        padding: 4px 30px;
+        outline: 0px;
+        border-radius: 50px;
+        border: 0px solid #0e0d0dd6 !important;
+        color: #000;
+    }
+
+    ::placeholder {
+        color: #000 !important;
+        margin-top: 0.7rem;
+        padding-top: 15px;
+        font-size: 1.5em;
+    }
+</style>
+<div class="container-fluid">
+    <section id="section-question" class="questionSectionOpen" ng-controller="contactUsQuestion">
+        <div class="row">
+            <div class="col-md-12">
+                <a href="javascript:;" ng-click="loginClk()" class="login-lr">Login</a>
+                <button type="button" ui-sref="activationLandline" name="registerAndLogin"
+                    class="wbtn-question-login-lr">Register/Activate</button>
+                <button type="button" ng-click="businessList()" name="business" class="wbtnquestion">List your
+                    business</button>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div
+                    class="col-sm-12 col-xs-12 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1 col-xl-10 col-xl-offset-1 question-top">
+                    <div class="row question-logo center">
+                        <div class="col-md-12 col-lg12 col-xl-12 col-sm-12 col-xs-12">
+                            <img class="logo-img-lr" src="/assets/images/barm_login_logo.png">
+                        </div>
+                    </div>
+                    <div class="row center">
+                        <div class="col-md-12 col-lg12 col-xl-12 col-sm-12 col-xs-12">
+                            <span class="question-header-title">We would love to hear from you!</span>
+                        </div>
+                        <div class="col-md-12 col-lg12 col-xl-12 col-sm-12 col-xs-12">
+                            <span class="question-header-txt">Did you have any questions? Ask away, we are here to
+                                help.</span>
+                        </div>
+                    </div>
+                    <div class="row question-textbox-1">
+                        <div class="col-md-6 col-lg-6 col-xl-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <input type="text" name="question_name" ng-model="question.name" id="question_name"
+                                    placeholder="Name">
+                                <span class="control-label" id="questionNameErr"
+                                    style="color:#f44336;display: none;margin-left: 2.3rem;font-size: 1rem;">Name
+                                    is required!</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <input type="text" name="Surname" ng-model="question.surname" id="question_surname"
+                                    placeholder="Surname">
+                                <span class="control-label" id="SurnameErr"
+                                    style="color:#f44336;display: none;margin-left: 2.3rem;font-size: 1rem;">Surname
+                                    is required!</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 col-xl-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <input type="text" name="contactNumber" ng-model="question.contactNumber"
+                                    id="question_contact_No" placeholder="Contact number">
+                                <span class="control-label" id="contactNumberErr"
+                                    style="color:#f44336;display: none;margin-left: 2.3rem;font-size: 1rem;">Contact
+                                    number is required!</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-6 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <input type="text" name="Email" ng-model="question.email" id="question_email"
+                                    placeholder="Email">
+                                <span class="control-label" id="EmailErr"
+                                    style="color:#f44336;display: none;margin-left: 2.3rem;font-size: 1rem;">Email
+                                    is required!</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12 col-xs-12">
+                            <div class="form-group">
+                                <textarea class="form-control" placeholder="Message" id="question_msg" rows="10"
+                                    id="Meassage"></textarea>
+                                <span class="control-label" id="contactNumberErr"
+                                    style="color:#f44336;display: none;margin-left: 2.3rem;font-size: 1rem;">Contact
+                                    number is required!</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12 col-xl-12 col-sm-12 col-xs-12">
+                            <button class="btn pull-right" id="business_question"
+                                style="background-color: #000; color: #fff;border-radius:50px;  border: 2px solid #fff;    padding: 5px 35px !important; font-size:30px; ">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- partnersSection_1 -->
+    <section id="partnersSection_1" class="questionSectionOpen">
+        <div class="container">
+            <div class="row">
+                <div class="partners-ios-andriod col-md-12 col-sm-12 col-lg-12 col-xl-12 col-xs-12 center">
+                    <a class="btnIos btn--ios partners-btn_1"
+                        href="https://itunes.apple.com/us/app/barm8/id1402470106?ls=1&amp;mt=8" target="_blank">
+                        <img class="pull-left app_logo" src="/assets/img/Apple_logo.png">
+                        <span class="btn__text">Download on the</span>
+                        <span class="btn__storename ios_storename">App Store</span>
+                    </a>
+                    <a class="btnAnd btn--android" href="https://play.google.com/store/apps/details?id=com.barm8"
+                        target="_blank">
+                        <img class="pull-left android_logo partners-btn_2" src="/assets/img/play_store_iocn.png">
+                        <span class="btn__text android_text">Download on</span>
+                        <span class="btn__storename android_storename" style=" margin-top: -8px !important;">Google
+                            Play</span>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 center partners-copyright-txt">
+                    <span>Copyright © 2018 <span style="font-family: myFirstFont !important;">BarM8</span>, All Rights
+                        Reserved.
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    $(() => {
+        $('html, body').animate({
+            scrollTop: $("#section-question").offset().top
+        }, 0);
+    });
+</script>

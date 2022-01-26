@@ -1,0 +1,63 @@
+{
+  "name": "loyaltyNotificationCron",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "price": {
+      "type": "string"
+    },
+    "dateTimeUtc": {
+      "type": "date"
+    },
+    "category": {
+      "type": "string"
+    },
+    "year": {
+      "type": "string"
+    },
+    "month": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "hour": {
+      "type": "string"
+    },
+    "minute": {
+      "type": "string"
+    },
+    "second": {
+      "type": "string"
+    },
+    "createTs": {
+      "type": "date"
+    },
+    "createProgId": {
+      "type": "string"
+    },
+    "modifyTs": {
+      "type": "date"
+    },
+    "modifyProgId": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

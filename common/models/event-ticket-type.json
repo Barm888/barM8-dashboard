@@ -1,0 +1,40 @@
+{
+  "name": "EventTicketType",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "value": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    },
+    "tickets": {
+      "type": "hasMany",
+      "model": "Tickets",
+      "foreignKey": ""
+    },
+    "eventBookings": {
+      "type": "hasMany",
+      "model": "EventBooking",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

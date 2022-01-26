@@ -1,0 +1,477 @@
+aangular
+    .module('app')
+    .controller('ScanReportCtl', ['$scope', 'Business', '$http', 'AuthService', '$state', '$rootScope', 'UserLoginDetails', 'VisitHourCount','VisitDayCount','VisitWeekCount','VisitMonthCount','VisitDateBusiness','Customer', function ($scope, Business, $http, AuthService, $state, $rootScope, UserLoginDetails, VisitHourCount, VisitDayCount,VisitWeekCount, VisitMonthCount, VisitDateBusiness, Customer) {
+        if (!$scope.userId) {
+            $scope.userId = $rootScope.currentUser.id;
+        }
+        $scope.ownerId;
+
+        Date.prototype.getWeek = function (start) {
+            //Calcing the starting point
+            start = start || 0;
+            var today = new Date(this.setHours(0, 0, 0, 0));
+            var day = today.getDay() - start;
+            var date = today.getDate() - day;
+
+            // Grabbing Start/End Dates
+            var StartDate = new Date(today.setDate(date));
+            var EndDate = new Date(today.setDate(date + 6));
+            return [StartDate, EndDate];
+        }
+
+        $scope.useremail = $rootScope.currentUser.email;
+        $scope.userId = ""; $scope.isBusinessSelected = false;
+        if ($rootScope.currentUser.email == "admin@barm8.com.au") {
+            Business.find({ filter: { where: { status: "active" }, "fields": ["businessName", "id", "email"] } }).$promise.then((res) => {
+                $scope.businessDelection = res;
+                $scope.userId = $rootScope.currentUser.id;
+            }, (err) => {
+                console.log(JSON.stringify());
+            })
+        }
+        else {
+            $scope.userId = $rootScope.currentUser.id;
+        }
+
+        $scope.getBusinessName = () => {
+            return $scope.businessDelection;
+        };
+
+
+        //Daily Chart Part
+        $scope.dailyCustomerDetails = [];
+        let _00_01AM = 0, _01_02AM = 0, _02_03AM = 0, _03_04AM = 0, _04_05AM = 0, _05_06AM = 0, _06_07AM = 0, _07_08AM = 0, _08_09AM = 0, _09_10AM = 0, _10_11AM = 0, _11_12AM = 0,
+            _12_01PM = 0, _01_02PM = 0, _02_03PM = 0, _03_04PM = 0, _04_05PM = 0, _05_06PM = 0, _06_07PM = 0, _07_08PM = 0, _08_09PM = 0, _09_10PM = 0, _10_11PM = 0, _11_12PM = 0;
+        let maleCnt = 0, femaleCnt = 0;
+        let getDailyChart = (res) => {
+
+            if (res && res.length > 0) {
+                _00_01AM = (res[0]._12amto1am ? res[0]._12amto1am : 0);
+                _01_02AM = (res[0]._1amto2am ? res[0]._1amto2am : 0);
+                _02_03AM = (res[0]._2amto3am ? res[0]._2amto3am : 0);
+                _03_04AM = (res[0]._3amto4am ? res[0]._3amto4am : 0);
+                _04_05AM = (res[0]._4amto5am ? res[0]._4amto5am : 0);
+                _05_06AM = (res[0]._5amto6am ? res[0]._5amto6am : 0);
+                _06_07AM = (res[0]._6amto7am ? res[0]._6amto7am : 0);
+                _07_08AM = (res[0]._7amto8am ? res[0]._7amto8am : 0);
+                _08_09AM = (res[0]._8amto9am ? res[0]._8amto9am : 0);
+                _09_10AM = (res[0]._9amto10am ? res[0]._9amto10am : 0);
+                _10_11AM = (res[0]._10amto11am ? res[0]._10amto11am : 0);
+                _11_12AM = (res[0]._11amto12pm ? res[0]._11amto12pm : 0);
+                _12_01PM = (res[0]._12pmto1pm ? res[0]._12pmto1pm : 0);
+                _01_02PM = (res[0]._1pmto2pm ? res[0]._1pmto2pm : 0);
+                _02_03PM = (res[0]._2pmto3pm ? res[0]._2pmto3pm : 0);
+                _03_04PM = (res[0]._3pmto4pm ? res[0]._3pmto4pm : 0);
+                _04_05PM = (res[0]._4pmto5pm ? res[0]._4pmto5pm : 0);
+                _05_06PM = (res[0]._5pmto6pm ? res[0]._5pmto6pm : 0);
+                _06_07PM = (res[0]._6pmto7pm ? res[0]._6pmto7pm : 0);
+                _07_08PM = (res[0]._7pmto8pm ? res[0]._7pmto8pm : 0);
+                _08_09PM = (res[0]._8pmto9pm ? res[0]._8pmto9pm : 0);
+                _09_10PM = (res[0]._9pmto10pm ? res[0]._9pmto10pm : 0);
+                _10_11PM = (res[0]._10pmto11pm ? res[0]._10pmto11pm : 0);
+                _11_12PM = (res[0]._11pmto12am ? res[0]._11pmto12am : 0);
+
+               //Male Cnt And Female Cnt
+                maleCnt = (res[0].male ? res[0].male : 0);
+                femaleCnt = (res[0].female ? res[0].female : 0);
+            }
+            var barDailyLive = {
+                "series": ["Scan"],
+                "data": [[_00_01AM, _01_02AM, _02_03AM, _03_04AM, _04_05AM, _05_06AM,
+                    _06_07AM, _07_08AM, _08_09AM, _09_10AM, _10_11AM, _11_12AM,
+                    _12_01PM, _01_02PM, _02_03PM, _03_04PM, _04_05PM, _05_06PM,
+                    _06_07PM, _07_08PM, _08_09PM, _09_10PM, _10_11PM, _11_12PM]],
+                "labels": ['00-01AM', '01-02AM', '02-03AM', '03-04AM', '04-05AM', '05-06AM', '06-07AM', '07-08AM', '08-09AM', '09-10AM', '10-11AM', '11-12AM', '12-01PM', '01-02PM', '02-03PM', '03-04PM', '04-05PM', '05-06PM', '06-07PM', '07-08PM', '08-09PM', '09-10PM', '10-11PM', '11-12PM'],
+                "colours": [{ // default
+                    backgroundColor: 'rgba(254, 191, 75, 1)',
+                    pointBackgroundColor: 'rgba(59, 89, 152,1)',
+                    borderColor: 'rgba(51,51,51,1)',
+                    pointBorderColor: 'rgba(255,255,255,1)',
+                    pointHoverBorderColor: 'rgba(255,255,255,1)'
+                }],
+                options: {
+                    responsive: true,
+                    legend: { display: true },
+                    hover: {
+                        mode: 'label'
+                    },
+                    scales: {
+                        xAxes: [{
+                            display: true
+                        }],
+                        yAxes: [{
+                            display: true,
+                            ticks: {
+                                beginAtZero: true,
+                                steps: 1,
+                                stepValue: 1,
+                                max: 20
+                            }
+                        }]
+                    },
+                    title: {
+                        display: true,
+                        text: 'Customer Scan per hour'
+                    }
+                }
+            };
+            $scope.barDaily = barDailyLive;
+
+            var pieDailyGender = {
+                "series": ["Scan"],
+                "data": [[maleCnt, femaleCnt]],
+                "labels": ["Male", "Female"],
+                "colours": [{
+                    fill: true,
+                    backgroundColor: [
+                        '#f27521',
+                        '#29ae2e']
+                }],
+                options: {
+                    responsive: true,
+                    legend: { display: true },
+                    hover: {
+                        mode: 'label'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Male & Female'
+                    }
+                }
+            };
+            $scope.pieDailyG = pieDailyGender;
+        };
+        let newDate = new Date();
+        $scope.dailyChartSubmit = () => {
+            let date =`${newDate.getFullYear()}-${("0" + (newDate.getMonth() + 1)).slice(-2)}-${("0" + newDate.getDate()).slice(-2)}T00:00:00.000Z`;
+            VisitHourCount.find({ filter: { where: { ownerId: $scope.ownerId, date  } } }).$promise.then((res) => {
+                getDailyChart(res);
+            });
+        }
+        getDailyChart([]);
+        //End Daily Chart Part
+
+        //Weekly Chart Part
+        let weekFirstDay, weekEndDay, weeklyMaleCnt = 0, weeklyFemaleCnt = 0, weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], weekDaysLabel = [], weekDaysVal = [],
+            monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], propertiesArray = [];
+        let getWeekyChart = (res) => {
+            var Dates = new Date().getWeek(), date = new Date();
+            weekDaysLabel = [], weekDaysVal = [], propertiesArray=[];
+            weekFirstDay = (new Date(Dates[0])).getDate();
+            weekEndDay = (new Date(Dates[1])).getDate();
+            for (let i = weekFirstDay; i <= weekEndDay; i++) {
+                date.setDate(i);
+                weekDaysVal.push(0);
+                propertiesArray.push(`_${date.getDate()}`);
+                weekDaysLabel.push(`${weekday[date.getDay()]} - ${("0" + date.getDate()).slice(-2)}`);
+            }
+
+            let weekChartDraw=()=>{
+                var barWeekly = {
+                    "series": ["Visit"],
+                    "data": [weekDaysVal],
+                    "labels": weekDaysLabel,
+                    "colours": [{ // default
+                        backgroundColor: 'rgba(254, 191, 75, 1)',
+                        pointBackgroundColor: 'rgba(59, 89, 152,1)',
+                        borderColor: 'rgba(51,51,51,1)',
+                        pointBorderColor: 'rgba(255,255,255,1)',
+                        pointHoverBorderColor: 'rgba(255,255,255,1)'
+                    }],
+                    options: {
+                        responsive: true,
+                        legend: { display: true },
+                        hover: {
+                            mode: 'label'
+                        },
+                        scales: {
+                            xAxes: [{
+                                display: true
+                            }],
+                            yAxes: [{
+                                display: true,
+                                ticks: {
+                                    beginAtZero: true,
+                                    steps: 1,
+                                    stepValue: 1,
+                                    max: 50
+                                }
+                            }]
+                        },
+                        title: {
+                            display: true,
+                            text: 'Scans Per Week'
+                        }
+                    }
+                };
+                $scope.barWeek = barWeekly;
+    
+                var pieWeek = {
+                    "series": ["Visit"],
+                    "data": [[weeklyMaleCnt, weeklyFemaleCnt]],
+                    "labels": ["Male", "Female"],
+                    "colours": [{
+                        fill: true,
+                        backgroundColor: [
+                            '#f27521',
+                            '#0078a6']
+                    }],
+                    options: {
+                        responsive: true,
+                        legend: { display: true },
+                        hover: {
+                            mode: 'label'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Male & Female'
+                        }
+                    }
+                };
+                $scope.pieWeekly = pieWeek;
+            };
+
+            if (res && res.length > 0) {
+                weekDaysVal = [];
+                propertiesArray.forEach((val, index) => {
+                     weekDaysVal.push(res[0][val]);
+                     weeklyMaleCnt += (res[0].maleArray.filter(m => m[val])).length;
+                     weeklyFemaleCnt += (res[0].femaleArray.filter(m => m[val])).length;
+                });
+                weekChartDraw();
+            } else{
+                weekChartDraw();
+            }
+        };
+        $scope.weekChartSubmit = () => {
+            var Dates = new Date().getWeek(), date = new Date(), monthAndYearTxt = `${monthNames[date.getMonth()]}-${date.getFullYear()}`;
+            if (Dates && Dates.length > 0) {
+                weekDaysLabel = [], weekDaysVal = [], propertiesArray=[];
+                weekFirstDay = (new Date(Dates[0])).getDate();
+                weekEndDay = (new Date(Dates[1])).getDate();
+                for (let i = weekFirstDay; i <= weekEndDay; i++) {
+                    date.setDate(i);
+                    weekDaysVal.push(date.getDate());
+                    propertiesArray.push(`_${date.getDate()}`);
+                    weekDaysLabel.push(`${weekday[date.getDay()]} - ${("0" + date.getDate()).slice(-2)}`);
+                }
+            }
+            if(monthAndYearTxt && $scope.ownerId){
+                VisitDayCount.find({ filter : { where : { monthYear : monthAndYearTxt , ownerId : $scope.ownerId } } }).$promise.then((res) => {
+                    getWeekyChart(res);
+                });
+            }
+        };
+        getWeekyChart([]);
+        //End Weekly Chart 
+
+        //Monthly Chart Part
+        let firstWeek = 0, secondWeek = 0, thirdWeek = 0, fourthWeek = 0, fifthWeek = 0, maleMonthlyCnt = 0, femaleMonthlyCnt = 0;
+        let getMonthlyChart = (res) => {
+
+            let monthlyChartCall = () => {
+                var barMonthly = {
+                    "series": ["Visit"],
+                    "data": [[firstWeek, secondWeek, thirdWeek, fourthWeek, fifthWeek]],
+                    "labels": ['First Week', 'Second Week', 'Third Week', 'Fourth Week', 'Fifth Week'],
+                    "colours": [{ // default
+                        backgroundColor: 'rgba(254, 191, 75, 1)',
+                        pointBackgroundColor: 'rgba(59, 89, 152,1)',
+                        borderColor: 'rgba(51,51,51,1)',
+                        pointBorderColor: 'rgba(255,255,255,1)',
+                        pointHoverBorderColor: 'rgba(255,255,255,1)'
+                    }],
+                    options: {
+                        responsive: true,
+                        legend: { display: true },
+                        hover: {
+                            mode: 'label'
+                        },
+                        scales: {
+                            xAxes: [{
+                                display: true
+                            }],
+                            yAxes: [{
+                                display: true,
+                                ticks: {
+                                    beginAtZero: true,
+                                    steps: 1,
+                                    stepValue: 2,
+                                    max: 80
+                                }
+                            }]
+                        },
+                        title: {
+                            display: true,
+                            text: 'Scans Per Week'
+                        }
+                    }
+                };
+                $scope.barMonth = barMonthly;
+                var pieMonthgenter = {
+                    "series": ["Visit"],
+                    "data": [[maleMonthlyCnt, femaleMonthlyCnt]],
+                    "labels": ["Male", "Female"],
+                    "colours": [{
+                        fill: true,
+                        backgroundColor: [
+                            '#f27521',
+                            '#0078a6']
+                    }],
+                    options: {
+                        responsive: true,
+                        legend: { display: true },
+                        hover: {
+                            mode: 'label'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Male and Female'
+                        }
+                    }
+                };
+
+                $scope.piegenderMonth = pieMonthgenter;
+            };
+
+            if (res && res.length > 0) {
+                firstWeek = (res[0].week1 ? res[0].week1 : 0);
+                secondWeek = (res[0].week2 ? res[0].week2 : 0);
+                thirdWeek = (res[0].week3 ? res[0].week3 : 0);
+                fourthWeek = (res[0].week4 ? res[0].week4 : 0);
+                fifthWeek = (res[0].week5 ? res[0].week5 : 0);
+                maleMonthlyCnt = (res[0].male ? res[0].male : 0);
+                femaleMonthlyCnt = (res[0].female ? res[0].female : 0);
+                monthlyChartCall();
+            } else {
+                monthlyChartCall();
+            }
+        };
+        $scope.monthlyChartSubmit = () => {
+           let date= new Date(), monthAndYearTxt = `${monthNames[date.getMonth()]}-${date.getFullYear()}`;
+            if($scope.ownerId){
+                VisitWeekCount.find({ filter : { where : { ownerId : $scope.ownerId , monthYear: monthAndYearTxt } } }).$promise.then((res)=>{
+                    getMonthlyChart(res);
+                });
+            }
+        };
+        getMonthlyChart([]);
+        //End monthly chart
+
+
+        //Start Yearly Chart
+        let yearJan = 0, yearFeb = 0,  yearMar = 0, yearApr = 0, yearMay = 0, yearJun = 0, yearJul = 0, yearAug = 0, yearSept = 0, yearOct = 0, yearNov = 0, yearDec = 0,
+            yearMaleCnt = 0, yearFemaleCnt = 0;
+        let getYearlyChartData = (res) => {
+
+            let getYearlydata = () => {
+                var barYearly = {
+                    "series": ["Visit"],
+                    "data": [[yearJan, yearFeb, yearMar, yearApr, yearMay, yearJun, yearJul, yearAug, yearSept, yearOct, yearNov, yearDec]],
+                    "labels": ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+                    "colours": [{ // default
+                        backgroundColor: 'rgba(254, 191, 75, 1)',
+                        pointBackgroundColor: 'rgba(59, 89, 152,1)',
+                        borderColor: 'rgba(51,51,51,1)',
+                        pointBorderColor: 'rgba(255,255,255,1)',
+                        pointHoverBorderColor: 'rgba(255,255,255,1)'
+                    }],
+                    options: {
+                        responsive: true,
+                        legend: { display: true },
+                        hover: {
+                            mode: 'label'
+                        },
+                        scales: {
+                            xAxes: [{
+                                display: true
+                            }],
+                            yAxes: [{ display: true, ticks: { beginAtZero: true, steps: 1, stepValue: 2, max: 120 } }]
+                        },
+                        title: {
+                            display: true,
+                            text: 'Scans Per Week'
+                        }
+                    }
+                };
+                $scope.barYear = barYearly;
+
+                var pieYeargenter = {
+                    "series": ["Visit"],
+                    "data": [[yearMaleCnt, yearFemaleCnt]],
+                    "labels": ["Male", "Female"],
+                    "colours": [{
+                        fill: true,
+                        backgroundColor: [
+                            '#f27521',
+                            '#0078a6']
+                    }],
+                    options: {
+                        responsive: true,
+                        legend: { display: true },
+                        hover: {
+                            mode: 'label'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Male and Female'
+                        }
+                    }
+                };
+
+                $scope.piegenderYear = pieYeargenter;
+            };
+
+            if (res && res.length > 0) {
+                yearJan = (res[0].january ? res[0].january : 0);
+                yearFeb = (res[0].february ? res[0].february : 0);
+                yearMar = (res[0].march ? res[0].march : 0);
+                yearApr = (res[0].april ? res[0].april : 0);
+                yearMay = (res[0].may ? res[0].may : 0);
+                yearJun = (res[0].june ? res[0].june : 0);
+                yearJul = (res[0].july ? res[0].july : 0);
+                yearAug = (res[0].august ? res[0].august : 0);
+                yearSept = (res[0].september ? res[0].september : 0);
+                yearOct = (res[0].october ? res[0].october : 0);
+                yearNov = (res[0].november ? res[0].november : 0);
+                yearDec = (res[0].december ? res[0].december : 0);
+                yearMaleCnt = (res[0].male ? res[0].male : 0);
+                yearFemaleCnt = (res[0].female ? res[0].female : 0);
+                getYearlydata();
+            } else {
+                getYearlydata();
+            }
+        };
+        $scope.yearlyChartSubmit = () => {
+            let date = new Date();
+            if ($scope.ownerId) {
+                VisitMonthCount.find({ filter: { where: { ownerId: $scope.ownerId, year: date.getFullYear() } } }).$promise.then((res) => {
+                    getYearlyChartData(res);
+                });     
+            }
+        };
+        getYearlyChartData([]);
+        //End Yearly Chart
+
+       
+        $scope.BusinessSelected = (arg) => {
+            $("#businessErr").text('');
+            if (arg == 'scans') {
+                if ($("#autocompleteBusiness").data('id')) {
+                    $scope.ownerId = $("#autocompleteBusiness").data('id');
+                    arg = $("#autocompleteBusiness").data('id');
+                    $scope.dailyChartSubmit();
+                    $scope.weekChartSubmit();
+                    $scope.monthlyChartSubmit();
+                    $scope.yearlyChartSubmit();
+                    $scope.isBusinessSelected = true;
+                    if ($("#businessSubmit").hasClass('businessSubmit')) {
+                        $("#businessSubmit").html('<i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Reset');
+                        $("#businessSubmit").removeClass('businessSubmit').addClass('businessReset');
+                    }
+                } else {
+                    $("#businessErr").text('Please select the Business name');
+                }
+            }
+        };
+    }]);

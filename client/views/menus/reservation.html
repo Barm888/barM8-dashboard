@@ -1,0 +1,447 @@
+<style>
+    @media(max-width:767px) {
+        .searchBtn {
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 2px;
+            text-align: right
+        }
+
+        .ordercard {
+            padding: 10px 10px 55px 10px;
+        }
+
+        .autobtn {
+            padding-right: 0;
+            padding-left: 34px;
+            padding-top: 4px
+        }
+
+        .table-responsive {
+            margin-top: 10px;
+        }
+    }
+
+    @media(min-width:768px) {
+
+        .searchBtn {
+            margin-top: 1.4rem;
+            background-color: #4caf50 !important;
+            border-radius: 2px
+        }
+
+        .ordercard {
+            padding: 20px;
+        }
+
+        .autobtn {
+            padding-right: 0;
+            padding-left: 34px;
+            padding-top: 4px
+        }
+    }
+
+    @media(min-width:992px) {
+
+        .searchBtn {
+            margin-top: 1.4rem;
+            background-color: #4caf50 !important;
+            border-radius: 2px
+        }
+
+        .ordercard {
+            padding: 20px;
+        }
+
+        .autobtn {
+            padding-right: 0px !important;
+            padding-left: 34px !important;
+            padding-top: 10px !important
+        }
+    }
+
+    @media(min-width:1200px) {
+
+        .searchBtn {
+            margin-top: 1.4rem;
+            background-color: #4caf50 !important;
+            border-radius: 2px
+        }
+
+        .ordercard {
+            padding: 20px;
+        }
+
+        .autobtn {
+            padding-right: 0px !important;
+            padding-left: 34px !important;
+            padding-top: 10px !important;
+            margin-top: 10px
+        }
+    }
+
+    .approvedclass {
+        background-color: #43a047;
+        color: #fff;
+        box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+        padding: 2px 4px;
+        border-radius: 2px;
+    }
+
+    .rejectedClass {
+        background-color: #e64a19;
+        color: #fff;
+        box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+        padding: 2px 7px;
+        border-radius: 2px;
+    }
+
+    .awaitingClass {
+        background-color: #1a237e;
+        color: #fff;
+        box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+        padding: 2px 10px;
+        border-radius: 2px;
+    }
+
+    .noGuests {
+        background: #4CAF50;
+        color: #fff;
+        padding: 1px 5px;
+        border-radius: 50%;
+        box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+    }
+
+    .datepicker table tr td.today,
+    .datepicker table tr td.today:hover,
+    .datepicker table tr td.today.disabled,
+    .datepicker table tr td.today.disabled:hover {
+        background-color: #FF9800 !important;
+        background-image: -moz-linear-gradient(top, #FFC107, #FFC107) !important;
+        background-image: -ms-linear-gradient(top, #FFC107, #FFC107) !important;
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fdd49a), to(#FFC107)) !important;
+        background-image: -webkit-linear-gradient(top, #FFC107, #FFC107) !important;
+        background-image: -o-linear-gradient(top, #FFC107, #FFC107) !important;
+        background-image: linear-gradient(top, #FFC107, #FFC107) !important;
+        color: #fff !important;
+    }
+</style>
+<script>
+
+    $(() => { $("#analyticsId").css({ "opacity": "0.1" }); setTimeout(function () { $("#analyticsId").css({ "opacity": "" }) }, 1000) });
+    $(function () { $('.date').datepicker({ format: "dd-mm-yyyy", todayHighlight: !0, autoclose: !0 }); });
+</script>
+w
+<link rel="stylesheet" type="text/css" href="assets/css/dashboard.css" />
+<div class="wrapper wrapper-content" id="reservation">
+    <div class="m-t-sm">
+        <div class="row">
+            <div class="col-md-12 card" ng-show="userDetails.isAdmin">
+                <div class="row">
+                    <div class="col-md-12 ordercard">
+                        <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                        <div class="autocomplete col-sm-8 col-xs-8 col-md-6 col-lg-6 col-xl-6"
+                            style="padding-right:0px;padding-left:0px;">
+                            <input id="autocompleteBusiness" type="text" name="BusinessName"
+                                placeholder="Enter Business name">
+                            <span id="businessErr" style="color:red;"></span>
+                        </div>
+                        <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                        <script
+                            type="text/javascript">autocomplete(document.getElementById("autocompleteBusiness"), 'order');</script>
+                        <div class="autocomplete col-sm-4 col-xs-4 col-md-6 col-lg-6 col-xl-6 auto-btn">
+                            <button type="button" ng-click="BusinessSelected('BusinessManager')" id="businessSubmit"
+                                class="btn btn-raised btn-primary businessSubmit">
+                                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style ng-show="!userDetails.isAdmin">
+                .m-t-sm {
+                    margin-top: 25px !important;
+                }
+            </style>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 card"
+                        style="margin: -0.5rem 0 1rem 0;">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <h1 style="font-weight: 500 !important; margin-top: 10px !important;">Filter
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                <div class="form-group">
+                                    <label for="status" style="font-size: 1.4rem;">Status</label>
+                                    <select class="form-control" id="Status_fil" style="font-size: 1.2rem !important;">
+                                        <option value="select">Select</option>
+                                        <option value="awaiting">Awaiting</option>
+                                        <option value="confirmed">Confirmed</option>
+                                        <option value="cancelled">Cancelled</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                <div class="form-group">
+                                    <label for="status" style="font-size: 1.4rem;">Customer</label>
+                                    <input type="text" class="form-control" style="font-size: 1.2rem !important;"
+                                        placeholder="Enter the customer name (or) Contact No."
+                                        id="customer_name_mobile_fil">
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                <div class="form-group">
+                                    <label for="status" style="font-size: 1.4rem;">Reservation Date</label>
+                                    <input type="text" id="reservation_date_fil" class="form-control date"
+                                        style="font-size: 1.2rem !important;" placeholder="dd-mm-yyyy">
+                                </div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                <button type="button" class="btn btn-primary searchBtn"
+                                    style="background-color: #f9a141 !important;font-size:1.4rem;border-radius:2px !important;"
+                                    ng-click="searchClk()"><i class="fas fa-search"></i> Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                ng-show="reservationList && reservationList.length>0">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" id="R_S_L_1">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-xl-12 card"
+                                style="margin: -0.5rem 0 1rem 0;">
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="reservationTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Request Date</th>
+                                                <th>Requested Time</th>
+                                                <th>Allocated Time</th>
+                                                <th>No. of guests</th>
+                                                <td>Table No.</td>
+                                                <th>Name</th>
+                                                <th>Contact</th>
+                                                <th>Reservation Id</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="list in reservationList" id="_reser_tr_{{list.id}}"
+                                                ng-click="reservationClk(list.id)">
+                                                <script> $(document).ready(() => { $('[data-toggle="tooltip"]').tooltip(); });</script>
+                                                <td>{{list.request.date | date:'dd-MM-yyyy'}}</td>
+                                                <td>{{list.request.time}}</td>
+                                                <td>
+                                                    <span ng-if="list.allocateTime">{{list.allocateTime}}</span>
+                                                    <span ng-if="!list.allocateTime" data-toggle="tooltip"
+                                                        data-placement="top" title="Not Assign"> <i>NA</i>
+                                                    </span>
+                                                </td>
+                                                <td> <span class="noGuests">{{list.noPeople}}</span></td>
+                                                <td>
+                                                    <span ng-if="list.tableNo">{{list.tableNo}}</span>
+                                                    <span ng-if="!list.tableNo" data-toggle="tooltip"
+                                                        data-placement="top" title="Not Assign"> <i>NA</i>
+                                                    </span>
+                                                </td>
+                                                <td>{{list.customer.firstName}} &nbsp;{{list.customer.lastName}}
+                                                </td>
+                                                <td>{{list.customer.mobile}}</td>
+                                                <td>{{list.reservationId}}</td>
+                                                <td>
+                                                    <span
+                                                        class="{{list.status =='confirmed' ? 'approvedclass' : ( list.status =='cancelled' ? 'rejectedClass' : 'awaitingClass' ) }}">{{list.status
+                                                        | capitalize}}</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal" id="confirmPopup" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header"
+                                    style="background-color: #f9a141;    padding: 10px !important;
+                            box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);">
+                                    <h3 class="modal-title" style="color: #fff;">Message</h3>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                            <h4 ng-if="status=='confirmed'">Are you sure you want to
+                                                Confirm?
+                                            </h4>
+                                            <h4 ng-if="status=='cancelled'">Are you sure you want to
+                                                Cancel?
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" onclick="confirmBtn(this)"
+                                        id="reservationConfirmBtn"
+                                        style="background-color: #43a047 !important;padding: 4px 20px!important;">Yes</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        style="background-color: #e64a19 !important;"
+                                        data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="" id="R_Single_O_D_L" style="display: none;">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 card"
+                                style="margin: -0.5rem 0 1rem 0;">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <script> $(document).ready(() => { $('[data-toggle="tooltip"]').tooltip(); });</script>
+                                        <button class="btn pull-right" data-toggle="tooltip" data-placement="top"
+                                            title="Close" ng-click="closeView()"
+                                            style="background-color: red;margin-top:5px;color: #fff; padding: 2px 7px 1px 7px!important;"><i
+                                                class="fas fa-times" style="font-size: 1rem;"></i></button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                        <div class="table-responsive" style="margin-top: 10px;">
+                                            <table class="table table-bordered table-hover">
+                                                <tbody>
+                                                    <tr>
+                                                        <th colspan="2">
+                                                            <h3>Reservation Details</h3>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Name</b></td>
+                                                        <td>
+                                                            {{reservationObj.customer.firstName}} &nbsp;
+                                                            {{reservationObj.customer.lastName}}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Contact</b></td>
+                                                        <td>{{reservationObj.customer.mobile}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Date</b></td>
+                                                        <td>{{reservationObj.request.date}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Time</b></td>
+                                                        <td>{{reservationObj.request.time}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>No. of Guests</b></td>
+                                                        <td>{{reservationObj.noPeople}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Payment Type</b></td>
+                                                        <td>{{reservationObj.paymentType | capitalize}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Reservation Id</b></td>
+                                                        <td>{{reservationObj.reservationId}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Reservation Type</b></td>
+                                                        <td>
+                                                            <span ng-if="reservationObj.isTableOrder">Table
+                                                                Only</span>
+                                                            <span ng-if="!reservationObj.isTableOrder">Pre-Order</span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row" style="margin-top: 10px;">
+                                    <div class="col-sm-6 col-xs-6 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label for="alloCateTableNo">Allocate Table No</label>
+                                            <input ng-disabled="reservationObj.status!='awaiting'"
+                                                ng-model="reservationObj.tableNo" type="text" class="form-control"
+                                                placeholder="Ex : BC12" id="alloCateTableNo">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label for="alloCateTableStartTime">Allocate Time</label>
+                                            <input ng-disabled="reservationObj.status!='awaiting'"
+                                                ng-value="reservationObj.allocateTime ? reservationObj.allocateTime : reservationObj.request.time"
+                                                type="text" class="form-control time" id="alloCateTableTime">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom: 10px;">
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                        <button class="btn btn-success pull-right"
+                                            ng-show="reservationObj.status=='awaiting'"
+                                            style="background-color: #43a047 !important;border-radius: 27px !important;padding: 6px 10px!important;"
+                                            ng-click="confirmPopup(reservationObj.id , 'confirmed' , reservationObj.customer.id)"
+                                            data-toggle="tooltip" data-placement="top" title="Confirm"> <i
+                                                class="fas fa-check"></i>
+                                            Confirm </button>
+                                        <button class="btn btn-success pull-right" data-toggle="tooltip"
+                                            ng-show="reservationObj.status=='awaiting'" data-placement="top"
+                                            title="Cancel" style="background-color: #e64a19 !important;border-radius: 27px !important;padding: 7px 12px!important;
+                                            margin-right: 10px;"
+                                            ng-click="confirmPopup(reservationObj.id , 'cancelled' , reservationObj.customer.id)"><i
+                                                class="fas fa-times"></i> Cancel
+                                        </button>
+                                        <div style="text-align: center;">
+                                            <span style="padding: 6px 14% !important;"
+                                                class="{{reservationObj.status =='confirmed' ? 'approvedclass' : ( reservationObj.status =='cancelled' ? 'rejectedClass' : 'awaitingClass' ) }}"
+                                                ng-show="reservationObj.status!='awaiting'">
+                                                <b>{{reservationObj.status | capitalize}}</b>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12"
+                ng-show="reservationList && reservationList.length==0">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 card"
+                        style="padding: 30px;text-align:center;margin: -0.5rem 0 1rem 0 !important;">
+                        <b style="font-size: 1.5rem;">No Data!</b>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="assets/css/jquery.timepicker.min.css" type="text/css" rel="stylesheet" />
+<script src="assets/js/jquery.timepicker.min.js"></script>
+<style>
+    .ui-timepicker-wrapper {
+        width: 9.5em !important;
+    }
+
+    hr {
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+        border-top: 1px solid #9E9E9E !important;
+    }
+</style>
+<script>
+    $('.time').timepicker({ 'scrollDefault': 'now', 'timeFormat': 'h:i a', 'step': 15 });
+    function confirmBtn(e) {
+        let { id, status, customerId } = JSON.parse($(e).attr('data-details'));
+        angular.element(document.getElementById('page-wrapper')).scope().confirmUpdate(id, status, customerId);
+    }
+</script>

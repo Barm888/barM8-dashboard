@@ -1,0 +1,211 @@
+<style>
+    #page-wrapper {
+        padding: 0 0px;
+    }
+
+    @media(min-width:768px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    input[type="checkbox"] {
+        width: 14px;
+        /*Desired width*/
+        height: 14px;
+        /*Desired height*/
+        cursor: pointer !important;
+    }
+
+    input[type="checkbox"],
+    input[type="checkbox"]+label {
+        cursor: pointer !important;
+    }
+
+    hr {
+        margin-top: 0.35em !important;
+        margin-bottom: 0.35em !important;
+        border-width: 1px;
+    }
+
+    .manage-txt {
+        font-size: 1.4rem;
+        color: #000 !important;
+    }
+
+    .back-txt {
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #000 !important;
+    }
+
+    .checkbox {
+        display: none;
+    }
+
+    .switch {
+        align-items: center;
+        background-color: #ff3e13;
+        border-radius: 500px;
+        cursor: pointer;
+        display: flex;
+        height: 28px;
+        justify-content: space-between;
+        padding: 0 5px;
+        position: relative;
+        user-select: none;
+        width: 45px;
+    }
+
+    .checkbox:checked~.switch {
+        background-color: #13a82c;
+    }
+
+    .checkbox:not(:checked)~.switch {
+        background-color: #ff3e13;
+    }
+
+    .switch__left,
+    .switch__right {
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .checkbox:checked~.switch .switch__left {
+        visibility: hidden;
+    }
+
+    .checkbox:not(:checked)~.switch .switch__right {
+        visibility: hidden;
+    }
+
+    .switch__circle {
+        height: 25px;
+        padding: 2px;
+        position: absolute;
+        transition: all 0.1s linear;
+        width: 25px;
+    }
+
+    .checkbox:checked~.switch .switch__circle {
+        left: 0;
+        right: calc(100% - 0);
+    }
+
+    .checkbox:not(:checked)~.switch .switch__circle {
+        left: calc(100% - 0);
+        right: 0;
+    }
+
+    .switch__circle-inner {
+        background-color: white;
+        border-radius: 50%;
+        display: block;
+        height: 100%;
+        width: 100%;
+    }
+</style>
+<script>
+    $(document).ready(() => { $('[data-toggle="tooltip"]').tooltip(); });
+</script>
+<div class="wrapper wrapper-content" id="accountListCtl" ng-controller="accountListCtl">
+    <div class="m-t-sm" style="margin-top:3rem;">
+        <div class="row">
+            <div class="col-xs-12 col-md-12 col-xl-12 col-lg-12 col-xl-12">
+                <div class="row card">
+                    <div class="col-xs-6 col-md-6 col-xl-6 col-lg-6">
+                        <h2>Accounts</h2>
+                    </div>
+                    <div class="col-xs-6 col-md-6 col-xl-6 col-lg-6" style="text-align:right !important;">
+                        <div class="row" style="margin-top: 1rem !important;text-align:right !important;">
+                            <div class="col-xs-10 col-sm-12 col-md-10 col-lg-10 col-xl-10">
+                                <b style="font-size: 1.2rem;">Stripe Mode</b>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                <input id="checkbox_{{appConfigData.id}}" ng-checked="appConfigData.stripeMode"
+                                    onchange="angular.element('#accountListCtl').scope().modeUpdate()" type="checkbox"
+                                    class="checkbox" />
+                                <label for="checkbox_{{appConfigData.id}}" data-toggle="tooltip"
+                                    title="{{appConfigData.stripeModeTxt}}" class="switch">
+                                    <span class="switch__circle">
+                                        <span class="switch__circle-inner"></span>
+                                    </span>
+                                    <span class="switch__left"></span>
+                                    <span class="switch__right"></span>
+                                </label>
+                                <script>
+                                    $(document).ready(() => { $('[data-toggle="tooltip"]').tooltip(); });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12" style="padding: 20px;">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Email</th>
+                                    <th>Venue name</th>
+                                    <th>Mobile</th>
+                                    <th>Account Type</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="data in strips">
+                                    <td>{{$index+1}}</td>
+                                    <td ng-if="!data.stripeMode">{{data.stripe_test_data.email}}</td>
+                                    <td ng-if="!data.stripeMode">{{data.business.businessName}}</td>
+                                    <td ng-if="!data.stripeMode">{{data.business.phone || 'NA'}}</td>
+                                    <td ng-if="!data.stripeMode">{{data.stripe_test_data.type}}</td>
+                                    <td ng-if="!data.stripeMode && data.stripe_test_data.charges_enabled">
+                                        <span
+                                            style="background-color: green !important;color: #fff !important;padding: 2px 10px;border-radius:2px;">
+                                            Active</span>
+                                    </td>
+                                    <td ng-if="!data.stripeMode && data.stripe_test_data.charges_enabled==false">
+                                        <span
+                                            style="background-color: red !important;color: #fff !important;padding: 2px 5px;border-radius:2px;">
+                                            Inactive</span>
+                                    </td>
+                                    <td ng-if="data.stripeMode">{{data.stripe_live_data.email}}</td>
+                                    <td ng-if="data.stripeMode">{{data.business.businessName}}</td>
+                                    <td ng-if="data.stripeMode">{{data.business.phone || 'NA'}}</td>
+                                    <td ng-if="data.stripeMode">{{data.stripe_live_data.type}}</td>
+                                    <td ng-if="data.stripeMode && data.stripe_live_data.charges_enabled">
+                                        <span
+                                            style="background-color: green !important;color: #fff !important;padding: 2px 10px;border-radius:2px;">
+                                            Active</span>
+                                    </td>
+                                    <td ng-if="data.stripeMode && data.stripe_live_data.charges_enabled==false">
+                                        <span
+                                            style="background-color: red !important;color: #fff !important;padding: 2px 5px;border-radius:2px;">
+                                            Inactive</span>
+                                    </td>
+                                </tr>
+                                <tr ng-if="strips && strips.length==0">
+                                    <td colspan="5" style="text-align: center;">
+                                        <span style="font-size: 1.2rem !important;">No Data!</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,289 @@
+<script>
+
+    $(function () {
+        $('#_happenings_date').datepicker({ startDate: new Date() });
+    });
+</script>
+<style>
+    .back-txt {
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #000 !important;
+    }
+
+    .manage-txt {
+        font-size: 1.4rem;
+        color: #000 !important;
+    }
+
+    .manage-txt-1 {
+        font-size: 1.044rem;
+        color: #000 !important;
+    }
+
+    .manage-txt {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .chosen-single {
+        padding-top: 3px !important;
+    }
+
+    .btn {
+        border-radius: 21px;
+    }
+
+    #page-wrapper {
+        padding: 0 0px;
+    }
+
+    @media(min-width:768px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    .header-happenings {
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .3);
+        padding-top: 4px;
+        background-color: #f9a141;
+        border-radius: 4px;
+    }
+
+    .ui-timepicker-wrapper {
+        width: 11.5em !important;
+    }
+</style>
+<link href="/assets/datepicker.min.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/assets/bootstrap-datepicker.min.js"></script>
+<div class="wrapper wrapper-content" id="happeningsManager" ng-controller="happeningsManageCtl">
+    <div class="m-t-sm" style="margin-top:2.5rem;" ng-show="isBusinessSelect">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                <div class="row card eventCard" style="margin: 0rem 0 0.5rem 0 !important;">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                        <div class="autocomplete col-sm-12 col-xs-8 col-md-6 col-lg-6 col-xl-6"
+                            style="padding-right:0px;padding-left:0px;">
+                            <input id="autocompleteBusiness" type="text" name="BusinessName"
+                                placeholder="Enter Business name">
+                            <span id="businessErr" style="color:red;"></span>
+                        </div>
+                        <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                        <script
+                            type="text/javascript">autocomplete(document.getElementById("autocompleteBusiness"), 'manageEvent');</script>
+                        <div class="autocomplete col-sm-12 col-xs-4 col-md-6 col-lg-6 col-xl-6">
+                            <button type="button" ng-click="BusinessSelected('manageEvent')" id="businessSubmit"
+                                class="btn btn-raised btn-primary businessSubmit">
+                                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row card">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <div class="row" ng-show="requestDataForWhats && requestDataForWhats.length">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                        <button class="btn btn-primary"
+                                            style="border-radius: 5%;padding: 4px 9px !important;
+                                        background-color:#f9a141 !important;color:#fff !important;font-size: 20px;margin-bottom:1rem;margin-top:1rem;"
+                                            title="Filter" data-toggle="collapse" data-target="#filterCollapse"
+                                            role="button" aria-expanded="false" aria-controls="filterCollapse">
+                                            <i class="fas fa-filter"></i> Filter
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                        <div class="collapse" id="filterCollapse">
+                                            <div class="row">
+                                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                                    <div class="form-group">
+                                                        <label for="f-category"
+                                                            style="font-size: 16px !important;">Category</label>
+                                                        <select name="category" class="form-control"
+                                                            style="font-size: 16px !important;" id="f-category">
+                                                            <option value="select">Select</option>
+                                                            <option ng-repeat="category in happeningsCategory"
+                                                                value="{{category.name}}">{{category.name}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                                    <div class="form-group">
+                                                        <label for="f-date"
+                                                            style="font-size: 16px !important;">Date</label>
+                                                        <input type="Date" class="form-control"
+                                                            style="font-size: 16px !important;" id="f-date"
+                                                            placeholder="Date">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                                    <div class="form-group">
+                                                        <label for="f-date"
+                                                            style="font-size: 16px !important;">Types</label>
+                                                        <select name="category" class="form-control"
+                                                            style="font-size: 16px !important;" id="f-type">
+                                                            <option value="select">Select</option>
+                                                            <option value="Non-ticketed">Non-ticketed</option>
+                                                            <option value="Ticketed">Ticketed</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3"
+                                                    style="text-align: center !important">
+                                                    <button class="btn btn-primary" ng-click="filterRequestEvents()"
+                                                        style="background-color: #f9a141 !important;border-radius: 2px;margin-top:2rem;font-size:18px !important;"><i
+                                                            class="fa fa-search" aria-hidden="true"></i>
+                                                        &nbsp; Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                                <span>Request Date</span>
+                                            </th>
+                                            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                                <span>Request Time</span>
+                                            </th>
+                                            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                                <span>Type</span>
+                                            </th>
+                                            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                                <span>Category</span>
+                                            </th>
+                                            <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                                <span>Event Title</span>
+                                            </th>
+                                            <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                                <span>Customer Name</span>
+                                            </th>
+                                            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                                <span>Party Size</span>
+                                            </th>
+                                            <th class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                                <span>Status</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="list in requestDataForWhats"
+                                            ng-mouseover="showTheMiddle($event, $index)"
+                                            ng-mouseleave="hiddenTheMiddle($index)" style="position: relative;">
+                                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                                <span>
+                                                    {{list.requestDate | date : "EEE, dd MMM , y"}}
+                                                </span>
+                                            </td>
+                                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                                <span>
+                                                    {{list.request.time}}
+                                                </span>
+                                            </td>
+                                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                                <span ng-show="list.isTicketed">Ticketed</span>
+                                                <span ng-show="!list.isTicketed">Non-Ticketed</span>
+                                            </td>
+                                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                                <span>
+                                                    {{list.happeningsCategory.name}}
+                                                </span>
+                                            </td>
+                                            <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                                <span>{{list.eventTitle}}</span>
+                                            </td>
+                                            <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                                <span>{{list.customer.firstName}} {{list.customer.lastName}}</span>
+                                            </td>
+                                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                                <span>{{list.partySize}}</span>
+                                            </td>
+                                            <td class="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                                                <button ng-show="list.status=='new'" ng-click="changeStatus(list.id)"
+                                                    style="background-color: rgb(63,81,181);    border-radius: 2px !important;  padding: 0px 10px !important;  font-size: 20px;border: 1px solid rgb(63,81,181) !important;"
+                                                    class="btn btn-primary">Waiting</button>
+                                                <button ng-show="list.status=='rejected'"
+                                                    ng-click="changeStatus(list.id)"
+                                                    style="background-color:red;    border-radius: 2px !important;  padding: 0px 10px !important;  font-size: 20px;border: 1px solid red !important;"
+                                                    class="btn btn-primary">Rejected</button>
+                                                <button ng-show="list.status=='confirmed'"
+                                                    ng-click="changeStatus(list.id)"
+                                                    style="background-color:#4CAF50;    border-radius: 2px !important;  padding: 0px 10px !important;  font-size: 20px;border: 1px solid#4CAF50 !important;"
+                                                    class="btn btn-primary">Accepted</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal" tabindex="-1" id="changeTheStatus" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color: #FF9800;color:#fff;">
+                                    <h3 class="modal-title" style="padding: 8px;">Message</h3>
+                                </div>
+                                <div class="modal-body"
+                                    style="text-align: center !important;padding: 20px 30px 0px 30px !important;">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                            <h3>Do you want to accept or reject?</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="confirm" ng-click="confirmed()"
+                                        style="background-color: #4CAF50 !important;padding: 4px 14px!important;border-radius: 3px;font-size:16px;">Accept</button>
+                                    <button type="button" class="btn btn-secondary" ng-click="rejected()"
+                                        style="background-color: red !important;border-radius: 3px;color:#fff !important;padding:4px 18px !important;font-size:16px;"
+                                        data-dismiss="modal">Reject</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .table-hover {
+        cursor: pointer;
+    }
+
+    th>span {
+        font-size: 16px !important;
+    }
+
+    td>span {
+        font-size: 14px !important;
+    }
+
+    .img-thumbnail {
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
+    }
+</style>

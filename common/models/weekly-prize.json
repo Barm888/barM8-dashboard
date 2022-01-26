@@ -1,0 +1,45 @@
+{
+  "name": "WeeklyPrize",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "bronze": {
+      "type": "string"
+    },
+    "silver": {
+      "type": "string"
+    },
+    "gold": {
+      "type": "string"
+    },
+    "platinum": {
+      "type": "string"
+    },
+    "vip": {
+      "type": "string"
+    },
+    "createTs": {
+      "type": "date"
+    },
+    "createProgId": {
+      "type": "string"
+    },
+    "modifyTs": {
+      "type": "date"
+    },
+    "modifyProgId": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

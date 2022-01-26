@@ -1,0 +1,555 @@
+<link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+<div id="wrapper" ng-controller="ScanReportCtl">
+    <div ng-include="'views/barm8-menus.html'"></div>
+    <div id="page-wrapper" class="gray-bg topBar" style="min-height: 270px;padding: 0 15px">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top white-bg navbarTop" role="navigation"
+                style="margin-bottom: 0;box-shadow: 0 2px 5px 0 rgba(0,0,0,.3);">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary"
+                        style="background-color: #f9a141 !important;" id="minimize" href="javascript:;">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <a ui-sref="logout" id="logout"
+                            style="text-align:right !important;  color: #363636 !important;">
+                            <i class="fas fa-sign-out-alt"></i> Log out
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <link rel="stylesheet" type="text/css" href="assets/css/analytics.css" />
+        <div class="row" id="scansList" style="margin:4.5em 5px 5px 5px;">
+            <div class="row card" ng-if="useremail=='admin@barm8.com.au'"
+                style="padding:20px;">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                    <div class="autocomplete col-md-12" style="padding-right:0px;padding-left:0px;">
+                        <input id="autocompleteBusiness" type="text" name="BusinessName"
+                            placeholder="Enter Business name">
+                        <span id="businessErr" style="color:red;"></span>
+                    </div>
+                    <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                    <script type="text/javascript">
+                        autocomplete(document.getElementById("autocompleteBusiness"), 'scansBusiness');
+                    </script>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" style="text-align:center;">
+                    <button type="button" id="businessSubmit" ng-click="BusinessSelected('scans')"
+                        class="btn btn-raised btn-primary businessSubmit"
+                        style="margin-bottom: 10px;border-radius:30px;"> <i class="fa fa-check"
+                            aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-12 card"
+                style="padding-right:0px;padding-left:0px;">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li data-id="businessApproved"
+                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 card business active"
+                        style="padding-left: 13px;padding-right: 0px;margin: 0rem 0 1rem 0;padding-top: 5px;background-color: #f9a141;">
+                        <a style="color:#ffffff;" data-target="#business_approved" href="javascript:;" role="tab"
+                            data-toggle="tab"><i class="fas fa-chart-bar"></i> &nbsp; Reports</a></li>
+                </ul>
+                <div class="row" style="margin: 0rem 5px 1rem 5px;">
+                    <ul class="nav nav-tabs" id="analyticsTab" role="tablist">
+                        <li class="active col-md-3 col-sm-3 col-xs-3 col-lg-3 col-xl-3"
+                            style="text-align:center;padding-left:0px;padding-right:0px;margin-top:0px !important;"><a
+                                data-target="#daily" onclick="taggleFun(this)" style="color:#000000 !important;"
+                                href="javascript:;" role="tab" data-toggle="tab"><i class="far fa-clock"
+                                    style="font-size: 15px;"></i> &nbsp; Daily</a></li>
+                        <li class="card col-md-3 col-sm-3 col-xs-3 col-lg-3 col-xl-3"
+                            style="text-align:center;padding-left:0px;padding-right:0px;margin-top:0px !important;"><a
+                                data-target="#weekly" onclick="taggleFun(this)" style="color:#000000 !important;"
+                                href="javascript:;" role="tab" data-toggle="tab"><i class="fas fa-calendar-alt"></i>
+                                &nbsp; Weekly</a></li>
+                        <li class="card col-md-3 col-sm-3 col-xs-3 col-lg-3 col-xl-3"
+                            style="text-align:center;padding-left:0px;padding-right:0px;margin-top:0px !important;"><a
+                                data-target="#monthly" onclick="taggleFun(this)" style="color:#000000 !important;"
+                                href="javascript:;" role="tab" data-toggle="tab"><i class="fas fa-calendar-alt"></i>
+                                &nbsp; Monthly</a></li>
+                        <li class="card col-md-3 col-sm-3 col-xs-3 col-lg-3 col-xl-3"
+                            style="text-align:center;padding-left:0px;padding-right:0px;margin-top:0px !important;"><a
+                                data-target="#allTime" onclick="taggleFun(this)" style="color:#000000 !important;"
+                                href="javascript:;" role="tab" data-toggle="tab"><i class="fas fa-calendar-alt"></i>
+                                &nbsp; Yearly</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="daily">
+                            <div class="row" style="padding-top:20px">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                            style="text-align:center;">
+                                            <div class="btn_group">
+                                                <button class="btn btn-success btn-circle btn-lg"
+                                                    style="box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);margin: 10px;"
+                                                    type="button" id="dailyPre">
+                                                    <i class="fa fa-arrow-left fa-2x" aria-hidden="true"></i>
+                                                </button>
+                                                <span id="dailySpan"></span>
+                                                <button class="btn btn-success btn-circle btn-lg"
+                                                    style="box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);margin: 10px;"
+                                                    type="button" id="dailyNext">
+                                                    <i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 datePicker"
+                                            style="text-align:center;padding-bottom:10px;">
+                                            <div class="input-group date" id="dailyCalendar">
+                                                <input type="text" id="dailyBarCalendar" style="display:none;" /><span
+                                                    class="input-group-addon"><span
+                                                        class="glyphicon glyphicon-arrow-down"></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="row">
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <canvas id="bar" ng-if="barDaily" class="chart chart-bar card"
+                                                style="padding:10px" chart-colors="barDaily.colours"
+                                                ng-click="chartClick(idForVisithourCount,'dailyClick')"
+                                                chart-data="barDaily.data" chart-labels="barDaily.labels"
+                                                chart-series="barDaily.series"
+                                                chart-options="barDaily.options"></canvas>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <canvas id="radar" ng-if="pieDailyG" class="chart chart-pie card"
+                                                style="padding:10px" chart-colors="pieDailyG.colours"
+                                                ng-click="chartClick(idForVisithourCount,'dailyClick')"
+                                                chart-data="pieDailyG.data" chart-options="pieDailyG.options"
+                                                chart-series="pieDailyG.series"
+                                                chart-labels="pieDailyG.labels"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="row card" ng-show="customerDetails && customerDetails.length>0"
+                                        style="margin: 0rem 5px 1rem 5px;">
+                                        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-12"
+                                            style="padding-right:0px;padding-left:0px;">
+                                            <div class="table-responsive table-wrapper-scroll-y"
+                                                style="display: block;max-height: 25rem;overflow-y: auto;">
+                                                <table class="table table-hover table-borderless">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Date & time</th>
+                                                            <th>First Name</th>
+                                                            <th>Last Name</th>
+                                                            <th>Email</th>
+                                                            <th>Gender</th>
+                                                            <th>Age</th>
+                                                            <th>Mobile</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="detail in customerDetails">
+                                                            <td>{{ detail.startTime | date : "dd-MM-yyyy h:mm a" }}</td>
+                                                            <td>{{ detail.customer.firstName }}</td>
+                                                            <td>{{ detail.customer.lastName }}</td>
+                                                            <td>{{ detail.customer.email }}</td>
+                                                            <td>{{ detail.customer.gender | capitalize }}</td>
+                                                            <td>{{ detail.customer.age }}</td>
+                                                            <td>{{ detail.customer.mobile }}</td>
+                                                            <td> <button type="button"
+                                                                    class="btn btn-success btn-circle" title="View"><i
+                                                                        class="fas fa-eye"></i></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="weekly">
+                            <div class="row" style="padding-top:20px">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12" style="text-align:center;padding-bottom:10px;">
+                                            <div class="btn_group">
+                                                <button class="btn btn-success btn-circle btn-lg" type="button"
+                                                    data-count="1" data-month="1"
+                                                    style="box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);margin: 10px;"
+                                                    data-year="1" data-start="1" data-end="1" data-txt="WeekBarPre"
+                                                    name="weekbarPre" id="weekPre">
+                                                    <i class="fa fa-arrow-left fa-2x" aria-hidden="true"></i>
+                                                </button>
+                                                <span id="WeekTt">First Week, January 01th - 07th 2018</span>
+                                                <button class="btn btn-success btn-circle btn-lg" type="button"
+                                                    data-count="1" data-month="1"
+                                                    style="box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);margin: 10px;"
+                                                    data-year="1" data-start="1" data-end="1" data-txt="WeekBarNext"
+                                                    name="weekbarNext" id="weekNext">
+                                                    <i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 datePicker"
+                                            style="text-align:center;padding-bottom:10px;">
+                                            <div class='input-group date' id='weeklyCalendar'>
+                                                <input type='text' data-date="1" class="form-control"
+                                                    id="weekstartandend" style="display:none;" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-arrow-down"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="card" style="padding:80px" ng-if="!barWeek.data">
+                                            <div ng-include="'views/loader.html'"></div>
+                                        </div>
+                                        <canvas class="chart chart-bar card" ng-if="barWeek.data" style="padding:10px"
+                                            chart-colors="barWeek.colours" chart-data="barWeek.data"
+                                            chart-labels="barWeek.labels" chart-series="barWeek.series"
+                                            chart-options="barWeek.options"></canvas>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="card" style="padding:80px" ng-if="!pieWeekly.data">
+                                            <div ng-include="'views/loader.html'"></div>
+                                        </div>
+                                        <canvas id="radar" class="chart chart-pie card" ng-if="pieWeekly.data"
+                                            style="padding:10px" chart-colors="pieWeekly.colours"
+                                            chart-data="pieWeekly.data" chart-options="pieWeekly.options"
+                                            chart-series="pieWeekly.series" chart-labels="pieWeekly.labels"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="monthly">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12" style="margin-top: 30px;">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                            style="text-align:center;padding-bottom:10px;">
+                                            <div class="btn_group">
+                                                <button class="btn btn-success btn-circle btn-lg" type="button"
+                                                    data-month="1" data-year="1" id="monthPre">
+                                                    <i class="fa fa-arrow-left fa-2x" aria-hidden="true"></i>
+                                                </button>
+                                                <span id="monthtxt">January 2018</span>
+                                                <button class="btn btn-success btn-circle btn-lg" type="button"
+                                                    data-month="1" data-year="1" id="monthNext">
+                                                    <i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 datePicker"
+                                            style="text-align:center;padding-bottom:10px;">
+                                            <div class='input-group date' id="monthlyCalendar">
+                                                <input type='text' class="form-control" id="monthCal"
+                                                    style="display:none;" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-arrow-down"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="row">
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="card" style="padding:80px" ng-if="!barMonth.data">
+                                                <div ng-include="'views/loader.html'"></div>
+                                            </div>
+                                            <canvas class="chart chart-bar card" style="padding:10px"
+                                                ng-if="barMonth.data" chart-colors="barMonth.colours"
+                                                chart-data="barMonth.data" chart-labels="barMonth.labels"
+                                                chart-series="barMonth.series"
+                                                chart-options="barMonth.options"></canvas>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="card" style="padding:80px" ng-if="!piegenderMonth.data">
+                                                <div ng-include="'views/loader.html'"></div>
+                                            </div>
+                                            <canvas id="radar" class="chart chart-pie card" ng-if="piegenderMonth.data"
+                                                style="padding:10px" chart-colors="piegenderMonth.colours"
+                                                chart-data="piegenderMonth.data" chart-options="piegenderMonth.options"
+                                                chart-series="piegenderMonth.series"
+                                                chart-labels="piegenderMonth.labels"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="allTime">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                    style="margin-top: 10px;">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                            style="text-align:center;padding-bottom:10px;padding-top:20px;">
+                                            <div class="btn_group">
+                                                <button class="btn btn-success btn-circle btn-lg" data-year="1"
+                                                    type="button" id="yearPre">
+                                                    <i class="fa fa-arrow-left fa-2x" aria-hidden="true"></i>
+                                                </button>
+                                                <span id="currentYear">2018</span>
+                                                <button class="btn btn-success btn-circle btn-lg" data-year="1"
+                                                    type="button" id="yearNext">
+                                                    <i class="fa fa-arrow-right fa-2x" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 datePicker"
+                                            style="text-align:center;padding-bottom:10px;">
+                                            <div class='input-group date' id='yearlyCalendar'>
+                                                <input type='text' class="form-control" id="yearCal"
+                                                    style="display:none;" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-arrow-down"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="row">
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="card" style="padding:80px" ng-if="!barYear.data">
+                                                <div ng-include="'views/loader.html'"></div>
+                                            </div>
+                                            <canvas class="chart chart-bar card" style="padding:10px"
+                                                ng-if="barYear.data" chart-colors="barYear.colours"
+                                                chart-data="barYear.data" chart-labels="barYear.labels"
+                                                chart-series="barYear.series" chart-options="barYear.options"></canvas>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="card" style="padding:80px" ng-if="!piegenderMonth.data">
+                                                <div ng-include="'views/loader.html'"></div>
+                                            </div>
+                                            <canvas id="radar" class="chart chart-pie card" ng-if="piegenderYear.data"
+                                                style="padding:10px" chart-colors="piegenderYear.colours"
+                                                chart-data="piegenderYear.data" chart-options="piegenderYear.options"
+                                                chart-series="piegenderYear.series"
+                                                chart-labels="piegenderYear.labels"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <link rel="stylesheet" type="text/css" href="assets/css/dashboard.css" />
+        <script type="text/javascript" src="/assets/js/analytics.js"></script>
+        <script type="text/javascript">
+            $(() => {
+                $('.date').datepicker({ format: 'yyyy-mm-dd', autoclose: true, todayHighlight: true });
+            });
+            $(() => {
+                $("#scansList").css({ "opacity": "0.1" });
+                setTimeout(function () { $("#scansList").css({ "opacity": "" }); }, 500);
+            });
+            $(() => {
+                $('#scanHistoryMenu').addClass('in');
+                $('ul#scanHistoryMenu li:first').addClass('liactive');
+            });
+        </script>
+        <style type="text/css">
+            .liactive {
+                color: #000 !important;
+                background-color: #f9a141 !important;
+                border-color: #f9a141 !important;
+            }
+
+            .datepicker table tr td.today,
+            .datepicker table tr td.today:hover,
+            .datepicker table tr td.today.disabled,
+            .datepicker table tr td.today.disabled:hover {
+                color: #fff !important;
+                background-color: #FFC107 !important;
+                border-color: #FFC107 !important;
+            }
+
+            .card {
+                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+                background-color: #ffffff;
+            }
+
+            #business {
+                height: 100vh !important;
+            }
+
+            .h1,
+            .h2,
+            .h3,
+            h1,
+            h2,
+            h3 {
+                margin-top: 0px;
+                margin-bottom: 10px;
+            }
+
+            .modal-content {
+                border-radius: 0px;
+            }
+
+            .modal-header {
+                padding: 0px;
+                border-bottom: 0px solid #e5e5e5;
+            }
+
+            .modal-footer {
+                padding: 7px;
+                text-align: right;
+                border-top: 0px solid #e5e5e5;
+            }
+
+
+            @media (max-width:799px) {
+                #title {
+                    padding: 20px 0px 54px 0px;
+                }
+            }
+
+            @media (min-width:800px) {
+                #title {
+                    padding: 15px 0px 10px 0px;
+                }
+            }
+
+            .material-checkbox {
+                position: relative;
+                display: inline-block;
+                color: rgba(0, 0, 0, 0.87);
+                cursor: pointer;
+                font-family: "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system;
+                font-size: 14px;
+                line-height: 18px;
+            }
+
+            .material-checkbox>input {
+                appearance: none;
+                -moz-appearance: none;
+                -webkit-appearance: none;
+                position: absolute;
+                z-index: -1;
+                left: -15px;
+                top: -15px;
+                display: block;
+                margin: 0;
+                border-radius: 50%;
+                width: 48px;
+                height: 48px;
+                background-color: rgba(0, 0, 0, 0.42);
+                outline: none;
+                opacity: 0;
+                transform: scale(1);
+                -ms-transform: scale(0);
+                /* Graceful degradation for IE */
+                transition: opacity 0.5s, transform 0.5s;
+            }
+
+            .material-checkbox>input:checked {
+                background-color: #2196f3;
+            }
+
+            .material-checkbox:active>input {
+                opacity: 1;
+                transform: scale(0);
+                transition: opacity 0s, transform 0s;
+            }
+
+            .material-checkbox>input:disabled {
+                opacity: 0;
+            }
+
+            .material-checkbox>input:disabled+span {
+                cursor: initial;
+            }
+
+            .material-checkbox>span::before {
+                content: "";
+                display: inline-block;
+                margin-right: 17px;
+                border: solid 2px rgba(0, 0, 0, 0.42);
+                border-radius: 2px;
+                width: 21px;
+                height: 21px;
+                vertical-align: -4px;
+                transition: border-color 0.5s, background-color 0.5s;
+            }
+
+            .material-checkbox>input:checked+span::before {
+                border-color: #4CAF50;
+                background-color: #4CAF50;
+            }
+
+            .material-checkbox>input:active+span::before {
+                border-color: #2196f3;
+            }
+
+            .material-checkbox>input:checked:active+span::before {
+                border-color: transparent;
+                background-color: rgba(0, 0, 0, 0.42);
+            }
+
+            .material-checkbox>input:disabled+span::before {
+                border-color: rgba(0, 0, 0, 0.26);
+            }
+
+            .material-checkbox>input:checked:disabled+span::before {
+                border-color: transparent;
+                background-color: rgba(0, 0, 0, 0.26);
+            }
+
+            .material-checkbox>span::after {
+                content: "";
+                display: inline-block;
+                position: absolute;
+                top: 0;
+                left: 2px;
+                width: 7px;
+                height: 15px;
+                border: solid 2px transparent;
+                border-left: none;
+                border-top: none;
+                transform: translate(5.5px, 1px) rotate(45deg);
+                -ms-transform: translate(5.5px, 2px) rotate(45deg);
+            }
+
+            .material-checkbox>input:checked+span::after {
+                border-color: #fff;
+            }
+
+            .nav-tabs {
+                border-bottom: 0px solid #ddd;
+            }
+
+            .btn-primary:hover,
+            .btn-primary:focus,
+            .btn-primary:active,
+            .btn-primary.active,
+            .open .dropdown-toggle.btn-primary,
+            .btn-primary:active:focus,
+            .btn-primary:active:hover,
+            .btn-primary.active:hover,
+            .btn-primary.active:focus {
+                border-color: #f9a141;
+            }
+
+            .btn:focus,
+            .btn:hover {
+                color: #fff !important;
+                text-decoration: none;
+            }
+        </style>
+    </div>
+</div>

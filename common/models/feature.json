@@ -1,0 +1,52 @@
+{
+  "name": "Feature",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "default": ""
+    },
+    "desc": {
+      "type": "string",
+      "default": ""
+    },
+    "shortDesc": {
+      "type": "string",
+      "default": ""
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    },
+    "createTs": {
+      "type": "date"
+    },
+    "createProgId": {
+      "type": "string"
+    },
+    "modifyTs": {
+      "type": "date"
+    },
+    "modifyProgId": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "businessFeatures": {
+      "type": "hasMany",
+      "model": "BusinessFeature",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

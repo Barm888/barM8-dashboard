@@ -1,0 +1,228 @@
+<style type="text/css">
+    body {
+        background-color: #f3f3f4 !important;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 3px solid #ddd !important;
+        line-height: 40px !important;
+        min-height: 40px !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        top: 8px !important;
+    }
+
+    .wrapper {
+        height: 100%;
+    }
+</style>
+
+<div id="analyticsId" ng-controller="alayticsAnalyticsCtl">
+    <div class="wrapper wrapper-content animated fadeIn" id="alayticsAnalyticsCtl" style="margin-top:2.5rem;">
+        <div class="row card" ng-show="currentUser.isAdmin" style="padding:20px;margin: 0rem 0 0.5rem 0;">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                <div class="autocomplete col-md-12" style="padding-right:0px;padding-left:0px;">
+                    <input id="autocompleteBusiness" type="text" name="BusinessName" placeholder="Enter Business name">
+                    <span id="businessErr" style="color:red;"></span>
+                </div>
+                <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                <script type="text/javascript">
+                    autocomplete(document.getElementById("autocompleteBusiness"), 'events-analytics');
+                </script>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <button type="button" id="businessSubmit" ng-click="BusinessSelected('events-analytics')"
+                    class="btn btn-raised btn-primary businessSubmit" style="margin-bottom: 10px;border-radius:30px;">
+                    <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+            </div>
+        </div>
+        <div class="row card" style="margin: 0rem 0 0.4rem 0 !important;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row" style="margin-top: 5px;">
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                        <div class="form-group">
+                            <label style="font-size: 1.2rem;">Event type</label>
+                            <select id="category" class="form-control custom-input" ng-model="category"
+                                ng-init="category=''" ng-change="categoryOnChange(category)">
+                                <option value="">Select an option</option>
+                                <option ng-repeat="category in eventsCategoryList" value="{{category._name}}">
+                                    {{category.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                        <div class="form-group">
+                            <label style="font-size: 1.2rem;">Event</label>
+                            <select id="eventTxt" class="form-control custom-input" ng-model="event"
+                                ng-change="eventsOnChange(event)" ng-init="category=''">
+                                <option value="">Select an option</option>
+                                <option ng-repeat="event in eventsDropList" value="{{event._name}}">
+                                    {{event.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                        <div class="form-group">
+                            <label>Event Date</label>
+                            <select class="form-control custom-input eDate" id="eventsSSdate" ng-init="eventSpDate=''">
+                                <option value="" selected="selected">Select an option</option>
+                                <option ng-repeat="sd in eventsDates" value="{{sd.id}}" data-idvalue="{{sd.id}}">
+                                    {{sd.txt}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                        <div class="form-group" style="margin-top: 2rem;">
+                            <div class="dropdown">
+                                <select class="form-control custom-input liveDate btn" id="eventLiSdate"
+                                    ng-init="eventSpDate=''"
+                                    style="background-color: #f9a141 !important; color: #fff !important;">
+                                    <option value="today"
+                                        data-idvalue="{{lFromTodate && lFromTodate.length ? lFromTodate[0].happeningsId : '' }}"
+                                        selected="selected">Today</option>
+                                    <option ng-repeat="sd in lFromTodate" value="{{sd.value}}"
+                                        data-idvalue="{{sd.happeningsId}}">{{sd.txt}}
+                                    </option>
+                                </select>
+                                <div class="dropdown-content" style="padding: 10px 20px !important;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>From</label>
+                                                <input type="date" id="liveDateFrom" min="{{minDate}}" max="{{maxDate}}"
+                                                    class="form-control custom-input muDateSelection">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>To</label>
+                                                <input type="date" id="liveDateTo" min="{{minDate}}" max="{{maxDate}}"
+                                                    class="form-control custom-input muDateSelection">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row card" ng-show="chartShow">
+            <div
+                class="{{lineCnt >=5 || lineCnt ==1 ? 'col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12' : 'col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6' }}">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+                <div id="main-chart"> </div>
+            </div>
+        </div>
+        <div class="row card" ng-show="!chartShow">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="text-align: center;padding:20px">
+                <b style="font-size: 2rem;">No Data!</b>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style type="text/css">
+    @media (max-width:800px) {
+        #buttonMenu {
+            margin-top: 10px;
+        }
+
+        .wrapper-content {
+            padding: 20px 0px 10px;
+        }
+    }
+
+    #page-wrapper {
+        padding: 0 1px !important;
+    }
+
+    .active-a {
+        background-color: #f9a141;
+        color: #000000 !important;
+    }
+
+    .dropbtn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+    }
+
+    .dropdown {
+        position: relative;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        min-width: 360px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 99999999;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: #ddd;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        background-color: #3e8e41;
+    }
+
+    .form-control {
+        font-size: 1.2rem !important;
+    }
+
+    select option {
+        color: #000;
+        background-color: #fff;
+    }
+</style>
+<script type="text/javascript">
+    $(".eDate").on('change', function () {
+        angular.element(document.getElementById('alayticsAnalyticsCtl')).scope().dateOnChange();
+    });
+    $(".liveDate").on('change', function () {
+        let date = $("#eventLiSdate").val();
+        let id = $(this).find(':selected').attr('data-idvalue');
+        if (id && date != 'today') {
+            angular.element(document.getElementById('alayticsAnalyticsCtl')).scope().selectedLiveDrop({ id, date });
+        } else if (id) {
+            let tDate = new Date();
+            date = `${tDate.getFullYear()}-${("0" + (tDate.getMonth() + 1)).slice(-2)}-${("0" + tDate.getDate()).slice(-2)}`;
+            angular.element(document.getElementById('alayticsAnalyticsCtl')).scope().selectedLiveDrop({ id, date });
+        }
+    })
+    $(".muDateSelection").on('change', function () {
+        if ($("#liveDateTo").val() && $("#liveDateFrom").val()) {
+            angular.element(document.getElementById('alayticsAnalyticsCtl')).scope().dateFromToChange();
+        }
+    });
+    if ($(window).width() <= 800) {
+        if ($('body').hasClass('pace-running')) {
+            $('body').removeClass('pace-running');
+        }
+        if ($('body').hasClass('pace-done')) {
+            $('body').removeClass('pace-done');
+        }
+    }
+</script>

@@ -1,0 +1,5219 @@
+
+angular
+  .module('app')
+  .controller('businessManager', ['DashDate', 'DashLine', 'DashSubLine', '$scope', 'Business', '$http',
+    '$rootScope', 'WeeklyTiming', 'WeeklyPrize', 'Sponsor', 'BistroHours', 'BulkNotification', 'MealsDashLine',
+    'MealsDashSubLine', 'MealsExtraDashLine', 'LoyaltyRewards', 'HappyHourDashDay',
+    'HappyHourDashLine', 'HappyHourDashSubLine', 'MealsCategory', 'MealsDashLineAddons', 'MenuCategory', 'HappeningsCategory', '$state' ,
+    function (DashDate, DashLine, DashSubLine, $scope, Business, $http, $rootScope, WeeklyTiming, WeeklyPrize,
+      Sponsor, BistroHours, BulkNotification, MealsDashLine, MealsDashSubLine, MealsExtraDashLine,
+      LoyaltyRewards, HappyHourDashDay, HappyHourDashLine, HappyHourDashSubLine, MealsCategory, MealsDashLineAddons, MenuCategory , HappeningsCategory, $state) {
+      var weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+      $scope.weekday = [{ name: 'Monday', val: 'monday' }, { name: 'Tuesday', val: 'tuesday' }, { name: 'Wednesday', val: 'wednesday' },
+      { name: 'Thursday', val: 'thursday' }, { name: 'Friday', val: 'friday' }, { name: 'Saturday', val: 'saturday' }, { name: 'Sunday', val: 'sunday' }];
+      String.prototype.camelCase = function () {
+        return this.toLowerCase().replace(/\b[a-z]/g, function (letter) {
+          return letter.toUpperCase();
+        });
+      };
+
+      $scope.mealsWeekDays = [{ name: 'Sun', txt: 'Sunday', val: 'sunday' }, { name: 'Mon', txt: 'Monday', val: 'monday' }, { name: 'Tue', txt: 'Tuesday', val: 'tuesday' },
+      { name: 'Wed', txt: 'Wednesday', val: 'wednesday' }, { name: 'Thu', txt: 'Thursday', val: 'thursday' }, { name: 'Fri', txt: 'Friday', val: 'friday' },
+      { name: 'Sat', txt: 'Saturday', val: 'saturday' }];
+
+      $scope.eventAgeRegtriction = ["All Ages", "18 and Over", "Under 18", "Other"];
+
+      toastMsg = (isVaild, msg) => {
+        if (isVaild)
+          toastr.success(msg);
+        else
+          toastr.error(msg);
+        toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+      }
+
+
+      if (!$rootScope.currentUser) {
+
+        var userDetails = localStorage.getItem("userSession");
+        $rootScope.currentUser = JSON.parse(userDetails);
+      }
+      $scope.NRLTeam = ["Select", "STORM", "ROOSTERS", "RABBITOHS", "SHARKS", "PANTHERS", "DRAGONS", "BRONCOS", "WARRIORS", "TIGERS", "RAIDERS", "KNIGHTS", "BULLDOGS", "TITANS", "COWBOYS", "SEA EAGLES", "EELS"];
+      $scope.AFLTeam = ["Select", "Richmond", "West Coast Eagles", "Collingwood", "Hawthorn", "Melbourne", "Sydney Swans", "GWS Giants", "Geelong Cats", "North Melbourne", "Port Adelaide", "Essendon", "Adelaide Crows", "Western Bulldogs", "Fremantle", "Brisbane Lions", "St Kilda", "Gold Coast Suns", "Carlton"];
+      $scope.RugbyTeam = ["Select", "Western Force", "The Sharks", "Hurricanes", "Cheetahs", "Waratahs", "Reds", "Highlanders", "Bulls", "Stormers", "Melbourne Rebels", "Crusaders", "Brumbies Rugby", "Southern Kings", "Lions", "Chiefs", "Blues", "Sunwolves", "Jaguares"];
+      $scope.startTimeSelect = ["1:00", "1:30", "2:00", "2:30", "3:00", "3:30", "4:00", "4:30", "5:00", "5:30", "6:00", "6:30", "7:00", "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30"];
+
+      $scope.theMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      $scope.weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Public Holiday'];
+
+      $("#preloader").css('dispaly', 'block');
+
+      $('html, body').css('overflow-y', 'visible');
+      $('html, body').css('overflow-x', 'hidden');
+
+      $scope.weeklyPrize = {};
+
+      $(`#opeinghours_Menu,#bistrohours_Menu,#giveaways_Menu,#beverages_Menu,#meals_Menu,#Entertainment_Menu,#Sports_Menu,#Events_Menu,#Special_Events_Menu,
+       #sponsorDisplay,#weeklyPrizeDisplay,#push_notification,#loyalty,#loyaltyRewards`).css('display', 'none');
+      //loyalty
+      $scope.freebieList = [];
+      $scope.isAddImg = true;
+
+
+      $scope.isfreebieEdit = true; $scope.isfreebieupdate = false;
+
+      //RootScope To get Email and Id
+      if ($rootScope.currentUser && $rootScope.currentUser.email) {
+        $scope.useremail = $rootScope.currentUser.email;
+      } else $state.go('logout');
+
+      //Also Served in get Start and End Time
+
+      $scope.isBusinessSelect = false;
+
+      $scope.userId = "";
+      if ($rootScope.currentUser.email == "admin@barm8.com.au") {
+        $scope.isBusinessSelect = true;
+        Business.find({ filter: { where: { status: "active" }, "fields": ["businessName", "id", "email"] } }).$promise.then((res) => {
+          $scope.businessSelection = res;
+          $scope.userId = $rootScope.currentUser.id;
+        }, (err) => {
+          console.log(JSON.stringify(err));
+        });
+      }
+      else {
+        $scope.isBusinessSelect = true;
+        $scope.userId = $rootScope.currentUser.id;
+      }
+
+      $scope.autoCompleteBusinessName = () => {
+        return $scope.businessSelection;
+      }
+
+      $scope.instantpirce = {};
+
+      //declare object 
+      $scope.happyhour_beer = {}; $scope.happyhour_wine = {}; $scope.happyhour_spirit = {}; $scope.happyhour_cocktail = {}; $scope.happyhour_cider = {};
+
+
+      //Declare object in entertainment
+      $scope.events_entertainment = {};
+
+      //Declare object in Sports
+      $scope.events_sports = {};
+
+      //Declare object in Sports
+      $scope.events_event = {};
+
+      //Declare object in Special Events
+      $scope.events_specialEvents = {};
+
+      var d = new Date();
+      let month = (d.getMonth()) + 1;
+      let year = d.getFullYear();
+
+      var  selecetedBeerArr = [], selecetedWineArr = [], selecetedSpiritArr = [], selecetedCocktailArr = [], selecetedCiderArr = [];
+      $http.get('js/category/categoryData.json')
+        .then((response) => {
+          $scope.happyhours = response.data.happyhour;
+          angular.element('#dropdownMenu').addClass("show");
+        }, (error) => {
+          toastr.error('Please Try again!');
+          toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+        });
+
+      //WeeklyTiming
+      $scope.weeklyTimingList = []; $scope.weekArrayObj = [];
+      $scope.addOpeningHoursTiming = () => {
+
+        var startTime = $.trim($("#opening_hours_starttime").val()),
+          endTime = $.trim($("#opening_hours_endtime").val()),
+          sequence = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'Public Holiday'];
+
+          $("#weeklystarttimingErr,#weeklyendtimingErr").text('');
+        if ($scope.isBusinessSelect) {
+          var isTrue = true;
+          if (!startTime) {
+            $("#weeklystarttimingErr").text('Start time is required!');
+            isTrue = false;
+          }
+          if (!endTime) {
+            $("#weeklyendtimingErr").text('End time is required!');
+            isTrue = false;
+          }
+          if ($('.btnAfterMenu').length <= 0) {
+            toastMsg(false, "Please select the days!");
+            isTrue = false;
+          }
+
+          function toTitleCase(str) {
+            var lcStr = str.toLowerCase();
+            return lcStr.replace(/(?:^|\s)\w/g, function(match) {
+                return match.toUpperCase();
+            });
+        }
+
+          $scope.openingHoursData = [];
+          if (isTrue) {
+            $("#addOpeningHoursBtn").attr('disabled', true).css('pointer-events', 'none');
+            $('.btnAfterMenu').each(function (i, val) {
+              let startConvert = (convertTime12to24(startTime)).split(':'),
+              endConvert = (convertTime12to24(endTime)).split(':');
+              $scope.openingHoursData.push({
+                "day": toTitleCase($(val).data('dayname')), startTime, "startHour": startConvert[0],
+                "startMinute": startConvert[1], endTime , "endHour": endConvert[0], "endMinute": endConvert[1],
+                sequence: (sequence.findIndex(m => m == $(val).data('dayname'))) + 1 ,
+                "ownerId": $scope.userId
+              });
+            });
+            if($scope.openingHoursData.length) {
+              WeeklyTiming.createAndUpdate({ params : { openingsHours : $scope.openingHoursData } })
+              .$promise.then((res)=>{
+                if(res.data.isSuccess) {
+                  WeeklyTiming.find({ "filter": { "where": { "ownerId": $scope.userId }, order: 'sequence asc' } }).$promise.then(function (res) {
+                    $scope.weeklyTimingList = [];
+                    $scope.weeklyTimingList = res;
+                  });
+                  $('.oHoursDaysBtn').each(function (i, val) {
+                    let daysValues= $scope.mealsWeekDays.find(m => m.val == $(val).data('dayname'));
+                     $(val).attr('data-selected', false).addClass('btnBeforemenu').removeClass('btnAfterMenu').css({ 'background-color': '#757575' }).html(`${daysValues.name}`);
+                  });
+                  $("#addOpeningHoursBtn").attr('disabled', false).css('pointer-events', '');
+                  toastMsg(true, "Successfully created!");
+                }
+              })  
+            }
+          }
+        }
+        else toastMsg(false, "Please select the business!");
+      };
+
+      $scope.weeklyDaysDelete = (index, id) => {
+        $(".weeklyDeleteBtn").attr('disabled', true).css('pointer-events', 'none');
+        if (id == null || id == "" || id == undefined) {
+          $scope.weeklyTimingList.splice(index, 1);
+        } else {
+          WeeklyTiming.destroyById({ id: id }).$promise.then(function (res) {
+            $scope.getOpeningHoursForSelectedBusiness();
+            toastr.success('Deleted!');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+            $(".weeklyDeleteBtn").attr('disabled', false).css('pointer-events', 'none');;
+          }, function (err) {
+            $(".weeklyDeleteBtn").attr('disabled', false).css('pointer-events', 'none');
+            toastr.error('Not Deleted. Please try again!');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+          })
+        }
+
+      };
+
+      $scope.weeklyIndex = undefined;
+      $scope.weeksdaysEdit = (index, id) => {
+        $scope.weeklyIndex = index;
+
+        $('#weeklyListtable tbody tr:nth-child(' + (index + 1) + ') td').each(function () {
+          var html = '';
+          if ($(this).data('name') === 'startTime') {
+            let option = "";
+            $scope.startTimeSelect.forEach((val, i) => {
+              option += `<option ${(val == $(this).html().split(' ')[0] ? 'selected="selected"' : '')} value="${val}">${val}</option>`
+            });
+            html = `<input type="text" id="weekly_timing_start_edit_id" style="padding: 6px 3px;" value="${$.trim($(this).html())}" data-name="weekly_timing_start_edit_id"
+                                      placeholder="Start Time" class="form-control focus time" name="startTime" autocomplete="off" required />
+            <script type="text/javascript">
+       $(document).ready(function () {
+        var timeing = ["12:00 AM", "12:15 AM", "12:30 AM", "12:45 AM", "1:00 AM", "1:15 AM", "1:30 AM", "1:45 AM", "2:00 AM", "2:15 AM", "2:30 AM", "2:45 AM", "3:00 AM", "3:15 AM", "3:30 AM", "3:45 AM", "4:00 AM", "4:15 AM", "4:30 AM", "4:45 AM", "5:00 AM", "5:15 AM", "5:30 AM", "5:45 AM", "6:00 AM", "6:15 AM", "6:30 AM", "6:45 AM", "7:00 AM", "7:15 AM", "7:30 AM", "7:45 AM", "8:00 AM", "8:15 AM", "8:30 AM", "8:45 AM", "9:00 AM", "9:15 AM", "9:30 AM", "9:45 AM", "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "1:00 PM", "1:15 PM", "1:30 PM", "1:45 PM", "2:00 PM", "2:15 PM", "2:30 PM", "2:45 PM", "3:00 PM", "3:15 PM", "3:30 PM", "3:45 PM", "4:00 PM", "4:15 PM", "4:30 PM", "4:45 PM", "5:00 PM", "5:15 PM", "5:30 PM", "5:45 PM", "6:00 PM", "6:15 PM", "6:30 PM", "6:45 PM", "7:00 PM", "7:15 PM", "7:30 PM", "7:45 PM", "8:00 PM", "8:15 PM", "8:30 PM", "8:45 PM", "9:00 PM", "9:15 PM", "9:30 PM", "9:45 PM", "10:00 PM", "10:15 PM", "10:30 PM", "10:45 PM", "11:00 PM", "11:15 PM", "11:15 PM", "11:45 PM", "All Day", "Every Day", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Late"];
+        var timeing_suggestion = new Bloodhound({ datumTokenizer: Bloodhound.tokenizers.whitespace, queryTokenizer: Bloodhound.tokenizers.whitespace, local: timeing });
+        $('#weekly_timing_start_edit_id').typeahead({ minLength: 1 }, { source: timeing_suggestion })
+      }); $(function () {
+        $(document).on('keyup keypress keydown click change mousemove mouseleave', '.time', function () {
+          if ($('.tt-menu .tt-dataset div').length == 1) { $('span.twitter-typeahead .tt-menu').css({ "height": "45px", "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", }) }
+          else if ($('.tt-menu .tt-dataset div').length == 2) { $('span.twitter-typeahead .tt-menu').css({ "height": "90px", "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", }) } else if ($('.tt-menu .tt-dataset div').length >= 5) { $('span.twitter-typeahead .tt-menu').css({ "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", "overflow-y": "auto", "height": "200px" }) }
+        })
+      });
+           </script>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') === 'endTime') {
+            html = `<input type="text" id="weekly_timing_end_edit_id" style="padding: 6px 3px;" value="${$.trim($(this).html())}" data-name="weekly_timing_end_edit_id"
+                                      placeholder="End Time" class="form-control focus time" name="endTime" autocomplete="off" required />
+            <script type="text/javascript">
+       $(document).ready(function () {
+        var timeing = ["12:00 AM", "12:15 AM", "12:30 AM", "12:45 AM", "1:00 AM", "1:15 AM", "1:30 AM", "1:45 AM", "2:00 AM", "2:15 AM", "2:30 AM", "2:45 AM", "3:00 AM", "3:15 AM", "3:30 AM", "3:45 AM", "4:00 AM", "4:15 AM", "4:30 AM", "4:45 AM", "5:00 AM", "5:15 AM", "5:30 AM", "5:45 AM", "6:00 AM", "6:15 AM", "6:30 AM", "6:45 AM", "7:00 AM", "7:15 AM", "7:30 AM", "7:45 AM", "8:00 AM", "8:15 AM", "8:30 AM", "8:45 AM", "9:00 AM", "9:15 AM", "9:30 AM", "9:45 AM", "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "1:00 PM", "1:15 PM", "1:30 PM", "1:45 PM", "2:00 PM", "2:15 PM", "2:30 PM", "2:45 PM", "3:00 PM", "3:15 PM", "3:30 PM", "3:45 PM", "4:00 PM", "4:15 PM", "4:30 PM", "4:45 PM", "5:00 PM", "5:15 PM", "5:30 PM", "5:45 PM", "6:00 PM", "6:15 PM", "6:30 PM", "6:45 PM", "7:00 PM", "7:15 PM", "7:30 PM", "7:45 PM", "8:00 PM", "8:15 PM", "8:30 PM", "8:45 PM", "9:00 PM", "9:15 PM", "9:30 PM", "9:45 PM", "10:00 PM", "10:15 PM", "10:30 PM", "10:45 PM", "11:00 PM", "11:15 PM", "11:15 PM", "11:45 PM", "All Day", "Every Day", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Late"];
+        var timeing_suggestion = new Bloodhound({ datumTokenizer: Bloodhound.tokenizers.whitespace, queryTokenizer: Bloodhound.tokenizers.whitespace, local: timeing });
+        $('#weekly_timing_end_edit_id').typeahead({ minLength: 1 }, { source: timeing_suggestion })
+      }); $(function () {
+        $(document).on('keyup keypress keydown click change mousemove mouseleave', '.time', function () {
+          if ($('.tt-menu .tt-dataset div').length == 1) { $('span.twitter-typeahead .tt-menu').css({ "height": "45px", "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", }) }
+          else if ($('.tt-menu .tt-dataset div').length == 2) { $('span.twitter-typeahead .tt-menu').css({ "height": "90px", "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", }) } else if ($('.tt-menu .tt-dataset div').length >= 5) { $('span.twitter-typeahead .tt-menu').css({ "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", "overflow-y": "auto", "height": "200px" }) }
+        })
+      });
+           </script>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+        });
+      };
+
+      $scope.updateWeekly = (index, id, day) => {
+        $(".weeklyEditBtn").css(' pointer-events', 'none');
+        $scope.weeklyIndex = undefined;
+        $scope.weekArrayObj = [];
+
+        var startTime = $.trim($('#weekly_timing_start_edit_id').val()), endTime = $.trim($('#weekly_timing_end_edit_id').val());
+
+        var sequence = (day == 'Sunday' ? '7' : (day == 'Monday' ? '1' : (day == 'Tuesday' ? '2' : (day == 'Wednesday' ? '3' : (day == 'Thursday' ? '4' : (day == 'Friday' ? '5' : (day == 'Saturday' ? '6' : (day == 'Public Holiday' ? '8' : ''))))))));
+
+        var startConver = [], endConvert = [];
+        if (!startTime) {
+          startConver = ["12", "00"];
+        } else {
+          if (startTime == "Late" || startTime == "late") {
+            startConver = ["12", "00"];
+          } else {
+            startConver = (convertTime12to24(startTime)).split(':');
+          }
+        }
+        if (!endTime) {
+          endConvert = ["12", "00"];
+        } else {
+          if (endTime == "Late" || endTime == "late") {
+            endConvert = ["12", "00"];
+          } else {
+            endConvert = (convertTime12to24(endTime)).split(':');
+          }
+        }
+        $scope.weekArrayObj.push({ day, startTime, "startHour": $.trim(startConver[0]), "startMinute": $.trim(startConver[1]), endTime, "endHour": $.trim(endConvert[0]), "endMinute": $.trim(endConvert[1]), sequence });
+
+        WeeklyTiming.upsertWithWhere({ "where": { "id": id } }, $scope.weekArrayObj[0], function (res) {
+          $(".weeklyEditBtn").css(' pointer-events', '');
+
+          $('#weeklyListtable tbody tr:nth-child(' + (index + 1) + ') td').each(function () {
+            if ($(this).data('name') === 'startTime') {
+              $(this).html('');
+              $(this).append(startTime);
+            }
+            else if ($(this).data('name') === 'endTime') {
+              $(this).html('');
+              $(this).append(endTime);
+            }
+          });
+          toastr.success('Weekly Timing has been updated.');
+          toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+        }, () => { $(".weeklyEditBtn").css(' pointer-events', ''); });
+        $(".weeklyEditBtn").css(' pointer-events', '');
+      };
+
+      $scope.daysSelected = (arg, day, sday) => {
+        if ($(`#${arg}${day}`).attr('data-selected') == "true")
+            $(`#${arg}${day}`).attr('data-selected', false).addClass('btnBeforemenu').removeClass('btnAfterMenu').css({ 'background-color': '#757575' }).html(`${sday}`);
+        else
+            $(`#${arg}${day}`).attr('data-selected', true).css({ 'background-color': '#4caf50' }).removeClass('btnBeforemenu').addClass('btnAfterMenu').html(`<i class="fas fa-check"></i> ${sday}`);
+    }
+
+      $scope.getOpeningHoursForSelectedBusiness = () => {
+
+        if (!$scope.userId) {
+          $scope.userId = $rootScope.currentUser.id;
+        }
+
+        WeeklyTiming.find({ "filter": { "where": { "ownerId": $scope.userId }, order: 'sequence asc' } }).$promise.then(function (res) {
+          $scope.weeklyTimingList = [];
+          $scope.weeklyTimingList = res;
+        }, function (err) {
+          $("#WeeklyTimingApply").prop('disabled', false);
+          toastr.error('Weekly Timing not created.');
+          toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+        });
+      };
+
+      //Bistro Hours Add
+      $scope.BistroHoursTimingList = []; $scope.weekArrayObj = [];
+      $scope.bistroHoursTiming = () => {
+        $("#bistroHousrTimingAdd").css('pointer-events', 'none');
+        if ($scope.isBusinessSelect) {
+          let breakfastStartTime = $.trim($("#bistrohoursBreakfastStarttimimg").val()),
+            breakfastEndTime = $.trim($("#bistrohoursBreakfastEndtimimg").val()),
+            lunchStartTime = $.trim($("#bistrohoursLunchStarttimimg").val()),
+            lunchEndTime = $.trim($("#bistrohoursLunchEndtimimg").val()),
+            dinnerStartTime = $.trim($("#bistrohoursDinnerStarttimimg").val()),
+            dinnerEndTime = $.trim($("#bistrohoursDinnerEndtimimg").val()),
+            alldayStartTime = $.trim($("#bistrohoursAllDayStarttimimg").val()),
+            alldayEndTime = $.trim($("#bistrohoursAllDayEndtimimg").val());
+
+          if ($("input[name='BistroHours']:checked").length > 0) {
+            if ($scope.BistroHoursTimingList.length == 0) {
+              $.each($("input[name='BistroHours']:checked"), function () {
+                $scope.BistroHoursTimingList.push({
+                  "day": $.trim($(this).val()), breakfastStartTime, breakfastEndTime, lunchStartTime, lunchEndTime, dinnerStartTime, dinnerEndTime, alldayStartTime, alldayEndTime
+                });
+              });
+            } else {
+              $.each($("input[name='BistroHours']:checked"), function () {
+                switch ($(this).val()) {
+                  case "Sunday":
+                    $.each($scope.BistroHoursTimingList, function (i, v) {
+                      if (this.day == "Sunday") {
+                        $scope.BistroHoursTimingList.splice(i, 1);
+                      }
+                    });
+                    $scope.BistroHoursTimingList.push({
+                      "day": "Sunday", breakfastStartTime, breakfastEndTime, lunchStartTime, lunchEndTime, dinnerStartTime, dinnerEndTime, alldayStartTime, alldayEndTime, "sequence": "1"
+                    });
+
+                    break;
+                  case "Monday":
+                    $.each($scope.BistroHoursTimingList, function (i, v) {
+                      if (this.day == "Monday") {
+                        $scope.BistroHoursTimingList.splice(i, 1);
+                      }
+                    });
+                    $scope.BistroHoursTimingList.push({
+                      "day": "Monday", breakfastStartTime, breakfastEndTime, lunchStartTime, lunchEndTime, dinnerStartTime, dinnerEndTime, alldayStartTime, alldayEndTime, "sequence": "2"
+                    });
+                    break;
+                  case "Tuesday":
+                    $.each($scope.BistroHoursTimingList, function (i, v) {
+                      if (this.day == "Tuesday") {
+                        $scope.BistroHoursTimingList.splice(i, 1);
+                      }
+                    });
+                    $scope.BistroHoursTimingList.push({
+                      "day": "Tuesday", breakfastStartTime, breakfastEndTime, lunchStartTime, lunchEndTime, dinnerStartTime, dinnerEndTime, alldayStartTime, alldayEndTime, "sequence": "3"
+                    });
+                    break;
+                  case "Wednesday":
+                    $.each($scope.BistroHoursTimingList, function (i, v) {
+                      if (this.day == "Wednesday") {
+                        $scope.BistroHoursTimingList.splice(i, 1);
+                      }
+                    });
+                    $scope.BistroHoursTimingList.push({
+                      "day": "Wednesday", breakfastStartTime, breakfastEndTime, lunchStartTime, lunchEndTime, dinnerStartTime, dinnerEndTime, alldayStartTime, alldayEndTime, "sequence": "4"
+                    });
+                    break;
+                  case "Thursday":
+                    $.each($scope.BistroHoursTimingList, function (i, v) {
+                      if (this.day == "Thursday") {
+                        $scope.BistroHoursTimingList.splice(i, 1);
+                      }
+                    });
+                    $scope.BistroHoursTimingList.push({
+                      "day": "Thursday", breakfastStartTime, breakfastEndTime, lunchStartTime, lunchEndTime, dinnerStartTime, dinnerEndTime, alldayStartTime, alldayEndTime, "sequence": "5"
+                    });
+                    break;
+                  case "Friday":
+                    $.each($scope.BistroHoursTimingList, function (i, v) {
+                      if (this.day == "Friday") {
+                        $scope.BistroHoursTimingList.splice(i, 1);
+                      }
+                    });
+                    $scope.BistroHoursTimingList.push({
+                      "day": "Friday", breakfastStartTime, breakfastEndTime, lunchStartTime, lunchEndTime, dinnerStartTime, dinnerEndTime, alldayStartTime, alldayEndTime, "sequence": "6"
+                    });
+                    break;
+                  case "Saturday":
+                    $.each($scope.BistroHoursTimingList, function (i, v) {
+                      if (this.day == "Saturday") {
+                        $scope.BistroHoursTimingList.splice(i, 1);
+                      }
+                    });
+                    $scope.BistroHoursTimingList.push({
+                      "day": "Saturday", breakfastStartTime, breakfastEndTime, lunchStartTime, lunchEndTime, dinnerStartTime, dinnerEndTime, alldayStartTime, alldayEndTime, "sequence": "7"
+                    });
+                    break;
+                  case "Public Holiday":
+                    $.each($scope.BistroHoursTimingList, function (i, v) {
+                      if (this.day == "Public Holiday") {
+                        $scope.BistroHoursTimingList.splice(i, 1);
+                      }
+                    });
+                    $scope.BistroHoursTimingList.push({
+                      "day": "Public Holiday", breakfastStartTime, breakfastEndTime, lunchStartTime, lunchEndTime, dinnerStartTime, dinnerEndTime, alldayStartTime, alldayEndTime, "sequence": "8"
+                    });
+                    break;
+                }
+              });
+            }
+            if ($scope.BistroHoursTimingList.length > 0) {
+              $scope.weekArrayObj = [];
+              $($scope.BistroHoursTimingList).each(function (k, v) {
+                var breakfastStartConvert = [], breakfastEndConvert = [], lunchStartConvert = [], lunchEndConvert = [], dinnerStartConvert = [], dinnerEndConvert = [], alldayStartConvert = [], alldayEndConvert = [];
+
+                if (v.breakfastStartTime != "Late" && v.breakfastStartTime != "") {
+                  breakfastStartConvert = (convertTime12to24(v.breakfastStartTime)).split(':');
+                } else {
+                  breakfastStartConvert = ["12", "00"];
+                }
+                if ((v.breakfastEndTime != "Late" && v.breakfastEndTime != "")) {
+                  breakfastEndConvert = (convertTime12to24(v.breakfastEndTime)).split(':');
+                } else {
+                  breakfastEndConvert = ["12", "00"];
+                }
+                if ((v.lunchStartTime != "Late" && v.lunchStartTime != "")) {
+                  lunchStartConvert = (convertTime12to24(v.lunchStartTime)).split(':');
+                } else {
+                  lunchStartConvert = ["12", "00"];
+                }
+                if ((v.lunchEndTime != "Late" && v.lunchEndTime != "")) {
+                  lunchEndConvert = (convertTime12to24(v.lunchEndTime)).split(':');
+                } else {
+                  lunchEndConvert = ["12", "00"];
+                }
+                if ((v.dinnerStartTime != "Late" && v.dinnerStartTime != "")) {
+                  dinnerStartConvert = (convertTime12to24(v.dinnerStartTime)).split(':');
+                } else {
+                  dinnerStartConvert = ["12", "00"];
+                }
+                if ((v.dinnerEndTime != "Late" && v.dinnerEndTime != "")) {
+                  dinnerEndConvert = (convertTime12to24(v.dinnerEndTime)).split(':');
+                } else {
+                  dinnerEndConvert = ["12", "00"];
+                }
+                if ((v.alldayStartTime != "Late" && v.alldayStartTime != "")) {
+                  alldayStartConvert = (convertTime12to24(v.alldayStartTime)).split(':');
+                } else {
+                  alldayStartConvert = ["12", "00"];
+                }
+                if ((v.alldayEndTime != "Late" && v.alldayEndTime != "")) {
+                  alldayEndConvert = (convertTime12to24(v.alldayEndTime)).split(':');
+                } else {
+                  alldayEndConvert = ["12", "00"];
+                }
+                switch (v.day) {
+                  case "Sunday":
+                    $scope.weekArrayObj.push({
+                      "day": "Sunday", "breakfastStartTime": v.breakfastStartTime, "breakfastStartHour": breakfastStartConvert[0], "breakfastStartMinute": breakfastStartConvert[1], "breakfastEndHour": breakfastEndConvert[0],
+                      "breakfastEndMinute": breakfastEndConvert[1], "breakfastEndTime": v.breakfastEndTime, "lunchStartTime": v.lunchStartTime, "lunchStartHour": lunchStartConvert[0], "lunchStartMinute": lunchStartConvert[1],
+                      "lunchEndTime": v.lunchEndTime, "lunchEndHour": lunchEndConvert[0], "lunchEndMinute": lunchEndConvert[1], "dinnerStartTime": v.dinnerStartTime, "dinnerStartHour": dinnerStartConvert[0],
+                      "dinnerStartMinute": dinnerStartConvert[1], "dinnerEndTime": v.dinnerEndTime, "dinnerEndHour": dinnerEndConvert[0], "dinnerEndMinute": dinnerEndConvert[1], "alldayStartTime": v.alldayStartTime,
+                      "alldayStartHour": alldayStartConvert[0], "alldayStartMinute": alldayStartConvert[1], "alldayEndTime": v.alldayEndTime, "alldayEndHour": alldayEndConvert[0], "alldayEndMinute": alldayEndConvert[1], "sequence": "7"
+                    });
+                    break;
+                  case "Monday":
+                    $scope.weekArrayObj.push({
+                      "day": "Monday", "breakfastStartTime": v.breakfastStartTime, "breakfastStartHour": breakfastStartConvert[0], "breakfastStartMinute": breakfastStartConvert[1], "breakfastEndHour": breakfastEndConvert[0],
+                      "breakfastEndMinute": breakfastEndConvert[1], "breakfastEndTime": v.breakfastEndTime, "lunchStartTime": v.lunchStartTime, "lunchStartHour": lunchStartConvert[0], "lunchStartMinute": lunchStartConvert[1],
+                      "lunchEndTime": v.lunchEndTime, "lunchEndHour": lunchEndConvert[0], "lunchEndMinute": lunchEndConvert[1], "dinnerStartTime": v.dinnerStartTime, "dinnerStartHour": dinnerStartConvert[0],
+                      "dinnerStartMinute": dinnerStartConvert[1], "dinnerEndTime": v.dinnerEndTime, "dinnerEndHour": dinnerEndConvert[0], "dinnerEndMinute": dinnerEndConvert[1], "alldayStartTime": v.alldayStartTime,
+                      "alldayStartHour": alldayStartConvert[0], "alldayStartMinute": alldayStartConvert[1], "alldayEndTime": v.alldayEndTime, "alldayEndHour": alldayEndConvert[0], "alldayEndMinute": alldayEndConvert[1], "sequence": "1"
+                    });
+                    break;
+                  case "Tuesday":
+                    $scope.weekArrayObj.push({
+                      "day": "Tuesday", "breakfastStartTime": v.breakfastStartTime, "breakfastStartHour": breakfastStartConvert[0], "breakfastStartMinute": breakfastStartConvert[1], "breakfastEndHour": breakfastEndConvert[0],
+                      "breakfastEndMinute": breakfastEndConvert[1], "breakfastEndTime": v.breakfastEndTime, "lunchStartTime": v.lunchStartTime, "lunchStartHour": lunchStartConvert[0], "lunchStartMinute": lunchStartConvert[1],
+                      "lunchEndTime": v.lunchEndTime, "lunchEndHour": lunchEndConvert[0], "lunchEndMinute": lunchEndConvert[1], "dinnerStartTime": v.dinnerStartTime, "dinnerStartHour": dinnerStartConvert[0],
+                      "dinnerStartMinute": dinnerStartConvert[1], "dinnerEndTime": v.dinnerEndTime, "dinnerEndHour": dinnerEndConvert[0], "dinnerEndMinute": dinnerEndConvert[1], "alldayStartTime": v.alldayStartTime,
+                      "alldayStartHour": alldayStartConvert[0], "alldayStartMinute": alldayStartConvert[1], "alldayEndTime": v.alldayEndTime, "alldayEndHour": alldayEndConvert[0], "alldayEndMinute": alldayEndConvert[1], "sequence": "2"
+                    });
+                    break;
+                  case "Wednesday":
+                    $scope.weekArrayObj.push({
+                      "day": "Wednesday", "breakfastStartTime": v.breakfastStartTime, "breakfastStartHour": breakfastStartConvert[0], "breakfastStartMinute": breakfastStartConvert[1], "breakfastEndHour": breakfastEndConvert[0],
+                      "breakfastEndMinute": breakfastEndConvert[1], "breakfastEndTime": v.breakfastEndTime, "lunchStartTime": v.lunchStartTime, "lunchStartHour": lunchStartConvert[0], "lunchStartMinute": lunchStartConvert[1],
+                      "lunchEndTime": v.lunchEndTime, "lunchEndHour": lunchEndConvert[0], "lunchEndMinute": lunchEndConvert[1], "dinnerStartTime": v.dinnerStartTime, "dinnerStartHour": dinnerStartConvert[0],
+                      "dinnerStartMinute": dinnerStartConvert[1], "dinnerEndTime": v.dinnerEndTime, "dinnerEndHour": dinnerEndConvert[0], "dinnerEndMinute": dinnerEndConvert[1], "alldayStartTime": v.alldayStartTime,
+                      "alldayStartHour": alldayStartConvert[0], "alldayStartMinute": alldayStartConvert[1], "alldayEndTime": v.alldayEndTime, "alldayEndHour": alldayEndConvert[0], "alldayEndMinute": alldayEndConvert[1], "sequence": "3"
+                    });
+                    break;
+                  case "Thursday":
+                    $scope.weekArrayObj.push({
+                      "day": "Thursday", "breakfastStartTime": v.breakfastStartTime, "breakfastStartHour": breakfastStartConvert[0], "breakfastStartMinute": breakfastStartConvert[1], "breakfastEndHour": breakfastEndConvert[0],
+                      "breakfastEndMinute": breakfastEndConvert[1], "breakfastEndTime": v.breakfastEndTime, "lunchStartTime": v.lunchStartTime, "lunchStartHour": lunchStartConvert[0], "lunchStartMinute": lunchStartConvert[1],
+                      "lunchEndTime": v.lunchEndTime, "lunchEndHour": lunchEndConvert[0], "lunchEndMinute": lunchEndConvert[1], "dinnerStartTime": v.dinnerStartTime, "dinnerStartHour": dinnerStartConvert[0],
+                      "dinnerStartMinute": dinnerStartConvert[1], "dinnerEndTime": v.dinnerEndTime, "dinnerEndHour": dinnerEndConvert[0], "dinnerEndMinute": dinnerEndConvert[1], "alldayStartTime": v.alldayStartTime,
+                      "alldayStartHour": alldayStartConvert[0], "alldayStartMinute": alldayStartConvert[1], "alldayEndTime": v.alldayEndTime, "alldayEndHour": alldayEndConvert[0], "alldayEndMinute": alldayEndConvert[1], "sequence": "4"
+                    });
+                    break;
+                  case "Friday":
+                    $scope.weekArrayObj.push({
+                      "day": "Friday", "breakfastStartTime": v.breakfastStartTime, "breakfastStartHour": breakfastStartConvert[0], "breakfastStartMinute": breakfastStartConvert[1], "breakfastEndHour": breakfastEndConvert[0],
+                      "breakfastEndMinute": breakfastEndConvert[1], "breakfastEndTime": v.breakfastEndTime, "lunchStartTime": v.lunchStartTime, "lunchStartHour": lunchStartConvert[0], "lunchStartMinute": lunchStartConvert[1],
+                      "lunchEndTime": v.lunchEndTime, "lunchEndHour": lunchEndConvert[0], "lunchEndMinute": lunchEndConvert[1], "dinnerStartTime": v.dinnerStartTime, "dinnerStartHour": dinnerStartConvert[0],
+                      "dinnerStartMinute": dinnerStartConvert[1], "dinnerEndTime": v.dinnerEndTime, "dinnerEndHour": dinnerEndConvert[0], "dinnerEndMinute": dinnerEndConvert[1], "alldayStartTime": v.alldayStartTime,
+                      "alldayStartHour": alldayStartConvert[0], "alldayStartMinute": alldayStartConvert[1], "alldayEndTime": v.alldayEndTime, "alldayEndHour": alldayEndConvert[0], "alldayEndMinute": alldayEndConvert[1], "sequence": "5"
+                    });
+                    break;
+                  case "Saturday":
+                    $scope.weekArrayObj.push({
+                      "day": "Saturday", "breakfastStartTime": v.breakfastStartTime, "breakfastStartHour": breakfastStartConvert[0], "breakfastStartMinute": breakfastStartConvert[1], "breakfastEndHour": breakfastEndConvert[0],
+                      "breakfastEndMinute": breakfastEndConvert[1], "breakfastEndTime": v.breakfastEndTime, "lunchStartTime": v.lunchStartTime, "lunchStartHour": lunchStartConvert[0], "lunchStartMinute": lunchStartConvert[1],
+                      "lunchEndTime": v.lunchEndTime, "lunchEndHour": lunchEndConvert[0], "lunchEndMinute": lunchEndConvert[1], "dinnerStartTime": v.dinnerStartTime, "dinnerStartHour": dinnerStartConvert[0],
+                      "dinnerStartMinute": dinnerStartConvert[1], "dinnerEndTime": v.dinnerEndTime, "dinnerEndHour": dinnerEndConvert[0], "dinnerEndMinute": dinnerEndConvert[1], "alldayStartTime": v.alldayStartTime,
+                      "alldayStartHour": alldayStartConvert[0], "alldayStartMinute": alldayStartConvert[1], "alldayEndTime": v.alldayEndTime, "alldayEndHour": alldayEndConvert[0], "alldayEndMinute": alldayEndConvert[1], "sequence": "6"
+                    });
+                    break;
+                  case "Public Holiday":
+                    $scope.weekArrayObj.push({
+                      "day": "Public Holiday", "breakfastStartTime": v.breakfastStartTime, "breakfastStartHour": breakfastStartConvert[0], "breakfastStartMinute": breakfastStartConvert[1], "breakfastEndHour": breakfastEndConvert[0],
+                      "breakfastEndMinute": breakfastEndConvert[1], "breakfastEndTime": v.breakfastEndTime, "lunchStartTime": v.lunchStartTime, "lunchStartHour": lunchStartConvert[0], "lunchStartMinute": lunchStartConvert[1],
+                      "lunchEndTime": v.lunchEndTime, "lunchEndHour": lunchEndConvert[0], "lunchEndMinute": lunchEndConvert[1], "dinnerStartTime": v.dinnerStartTime, "dinnerStartHour": dinnerStartConvert[0],
+                      "dinnerStartMinute": dinnerStartConvert[1], "dinnerEndTime": v.dinnerEndTime, "dinnerEndHour": dinnerEndConvert[0], "dinnerEndMinute": dinnerEndConvert[1], "alldayStartTime": v.alldayStartTime,
+                      "alldayStartHour": alldayStartConvert[0], "alldayStartMinute": alldayStartConvert[1], "alldayEndTime": v.alldayEndTime, "alldayEndHour": alldayEndConvert[0], "alldayEndMinute": alldayEndConvert[1], "sequence": "8"
+                    });
+                    break;
+                }
+              });
+              BistroHours.BistrohoursUpsertWithWhere({ details: { "ownerId": $scope.userId, "data": $scope.weekArrayObj } }).$promise.then((res) => {
+                if (res) {
+                  $.each($("input[name='BistroHours']:checked"), function () {
+                    $(this).prop('checked', false);
+                  });
+                  $scope.getBistroHoursForSelectedBusiness();
+                  $("#bistrohoursBreakfastStarttimimg,#bistrohoursBreakfastEndtimimg,#bistrohoursLunchStarttimimg,#bistrohoursLunchEndtimimg,#bistrohoursDinnerStarttimimg,#bistrohoursDinnerEndtimimg,#bistrohoursAllDayStarttimimg,#bistrohoursAllDayEndtimimg").val('');
+                  toastr.success('Bistro hours has been created!');
+                  toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                  $("#bistroHousrTimingAdd").css('pointer-events', '');
+                }
+              }, () => {
+                toastr.error('Bistro hours not created. Please try again!');
+                toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                $("#bistroHousrTimingAdd").css('pointer-events', '');
+              });
+            }
+          } else {
+            toastr.error('Please select the week days!');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+            $("#bistroHousrTimingAdd").css('pointer-events', '');
+          }
+        } else {
+          toastr.error('Please select the business!');
+          toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+          $("#bistroHousrTimingAdd").css('pointer-events', '');
+        }
+      };
+
+      $scope.getBistroHoursForSelectedBusiness = () => {
+
+        if ($scope.userId == null || $scope.userId == "" || $scope.userId == undefined) {
+          $scope.userId = $rootScope.currentUser.id;
+        }
+        BistroHours.find({ "filter": { "where": { "ownerId": $scope.userId }, order: 'sequence asc', } }).$promise.then((res) => {
+          $scope.BistroHoursTimingList = [];
+          $scope.BistroHoursTimingList = res;
+        }, function (err) {
+          $("#WeeklyTimingApply").prop('disabled', false);
+          toastr.error('Weekly Timing not created.');
+          toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+        });
+
+      };
+
+      $scope.bistroHoursDelete = (index, id) => {
+        $(".bistroHoursDelete").css('pointer-events', 'none');
+        if (!id) {
+          $scope.BistroHoursTimingList.splice(index, 1);
+        } else {
+          $('#bistroHourstable tbody tr:nth-child(' + (index + 1) + ') td').each(function () {
+            if ($(this).data('name') == 'day') {
+              let day = $.trim(($(this).html()).toLowerCase());
+              Business.upsertWithWhere({ where: { id: $scope.userId } }, { [day]: { Breakfast: false, Lunch: false, Dinner: false, All_Day: false } });
+            }
+          });
+          BistroHours.destroyById({ id: id }).$promise.then(function (res) {
+            $scope.getBistroHoursForSelectedBusiness();
+            toastr.success('Bistro hour has been deleted');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+            $(".bistroHoursDelete").css('pointer-events', '');
+          }, function (err) {
+            toastr.error('Bistro hour not deleted. Please try again!');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+            $(".bistroHoursDelete").css('pointer-events', '');
+          })
+        }
+      };
+
+      $scope.bistroHoursEdit = (index, id) => {
+        $scope.bistrohoursIndex = index;
+        $('#bistroHourstable tbody tr:nth-child(' + (index + 1) + ') td').each(function () {
+          var html = '';
+          if ($(this).data('name') === 'breakfastStart') {
+            html = `<div class="form-group" style="margin-bottom: 0px;"><input id="breakfastStart" class="form-control time" style="padding: 6px 4px;" type="text" name="breakfastStart" value="${$.trim($(this).html())}" placeholder="Start Time"></div>
+            <script type="text/javascript" rel="stylesheet">
+            $(document).ready(function () {
+                var timeing = ["12:00 AM", "12:15 AM", "12:30 AM", "12:45 AM", "1:00 AM", "1:15 AM", "1:30 AM", "1:45 AM", "2:00 AM", "2:15 AM", "2:30 AM", "2:45 AM", "3:00 AM", "3:15 AM", "3:30 AM", "3:45 AM", "4:00 AM", "4:15 AM", "4:30 AM", "4:45 AM", "5:00 AM", "5:15 AM", "5:30 AM", "5:45 AM", "6:00 AM", "6:15 AM", "6:30 AM", "6:45 AM", "7:00 AM", "7:15 AM", "7:30 AM", "7:45 AM", "8:00 AM", "8:15 AM", "8:30 AM", "8:45 AM", "9:00 AM", "9:15 AM", "9:30 AM", "9:45 AM", "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "1:00 PM", "1:15 PM", "1:30 PM", "1:45 PM", "2:00 PM", "2:15 PM", "2:30 PM", "2:45 PM", "3:00 PM", "3:15 PM", "3:30 PM", "3:45 PM", "4:00 PM", "4:15 PM", "4:30 PM", "4:45 PM", "5:00 PM", "5:15 PM", "5:30 PM", "5:45 PM", "6:00 PM", "6:15 PM", "6:30 PM", "6:45 PM", "7:00 PM", "7:15 PM", "7:30 PM", "7:45 PM", "8:00 PM", "8:15 PM", "8:30 PM", "8:45 PM", "9:00 PM", "9:15 PM", "9:30 PM", "9:45 PM", "10:00 PM", "10:15 PM", "10:30 PM", "10:45 PM", "11:00 PM", "11:15 PM", "11:15 PM", "11:45 PM", "All Day", "Every Day", "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Late"];
+                var timeing_suggestion = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                local: timeing
+              });
+
+              $('#breakfastStart').typeahead(
+                { minLength: 1 },
+                { source: timeing_suggestion }
+              );
+            });
+          </script>`;
+            $(this).html('');
+            $(this).append(html);
+          } else if ($(this).data('name') === 'breakfastEnd') {
+            html = `<div class="form-group" style="margin-bottom: 0px;"><input id="breakfastEnd" class="form-control time" type="text" style="padding: 6px 4px;" name="breakfastEnd" value="${$.trim($(this).html())}" placeholder="End Time"></div>
+            <script type="text/javascript" rel="stylesheet">
+            $(document).ready(function () {
+               var timeing = ["12:00 AM", "12:15 AM", "12:30 AM", "12:45 AM", "1:00 AM", "1:15 AM", "1:30 AM", "1:45 AM", "2:00 AM", "2:15 AM", "2:30 AM", "2:45 AM", "3:00 AM", "3:15 AM", "3:30 AM", "3:45 AM", "4:00 AM", "4:15 AM", "4:30 AM", "4:45 AM", "5:00 AM", "5:15 AM", "5:30 AM", "5:45 AM", "6:00 AM", "6:15 AM", "6:30 AM", "6:45 AM", "7:00 AM", "7:15 AM", "7:30 AM", "7:45 AM", "8:00 AM", "8:15 AM", "8:30 AM", "8:45 AM", "9:00 AM", "9:15 AM", "9:30 AM", "9:45 AM", "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "1:00 PM", "1:15 PM", "1:30 PM", "1:45 PM", "2:00 PM", "2:15 PM", "2:30 PM", "2:45 PM", "3:00 PM", "3:15 PM", "3:30 PM", "3:45 PM", "4:00 PM", "4:15 PM", "4:30 PM", "4:45 PM", "5:00 PM", "5:15 PM", "5:30 PM", "5:45 PM", "6:00 PM", "6:15 PM", "6:30 PM", "6:45 PM", "7:00 PM", "7:15 PM", "7:30 PM", "7:45 PM", "8:00 PM", "8:15 PM", "8:30 PM", "8:45 PM", "9:00 PM", "9:15 PM", "9:30 PM", "9:45 PM", "10:00 PM", "10:15 PM", "10:30 PM", "10:45 PM", "11:00 PM", "11:15 PM", "11:15 PM", "11:45 PM", "All Day", "Every Day", "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Late"];
+                var timeing_suggestion = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                local: timeing
+              });
+
+              $('#breakfastEnd').typeahead(
+                { minLength: 1 },
+                { source: timeing_suggestion }
+              );
+            });
+          </script>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') === 'lunchStart') {
+            html = `<div class="form-group" style="margin-bottom: 0px;"><input id="lunchStart" class="form-control time" type="text" style="padding: 6px 4px;" name="lunchStart" value="${$.trim($(this).html())}" placeholder="End Time"></div>
+            <script type="text/javascript" rel="stylesheet">
+            $(document).ready(function () {
+               var timeing = ["12:00 AM", "12:15 AM", "12:30 AM", "12:45 AM", "1:00 AM", "1:15 AM", "1:30 AM", "1:45 AM", "2:00 AM", "2:15 AM", "2:30 AM", "2:45 AM", "3:00 AM", "3:15 AM", "3:30 AM", "3:45 AM", "4:00 AM", "4:15 AM", "4:30 AM", "4:45 AM", "5:00 AM", "5:15 AM", "5:30 AM", "5:45 AM", "6:00 AM", "6:15 AM", "6:30 AM", "6:45 AM", "7:00 AM", "7:15 AM", "7:30 AM", "7:45 AM", "8:00 AM", "8:15 AM", "8:30 AM", "8:45 AM", "9:00 AM", "9:15 AM", "9:30 AM", "9:45 AM", "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "1:00 PM", "1:15 PM", "1:30 PM", "1:45 PM", "2:00 PM", "2:15 PM", "2:30 PM", "2:45 PM", "3:00 PM", "3:15 PM", "3:30 PM", "3:45 PM", "4:00 PM", "4:15 PM", "4:30 PM", "4:45 PM", "5:00 PM", "5:15 PM", "5:30 PM", "5:45 PM", "6:00 PM", "6:15 PM", "6:30 PM", "6:45 PM", "7:00 PM", "7:15 PM", "7:30 PM", "7:45 PM", "8:00 PM", "8:15 PM", "8:30 PM", "8:45 PM", "9:00 PM", "9:15 PM", "9:30 PM", "9:45 PM", "10:00 PM", "10:15 PM", "10:30 PM", "10:45 PM", "11:00 PM", "11:15 PM", "11:15 PM", "11:45 PM", "All Day", "Every Day", "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Late"];
+                var timeing_suggestion = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                local: timeing
+              });
+
+              $('#lunchStart').typeahead(
+                { minLength: 1 },
+                { source: timeing_suggestion }
+              );
+            });
+          </script>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') === 'lunchEnd') {
+            html = `<div class="form-group" style="margin-bottom: 0px;"><input id="lunchEnd" class="form-control time" type="text" style="padding: 6px 4px;" name="lunchEnd" value="${$.trim($(this).html())}" placeholder="End Time"></div>
+            <script type="text/javascript" rel="stylesheet">
+            $(document).ready(function () {
+               var timeing = ["12:00 AM", "12:15 AM", "12:30 AM", "12:45 AM", "1:00 AM", "1:15 AM", "1:30 AM", "1:45 AM", "2:00 AM", "2:15 AM", "2:30 AM", "2:45 AM", "3:00 AM", "3:15 AM", "3:30 AM", "3:45 AM", "4:00 AM", "4:15 AM", "4:30 AM", "4:45 AM", "5:00 AM", "5:15 AM", "5:30 AM", "5:45 AM", "6:00 AM", "6:15 AM", "6:30 AM", "6:45 AM", "7:00 AM", "7:15 AM", "7:30 AM", "7:45 AM", "8:00 AM", "8:15 AM", "8:30 AM", "8:45 AM", "9:00 AM", "9:15 AM", "9:30 AM", "9:45 AM", "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "1:00 PM", "1:15 PM", "1:30 PM", "1:45 PM", "2:00 PM", "2:15 PM", "2:30 PM", "2:45 PM", "3:00 PM", "3:15 PM", "3:30 PM", "3:45 PM", "4:00 PM", "4:15 PM", "4:30 PM", "4:45 PM", "5:00 PM", "5:15 PM", "5:30 PM", "5:45 PM", "6:00 PM", "6:15 PM", "6:30 PM", "6:45 PM", "7:00 PM", "7:15 PM", "7:30 PM", "7:45 PM", "8:00 PM", "8:15 PM", "8:30 PM", "8:45 PM", "9:00 PM", "9:15 PM", "9:30 PM", "9:45 PM", "10:00 PM", "10:15 PM", "10:30 PM", "10:45 PM", "11:00 PM", "11:15 PM", "11:15 PM", "11:45 PM", "All Day", "Every Day", "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Late"];
+                var timeing_suggestion = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                local: timeing
+              });
+
+              $('#lunchEnd').typeahead(
+                { minLength: 1 },
+                { source: timeing_suggestion }
+              );
+            });
+          </script>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') === 'dinnerStart') {
+            html = `<div class="form-group" style="margin-bottom: 0px;"><input id="dinnerStart" class="form-control time" type="text" style="padding: 6px 4px;" name="dinnerStart" value="${$.trim($(this).html())}" placeholder="End Time"></div>
+            <script type="text/javascript" rel="stylesheet">
+            $(document).ready(function () {
+               var timeing = ["12:00 AM", "12:15 AM", "12:30 AM", "12:45 AM", "1:00 AM", "1:15 AM", "1:30 AM", "1:45 AM", "2:00 AM", "2:15 AM", "2:30 AM", "2:45 AM", "3:00 AM", "3:15 AM", "3:30 AM", "3:45 AM", "4:00 AM", "4:15 AM", "4:30 AM", "4:45 AM", "5:00 AM", "5:15 AM", "5:30 AM", "5:45 AM", "6:00 AM", "6:15 AM", "6:30 AM", "6:45 AM", "7:00 AM", "7:15 AM", "7:30 AM", "7:45 AM", "8:00 AM", "8:15 AM", "8:30 AM", "8:45 AM", "9:00 AM", "9:15 AM", "9:30 AM", "9:45 AM", "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "1:00 PM", "1:15 PM", "1:30 PM", "1:45 PM", "2:00 PM", "2:15 PM", "2:30 PM", "2:45 PM", "3:00 PM", "3:15 PM", "3:30 PM", "3:45 PM", "4:00 PM", "4:15 PM", "4:30 PM", "4:45 PM", "5:00 PM", "5:15 PM", "5:30 PM", "5:45 PM", "6:00 PM", "6:15 PM", "6:30 PM", "6:45 PM", "7:00 PM", "7:15 PM", "7:30 PM", "7:45 PM", "8:00 PM", "8:15 PM", "8:30 PM", "8:45 PM", "9:00 PM", "9:15 PM", "9:30 PM", "9:45 PM", "10:00 PM", "10:15 PM", "10:30 PM", "10:45 PM", "11:00 PM", "11:15 PM", "11:15 PM", "11:45 PM", "All Day", "Every Day", "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Late"];
+                var timeing_suggestion = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                local: timeing
+              });
+
+              $('#dinnerStart').typeahead(
+                { minLength: 1 },
+                { source: timeing_suggestion }
+              );
+            });
+          </script>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') === 'dinnerEnd') {
+            html = `<div class="form-group" style="margin-bottom: 0px;"><input id="dinnerEnd" class="form-control time" type="text" style="padding: 6px 4px;" name="dinnerEnd" value="${$.trim($(this).html())}" placeholder="End Time"></div>
+            <script type="text/javascript" rel="stylesheet">
+            $(document).ready(function () {
+               var timeing = ["12:00 AM", "12:15 AM", "12:30 AM", "12:45 AM", "1:00 AM", "1:15 AM", "1:30 AM", "1:45 AM", "2:00 AM", "2:15 AM", "2:30 AM", "2:45 AM", "3:00 AM", "3:15 AM", "3:30 AM", "3:45 AM", "4:00 AM", "4:15 AM", "4:30 AM", "4:45 AM", "5:00 AM", "5:15 AM", "5:30 AM", "5:45 AM", "6:00 AM", "6:15 AM", "6:30 AM", "6:45 AM", "7:00 AM", "7:15 AM", "7:30 AM", "7:45 AM", "8:00 AM", "8:15 AM", "8:30 AM", "8:45 AM", "9:00 AM", "9:15 AM", "9:30 AM", "9:45 AM", "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "1:00 PM", "1:15 PM", "1:30 PM", "1:45 PM", "2:00 PM", "2:15 PM", "2:30 PM", "2:45 PM", "3:00 PM", "3:15 PM", "3:30 PM", "3:45 PM", "4:00 PM", "4:15 PM", "4:30 PM", "4:45 PM", "5:00 PM", "5:15 PM", "5:30 PM", "5:45 PM", "6:00 PM", "6:15 PM", "6:30 PM", "6:45 PM", "7:00 PM", "7:15 PM", "7:30 PM", "7:45 PM", "8:00 PM", "8:15 PM", "8:30 PM", "8:45 PM", "9:00 PM", "9:15 PM", "9:30 PM", "9:45 PM", "10:00 PM", "10:15 PM", "10:30 PM", "10:45 PM", "11:00 PM", "11:15 PM", "11:15 PM", "11:45 PM", "All Day", "Every Day", "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Late"];
+                var timeing_suggestion = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                local: timeing
+              });
+
+              $('#dinnerEnd').typeahead(
+                { minLength: 1 },
+                { source: timeing_suggestion }
+              );
+            });
+          </script>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') === 'alldayStart') {
+            html = `<div class="form-group" style="margin-bottom: 0px;"><input id="alldayStart" class="form-control time" type="text" style="padding: 6px 4px;" name="alldayStart" value="${$.trim($(this).html())}" placeholder="Start Time"></div>
+            <script type="text/javascript" rel="stylesheet">
+            $(document).ready(function () {
+               var timeing = ["12:00 AM", "12:15 AM", "12:30 AM", "12:45 AM", "1:00 AM", "1:15 AM", "1:30 AM", "1:45 AM", "2:00 AM", "2:15 AM", "2:30 AM", "2:45 AM", "3:00 AM", "3:15 AM", "3:30 AM", "3:45 AM", "4:00 AM", "4:15 AM", "4:30 AM", "4:45 AM", "5:00 AM", "5:15 AM", "5:30 AM", "5:45 AM", "6:00 AM", "6:15 AM", "6:30 AM", "6:45 AM", "7:00 AM", "7:15 AM", "7:30 AM", "7:45 AM", "8:00 AM", "8:15 AM", "8:30 AM", "8:45 AM", "9:00 AM", "9:15 AM", "9:30 AM", "9:45 AM", "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "1:00 PM", "1:15 PM", "1:30 PM", "1:45 PM", "2:00 PM", "2:15 PM", "2:30 PM", "2:45 PM", "3:00 PM", "3:15 PM", "3:30 PM", "3:45 PM", "4:00 PM", "4:15 PM", "4:30 PM", "4:45 PM", "5:00 PM", "5:15 PM", "5:30 PM", "5:45 PM", "6:00 PM", "6:15 PM", "6:30 PM", "6:45 PM", "7:00 PM", "7:15 PM", "7:30 PM", "7:45 PM", "8:00 PM", "8:15 PM", "8:30 PM", "8:45 PM", "9:00 PM", "9:15 PM", "9:30 PM", "9:45 PM", "10:00 PM", "10:15 PM", "10:30 PM", "10:45 PM", "11:00 PM", "11:15 PM", "11:15 PM", "11:45 PM", "All Day", "Every Day", "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Late"];
+                var timeing_suggestion = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                local: timeing
+              });
+
+              $('#alldayStart').typeahead(
+                { minLength: 1 },
+                { source: timeing_suggestion }
+              );
+            });
+          </script>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') === 'alldayEnd') {
+            html = `<div class="form-group" style="margin-bottom: 0px;"><input id="alldayEnd" class="form-control time" type="text" style="padding: 6px 4px;" name="alldayEnd" value="${$.trim($(this).html())}" placeholder="End Time"></div>
+            <script type="text/javascript" rel="stylesheet">
+            $(document).ready(function () {
+               var timeing = ["12:00 AM", "12:15 AM", "12:30 AM", "12:45 AM", "1:00 AM", "1:15 AM", "1:30 AM", "1:45 AM", "2:00 AM", "2:15 AM", "2:30 AM", "2:45 AM", "3:00 AM", "3:15 AM", "3:30 AM", "3:45 AM", "4:00 AM", "4:15 AM", "4:30 AM", "4:45 AM", "5:00 AM", "5:15 AM", "5:30 AM", "5:45 AM", "6:00 AM", "6:15 AM", "6:30 AM", "6:45 AM", "7:00 AM", "7:15 AM", "7:30 AM", "7:45 AM", "8:00 AM", "8:15 AM", "8:30 AM", "8:45 AM", "9:00 AM", "9:15 AM", "9:30 AM", "9:45 AM", "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "1:00 PM", "1:15 PM", "1:30 PM", "1:45 PM", "2:00 PM", "2:15 PM", "2:30 PM", "2:45 PM", "3:00 PM", "3:15 PM", "3:30 PM", "3:45 PM", "4:00 PM", "4:15 PM", "4:30 PM", "4:45 PM", "5:00 PM", "5:15 PM", "5:30 PM", "5:45 PM", "6:00 PM", "6:15 PM", "6:30 PM", "6:45 PM", "7:00 PM", "7:15 PM", "7:30 PM", "7:45 PM", "8:00 PM", "8:15 PM", "8:30 PM", "8:45 PM", "9:00 PM", "9:15 PM", "9:30 PM", "9:45 PM", "10:00 PM", "10:15 PM", "10:30 PM", "10:45 PM", "11:00 PM", "11:15 PM", "11:15 PM", "11:45 PM", "All Day", "Every Day", "Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Late"];
+                var timeing_suggestion = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.whitespace,
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                local: timeing
+              });
+
+              $('#alldayEnd').typeahead(
+                { minLength: 1 },
+                { source: timeing_suggestion }
+              );
+            });
+          </script>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+        });
+      }
+
+      var breakfastStartConver = [], breakfasteEndConvert = [], lunchStartConvert = [], lunchEndConvert = [], dinnerStartConvert = [], dinnerEndConvert = [], alldayStartConvert = [], alldayEndConvert = [];
+      function bistroHourEditUpdate() {
+
+        breakfastStartConver = [], breakfasteEndConvert = [], lunchStartConvert = [], lunchEndConvert = [], dinnerStartConvert = [], dinnerEndConvert = [], alldayStartConvert = [], alldayEndConvert = [];
+
+        if (!$("#breakfastStart").val()) {
+          breakfastStartConver = ["12", "00"];
+        } else {
+          if ($("#breakfastStart").val() == "Late" || $("#breakfastStart").val() == "late") {
+            breakfastStartConver = ["12", "00"];
+          } else {
+            breakfastStartConver = (convertTime12to24($("#breakfastStart").val())).split(':');
+          }
+        }
+        if (!$("#breakfastEnd").val()) {
+          breakfasteEndConvert = ["12", "00"];
+        } else {
+          if ($("#breakfastEnd").val() == "Late" || $("#breakfastEnd").val() == "late") {
+            breakfasteEndConvert = ["12", "00"];
+          } else {
+            breakfasteEndConvert = (convertTime12to24($("#breakfastEnd").val())).split(':');
+          }
+        }
+        if (!$("#lunchStart").val()) {
+          lunchStartConvert = ["12", "00"];
+        } else {
+          if ($("#lunchStart").val() == "Late" || $("#lunchStart").val() == "late") {
+            lunchStartConvert = ["12", "00"];
+          } else {
+            lunchStartConvert = (convertTime12to24($("#lunchStart").val())).split(':');
+          }
+        }
+        if (!$("#lunchEnd").val()) {
+          lunchEndConvert = ["12", "00"];
+        } else {
+          if ($("#lunchEnd").val() == "Late" || $("#lunchEnd").val() == "late") {
+            lunchEndConvert = ["12", "00"];
+          } else {
+            lunchEndConvert = (convertTime12to24($("#lunchEnd").val())).split(':');
+          }
+        }
+        if (!$("#dinnerStart").val()) {
+          dinnerStartConvert = ["12", "00"];
+        } else {
+          if ($("#dinnerStart").val() == "Late" || $("#dinnerStart").val() == "late") {
+            dinnerStartConvert = ["12", "00"];
+          } else {
+            dinnerStartConvert = (convertTime12to24($("#dinnerStart").val())).split(':');
+          }
+        }
+        if (!$("#dinnerEnd").val()) {
+          dinnerEndConvert = ["12", "00"];
+        } else {
+          if ($("#dinnerEnd").val() == "Late" || $("#dinnerEnd").val() == "late") {
+            dinnerEndConvert = ["12", "00"];
+          } else {
+            dinnerEndConvert = (convertTime12to24($("#dinnerEnd").val())).split(':');
+          }
+        }
+        if (!$("#alldayStart").val()) {
+          alldayStartConvert = ["12", "00"];
+        } else {
+          if ($("#alldayStart").val() == "Late" || $("#alldayStart").val() == "late") {
+            alldayStartConvert = ["12", "00"];
+          } else {
+            alldayStartConvert = (convertTime12to24($("#alldayStart").val())).split(':');
+          }
+        }
+        if (!$("#alldayEnd").val()) {
+          alldayEndConvert = ["12", "00"];
+        } else {
+          if ($("#alldayEnd").val() == "Late" || $("#alldayEnd").val() == "late") {
+            alldayEndConvert = ["12", "00"];
+          } else {
+            alldayEndConvert = (convertTime12to24($("#alldayEnd").val())).split(':');
+          }
+        }
+      };
+
+      $scope.bistroHoursUpdate = (index, id, day) => {
+        $(".BistroHoursUpdateBtn").css('pointer-events', 'none');
+        $scope.bistrohoursIndex = undefined;
+        $scope.bistroHourArrayObj = [];
+
+        var breakfastStartTime = $.trim($("#breakfastStart").val()), breakfastStartHour = $.trim(breakfastStartConver[0]),
+          breakfastStartMinute = $.trim(breakfastStartConver[1]), breakfastEndTime = $.trim($("#breakfastEnd").val()),
+          breakfastEndHour = $.trim(breakfasteEndConvert[0]), breakfastEndMinute = $.trim(breakfasteEndConvert[1]),
+          lunchStartTime = $.trim($("#lunchStart").val()), lunchStartHour = $.trim(lunchStartConvert[0]), lunchStartMinute = $.trim(lunchStartConvert[1]),
+          lunchEndTime = $.trim($("#lunchEnd").val()), lunchEndHour = $.trim(lunchEndConvert[0]), lunchEndMinute = $.trim(lunchEndConvert[1]),
+          dinnerStartTime = $.trim($("#dinnerStart").val()), dinnerStartHour = $.trim(dinnerStartConvert[0]), dinnerStartMinute = $.trim(dinnerStartConvert[1]),
+          dinnerEndTime = $.trim($("#dinnerEnd").val()), dinnerEndHour = $.trim(dinnerEndConvert[0]), dinnerEndMinute = $.trim(dinnerEndConvert[1]),
+          alldayStartTime = $.trim($("#alldayStart").val()), alldayStartHour = $.trim(alldayStartConvert[0]), alldayStartMinute = $.trim(alldayStartConvert[1]),
+          alldayEndTime = $.trim($("#alldayEnd").val()), alldayEndHour = $.trim(alldayEndConvert[0]), alldayEndMinute = $.trim(alldayEndConvert[1]);
+
+        switch (day) {
+          case "Sunday":
+            bistroHourEditUpdate();
+            $scope.bistroHourArrayObj.push({
+              "day": "Sunday", breakfastStartTime, breakfastStartHour, breakfastStartMinute, breakfastEndTime, breakfastEndHour, breakfastEndMinute, lunchStartTime,
+              lunchStartHour, lunchStartMinute, lunchEndTime, lunchEndHour, lunchEndMinute, dinnerStartTime, dinnerStartHour, dinnerStartMinute, dinnerEndTime,
+              dinnerEndHour, dinnerEndMinute, alldayStartTime, alldayStartHour, alldayStartMinute, alldayEndTime, alldayEndHour, alldayEndMinute, "sequence": "7"
+            });
+            break;
+          case "Monday":
+            bistroHourEditUpdate();
+            $scope.bistroHourArrayObj.push({
+              "day": "Monday", breakfastStartTime, breakfastStartHour, breakfastStartMinute, breakfastEndTime, breakfastEndHour, breakfastEndMinute, lunchStartTime,
+              lunchStartHour, lunchStartMinute, lunchEndTime, lunchEndHour, lunchEndMinute, dinnerStartTime, dinnerStartHour, dinnerStartMinute, dinnerEndTime,
+              dinnerEndHour, dinnerEndMinute, alldayStartTime, alldayStartHour, alldayStartMinute, alldayEndTime, alldayEndHour, alldayEndMinute, "sequence": "1"
+            });
+            break;
+          case "Tuesday":
+            bistroHourEditUpdate();
+            $scope.bistroHourArrayObj.push({
+              "day": "Tuesday", breakfastStartTime, breakfastStartHour, breakfastStartMinute, breakfastEndTime, breakfastEndHour, breakfastEndMinute, lunchStartTime,
+              lunchStartHour, lunchStartMinute, lunchEndTime, lunchEndHour, lunchEndMinute, dinnerStartTime, dinnerStartHour, dinnerStartMinute, dinnerEndTime,
+              dinnerEndHour, dinnerEndMinute, alldayStartTime, alldayStartHour, alldayStartMinute, alldayEndTime, alldayEndHour, alldayEndMinute, "sequence": "2"
+            });
+            break;
+          case "Wednesday":
+            bistroHourEditUpdate();
+            $scope.bistroHourArrayObj.push({
+              "day": "Wednesday", breakfastStartTime, breakfastStartHour, breakfastStartMinute, breakfastEndTime, breakfastEndHour, breakfastEndMinute, lunchStartTime,
+              lunchStartHour, lunchStartMinute, lunchEndTime, lunchEndHour, lunchEndMinute, dinnerStartTime, dinnerStartHour, dinnerStartMinute, dinnerEndTime,
+              dinnerEndHour, dinnerEndMinute, alldayStartTime, alldayStartHour, alldayStartMinute, alldayEndTime, alldayEndHour, alldayEndMinute, "sequence": "3"
+            });
+            break;
+          case "Thursday":
+            bistroHourEditUpdate();
+            $scope.bistroHourArrayObj.push({
+              "day": "Thursday", breakfastStartTime, breakfastStartHour, breakfastStartMinute, breakfastEndTime, breakfastEndHour, breakfastEndMinute, lunchStartTime,
+              lunchStartHour, lunchStartMinute, lunchEndTime, lunchEndHour, lunchEndMinute, dinnerStartTime, dinnerStartHour, dinnerStartMinute, dinnerEndTime,
+              dinnerEndHour, dinnerEndMinute, alldayStartTime, alldayStartHour, alldayStartMinute, alldayEndTime, alldayEndHour, alldayEndMinute, "sequence": "4"
+            });
+            break;
+          case "Friday":
+            bistroHourEditUpdate();
+            $scope.bistroHourArrayObj.push({
+              "day": "Friday", breakfastStartTime, breakfastStartHour, breakfastStartMinute, breakfastEndTime, breakfastEndHour, breakfastEndMinute, lunchStartTime,
+              lunchStartHour, lunchStartMinute, lunchEndTime, lunchEndHour, lunchEndMinute, dinnerStartTime, dinnerStartHour, dinnerStartMinute, dinnerEndTime,
+              dinnerEndHour, dinnerEndMinute, alldayStartTime, alldayStartHour, alldayStartMinute, alldayEndTime, alldayEndHour, alldayEndMinute, "sequence": "5"
+            });
+            break;
+          case "Saturday":
+            bistroHourEditUpdate();
+            $scope.bistroHourArrayObj.push({
+              "day": "Saturday", breakfastStartTime, breakfastStartHour, breakfastStartMinute, breakfastEndTime, breakfastEndHour, breakfastEndMinute, lunchStartTime,
+              lunchStartHour, lunchStartMinute, lunchEndTime, lunchEndHour, lunchEndMinute, dinnerStartTime, dinnerStartHour, dinnerStartMinute, dinnerEndTime,
+              dinnerEndHour, dinnerEndMinute, alldayStartTime, alldayStartHour, alldayStartMinute, alldayEndTime, alldayEndHour, alldayEndMinute, "sequence": "6"
+            });
+            break;
+          case "Public Holiday":
+            bistroHourEditUpdate();
+            $scope.bistroHourArrayObj.push({
+              "day": "Public Holiday", breakfastStartTime, breakfastStartHour, breakfastStartMinute, breakfastEndTime, breakfastEndHour, breakfastEndMinute, lunchStartTime,
+              lunchStartHour, lunchStartMinute, lunchEndTime, lunchEndHour, lunchEndMinute, dinnerStartTime, dinnerStartHour, dinnerStartMinute, dinnerEndTime,
+              dinnerEndHour, dinnerEndMinute, alldayStartTime, alldayStartHour, alldayStartMinute, alldayEndTime, alldayEndHour, alldayEndMinute, "sequence": "8"
+            });
+            break;
+        };
+
+        BistroHours.upsertWithWhere({ "where": { "id": id } }, $scope.bistroHourArrayObj[0], function (res) { $(".BistroHoursUpdateBtn").css('pointer-events', ''); })
+
+        $('#bistroHourstable tbody tr:nth-child(' + (index + 1) + ') td').each(function () {
+          if ($(this).data('name') === 'breakfastStart') {
+            $(this).html('');
+            $(this).append($.trim($scope.bistroHourArrayObj[0].breakfastStartTime));
+          }
+          else if ($(this).data('name') === 'breakfastEnd') {
+            $(this).html('');
+            $(this).append($.trim($scope.bistroHourArrayObj[0].breakfastEndTime));
+          }
+          else if ($(this).data('name') === 'lunchStart') {
+            $(this).html('');
+            $(this).append($.trim($scope.bistroHourArrayObj[0].lunchStartTime));
+          }
+          else if ($(this).data('name') === 'lunchEnd') {
+            $(this).html('');
+            $(this).append($.trim($scope.bistroHourArrayObj[0].lunchEndTime));
+          }
+          else if ($(this).data('name') === 'dinnerStart') {
+            $(this).html('');
+            $(this).append($.trim($scope.bistroHourArrayObj[0].dinnerStartTime));
+          }
+          else if ($(this).data('name') === 'dinnerEnd') {
+            $(this).html('');
+            $(this).append($.trim($scope.bistroHourArrayObj[0].dinnerEndTime));
+          }
+          else if ($(this).data('name') === 'alldayStart') {
+            $(this).html('');
+            $(this).append($.trim($scope.bistroHourArrayObj[0].alldayStartTime));
+          }
+          else if ($(this).data('name') === 'alldayEnd') {
+            $(this).html('');
+            $(this).append($.trim($scope.bistroHourArrayObj[0].alldayEndTime));
+          }
+        });
+        toastr.success('Bistro hours has been updated.');
+        toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+      }
+
+      $scope.berveragesFreebiedate = [];
+      $scope.getFreebieSelected = (month, year) => {
+        $scope.berveragesFreebiedate = [];
+
+        if ($scope.userId == null || $scope.userId == "" || $scope.userId == undefined) {
+          $scope.userId = $rootScope.currentUser.id;
+        }
+
+        DashDate.getDashdateByMonthAndId({ details: { month: month, year: year, category: "Freebie", businessId: $scope.userId } }).$promise.then(function (res) {
+          if (res.data.isSuccess) {
+            if (res.data.res.length > 0) {
+              $.each(res.data.res, function (key, data) {
+                $scope.berveragesFreebiedate.push(data.date.split('T')[0].split('-')[2]);
+              });
+            } else {
+              $scope.berveragesFreebiedate = [];
+            }
+
+            $('#datepicker_intantPrice .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+              $(tr).find('td').each(function (tr1, td) {
+                if ($("#datepicker_intantPrice .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').hasClass('activeCustom')) {
+                  $("#datepicker_intantPrice .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').removeClass('activeCustom').removeClass('card');
+                }
+                if ($("#datepicker_intantPrice .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').hasClass('active')) {
+                  $("#datepicker_intantPrice .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').removeClass('active').removeClass('card');
+                }
+              });
+            });
+            $('#datepicker_intantPrice .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+              $(tr).find('td').each(function (tr1, td) {
+                $.each($scope.berveragesFreebiedate, function (dates, date) {
+                  var d = date.replace(/\b(0(?!\b))+/g, "");
+                  if (d == $(td).html()) {
+                    $("#datepicker_intantPrice .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').addClass('activeCustom').addClass('card');
+                  }
+                });
+              });
+            });
+          }
+        }, function (err) { console.log(JSON.stringify(err)); });
+
+        $("#freebie").val('');
+        $(".rowInstantPrice").prop('checked', false);
+
+      };
+
+      $scope.happyhourPreview = (startDate, endDate) => {
+
+        let HH_string_data = ''; $scope.viewHHData = [], $scope.weekDateArray = []; $scope.HH_week_days_arr = [];
+
+        $('.HH_date_day_format_p').each((i, values) => {
+          $scope.weekDateArray.push({ date: $(values).attr('data-dateFormat'), day: $(values).attr('data-dayformat') });
+        });
+
+        Business.getCategoriesFormDB({ details: { ownerId: $scope.userId, startDate, endDate } }).$promise.then((res) => {
+
+          if (res.data && res.data.isSuccess && res.data.result && res.data.result.length > 0) {
+
+            $scope.viewHHData = res.data.result;
+
+            $.each($scope.weekDateArray, (index, val) => {
+
+              let obj = $scope.viewHHData.find(m => m.dateString == `${val.date}T00:00:00.000Z`), HH_obj = $scope.viewHHData.find(m => m.day == `${val.day}`),
+                sports_obj = obj && obj.dashLines.find(m => m.mainCategory && m.mainCategory == 'Sports'), whats_hot_obj = obj && obj.dashLines.find(m => m.category && m.category == "Whats_Hot"),
+                special_events_obj = obj && obj.dashLines.find(m => m.mainCategory && m.mainCategory == 'Special_Events'), happenings_obj = obj && obj.dashLines.find(m => m.mainCategory && m.mainCategory == "Entertainment"),
+                HH_temp_str = '';
+
+              if (HH_obj && HH_obj.happyHourDashLines && HH_obj.happyHourDashLines.length > 0) {
+                for (let v of HH_obj.happyHourDashLines) {
+                  HH_temp_str += `<p style="font-size:9px;color:#747272;">${v.startTime} To ${v.endTime}</p>`;
+                }
+              }
+              HH_string_data += `<div class="col-md-1">
+              ${ (HH_obj && HH_obj.happyHourDashLines && HH_obj.happyHourDashLines.length > 0 ? `
+              <div class="row">
+                <div class="col-md-12">
+                  <button class="btn"
+                  style="font-size: 12px;line-height: 1;color: #000;background-color:#fff;border-radius: 3px;margin:6px 0px;padding: 22px 23px 18px 18px !important;" onclick="HHEdit_Save('happyhour','${ $scope.userId}','${val.day}')">
+                    <p>Happy
+                      Hour</p>
+                  </button>
+                </div>
+              </div>`: `<div class="row">
+              <div class="col-md-12">
+                <button  class="btn btnHover"
+                style="font-size: 12px;line-height: 1;color: #000;background-color:#fff;border-radius: 3px;margin:6px 0px;padding: 20px 21px !important;"
+                disabled="disabled">
+                  <p>Happy
+                    Hour</p>
+                </button>
+              </div>
+            </div>`)}
+            
+            <div class="row">
+              <div class="col-md-12">
+                <button class="btn"
+                  style="font-size: 12px;line-height: 1;color: #000;background-color:#fff;border-radius: 3px;margin:6px 0px;padding: 18px 40px !important;">
+                  <p>Feast</p>
+                </button>
+              </div>
+            </div>
+            ${  (sports_obj && sports_obj.mainCategory && sports_obj.mainCategory == 'Sports' ? `<div class="row">
+            <div class="col-md-12">
+              <button class="btn"
+                style="font-size: 12px;line-height: 1;color: #000;background-color:#fff;border-radius: 3px;margin:6px 0px;padding: 10px 12px 10px 12px !important;">
+                <p>Who's
+                winning</p>
+              </button>
+            </div>
+          </div>`: `<div class="row">
+          <div class="col-md-12">
+            <button class="btn btnHover"
+              style="font-size: 12px;line-height: 1;color: #000;background-color:#fff;border-radius: 3px;margin:6px 0px;padding: 19px 12px !important;"
+              disabled="disabled">
+              <p>Who's
+              winning</p>
+            </button>
+          </div>
+        </div>`)}
+            ${(happenings_obj && happenings_obj.mainCategory && happenings_obj.mainCategory == 'Entertainment' ? `<div class="row">
+            <div class="col-md-12">
+              <button class="btn"
+              style="font-size: 12px;line-height: 1;color: #000;background-color:#fff;border-radius: 3px;margin:6px 0px;padding:8px 12px 8px 12px !important;">
+                <p>Happenings</p>
+              </button>
+            </div>
+          </div>`: `<div class="row">
+          <div class="col-md-12">
+            <button class="btn btnHover"
+            style="font-size: 12px;line-height: 1;color: #000;background-color:#fff;border-radius: 3px;margin:6px 0px;padding: 18px 20px !important;"
+            disabled="disabled">
+              <p>Happenings</p>
+            </button>
+          </div>
+        </div>`)}
+            
+            ${(special_events_obj && special_events_obj.mainCategory && special_events_obj.mainCategory == 'Special_Events' ? `<div class="row">
+            <div class="col-md-12">
+              <button class="btn"
+              style="font-size: 12px;line-height: 1;color: #000;background-color:#fff;border-radius: 3px;margin:6px 0px;padding: 8px 12px 8px 12px !important;">
+                <p>Specials</p>
+              </button>
+            </div>
+          </div>`: ` <div class="row">
+          <div class="col-md-12">
+            <button class="btn btnHover"
+            style="font-size: 12px;line-height: 1;color: #000;background-color:#fff;border-radius: 3px;margin:6px 0px;padding: 18px 32px !important;"
+            disabled="disabled">
+              <p>Specials</p>
+            </button>
+          </div>
+        </div>`)}
+            
+            ${(whats_hot_obj && whats_hot_obj.category && whats_hot_obj.category == 'Whats_Hot' ? `<div class="row">
+            <div class="col-md-12">
+              <button class="btn"
+              style="font-size: 12px;line-height: 1;color: #000;background-color:#fff;border-radius: 3px;margin:6px 0px;padding: 8px 14px 8px 14px !important;">
+                <p>Whats Hot</p>
+              </button>
+            </div>
+          </div>
+        </div>`: `<div class="row">
+        <div class="col-md-12">
+          <button class="btn btnHover"
+          style="font-size: 12px;line-height: 1;color: #000;background-color:#fff;border-radius: 3px;margin:6px 0px;padding: 18px 25px !important;"
+          disabled="disabled">
+            <p>Whats Hot</p>
+          </button>
+        </div>
+      </div>
+    </div>`)} `;
+            });
+            $("#HH_date_day_data").empty();
+            $("#HH_date_day_data").append(HH_string_data);
+          }
+        }, (err) => {
+          console.log(JSON.stringify(err));
+        });
+      };
+
+
+      $scope.sportsdate = [];
+      $scope.getSportsSelected = (month, year) => {
+
+        $scope.sportsLists = [];
+        $scope.sportssubLineArray = [];
+        $scope.sportsDashLineArray = [];
+
+        $scope.sportsdate = [];
+        if ($scope.userId == null || $scope.userId == "" || $scope.userId == undefined) {
+          $scope.userId = $rootScope.currentUser.id;
+        }
+
+        $("input[name='question_Sports']").each(function () {
+          $(this).prop('checked', false);
+        });
+        $("#Sports_desc").val('');
+
+        DashDate.getDashdateByMonthAndIdForAllEvents({ details: { month: month, year: year, mainCategory: "Sports", businessId: $scope.userId } }).$promise.then(function (res, err) {
+          if (res.data.isSuccess) {
+            if (res.data.res.length > 0) {
+              $.each(res.data.res, function (key, val) {
+                $scope.sportsdate.push(val.dateString.split('T')[0].split('-')[2]);
+              });
+            } else {
+              $scope.sportsdate = [];
+            }
+            $('#datepicker_Sports .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+              $(tr).find('td').each(function (tr1, td) {
+                if ($("#datepicker_Sports .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').hasClass('activeCustom')) {
+                  $("#datepicker_Sports .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').removeClass('activeCustom').removeClass('card');
+                }
+              });
+            });
+            $('#datepicker_Sports .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+              $(tr).find('td').each(function (tr1, td) {
+                $.each($scope.sportsdate, function (dates, date) {
+                  var d = date.replace(/\b(0(?!\b))+/g, "");
+                  if (d == $(td).html()) {
+                    $("#datepicker_Sports .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').addClass('activeCustom').addClass('card');
+                  }
+                });
+              });
+            });
+          }
+        }, function (err) {
+          console.log(JSON.stringify(err));
+        });
+      };
+
+      $scope.eventsdate = [];
+      $scope.getEventsSelected = (month, year) => {
+        $scope.eventsLists = [];
+        $scope.eventssubLineArray = [];
+        $scope.eventsDashLineArray = [];
+        $scope.eventsdate = [];
+        if ($scope.userId == null || $scope.userId == "" || $scope.userId == undefined) {
+          $scope.userId = $rootScope.currentUser.id;
+        }
+
+        $("input[name='question_Events']").each(function () {
+          $(this).prop('checked', false);
+        });
+        $("#Events_startTime").val(''); $("#Events_endTime").val(''); $("#Events_desc").val('');
+
+        DashDate.getDashdateByMonthAndIdForAllEvents({ details: { month: month, year: year, mainCategory: "Events", businessId: $scope.userId } }).$promise.then(function (res, err) {
+          if (res.data.isSuccess) {
+            if (res.data.res.length > 0) {
+              $.each(res.data.res, function (key, val) {
+                $scope.eventsdate.push(val.dateString.split('T')[0].split('-')[2]);
+              });
+            } else {
+              $scope.eventsdate = [];
+            }
+
+            $('#datepicker_Events .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+              $(tr).find('td').each(function (tr1, td) {
+                if ($("#datepicker_Events .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').hasClass('activeCustom')) {
+                  $("#datepicker_Events .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').removeClass('activeCustom').removeClass('card');
+                }
+              });
+            });
+
+            $('#datepicker_Events .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+              $(tr).find('td').each(function (tr1, td) {
+                $.each($scope.eventsdate, function (dates, date) {
+                  var d = date.replace(/\b(0(?!\b))+/g, "");
+                  if (d == $(td).html()) {
+                    $("#datepicker_Events .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').addClass('activeCustom').addClass('card');
+                  }
+                });
+              });
+            });
+          }
+        }, function (err) {
+          console.log(JSON.stringify(err));
+        });
+      };
+
+      $scope.specialeventsdate = [];
+      $scope.getSpecialEventsSelected = (month, year) => {
+        $scope.specialeventsdate = [];
+
+        $scope.specialeventsLists = [];
+        $scope.specialeventssubLineArray = [];
+        $scope.specialeventsDashLineArray = [];
+
+        if ($scope.userId == null || $scope.userId == "" || $scope.userId == undefined) {
+          $scope.userId = $rootScope.currentUser.id;
+        }
+
+        $("input[name='question_Special_Events']").each(function () {
+          $(this).prop('checked', false);
+        });
+        $("#Special_Events_desc").val('');
+
+        DashDate.getDashdateByMonthAndIdForAllEvents({ details: { month: month, year: year, mainCategory: "Special_Events", businessId: $scope.userId } }).$promise.then(function (res, err) {
+          if (res.data.isSuccess) {
+            if (res.data.res.length > 0) {
+              $.each(res.data.res, function (key, val) {
+                $scope.specialeventsdate.push(val.dateString.split('T')[0].split('-')[2]);
+              });
+            } else {
+              $scope.specialeventsdate = [];
+            }
+
+            $('#datepicker_Special_Events .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+              $(tr).find('td').each(function (tr1, td) {
+                if ($("#datepicker_Special_Events .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').hasClass('activeCustom')) {
+                  $("#datepicker_Special_Events .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').removeClass('activeCustom').removeClass('card');
+                }
+              });
+            });
+
+            $('#datepicker_Special_Events .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+              $(tr).find('td').each(function (tr1, td) {
+                $.each($scope.specialeventsdate, function (dates, date) {
+                  var d = date.replace(/\b(0(?!\b))+/g, "");
+                  if (d == $(td).html()) {
+                    $("#datepicker_Special_Events .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').addClass('activeCustom').addClass('card');
+                  }
+                });
+              });
+            });
+          }
+        }, function (err) {
+          console.log(JSON.stringify(err));
+        });
+      };
+
+      //Sponsor
+      $scope.getSponsorSelected = (month, year) => {
+
+        $('#datepicker_sponsor').datepicker('setDates', null);
+
+        $('#datepicker_sponsor .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+          $(tr).find('td').each(function (tr1, td) {
+            if ($("#datepicker_sponsor .datepicker-days .table-condensed tbody tr td").not('.old').not('.disabled').not('.new').hasClass('activeCustom')) {
+              $("#datepicker_sponsor .datepicker-days .table-condensed tbody tr td").not('.old').not('.disabled').not('.new').removeClass('activeCustom').removeClass('card');
+            }
+          });
+        });
+        $('#datepicker_sponsor .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+          $(tr).find('td').each(function (tr1, td) {
+            if ($("#datepicker_sponsor .datepicker-days .table-condensed tbody tr td").not('.old').not('.disabled').not('.new').hasClass('active')) {
+              $("#datepicker_sponsor .datepicker-days .table-condensed tbody tr td").not('.old').not('.disabled').not('.new').removeClass('active').removeClass('card');
+            }
+          });
+        });
+
+        var dateArray = [];
+        Sponsor.getSponsorByMonthsDates({ details: { month: month, year: year } }).$promise.then(function (res, err) {
+          if (res) {
+            if (res.data.isSuccess) {
+              if (res.data.result) {
+                $.each(res.data.result, function (i, v) {
+                  if (v.date) {
+                    dateArray.push(v.date.split('T')[0].split('-')[2]);
+                  }
+                })
+                $('#datepicker_sponsor .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+                  $(tr).find('td').each(function (tr1, td) {
+                    $.each(dateArray, function (dates, date) {
+                      var d = date.replace(/\b(0(?!\b))+/g, "");
+                      if (d == $(td).html()) {
+                        $("#datepicker_sponsor .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').not('.disabled').addClass('activeCustom').addClass('card');
+                      }
+                    });
+                  });
+                });
+              }
+            }
+          }
+        });
+      };
+
+
+      //Notification
+      $scope.getNotificationSelected = (month, year) => {
+
+        $scope.pushNotificationList = [];
+
+        BulkNotification.getMonthData({ details: { month: month, year: year, businessId: $scope.userId } }).$promise.then(function (res) {
+
+          if (res.data.isSuccess) {
+            if (res.data.result.length > 0) {
+              $scope.oldDatesNotification = [];
+
+              $.each(res.data.result, function (key, val) {
+                $scope.oldDatesNotification.push(val.date.split('T')[0].split('-')[2]);
+              });
+
+              $('#datepicker_push_notification .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+                $(tr).find('td').each(function (tr1, td) {
+                  if ($("#datepicker_push_notification .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').hasClass('activeCustom')) {
+                    $("#datepicker_push_notification .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').removeClass('activeCustom').removeClass('card');
+                  }
+                });
+              });
+
+
+              $('#datepicker_push_notification .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+                $(tr).find('td').each(function (tr1, td) {
+                  $.each($scope.oldDatesNotification, function (dates, date) {
+                    var d = date.replace(/\b(0(?!\b))+/g, "");
+                    if (d == $(td).html()) {
+                      if (!$("#datepicker_push_notification .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").hasClass('active')) {
+                        $("#datepicker_push_notification .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').addClass('activeCustom').addClass('card');
+                      }
+                    }
+                  });
+                });
+              });
+
+            }
+          }
+        });
+      };
+
+      //Loyalty
+      $scope.getLoyaltySelected = (month, year) => {
+
+        $scope.loyaltyList = [];
+
+        DashDate.getMonthDataInLoyalty({ details: { month: month, year: year, businessId: $scope.userId } }).$promise.then(function (res) {
+
+          if (res.data.isSuccess) {
+            if (res.data.result.length > 0) {
+              $scope.oldDatesLoyalty = [];
+
+              $.each(res.data.result, function (key, val) {
+                $scope.oldDatesLoyalty.push(val.dateOnly);
+              });
+
+              $('#datepicker_loyality .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+                $(tr).find('td').each(function (tr1, td) {
+                  if ($("#datepicker_loyality .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').hasClass('activeCustom')) {
+                    $("#datepicker_loyality .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').removeClass('activeCustom').removeClass('card');
+                  }
+                });
+              });
+
+              $('#datepicker_loyality .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+                $(tr).find('td').each(function (tr1, td) {
+                  $.each($scope.oldDatesLoyalty, function (dates, date) {
+                    if (date) {
+                      var d = date.replace(/\b(0(?!\b))+/g, "");
+                      if (d == $(td).html()) {
+                        if (!$("#datepicker_loyality .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").hasClass('active')) {
+                          $("#datepicker_loyality .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').addClass('activeCustom').addClass('card');
+                        }
+                      }
+                    }
+                  });
+                });
+              });
+
+            }
+          }
+        });
+      };
+
+      $scope.getLoyaltyRewardsSelected = (month, year) => {
+
+        $scope.loyaltyRewayds = [];
+
+        LoyaltyRewards.find({ filter: { where: { month: ("0" + month).slice(-2), year, ownerId: $scope.userId } } }).$promise.then(function (res) {
+          if (res) {
+            if (res.length > 0) {
+
+              $scope.oldDatesLoyaltyRewards = [];
+
+              $.each(res, function (key, val) {
+                $scope.oldDatesLoyaltyRewards.push(val.dateNo);
+              });
+
+              $('#datepicker_loyality_rewards_notification .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+                $(tr).find('td').each(function (tr1, td) {
+                  if ($("#datepicker_loyality_rewards_notification .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').hasClass('activeCustom')) {
+                    $("#datepicker_loyality_rewards_notification .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').removeClass('activeCustom').removeClass('card');
+                  }
+                });
+              });
+
+              $('#datepicker_loyality_rewards_notification .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+                $(tr).find('td').each(function (tr1, td) {
+                  $.each($scope.oldDatesLoyaltyRewards, function (dates, date) {
+                    var d = date.replace(/\b(0(?!\b))+/g, "");
+                    if (d == $(td).html()) {
+                      if (!$("#datepicker_loyality_rewards_notification .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").hasClass('active')) {
+                        $("#datepicker_loyality_rewards_notification .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').addClass('activeCustom').addClass('card');
+                      }
+                    }
+                  });
+                });
+              });
+
+            }
+          }
+        });
+      };
+
+      //Weekly Prize
+      $scope.weeklyprizesList = [];
+      $scope.weeklyPrizeSelected = (arg) => {
+        $scope.weeklyprizesList = [];
+        WeeklyPrize.find().$promise
+          .then(function (res) {
+            if (res[0]) {
+              $scope.weeklyprizesList = res[0];
+            }
+          });
+      };
+
+      //Freebie
+      $scope.getFreebieSelected(month, year);
+
+      //Opening hours
+      $scope.getOpeningHoursForSelectedBusiness();
+
+      //Opening hours
+      $scope.getBistroHoursForSelectedBusiness();
+
+      //berverages    
+
+      //Events
+      $scope.getEventsSelected(month, year);
+
+      $scope.getSpecialEventsSelected(month, year);
+
+      $scope.getLoyaltyRewardsSelected(month, year);
+      //Notification
+      $scope.getNotificationSelected(month, year);
+      //Loyalty
+      $scope.getLoyaltySelected(month, year);
+
+      //$scope.weeklyPrize 
+      $scope.weeklyPrizeSelected($scope.userId);
+
+      //Sponsor
+      $scope.getSponsorSelected(month, year);
+
+      $scope.happeningsCategory = [];
+      $scope.getHappeningscategory = () => {
+        HappeningsCategory.find({ filter: { where: { ownerId: $scope.userId } } }).$promise.then((res) => {
+          $scope.happeningsCategory = res.filter(m => m._name != 'addnew');
+          $scope.happeningsCategory.push(res.find(m => m._name == 'addnew'));
+        });
+      }
+      $scope.getHappeningscategory();
+
+      $scope.BusinessSelected = (arg) => {
+
+        $("#businessErr").text('');
+        if (arg != "") {
+          if (arg == 'BusinessManager') {
+            if ($("#autocompleteBusiness").data('id') != undefined && $("#autocompleteBusiness").data('id') != null) {
+              arg = $("#autocompleteBusiness").data('id');
+              if ($("#businessSubmit").hasClass('businessSubmit')) {
+                $("#businessSubmit").html('<i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Reset');
+                $("#businessSubmit").removeClass('businessSubmit').addClass('businessReset');
+              }
+            } else {
+              $("#businessErr").text('Please select the Business name');
+            }
+          }
+
+          if (arg != "select") {
+
+            $scope.isBusinessSelect = true;
+
+            $scope.userId = arg;
+
+            $scope.getHappeningscategory();
+
+            //Opening Hours 
+            $scope.getOpeningHoursForSelectedBusiness();
+
+            //Bistro Hours
+            $scope.getBistroHoursForSelectedBusiness();
+
+            //Freebie
+            if ($scope.freebieList.length != 0) $scope.freebieList = [];
+            $('#datepicker_intantPrice').data('datepicker').setDate(null);
+            year = ($("#datepicker_intantPrice .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+            month = monthNames.indexOf(($("#datepicker_intantPrice .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0]) + 1;
+            $scope.getFreebieSelected(month, year);
+
+            //Special Events
+            if ($scope.specialeventsLists.length != 0) $scope.specialeventsLists = [];
+            $('#datepicker_Special_Events').data('datepicker').setDate(null);
+            year = ($("#datepicker_Special_Events .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+            month = monthNames.indexOf(($("#datepicker_Special_Events .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0]) + 1;
+            $scope.getSpecialEventsSelected(month, year);
+
+            //Push Notifiction
+            if ($scope.pushNotificationList.length != 0) $scope.pushNotificationList = [];
+            $('#datepicker_push_notification').data('datepicker').setDate(null);
+            year = ($("#datepicker_push_notification .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+            month = monthNames.indexOf(($("#datepicker_push_notification .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0]) + 1;
+            $scope.getNotificationSelected(month, year);
+
+            //Loyalty
+            if ($scope.LoyaltyList.length != 0) $scope.LoyaltyList = [];
+            $('#datepicker_loyality').data('datepicker').setDate(null);
+            year = ($("#datepicker_loyality .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+            month = monthNames.indexOf(($("#datepicker_loyality .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0]) + 1;
+            $scope.getLoyaltySelected(month, year);
+
+            //Loyalty Rewards
+            if ($scope.loyaltyRewayds.length != 0) $scope.loyaltyRewayds = [];
+            $('#datepicker_loyality_rewards_notification').data('datepicker').setDate(null);
+            year = ($("#datepicker_loyality_rewards_notification .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+            month = monthNames.indexOf(($("#datepicker_loyality_rewards_notification .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0]) + 1;
+            $scope.getLoyaltyRewardsSelected(month, year);
+
+
+            let HH_firstDate = $("#0_date_HH").data('date'),
+              HH_first_month = (Number($("#0_date_HH").data('month'))),
+              HH_first_year = (Number($("#0_date_HH").data('year')));
+            HH_end_date = (Number($("#6_date_HH").data('date')));
+            HH_end_month = (Number($("#6_date_HH").data('month')));
+            HH_end_year = (Number($("#6_date_HH").data('year')));
+            $scope.happyhourPreview(`${HH_first_year}-${("0" + HH_first_month).slice(-2)}-${("0" + HH_firstDate).slice(-2)}`, `${HH_end_year}-${("0" + HH_end_month).slice(-2)}-${("0" + HH_end_date).slice(-2)}`);
+
+          } else {
+            $scope.isBusinessSelect = false;
+          }
+        } else {
+          $scope.isBusinessSelect = false;
+        }
+      };
+
+      //Giveaways date Selected
+      $scope.instantPriceSelectedDays = [], $scope.instantPriceSelectedMonth = "", $scope.instantPriceSelectedYear = ""; $scope.oldDateFreebie = [];
+      $scope.instantPriceSelected = (arg, month, year) => {
+
+        $scope.instantPriceSelectedDays = arg;
+        $scope.instantPriceSelectedMonth = month;
+        $scope.instantPriceSelectedYear = year;
+
+        $scope.freebieList = [];
+        DashDate.getDashdateByMonthAndId({ details: { month: month, year: year, category: "Freebie", businessId: $scope.userId } }).$promise.then(function (res) {
+
+          if (res.data.isSuccess) {
+            if (res.data.res.length > 0) {
+              $scope.oldDateFreebie = [];
+              $.each(res.data.res, function (key, data) {
+                $scope.oldDateFreebie.push(data.date.split('T')[0].split('-')[2]);
+              });
+              $('#datepicker_intantPrice .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+                $(tr).find('td').each(function (tr1, td) {
+                  $.each($scope.oldDateFreebie, function (dates, date) {
+                    var d = date.replace(/\b(0(?!\b))+/g, "");
+                    if (d == $(td).html()) {
+                      $("#datepicker_intantPrice .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').removeClass('activeCustom').removeClass('card');
+                      if (!arg.includes(d)) {
+                        $("#datepicker_intantPrice .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').addClass('activeCustom').addClass('card');
+                      }
+                    }
+                  });
+                });
+              });
+            }
+          }
+        });
+
+        // $scope.getfreebieSigledate(year, month, arg);
+        if ((year != null || year != "") && (month != "" || month != null) && (arg.length != 0)) {
+          $scope.getfreebieSigledate(year, month, arg);
+        }
+      };
+
+      //Entertainment selected
+      $scope.eventSelectedDays = [], $scope.eventSelectedMonths = "", $scope.eventSelectedYears = ""; $scope.oldDateEvents = [];
+      $scope.eventdateSelected = (arg, month, year) => {
+
+        $scope.eventSelectedDays = arg;
+        $scope.eventSelectedMonths = month;
+        $scope.eventSelectedYears = year;
+
+        $scope.eventsLists = [];
+        $scope.eventsDashLineArray = [];
+        $scope.eventssubLineArray = [];
+
+        DashDate.getDashdateByMonthAndIdForAllEvents({ details: { month: month, year: year, mainCategory: "Events", businessId: $scope.userId } }).$promise.then(function (res) {
+          if (res.data.isSuccess) {
+            if (res.data.res.length > 0) {
+              $scope.oldDateEvents = [];
+              $.each(res.data.res, function (key, data) {
+                $scope.oldDateEvents.push(data.date.split('T')[0].split('-')[2]);
+              });
+              $('#datepicker_Events .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+                $(tr).find('td').each(function (tr1, td) {
+                  $.each($scope.oldDateEvents, function (dates, date) {
+                    var d = date.replace(/\b(0(?!\b))+/g, "");
+                    if (d == $(td).html()) {
+                      $("#datepicker_Events .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').removeClass('activeCustom').removeClass('card');
+                      if (!arg.includes(d)) {
+                        $("#datepicker_Events .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').addClass('activeCustom').addClass('card');
+                      }
+                    }
+                  });
+                });
+              });
+            }
+          }
+        });
+        if ((year != null || year != "") && (month != "" || month != null) && (arg.length != 0)) {
+          $scope.getEventData(year, month, arg);
+        }
+      };
+
+      //Special Events selected
+      $scope.specialEventSelectedDays = [], $scope.specialEventSelectedMonths = "", $scope.specialEventSelectedYears = ""; $scope.oldDateSpecialEvents = [];
+      $scope.specialEventSelected = (arg, month, year) => {
+        $scope.specialEventSelectedDays = arg;
+        $scope.specialEventSelectedMonths = month;
+        $scope.specialEventSelectedYears = year;
+
+        $scope.specialeventsLists = [];
+        $scope.specialeventssubLineArray = [];
+        $scope.specialeventsDashLineArray = [];
+
+        DashDate.getDashdateByMonthAndIdForAllEvents({ details: { month: month, year: year, mainCategory: "Special_Events", businessId: $scope.userId } }).$promise.then(function (res) {
+          if (res.data.isSuccess) {
+            if (res.data.res.length > 0) {
+              $scope.oldDateSpecialEvents = [];
+              $.each(res.data.res, function (key, data) {
+                $scope.oldDateSpecialEvents.push(data.date.split('T')[0].split('-')[2]);
+              });
+              $('#datepicker_Special_Events .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+                $(tr).find('td').each(function (tr1, td) {
+                  $.each($scope.oldDateSpecialEvents, function (dates, date) {
+                    var d = date.replace(/\b(0(?!\b))+/g, "");
+                    if (d == $(td).html()) {
+                      $("#datepicker_Special_Events .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').removeClass('activeCustom').removeClass('card');
+                      if (!arg.includes(d)) {
+                        $("#datepicker_Special_Events .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').addClass('activeCustom').addClass('card');
+                      }
+                    }
+                  });
+                });
+              });
+            }
+          }
+        });
+
+        if ((year != null || year != "") && (month != "" || month != null) && (arg.length != 0)) {
+          $scope.getSpecialEventData(year, month, arg);
+        }
+      };
+
+      //Special Events selected
+      $scope.sponsorSelectedDays = [], $scope.sponsorSelectedMonths = "", $scope.sponsorSelectedYears = ""; $scope.oldDatesponsor = [];
+      $scope.sponsorSelected = (arg, month, year) => {
+        $scope.sponsorSelectedDays = arg;
+        $scope.sponsorSelectedMonths = month;
+        $scope.sponsorSelectedYears = year;
+
+        $scope.sponsorList = [];
+
+        Sponsor.getSponsorByMonthsDates({ details: { month: month, year: year } }).$promise.then(function (res) {
+          if (res.data.isSuccess) {
+            if (res.data.result.length > 0) {
+              $scope.oldDatesponsor = [];
+              $.each(res.data.result, function (key, data) {
+                $scope.oldDatesponsor.push(data.date.split('T')[0].split('-')[2]);
+              });
+
+              $('#datepicker_sponsor .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+                $(tr).find('td').each(function (tr1, td) {
+                  $.each($scope.oldDatesponsor, function (dates, date) {
+                    var d = date.replace(/\b(0(?!\b))+/g, "");
+                    if (d == $(td).html()) {
+                      $("#datepicker_sponsor .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').not('.disabled').removeClass('activeCustom').removeClass('card');
+                      if (!arg.includes(d)) {
+                        $("#datepicker_sponsor .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').not('.disabled').addClass('activeCustom').addClass('card');
+                      }
+                    }
+                  });
+                });
+              });
+            }
+          }
+        });
+        if ((year != null || year != "") && (month != "" || month != null) && (arg.length != 0)) {
+          $scope.getSponsorData(year, month, arg);
+        }
+      };
+
+      //Notification selected
+      $scope.notificationSelectedDays = [], $scope.notificationSelectedMonths = "", $scope.notificationSelectedYears = ""; $scope.oldDatenotification = [];
+      $scope.notificationSelected = (arg, month, year) => {
+        $scope.notificationSelectedDays = arg;
+        $scope.notificationSelectedMonths = month;
+        $scope.notificationSelectedYears = year;
+
+        $scope.pushNotificationList = [];
+
+        BulkNotification.getMonthData({ details: { month: month, year: year, businessId: $scope.userId } }).$promise.then(function (res) {
+          if (res.data.isSuccess) {
+            if (res.data.result.length > 0) {
+              $scope.oldDatenotification = [];
+              $.each(res.data.result, function (key, data) {
+                $scope.oldDatenotification.push(data.date.split('T')[0].split('-')[2]);
+              });
+
+              $('#datepicker_push_notification .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+                $(tr).find('td').each(function (tr1, td) {
+                  $.each($scope.oldDatenotification, function (dates, date) {
+                    var d = date.replace(/\b(0(?!\b))+/g, "");
+                    if (d == $(td).html()) {
+                      $("#datepicker_push_notification .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').not('.disabled').removeClass('activeCustom').removeClass('card');
+                      if (!arg.includes(d)) {
+                        $("#datepicker_push_notification .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').not('.disabled').addClass('activeCustom').addClass('card');
+                      }
+                    }
+                  });
+                });
+              });
+            }
+          }
+        });
+        if (year && month && arg.length) {
+          $scope.getNotificationData(arg, month, year);
+        }
+      };
+
+      //startTime and End Time
+      $scope.startandendTimeChnage = (type, val, name) => {
+        if (name == "Sports") {
+          if (type == 'startTime') {
+            $scope.sports_startTime = val;
+          }
+          else if (type == 'endTime') {
+            $scope.sports_endTime = val;
+          }
+        }
+        if (name == "Events") {
+          if (type == 'startTime') {
+            $scope.event_startTime = val;
+          }
+          else if (type == 'endTime') {
+            $scope.event_endTime = val;
+          }
+        }
+        if (name == "Special_Events") {
+          if (type == 'startTime') {
+            $scope.specialEvent_startTime = val;
+          }
+          else if (type == 'endTime') {
+            $scope.specialEvent_endTime = val;
+          }
+        }
+        if (name == "InstantTime") {
+          if (type == 'startTime') {
+            $scope.InstantPrice_startTime = val;
+            $("#freebieStartTimeError").text('');
+          }
+          else if (type == 'endTime') {
+            $scope.InstantPrice_endTime = val;
+            $("#freebieEndTimeError").text('');
+          }
+        }
+        if (name == "weeklytimimg") {
+          if (type == 'startTime') {
+            $("#weeklystarttimingErr").text('');
+          }
+          else if (type == 'endTime') {
+            $("#weeklyendtimingErr").text('');
+          }
+        }
+      };
+
+      //Loyalty
+      $scope.LoyaltySelectedDays = [], $scope.LoyaltySelectedMonths = "", $scope.LoyaltySelectedYears = ""; $scope.oldDateLoyalty = [];
+      $scope.LoyaltydateSelected = (arg, month, year) => {
+
+        $scope.LoyaltySelectedDays = arg;
+        $scope.LoyaltySelectedMonths = month;
+        $scope.LoyaltySelectedYears = year;
+
+
+        $scope.loyaltyList = [];
+        $scope.getLoyaltySelected(month, year);
+        if (year && month && arg.length) {
+          $scope.getLoyaltyData(arg, month, year);
+        }
+      };
+
+      //FreeBie Watch
+      $scope.$watch("freebieText", function () {
+        if ($scope.freebieText) $("#freebieTextError").text('');
+      });
+
+
+      const convertTime12to24 = (time12h) => {
+        const [time, modifier] = time12h.split(' ');
+        let [hours, minutes] = time.split(':');
+        (hours === '12' ? hours = '00' : ((modifier === 'PM' || modifier === 'pm') ? hours = parseInt(hours, 10) + 12 : ""));
+        return `${hours}:${minutes}`;
+      }
+
+      $scope.freebieValidation = () => {
+        var isTrue = true;
+        $scope.instantpirce = {};
+
+        if (!$scope.instantpirce.freebie) {
+          $scope.instantpirce.freebie = $("#freebie").val();
+        }
+        $scope.instantpirce.startTime = null;
+        $scope.instantpirce.endTime = null;
+
+        if (!$scope.instantpirce.startTime) {
+          if (!$("#instantStartTime").val()) {
+            isTrue = false;
+            $("#freebieStartTimeError").text("Start Time is Required!.");
+          } else {
+            $scope.instantpirce.startTime = $("#instantStartTime").val();
+          }
+        } else {
+          $("#freebieStartTimeError").text("");
+        }
+
+        if (!$scope.instantpirce.endTime) {
+          if (!$("#instantEndTime").val()) {
+            isTrue = false;
+            $("#freebieEndTimeError").text("End Time is Required!.");
+          } else {
+            $scope.instantpirce.endTime = $("#instantEndTime").val();
+          }
+        } else {
+          $("#freebieEndTimeError").text("");
+        }
+
+        if (!$scope.instantpirce.freebie) {
+          isTrue = false;
+          $("#freebieTextError").text("Giveaways is Required!.");
+        } else {
+          $("#freebieTextError").text("");
+        }
+
+        $scope.instantpirce.frequency = $scope.frequency1;
+        if (!$scope.instantpirce.frequency) {
+          isTrue = false;
+          $("#frquencyTextError").text("Frequency is Required!.");
+        }
+        else {
+          $("#frquencyTextError").text("");
+        }
+
+        if (!$scope.instantpirce.promoCode) {
+          $scope.instantpirce.promoCode = $("#Giveaways_promoCode").val();
+        }
+
+        return isTrue;
+      };
+
+      $scope.freeSublineArray = []; $scope.freebieList = [];
+      $scope.addFreebie = () => {
+        $("#freebieEndTimeError").text(''); $("#freebieStartTimeError").text('');
+        $("#giveawaysAddBtn").css('pointer-events', 'none');
+        $scope.instantpirce.startTime == null; $scope.instantpirce.endTime == null;
+        if ($scope.isBusinessSelect) {
+          if ($scope.instantPriceSelectedDays.length > 0) {
+            if ($scope.freebieValidation()) {
+
+              var date = new Date();
+              $scope.freeSublineArray = [];
+              let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+              $scope.instantpirce.startTimeDateFormat = JSON.parse(JSON.stringify(new Date(`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)} ${(convertTime12to24($scope.instantpirce.startTime))}`)));
+              $scope.instantpirce.endTimeDateFormat = JSON.parse(JSON.stringify(new Date(`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)} ${(convertTime12to24($scope.instantpirce.endTime))}`)));
+
+              $scope.instantpirce.category = "Freebie";
+              $scope.instantpirce.index = ($scope.freeSublineArray.length == 0 ? 0 : ($scope.freeSublineArray.length - 1));
+              $scope.freebiedisabled = false;
+              $scope.freeSublineArray.push(JSON.parse(JSON.stringify($scope.instantpirce)));
+
+              $("#freeBieCreate").prop('disabled', true);
+              let dateString = $("#datepicker_intantPrice .datepicker-days thead tr .datepicker-switch").html();
+              let month = (jQuery.inArray(dateString.split(' ')[0], $scope.theMonths)) + 1;
+              let year = dateString.split(' ')[1];
+
+              if ($scope.freeSublineArray.length > 0) {
+                DashDate.upsertDashDateForFreebie({
+                  details: {
+                    date: $scope.instantPriceSelectedDays,
+                    month, year,
+                    offset: -(new Date()).getTimezoneOffset(),
+                    category: "Freebie",
+                    businessId: $scope.userId,
+                    dashLine: $scope.freeSublineArray
+                  }
+                }).$promise.then(function (result) {
+                  if (result.data.isSuccess) {
+                    $scope.data = { "year": year, "month": month, "dates": $scope.instantPriceSelectedDays };
+                    DashDate.getDashdateByDateAndId({ details: { date: $scope.data, businessId: $scope.userId, category: "Freebie" } }).$promise.then(function (res) {
+                      $scope.freebieList = [];
+                      if (res.data.isSuccess) {
+                        if (res.data.res && res.data.res.length > 0) {
+                          if (res.data.res[0].dashLines && res.data.res[0].dashLines.length > 0) {
+                            $.each(res.data.res[0].dashLines, function (key, val) {
+                              $scope.freebieList.push({ "dashDateId": val.dashDateId, "dashLineId": val.id, "freebie": val.freebie, "promoCode": val.promoCode, "frequency": val.frequency, "frequencyWeekday": val.frequencyWeekday, "startTime": val.startTime, "endTime": val.endTime });
+                            });
+                          }
+                        }
+                      }
+                    }, function (err) { console.log(JSON.stringify(err)) });
+
+                    $scope.InstantPrice_startTime = null; $scope.InstantPrice_endTime = null;
+                    $scope.freeSublineArray = [];
+
+                    $('input:checkbox.rowInstantPrice,input:checkbox.columnSelect_InstantPrice,.frequencyPrice').each(function () {
+                      if ($(this).is(':checked'))
+                        $(this).prop('checked', false);
+                    });
+
+                    $scope.instantpirce = {};
+
+                    $("#instantStartTime,#instantEndTime,#freebie,#Giveaways_promoCode").val('');
+
+                    $("#freeBieCreate").prop('disabled', false);
+                    toastr.success('Freebie has been created.');
+                    toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                    $("#giveawaysAddBtn").css('pointer-events', '');
+                  }
+                  else {
+                    $("#freeBieCreate").prop('disabled', false);
+                    toastr.error('Freebie not created. Please try again!');
+                    toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                    $("#giveawaysAddBtn").css('pointer-events', '');
+                  }
+                }, function (err) { console.log(JSON.stringify(err)); });
+              }
+              else {
+                $("#Beer_btn").prop('disabled', false);
+                toastr.error('Please add data!');
+                toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                $("#giveawaysAddBtn").css('pointer-events', '');
+              }
+              $("#giveawaysAddBtn").css('pointer-events', '');
+              $("#instantStartTime,#instantEndTime,#freebie").val('');
+              $scope.InstantPrice_startTime = null; $scope.InstantPrice_endTime = null; $scope.instantpirce.freebie == null;
+            } else {
+              $("#giveawaysAddBtn").css('pointer-events', '');
+            }
+          } else {
+            $("#giveawaysAddBtn").css('pointer-events', '');
+            toastr.error('Please select the date!');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+          }
+        } else {
+          $("#giveawaysAddBtn").css('pointer-events', '');
+          toastr.error('Please select the Business!');
+          toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+        }
+        $("#giveawaysAddBtn").css('pointer-events', '');
+      };
+
+      function unique(fieldArray) {
+        fieldArray = fieldArray.reduce(function (field, e1) {
+          var matches = field.filter(function (e2) { return e1.name == e2.name });
+          if (matches.length == 0) {
+            field.push(e1);
+          } return field;
+        }, []);
+        return fieldArray;
+      }
+
+      //Beer
+      $scope.beerLists = [];
+      function beerValueGet() {
+
+        $scope.happyhour_beer = { type: null, brand: null, size: null, price: 0 };
+
+        $scope.happyhour_beer.price = $("#Beer_Price").val();
+
+        $("input[name='question_type_Beer']").each(function () {
+          switch ($(this).data('namevalue').toString()) {
+            case "Ale":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.type = "Ale";
+              }
+              break;
+            case "Lager":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.type = "Lager";
+              }
+              break;
+            case "Craft Beer/s":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.type = "Craft Beer/s";
+              }
+              break;
+            case "Stout":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.type = "Stout";
+              }
+              break;
+            case "Guiness":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.type = "Guiness";
+              }
+              break;
+            case "Beer/s":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.type = "Beer/s";
+              }
+              break;
+            case "Tap Beer/s":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.type = "Tap Beer/s";
+              }
+              break;
+            case "House Beer/s":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.type = "House Beer/s";
+              }
+              break;
+          }
+        });
+        $("input[name='question_selection_Beer']").each(function () {
+          switch ($(this).data('namevalue').toString()) {
+            case "Tap":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.brand = "Tap";
+              }
+              break;
+            case "Can":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.brand = "Can";
+              }
+              break;
+            case "Bottle":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.brand = "Bottle";
+              }
+              break;
+            case "Draught":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.brand = "Draught";
+              }
+              break;
+            case "Selected":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.brand = "Selected";
+              }
+              break;
+            case "House":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.brand = "House";
+              }
+              break;
+            case "Premium":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.brand = "Premium";
+              }
+              break;
+          }
+        });
+        $("input[name='question_serve_Beer']").each(function () {
+          switch ($(this).data('namevalue').toString()) {
+            case "Pint":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.size = "Pint";
+              }
+              break;
+            case "Schooner":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.size = "Schooner";
+              }
+              break;
+            case "Middy":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.size = "Middy";
+              }
+              break;
+            case "Jug":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.size = "Jug";
+              }
+              break;
+            case "Pot":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.size = "Pot";
+              }
+              break;
+            case "Ten":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.size = "Ten";
+              }
+              break;
+            case "Handle":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.size = "Handle";
+              }
+              break;
+            case "Tasting paddle":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.size = "Tasting paddle";
+              }
+              break;
+            case "Stubbie":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.size = "Stubbie";
+              }
+              break;
+            case "Tinnie":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.size = "Tinnie";
+              }
+              break;
+            case "Bottle/s":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.size = "Bottle/s";
+              }
+              break;
+            case "2 For 1":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_beer.size = "2_For_1";
+              }
+              break;
+          }
+        });
+      };
+
+      $scope.beersubLineArray = []; $scope.week_days_short = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']; $scope.beer_start_end_time = [];
+      $scope.addBeer = () => {
+        $scope.beer_start_end_time = [];
+
+        $("#Beer_price_Error").text(``);
+
+        if ($scope.happyHour_Beer_Img && $scope.happyHour_Beer_Img.length) {
+          if ($scope.isBusinessSelect) {
+            var isTrue = true;
+            if (isTrue) {
+
+              $.each($scope.week_days_short, (i, v) => {
+                if ($(`#HH_WD_${v}_Beer`).is(':checked')) {
+                  $scope.beer_start_end_time.push({ day: v, startTime: $(`#HHourSTime_${v}_Beer`).val(), endTime: $(`#HHETime_${v}_Beer`).val() });
+                }
+              });
+
+              beerValueGet();
+
+              if (isTrue) {
+
+                $scope.happyhour_beer.price = $("#Beer_Price").val();
+
+                if (!$scope.happyhour_beer.price) {
+                  isTrue = false;
+                  $("#Beer_price_Error").text("Price is required!");
+                }
+
+                if ($("#Beer_size").val().length > 0) {
+                  $scope.happyhour_beer.size = $("#Beer_size").val();
+                }
+                if ($("#Beer_brand").val().length > 0) {
+                  $scope.happyhour_beer.brand = $("#Beer_brand").val();
+                }
+                if ($("#Beer_type").val().length > 0) {
+                  $scope.happyhour_beer.type = $("#Beer_type").val();
+                }
+
+                if (!$scope.happyhour_beer.size) {
+                  isTrue = false;
+                  $("#Beer_size_Error").text("Size is required!");
+                }
+                if (!$scope.happyhour_beer.brand) {
+                  isTrue = false;
+                  $("#Beer_brand_Error").text("Brand is required!");
+                }
+                if (!$scope.happyhour_beer.type) {
+                  isTrue = false;
+                  $("#Beer_type_Error").text("Type is required!");
+                }
+
+                if (isTrue) {
+
+                  $("#Beer_btn").prop('disabled', true);
+
+                  if ($scope.beer_start_end_time && $scope.beer_start_end_time.length > 0) {
+
+                    updateImg = () => {
+                      return new Promise((resolve, reject) => {
+                        var fd = new FormData();
+                        fd.append(`beer_0`, $scope.happyHour_Beer_Img[0].imgBlop, $scope.happyHour_Beer_Img[0].imgName);
+                        $http.post('/happyHourImg', fd, { headers: { 'Content-Type': undefined } })
+                          .then((res) => {
+                            let beerImages = [];
+                            if (res && res.data && res.data.isSuccess) {
+                              for (let data of res.data.result) beerImages.push({ name: data.fileName, fullPath: data.path });
+                              resolve({ isSuccess: true, beerImages });
+                            } else
+                              resolve({ isSuccess: false, beerImages });
+                          });
+                      });
+                    };
+
+
+                    updateImg().then((imgRes) => {
+                      if (imgRes && imgRes.isSuccess) {
+                        HappyHourDashDay.upsertHappyHour({
+                          details: {
+                            category: 'Beer', days: $scope.beer_start_end_time, ownerId: $scope.userId, price: $("#Beer_Price").val(), size: $scope.happyhour_beer.size,
+                            brand: $scope.happyhour_beer.brand, type: $scope.happyhour_beer.type, price: $scope.happyhour_beer.price, img: imgRes.beerImages
+                          }
+                        }).$promise.then((res) => {
+
+                          $("input[name='question_type_Beer'], input[name='question_selection_Beer'], input[name='question_serve_Beer'] , input[name='HH_days_Beer']").each(function () {
+                            $(this).prop('checked', false);
+                          });
+
+                          $(".HH_time").each(function () { $(this).val(''); });
+
+                          $("#Beer_Price,#Beer_size,#Beer_brand,#Beer_type").val('');
+                          $("#Beer_price_Error,#Beer_endTime_Error,#Beer_startTime_Error,#Beer_size_Error,#Beer_brand_Error,#Beer_startTime_Error,#Beer_brand_Error,#Beer_type_Error").text('');
+
+                          toastMsg(true, "Beer category has been created.");
+                        }, (err) => toastMsg(false, "Not Created. Please try again!"));
+                      }
+                    });
+
+                  } else toastMsg(false, "Please select day and Start time, End Time!");
+                }
+              }
+            }
+          } else toastMsg(false, "Please select the Business!");
+        } else toastMsg(false, "Image is required!");
+
+      };
+
+      //Wine
+      function wineValueGet() {
+
+        $scope.happyhour_wine = { type: null, brand: null, size: null };
+
+        //Price
+        $scope.happyhour_wine.price = $("#Wine_Price").val();
+
+        //Type & Selection and serve
+        $("input[name='question_type_Wine']").each(function () {
+          switch ($(this).data('namevalue').toString()) {
+            case "Red":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_wine.type = "Red";
+              }
+              break;
+            case "White":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_wine.type = "White";
+              }
+              break;
+            case "Rose":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_wine.type = "Rose";
+              }
+              break;
+            case "Sparkling":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_wine.type = "Sparkling";
+              }
+              break;
+            case "Vermouth":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_wine.type = "Vermouth";
+              }
+              break;
+            case "Champagne":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_wine.type = "Champagne";
+              }
+              break;
+            case "Wine/s":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_wine.type = "Wine/s";
+              }
+              break;
+            case "House Wine/s":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_wine.type = "House Wine/s";
+              }
+              break;
+          }
+        });
+        $("input[name='question_selection_Wine']").each(function () {
+          switch ($(this).data('namevalue').toString()) {
+            case "House":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_wine.brand = "House";
+              }
+              break;
+            case "Selected":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_wine.brand = "Selected";
+              }
+              break;
+            case "Premium":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_wine.brand = "Premium";
+              }
+              break;
+          }
+        });
+        $("input[name='question_serve_Wine']").each(function () {
+          switch ($(this).data('namevalue').toString()) {
+            case "Glass":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_wine.size = "Glass";
+              }
+              break;
+            case "Bottle":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_wine.size = "Bottle";
+              }
+              break;
+            case "Flute":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_wine.size = "Flute";
+              }
+              break;
+            case "2 for 1":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_wine.size = "2 for 1";
+              }
+              break;
+          }
+        });
+      };
+
+      $scope.wineLists = [];
+      $scope.winesubLineArray = []; $scope.wine_start_end_time = [];
+      $scope.addWine = () => {
+
+        if ($scope.isBusinessSelect) {
+
+          if ($scope.happyHour_Wine_Img && $scope.happyHour_Wine_Img.length) {
+            var isTrue = true;
+
+            $.each($scope.week_days_short, (i, v) => {
+              if ($(`#HH_WD_${v}_Wine`).is(':checked')) {
+                $scope.wine_start_end_time.push({ day: v, startTime: $(`#HHourSTime_${v}_Wine`).val(), endTime: $(`#HHETime_${v}_Wine`).val() });
+              }
+            });
+
+            if (isTrue) {
+              wineValueGet();
+
+              if (!$scope.happyhour_wine.price) {
+                isTrue = false;
+                $("#Wine_price_Error").text("Price is required!");
+              }
+              if (isTrue) {
+                if ($("#Wine_size").val().length > 0) {
+                  $scope.happyhour_wine.size = $("#Wine_size").val();
+                }
+                if (!$scope.happyhour_wine.size) {
+                  $("#Wine_size_Error").text("Size is required!");
+                  isTrue = false;
+                } else {
+                  $("#Wine_size_Error").text("");
+                }
+                if ($("#Wine_brand").val().length > 0) {
+                  $scope.happyhour_wine.brand = $("#Wine_brand").val();
+                }
+                if (!$scope.happyhour_wine.brand) {
+                  $("#Wine_brand_Error").text("Brand is required!");
+                  isTrue = false;
+                } else {
+                  $("#Wine_brand_Error").text("");
+                }
+                if ($("#Wine_type").val().length > 0) {
+                  $scope.happyhour_wine.type = $("#Wine_type").val();
+                }
+
+                if (!$scope.happyhour_wine.type) {
+                  $("#Wine_type_Error").text("Type is required!");
+                  isTrue = false;
+                } else {
+                  $("#Wine_type_Error").text("");
+                }
+
+                if (isTrue) {
+
+                  $("#Wine_btn").prop('disabled', true);
+
+                  if ($scope.wine_start_end_time && $scope.wine_start_end_time.length) {
+
+                    updateImg = () => {
+                      return new Promise((resolve, reject) => {
+                        var fd = new FormData();
+                        fd.append(`wine_0`, $scope.happyHour_Wine_Img[0].imgBlop, $scope.happyHour_Wine_Img[0].imgName);
+                        $http.post('/happyHourImg', fd, { headers: { 'Content-Type': undefined } })
+                          .then((res) => {
+                            let images = [];
+                            if (res && res.data && res.data.isSuccess) {
+                              for (let data of res.data.result) images.push({ name: data.fileName, fullPath: data.path });
+                              resolve({ isSuccess: true, images });
+                            } else
+                              resolve({ isSuccess: false, images });
+                          });
+                      });
+                    };
+
+                    updateImg().then((imgRes) => {
+                      if (imgRes && imgRes.isSuccess) {
+
+                        HappyHourDashDay.upsertHappyHour({
+                          details: {
+                            category: 'Wine', days: $scope.wine_start_end_time, ownerId: $scope.userId, size: $scope.happyhour_wine.size,
+                            brand: $scope.happyhour_wine.brand, type: $scope.happyhour_wine.type, price: $scope.happyhour_wine.price, img: imgRes.images
+                          }
+                        }).$promise.then((res) => {
+
+                          toastMsg(true, "Wine category has been created.");
+
+                          $("input[name='question_type_Wine'], input[name='question_serve_Wine'] , input[name='question_selection_Wine'] , input[name='HH_days_Wine']").each(function () {
+                            $(this).prop('checked', false);
+                          });
+
+                          $("#Wine_Price,#Wine_size,#Wine_brand,#Wine_type").val('');
+
+                          $(".HH_time").each(function () { $(this).val(''); });
+
+                        }, (err) => toastMsg(false, "Not Created. Please try again!"));
+                      }
+                    });
+
+
+                  } else toastMsg(false, "Please select day and Start time, End Time!");
+                }
+              }
+            }
+          } else toastMsg(false, "Please select the Image!");
+        } else toastMsg(false, "Please select the Business!");
+      };
+
+      //Spirit
+      function spiritValueGet() {
+        $scope.happyhour_spirit = { type: null, brand: null, size: null, price: null };
+
+        $scope.happyhour_spirit.price = $("#Spirit_Price").val();
+
+        //Type & Selection and serve
+        $("input[name='question_type_Spirit']").each(function () {
+          switch ($(this).data('namevalue').toString()) {
+            case "Gin":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.type = "Gin";
+              }
+              break;
+            case "Vodka":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.type = "Vodka";
+              }
+              break;
+            case "Rum":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.type = "Rum";
+              }
+              break;
+            case "Whiskey":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.type = "Whiskey";
+              }
+              break;
+            case "Tequila":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.type = "Tequila";
+              }
+              break;
+            case "Brandy":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.type = "Brandy";
+              }
+              break;
+            case "Schnapps":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.type = "Schnapps";
+              }
+              break;
+            case "Cachaca":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.type = "Cachaca";
+              }
+              break;
+            case "Fireballs":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.type = "Fireballs";
+              }
+              break;
+            case "Spirit/s":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.type = "Spirit/s";
+              }
+              break;
+            case "House Spirit/s":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.type = "House Spirit/s";
+              }
+              break;
+          }
+        });
+
+        $("input[name='question_selection_Spirit']").each(function () {
+          switch ($(this).data('namevalue').toString()) {
+            case "House":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.brand = "House";
+              }
+              break;
+            case "Selected":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.brand = "Selected";
+              }
+              break;
+            case "Standard":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.brand = "Standard";
+              }
+              break;
+            case "Premium":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.brand = "Premium";
+              }
+              break;
+          }
+        });
+
+        $("input[name='question_serve_Spirit']").each(function () {
+          switch ($(this).data('namevalue').toString()) {
+            case "Single":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.size = "Single";
+              }
+              break;
+            case "Double":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.size = "Double";
+              }
+              break;
+            case "2 for 1":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_spirit.size = "2 for 1";
+              }
+              break;
+          }
+        });
+      };
+
+      $scope.addSpirit = () => {
+        $scope.spirit_start_end_time = [];
+        spiritValueGet();
+        if ($scope.isBusinessSelect) {
+          if ($scope.happyHour_Spirit_Img && $scope.happyHour_Spirit_Img.length) {
+            $.each($scope.week_days_short, (i, v) => {
+              if ($(`#HH_WD_${v}_Spirit`).is(':checked')) {
+                $scope.spirit_start_end_time.push({ day: v, startTime: $(`#HHourSTime_${v}_Spirit`).val(), endTime: $(`#HHETime_${v}_Spirit`).val() });
+              }
+            });
+
+            var isTrue = true;
+
+            if (!$("#Spirit_Price").val()) {
+              $("#Spirit_price_Error").text("Price is required!");
+              isTrue = false;
+            } else {
+              $("#Spirit_price_Error").text("");
+            }
+
+            if (isTrue) {
+
+              if ($("#Spirit_size").val().length > 0) {
+                $scope.happyhour_spirit.size = $("#Spirit_size").val();
+              }
+              if ($("#Spirit_brand").val().length > 0) {
+                $scope.happyhour_spirit.brand = $("#Spirit_brand").val();
+              }
+              if ($("#Spirit_type").val().length > 0) {
+                $scope.happyhour_spirit.type = $("#Spirit_type").val();
+              }
+
+              if (!$scope.happyhour_spirit.size) {
+                $("#Spirit_size_Error").text("Size is required!");
+                isTrue = false;
+              } else {
+                $("#Spirit_size_Error").text("");
+              }
+
+              if (!$scope.happyhour_spirit.brand) {
+                $("#Spirit_brand_Error").text("Brand is required!");
+                isTrue = false;
+              } else {
+                $("#Spirit_brand_Error").text("");
+              }
+
+              if (!$scope.happyhour_spirit.type) {
+                $("#Spirit_type_Error").text("Type is required!");
+                isTrue = false;
+              } else {
+                $("#Spirit_type_Error").text("");
+              }
+
+              if (isTrue) {
+
+                $("#Spirit_btn").prop('disabled', true);
+
+                if ($scope.spirit_start_end_time && $scope.spirit_start_end_time.length) {
+
+                  updateImg = () => {
+                    return new Promise((resolve, reject) => {
+                      var fd = new FormData();
+                      fd.append(`spirit_0`, $scope.happyHour_Spirit_Img[0].imgBlop, $scope.happyHour_Spirit_Img[0].imgName);
+                      $http.post('/happyHourImg', fd, { headers: { 'Content-Type': undefined } })
+                        .then((res) => {
+                          let images = [];
+                          if (res && res.data && res.data.isSuccess) {
+                            for (let data of res.data.result) images.push({ name: data.fileName, fullPath: data.path });
+                            resolve({ isSuccess: true, images });
+                          } else
+                            resolve({ isSuccess: false, images });
+                        });
+                    });
+                  };
+
+                  updateImg().then((imgRes) => {
+                    if (imgRes && imgRes.isSuccess) {
+
+                      HappyHourDashDay.upsertHappyHour({
+                        details: {
+                          category: 'Spirit', days: $scope.spirit_start_end_time, ownerId: $scope.userId, size: $scope.happyhour_spirit.size,
+                          brand: $scope.happyhour_spirit.brand, type: $scope.happyhour_spirit.type, price: $scope.happyhour_spirit.price, img: imgRes.images
+                        }
+                      }).$promise.then((res) => {
+                        toastMsg(true, "Spirit category has been created.")
+
+                        $("input[name='question_type_Spirit'] , input[name='question_selection_Spirit'] , input[name='question_serve_Spirit'] , input[name='HH_days_Spirit']").each(function () {
+                          $(this).prop('checked', false);
+                        });
+
+                        $(".HH_time").each(function () { $(this).val(''); });
+
+                        $("#Spirit_size, #Spirit_brand , #Spirit_type, #Spirit_Price").val('');
+                      }, (err) => toastMsg(false, "Not Created. Please try again!"));
+                    }
+                    else toastMsg(false, "Please try again!");
+                  });
+
+                } else toastMsg(false, "Please select day and Start time, End Time!");
+              }
+            }
+          } else toastMsg(false, "Please select the Image!");
+        } else toastMsg(false, "Please select the Business!");
+      };
+
+      //Cocktail
+      function cocktailValueGet() {
+
+        $scope.happyhour_cocktail = { price: 0, type: null, brand: null, size: null };
+        //Price
+        $scope.happyhour_cocktail.price = $("#Cocktail_Price").val();
+
+        //Type & Selection and serve
+        $("input[name='question_type_Cocktail']").each(function () {
+          switch ($(this).data('namevalue').toString().replace(" ", "_")) {
+            case "Martini":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cocktail.type = "Martini";
+              }
+              break;
+            case "Espresso_Martini":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cocktail.type = "Espresso Martini";
+              }
+              break;
+            case "Negroni":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cocktail.type = "Negroni";
+              }
+              break;
+            case "Mojito":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cocktail.type = "Mojito";
+              }
+              break;
+            case "Bloody_Mary":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cocktail.type = "Bloody Mary";
+              }
+              break;
+            case "Daiquiri":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cocktail.type = "Daiquiri";
+              }
+              break;
+            case "Mai_Tai":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cocktail.type = "Mai Tai";
+              }
+              break;
+            case "Cocktail/s":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cocktail.type = "Cocktail/s";
+              }
+              break;
+            case "Spritzer/s":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cocktail.type = "Spritzer/s";
+              }
+              break;
+          }
+        });
+        $("input[name='question_selection_Cocktail']").each(function () {
+          switch ($(this).data('namevalue').toString()) {
+            case "Selected":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cocktail.brand = "Selected";
+              }
+              break;
+            case "House":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cocktail.brand = "House";
+              }
+              break;
+          }
+        });
+        $("input[name='question_serve_Cocktail']").each(function () {
+          switch ($(this).data('namevalue').toString()) {
+            case "Glass":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cocktail.size = "Glass";
+              }
+              break;
+            case "Single":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cocktail.size = "Single";
+              }
+              break;
+            case "2 for 1":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cocktail.size = "2 for 1";
+              }
+              break;
+          }
+        });
+      };
+
+      $scope.addCocktail = () => {
+
+        $scope.cocktail_start_end_time = [];
+
+        cocktailValueGet();
+
+        if ($scope.isBusinessSelect) {
+
+          if ($scope.happyHour_Cocktail_Img && $scope.happyHour_Cocktail_Img.length) {
+            $.each($scope.week_days_short, (i, v) => {
+              if ($(`#HH_WD_${v}_Cocktail`).is(':checked')) {
+                $scope.cocktail_start_end_time.push({ day: v, startTime: $(`#HHourSTime_${v}_Cocktail`).val(), endTime: $(`#HHETime_${v}_Cocktail`).val() });
+              }
+            });
+
+            var isTure = true;
+
+            if (isTure) {
+
+              if (!$("#Cocktail_Price").val()) {
+                isTure = false;
+                $("#Cocktail_price_Error").text('Price is required!');
+              } else {
+                $("#Cocktail_price_Error").text('');
+              }
+
+              if ($("#Cocktail_size").val().length > 0) {
+                $scope.happyhour_cocktail.size = $("#Cocktail_size").val();
+              }
+              if ($("#Cocktail_brand").val().length > 0) {
+                $scope.happyhour_cocktail.brand = $("#Cocktail_brand").val();
+              }
+              if ($("#Cocktail_type").val().length > 0) {
+                $scope.happyhour_cocktail.type = $("#Cocktail_type").val();
+              }
+
+              if (!$scope.happyhour_cocktail.size) {
+                $("#Cocktail_size_Error").text('Size is required!');
+                isTure = false;
+              } else {
+                $("#Cocktail_size_Error").text('');
+              }
+
+              if (!$scope.happyhour_cocktail.brand) {
+                $("#Cocktail_brand_Error").text('Brand is required!');
+                isTure = false;
+              } else {
+                $("#Cocktail_brand_Error").text('');
+              }
+
+              if (!$scope.happyhour_cocktail.type) {
+                $("#Cocktail_type_Error").text('Type is required!');
+                isTure = false;
+              } else {
+                $("#Cocktail_type_Error").text('');
+              }
+
+
+              if (isTure) {
+
+                if ($scope.cocktail_start_end_time && $scope.cocktail_start_end_time.length) {
+
+                  updateImg = () => {
+                    return new Promise((resolve, reject) => {
+                      var fd = new FormData();
+                      fd.append(`cocktail_0`, $scope.happyHour_Cocktail_Img[0].imgBlop, $scope.happyHour_Cocktail_Img[0].imgName);
+                      $http.post('/happyHourImg', fd, { headers: { 'Content-Type': undefined } })
+                        .then((res) => {
+                          let images = [];
+                          if (res && res.data && res.data.isSuccess) {
+                            for (let data of res.data.result) images.push({ name: data.fileName, fullPath: data.path });
+                            resolve({ isSuccess: true, images });
+                          } else
+                            resolve({ isSuccess: false, images });
+                        });
+                    });
+                  };
+
+                  updateImg().then((imgRes) => {
+                    if (imgRes && imgRes.isSuccess) {
+                      HappyHourDashDay.upsertHappyHour({
+                        details: {
+                          category: 'Cocktail', days: $scope.cocktail_start_end_time, ownerId: $scope.userId, size: $scope.happyhour_cocktail.size,
+                          brand: $scope.happyhour_cocktail.brand, type: $scope.happyhour_cocktail.type, price: $scope.happyhour_cocktail.price, img: imgRes.images
+                        }
+                      }).$promise.then((res) => {
+
+                        toastMsg(true, "Cocktail category has been created.")
+
+                        $("input[name='question_type_Cocktail'],input[name='question_selection_Cocktail'],input[name='question_serve_Cocktail'],input[name='HH_days_Cocktail']").each(function () {
+                          $(this).prop('checked', false);
+                        });
+
+                        $("#Cocktail_type,#Cocktail_brand,#Cocktail_size,#Cocktail_Price").val('');
+
+                        $("#Cocktail_btn").prop('disabled', true);
+
+                        $(".HH_time").each(function () { $(this).val(''); });
+
+                      }, (err) => toastMsg(false, "Not Created. Please try again!"));
+                    } else toastMsg(false, "Please try again");
+                  });
+                } else toastMsg(false, "Please select day and Start time, End Time!")
+              }
+            }
+          } else toastMsg(false, "Please select the Image!")
+        } else toastMsg(false, "Please select the Business!")
+      };
+
+      //Cider
+      function ciderValueGet() {
+        //startTime and End Time   
+        $scope.happyhour_cider.startTime = $scope.cider_startTime;
+        $scope.happyhour_cider.endTime = $scope.cider_endTime;
+        $scope.happyhour_cider.type = null; $scope.happyhour_cider.brand = null; $scope.happyhour_cider.size = null;
+
+        //Price
+        $scope.happyhour_cider.price = $("#Cider_Price").val();
+
+        //Type & Selection and serve
+        $("input[name='question_type_Cider']").each(function () {
+          switch ($(this).data('namevalue').toString()) {
+            case "Sparkling":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cider.type = "Sparkling";
+              }
+              break;
+            case "Dry":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cider.type = "Dry";
+              }
+              break;
+            case "Sweet":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cider.type = "Sweet";
+              }
+              break;
+            case "Crisp":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cider.type = "Crisp";
+              }
+              break;
+            case "Cider/s":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cider.type = "Cider/s";
+              }
+              break;
+          }
+        });
+        $("input[name='question_selection_Cider']").each(function () {
+          switch ($(this).data('namevalue').toString()) {
+            case "Selected":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cider.brand = "Selected";
+              }
+              break;
+            case "House":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cider.brand = "House";
+              }
+              break;
+            case "Tap":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cider.brand = "Tap";
+              }
+              break;
+          }
+        });
+
+        $("input[name='question_serve_Cider']").each(function () {
+          switch ($(this).data('namevalue').toString()) {
+            case "Bottle":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cider.size = "Bottle";
+              }
+              break;
+            case "Glass":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cider.size = "Glass";
+              }
+              break;
+            case "Schooner":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cider.size = "Schooner";
+              }
+              break;
+            case "2 for 1":
+              if ($(this).prop('checked') == true) {
+                $scope.happyhour_cider.size = "2 for 1";
+              }
+              break;
+          }
+        });
+      };
+
+      $scope.addCider = () => {
+        $scope.cider_start_end_time = [];
+
+        ciderValueGet();
+
+        $.each($scope.week_days_short, (i, v) => {
+          if ($(`#HH_WD_${v}_Cider`).is(':checked')) {
+            $scope.cider_start_end_time.push({ day: v, startTime: $(`#HHourSTime_${v}_Cider`).val(), endTime: $(`#HHETime_${v}_Cider`).val() });
+          }
+        });
+
+        var isTrue = true;
+
+        if ($scope.isBusinessSelect) {
+          if ($scope.happyHour_Cider_Img && $scope.happyHour_Cider_Img.length) {
+            if (isTrue) {
+
+              if (!$("#Cider_Price").val()) {
+                $("#Cider_price_Error").text('Price is required!');
+                isTrue = false;
+              } else {
+                $("#Cider_price_Error").text('');
+              }
+
+              if ($("#Cider_size").val().length > 0) {
+                $scope.happyhour_cider.size = $("#Cider_size").val();
+              }
+              if ($("#Cider_brand").val().length > 0) {
+                $scope.happyhour_cider.brand = $("#Cider_brand").val();
+              }
+              if ($("#Cider_type").val().length > 0) {
+                $scope.happyhour_cider.type = $("#Cider_type").val();
+              }
+
+              if (!$scope.happyhour_cider.size) {
+                $("#Cider_size_Error").text('Size is required!');
+                isTrue = false;
+              } else {
+                $("#Cider_size_Error").text('');
+              }
+
+              if (!$scope.happyhour_cider.brand) {
+                $("#Cider_brand_Error").text('Brand is required!');
+                isTrue = false;
+              } else {
+                $("#Cider_brand_Error").text('');
+              }
+
+              if (!$scope.happyhour_cider.type) {
+                $("#Cider_type_Error").text('Type is required!');
+                isTrue = false;
+              } else {
+                $("#Cider_type_Error").text('');
+              }
+
+              if (isTrue) {
+
+                if ($scope.cider_start_end_time && $scope.cider_start_end_time.length) {
+
+                  updateImg = () => {
+                    return new Promise((resolve, reject) => {
+                      var fd = new FormData();
+                      fd.append(`cider_0`, $scope.happyHour_Cider_Img[0].imgBlop, $scope.happyHour_Cider_Img[0].imgName);
+                      $http.post('/happyHourImg', fd, { headers: { 'Content-Type': undefined } })
+                        .then((res) => {
+                          let images = [];
+                          if (res && res.data && res.data.isSuccess) {
+                            for (let data of res.data.result) images.push({ name: data.fileName, fullPath: data.path });
+                            resolve({ isSuccess: true, images });
+                          } else
+                            resolve({ isSuccess: false, images });
+                        });
+                    });
+                  };
+
+                  updateImg().then((imgRes) => {
+                    if (imgRes && imgRes.isSuccess) {
+
+                      HappyHourDashDay.upsertHappyHour({
+                        details: {
+                          category: 'Cider', days: $scope.cider_start_end_time, ownerId: $scope.userId, size: $scope.happyhour_cider.size,
+                          brand: $scope.happyhour_cider.brand, type: $scope.happyhour_cider.type, price: $scope.happyhour_cider.price, img: imgRes.images
+                        }
+                      }).$promise.then((res) => {
+
+                        toastMsg(true, "Cider category has been created.");
+
+                        $("input[name='question_type_Cider'] , input[name='question_selection_Cider'], input[name='question_serve_Cider'] , input[name='HH_days_Cider']").each(function () {
+                          $(this).prop('checked', false);
+                        });
+
+                        $("#Cider_Price,#Cider_size,#Cider_brand,#Cider_type").val('');
+
+                        $("#Cidere_btn").prop('disabled', true);
+
+                        $(".HH_time").each(function () { $(this).val(''); });
+
+                      }, (err) => toastMsg(false, "Not Created. Please try again!"));
+                    } else toastMsg(false, "Please try again!");
+                  });
+                } else toastMsg(false, "Please select day and Start time, End Time!");
+              }
+            }
+          } else toastMsg(false, "Please select the image!");
+        } else toastMsg(false, "Please select the Business!");
+      };
+
+      $scope.hHourEdit_Save_Modal = (category, ownerId, day) => {
+        HappyHourDashDay.find({ filter: { where: { day, ownerId }, include: [{ relation: 'happyHourDashLines', scope: { include: "happyHourDashSubLines" } }] } }).$promise.then((res) => {
+          if (res && res.length > 0) {
+            $scope.HH_ED_DATA_OBj = {};
+            $scope.HH_ED_DATA_OBj.dataArray = res[0].happyHourDashLines;
+            $scope.HH_ED_DATA_OBj.category = category;
+            $scope.HH_ED_DATA_OBj.ownerId = ownerId;
+            $scope.HH_ED_DATA_OBj.day = day;
+            $("#HH_EDIT_SAVE_Model").modal({ backdrop: 'static', keyboard: false });
+          }
+        });
+      };
+
+      $scope.update_HH_Update = (i, id, category, ownerId, day) => {
+
+        $scope.HH_EDIT_OBJ_UPDATE = {
+          price: $(`#HH_price_edit_${id}`).val(), startTime: $(`#HH_Edit_StartTime_${id}`).val(), endTime: $(`#HH_Edit_EndTime_${id}`).val(),
+          size: $(`#HH_EDIT_SIZE_${id}`).val(), brand: $(`#HH_EDIT_BRAND_${id}`).val(), type: $(`#HH_EDIT_TYPE_${id}`).val()
+        };
+
+
+        HappyHourDashLine.find({ filter: { where: { id }, include: [{ relation: "happyHourDashSubLines" }] } }).$promise.then((res) => {
+          if (res && res.length > 0) {
+            for (let data of res) {
+              if (data && data.id) {
+                HappyHourDashLine.upsertWithWhere({ where: { id: data.id } }, { startTime: $scope.HH_EDIT_OBJ_UPDATE.startTime, endTime: $scope.HH_EDIT_OBJ_UPDATE.endTime });
+              }
+              if (data && data.happyHourDashSubLines && data.happyHourDashSubLines.length > 0) {
+                for (let val of data.happyHourDashSubLines) {
+                  if (val && val.id) {
+                    HappyHourDashSubLine.upsertWithWhere({ where: { id: val.id } }, {
+                      price: $scope.HH_EDIT_OBJ_UPDATE.price, size: $scope.HH_EDIT_OBJ_UPDATE.size,
+                      brand: $scope.HH_EDIT_OBJ_UPDATE.brand, type: $scope.HH_EDIT_OBJ_UPDATE.type
+                    });
+                  }
+                  toastr.success('Successfully Updated!.');
+                  toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                  let HH_firstDate = $("#0_date_HH").data('date'),
+                    HH_first_month = (Number($("#0_date_HH").data('month'))),
+                    HH_first_year = (Number($("#0_date_HH").data('year')));
+                  HH_end_date = (Number($("#6_date_HH").data('date')));
+                  HH_end_month = (Number($("#6_date_HH").data('month')));
+                  HH_end_year = (Number($("#6_date_HH").data('year')));
+                  $scope.happyhourPreview(`${HH_first_year}-${("0" + HH_first_month).slice(-2)}-${("0" + HH_firstDate).slice(-2)}`, `${HH_end_year}-${("0" + HH_end_month).slice(-2)}-${("0" + HH_end_date).slice(-2)}`);
+                }
+              }
+            }
+          }
+        });
+
+        $('#HH_TIMESLOT_0_PREVIEW tbody tr:nth-child(' + (i + 1) + ') td').each(function () {
+          if ($(this).data('name') == 'price') {
+            $(this).html('');
+            $(this).append($scope.HH_EDIT_OBJ_UPDATE.price);
+          } else if ($(this).data('name') == 'type') {
+            $(this).html('');
+            $(this).append($scope.HH_EDIT_OBJ_UPDATE.type);
+          }
+          else if ($(this).data('name') == 'brand') {
+            $(this).html('');
+            $(this).append($scope.HH_EDIT_OBJ_UPDATE.brand);
+          }
+          else if ($(this).data('name') == 'size') {
+            $(this).html('');
+            $(this).append($scope.HH_EDIT_OBJ_UPDATE.size);
+          }
+          else if ($(this).data('name') == 'startTime') {
+            $(this).html('');
+            $(this).append($scope.HH_EDIT_OBJ_UPDATE.startTime);
+          }
+          else if ($(this).data('name') == 'endTime') {
+            $(this).html('');
+            $(this).append($scope.HH_EDIT_OBJ_UPDATE.endTime);
+          }
+        });
+        $(`#HH_EU_EDIT_${id}`).show();
+        $(`#HH_EU_SAVE_${id}`).hide();
+      };
+
+      $scope.update_HH_Edit = (i, id) => {
+
+        $('#HH_TIMESLOT_0_PREVIEW  tbody tr:nth-child(' + (i + 1) + ') td').each((e, v) => {
+          var html = '';
+          if ($(v).data('name') === 'price') {
+            let priceNum = Number($(v).html().trim());
+            html = `<div class="form-group" style = "margin-bottom: 0px !important;" > <input id="HH_price_edit_${id}" class="form-control" style="height: 23px;padding: 2px 2px;" type="number" name="price" value="${priceNum}" placeholder="Price"> </div>`;
+            $(v).html('');
+            $(v).append(html);
+          }
+          if ($(v).data('name') == 'startTime') {
+            let time = $(v).html().trim();
+            html = '';
+            html = `<div class="form-group">
+          <select class="form-control"  style="height: 23px;padding: 2px 2px;" id="HH_Edit_StartTime_${id}">
+          <option ${ (time == "1:00 AM" ? "selected='selected'" : "")}>1:00 AM</option> <option ${(time == "1:30 AM" ? "selected='selected'" : "")}>1:30 AM</option>
+          <option ${ (time == "2:00 AM" ? "selected='selected'" : "")}>2:00 AM</option> <option ${(time == "2:30 AM" ? "selected='selected'" : "")}>2:30 AM</option>
+        <option ${ (time == "3:00 AM" ? "selected='selected'" : "")}>3:00 AM</option> <option ${(time == "3:30 AM" ? "selected='selected'" : "")}>3:30 AM</option>
+         <option ${(time == "4:00 AM" ? "selected='selected'" : "")}>4:00 AM</option><option ${(time == "4:30 AM" ? "selected='selected'" : "")}>4:30 AM</option>
+         <option ${(time == "5:00 AM" ? "selected='selected'" : "")}>5:00 AM</option><option ${(time == "5:30 AM" ? "selected='selected'" : "")}>5:30 AM</option>
+         <option ${(time == "6:00 AM" ? "selected='selected'" : "")}>6:00 AM</option>  <option ${(time == "6:30 AM" ? "selected='selected'" : "")}>6:30 AM</option>
+          <option ${(time == "7:00 AM" ? "selected='selected'" : "")}>7:00 AM</option>  <option ${(time == "7:30 AM" ? "selected='selected'" : "")}>7:30 AM</option>
+        <option ${(time == "8:00 AM" ? "selected='selected'" : "")}>8:00 AM</option>  <option ${(time == "8:30 AM" ? "selected='selected'" : "")}>8:30 AM</option>
+       <option ${(time == "9:00 AM" ? "selected='selected'" : "")}>9:00 AM</option><option ${(time == "9:30 AM" ? "selected='selected'" : "")}>9:30 AM</option>
+         <option ${(time == "10:00 AM" ? "selected='selected'" : "")}>10:00 AM</option> <option ${(time == "10:30 AM" ? "selected='selected'" : "")}>10:30 AM</option>
+        <option ${(time == "11:00 AM" ? "selected='selected'" : "")}>11:00 AM</option> <option ${(time == "11:30 AM" ? "selected='selected'" : "")}>11:30 AM</option>
+      <option ${(time == "12:00 AM" ? "selected='selected'" : "")}>12:00 AM</option> <option ${(time == "12:30 AM" ? "selected='selected'" : "")}>12:30 AM</option>
+      <option ${ (time == "1:00 PM" ? "selected='selected'" : "")}>1:00 PM</option> <option ${(time == "1:30 PM" ? "selected='selected'" : "")}>1:30 PM</option>
+      <option ${ (time == "2:00 PM" ? "selected='selected'" : "")}>2:00 PM</option> <option ${(time == "2:30 PM" ? "selected='selected'" : "")}>2:30 PM</option>
+    <option ${ (time == "3:00 PM" ? "selected='selected'" : "")}>3:00 PM</option> <option ${(time == "3:30 PM" ? "selected='selected'" : "")}>3:30 PM</option>
+     <option ${(time == "4:00 PM" ? "selected='selected'" : "")}>4:00 PM</option><option ${(time == "4:30 PM" ? "selected='selected'" : "")}>4:30 PM</option>
+     <option ${(time == "5:00 PM" ? "selected='selected'" : "")}>5:00 PM</option><option ${(time == "5:30 PM" ? "selected='selected'" : "")}>5:30 PM</option>
+     <option ${(time == "6:00 PM" ? "selected='selected'" : "")}>6:00 PM</option>  <option ${(time == "6:30 PM" ? "selected='selected'" : "")}>6:30 PM</option>
+      <option ${(time == "7:00 PM" ? "selected='selected'" : "")}>7:00 PM</option>  <option ${(time == "7:30 PM" ? "selected='selected'" : "")}>7:30 PM</option>
+    <option ${(time == "8:00 PM" ? "selected='selected'" : "")}>8:00 PM</option>  <option ${(time == "8:30 PM" ? "selected='selected'" : "")}>8:30 PM</option>
+   <option ${(time == "9:00 PM" ? "selected='selected'" : "")}>9:00 PM</option><option ${(time == "9:30 PM" ? "selected='selected'" : "")}>9:30 PM</option>
+     <option ${(time == "10:00 PM" ? "selected='selected'" : "")}>10:00 PM</option> <option ${(time == "10:30 PM" ? "selected='selected'" : "")}>10:30 PM</option>
+    <option ${(time == "11:00 PM" ? "selected='selected'" : "")}>11:00 PM</option> <option ${(time == "11:30 PM" ? "selected='selected'" : "")}>11:30 PM</option>
+          </select>
+         </div>`;
+            $(v).html('');
+            $(v).append(html);
+          }
+          if ($(v).data('name') == 'endTime') {
+            let time = $(v).html().trim();
+            html = '';
+            html = `<div class="form-group">
+          <select class="form-control" style="height: 23px;padding: 2px 2px;" id="HH_Edit_EndTime_${id}">
+          <option ${ (time == "1:00 AM" ? "selected='selected'" : "")}>1:00 AM</option> <option ${(time == "1:30 AM" ? "selected='selected'" : "")}>1:30 AM</option>
+          <option ${ (time == "2:00 AM" ? "selected='selected'" : "")}>2:00 AM</option> <option ${(time == "2:30 AM" ? "selected='selected'" : "")}>2:30 AM</option>
+        <option ${ (time == "3:00 AM" ? "selected='selected'" : "")}>3:00 AM</option> <option ${(time == "3:30 AM" ? "selected='selected'" : "")}>3:30 AM</option>
+         <option ${(time == "4:00 AM" ? "selected='selected'" : "")}>4:00 AM</option><option ${(time == "4:30 AM" ? "selected='selected'" : "")}>4:30 AM</option>
+         <option ${(time == "5:00 AM" ? "selected='selected'" : "")}>5:00 AM</option><option ${(time == "5:30 AM" ? "selected='selected'" : "")}>5:30 AM</option>
+         <option ${(time == "6:00 AM" ? "selected='selected'" : "")}>6:00 AM</option>  <option ${(time == "6:30 AM" ? "selected='selected'" : "")}>6:30 AM</option>
+          <option ${(time == "7:00 AM" ? "selected='selected'" : "")}>7:00 AM</option>  <option ${(time == "7:30 AM" ? "selected='selected'" : "")}>7:30 AM</option>
+        <option ${(time == "8:00 AM" ? "selected='selected'" : "")}>8:00 AM</option>  <option ${(time == "8:30 AM" ? "selected='selected'" : "")}>8:30 AM</option>
+       <option ${(time == "9:00 AM" ? "selected='selected'" : "")}>9:00 AM</option><option ${(time == "9:30 AM" ? "selected='selected'" : "")}>9:30 AM</option>
+         <option ${(time == "10:00 AM" ? "selected='selected'" : "")}>10:00 AM</option> <option ${(time == "10:30 AM" ? "selected='selected'" : "")}>10:30 AM</option>
+        <option ${(time == "11:00 AM" ? "selected='selected'" : "")}>11:00 AM</option> <option ${(time == "11:30 AM" ? "selected='selected'" : "")}>11:30 AM</option>
+      <option ${(time == "12:00 AM" ? "selected='selected'" : "")}>12:00 AM</option> <option ${(time == "12:30 AM" ? "selected='selected'" : "")}>12:30 AM</option>
+      <option ${ (time == "1:00 PM" ? "selected='selected'" : "")}>1:00 PM</option> <option ${(time == "1:30 PM" ? "selected='selected'" : "")}>1:30 PM</option>
+      <option ${ (time == "2:00 PM" ? "selected='selected'" : "")}>2:00 PM</option> <option ${(time == "2:30 PM" ? "selected='selected'" : "")}>2:30 PM</option>
+    <option ${ (time == "3:00 PM" ? "selected='selected'" : "")}>3:00 PM</option> <option ${(time == "3:30 PM" ? "selected='selected'" : "")}>3:30 PM</option>
+     <option ${(time == "4:00 PM" ? "selected='selected'" : "")}>4:00 PM</option><option ${(time == "4:30 PM" ? "selected='selected'" : "")}>4:30 PM</option>
+     <option ${(time == "5:00 PM" ? "selected='selected'" : "")}>5:00 PM</option><option ${(time == "5:30 PM" ? "selected='selected'" : "")}>5:30 PM</option>
+     <option ${(time == "6:00 PM" ? "selected='selected'" : "")}>6:00 PM</option>  <option ${(time == "6:30 PM" ? "selected='selected'" : "")}>6:30 PM</option>
+      <option ${(time == "7:00 PM" ? "selected='selected'" : "")}>7:00 PM</option>  <option ${(time == "7:30 PM" ? "selected='selected'" : "")}>7:30 PM</option>
+    <option ${(time == "8:00 PM" ? "selected='selected'" : "")}>8:00 PM</option>  <option ${(time == "8:30 PM" ? "selected='selected'" : "")}>8:30 PM</option>
+   <option ${(time == "9:00 PM" ? "selected='selected'" : "")}>9:00 PM</option><option ${(time == "9:30 PM" ? "selected='selected'" : "")}>9:30 PM</option>
+     <option ${(time == "10:00 PM" ? "selected='selected'" : "")}>10:00 PM</option> <option ${(time == "10:30 PM" ? "selected='selected'" : "")}>10:30 PM</option>
+    <option ${(time == "11:00 PM" ? "selected='selected'" : "")}>11:00 PM</option> <option ${(time == "11:30 PM" ? "selected='selected'" : "")}>11:30 PM</option>
+      </select>
+         </div>`;
+            $(v).html('');
+            $(v).append(html);
+          }
+          if ($(v).data('name') == 'size') {
+            html = '';
+            let size = $(v).html().trim();
+            html = `<div class="form-group"> <select class="form-control" style="height: 23px;padding: 2px 2px;" id="HH_EDIT_SIZE_${id}"> <option ${(size == "Pint" ? "selected='selected'" : "")}>Pint</option>
+          <option ${(size == "Schooner" ? "selected='selected'" : "")}>Schooner</option> <option ${(size == "Jug" ? "selected='selected'" : "")}>Jug</option> 
+          <option  ${(size == "Pot" ? "selected='selected'" : "")}>Pot</option> <option ${(size == "Ten" ? "selected='selected'" : "")}>Ten</option> 
+          <option ${(size == "Handle" ? "selected='selected'" : "")}>Handle</option>  <option ${(size == "Tasting paddle" ? "selected='selected'" : "")}>Tasting paddle</option> 
+          <option ${(size == "Stubbie" ? "selected='selected'" : "")}>Stubbie</option>  <option ${(size == "Tinnie" ? "selected='selected'" : "")}>Tinnie</option> 
+          <option ${(size == "Bottle/s" ? "selected='selected'" : "")}>Bottle/s</option>  <option ${(size == "2 For 1" ? "selected='selected'" : "")}>2 For 1</option>
+           </select>
+        </div>`;
+            $(v).html('');
+            $(v).append(html);
+          }
+          if ($(v).data('name') == 'brand') {
+            let brand = $(v).html().trim();
+            html = '';
+            html = `<div class="form-group"> <select class="form-control" style="height: 23px;padding: 2px 2px;" id="HH_EDIT_BRAND_${id}"> 
+          <option ${(brand == "House" ? "selected='selected'" : "")}>House</option> <option ${(brand == "Selected" ? "selected='selected'" : "")}>Selected</option>
+          <option ${(brand == "Premium" ? "selected='selected'" : "")}>Premium</option> <option ${(brand == "Tap" ? "selected='selected'" : "")}>Tap</option>
+           </select>
+        </div> `;
+            $(v).html('');
+            $(v).append(html);
+          }
+          if ($(v).data('name') == 'type') {
+            let type = $(v).html().trim();
+            html = '';
+            html = `<div class="form-group"> <select class="form-control" style="height: 23px;padding: 2px 2px;" id="HH_EDIT_TYPE_${id}" > <option ${(type == "Ale" ? "selected='selected'" : "")}>Ale</option> <option ${(type == "Lager" ? "selected='selected'" : "")}>Lager</option>
+          <option ${(type == "Craft Beer/s" ? "selected='selected'" : "")}>Craft Beer/s</option> <option ${(type == "Stout" ? "selected='selected'" : "")}>Stout</option> <option ${(type == "Guiness" ? "selected='selected'" : "")}>Guiness</option> 
+          <option ${(type == "Beer/s" ? "selected='selected'" : "")}>Beer/s</option>  <option ${(type == "Tap Beer/s" ? "selected='selected'" : "")}>Tap Beer/s</option> <option ${(type == "House Beer/s" ? "selected='selected'" : "")}>House Beer/s</option>
+           </select>
+        </div> `;
+            $(v).html('');
+            $(v).append(html);
+          }
+        });
+        $(`#HH_EU_EDIT_${id}`).hide();
+        $(`#HH_EU_SAVE_${id}`).show();
+      };
+
+      $scope.Delete_HH = (i, id, category, ownerId, day) => {
+        if (id) {
+          HappyHourDashLine.find({ filter: { where: { id }, include: [{ relation: "happyHourDashSubLines" }] } }).$promise.then((res) => {
+            if (res && res.length > 0) {
+              for (let dashLine of res) {
+                HappyHourDashLine.deleteById({ id: dashLine.id });
+                if (dashLine.happyHourDashSubLines && dashLine.happyHourDashSubLines.length > 0) {
+                  for (let dashSubLine of dashLine.happyHourDashSubLines) {
+                    HappyHourDashSubLine.deleteById({ id: dashSubLine.id });
+                  }
+                  toastr.success('Successfully Deleted!');
+                  toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                  $scope.hHourEdit_Save_Modal(category, ownerId, day);
+                  let HH_firstDate = $("#0_date_HH").data('date'),
+                    HH_first_month = (Number($("#0_date_HH").data('month'))),
+                    HH_first_year = (Number($("#0_date_HH").data('year')));
+                  HH_end_date = (Number($("#6_date_HH").data('date')));
+                  HH_end_month = (Number($("#6_date_HH").data('month')));
+                  HH_end_year = (Number($("#6_date_HH").data('year')));
+                  $scope.happyhourPreview(`${HH_first_year}-${("0" + HH_first_month).slice(-2)}-${("0" + HH_firstDate).slice(-2)}`, `${HH_end_year}-${("0" + HH_end_month).slice(-2)}-${("0" + HH_end_date).slice(-2)}`);
+                }
+              }
+            }
+          }, () => {
+
+          });
+        }
+      };
+
+      $scope.colapseSetIndex = (parent = 0, child = 0) => {
+        $scope.mealsParentIndex = parent;
+        $scope.mealsChildIndex = child;
+      };
+
+      $scope.deleteMealsCategory = (i, id) => {
+        if (id) {
+          MealsCategory.deleteCategory({ details: { id } }).$promise.then((res) => {
+            if (res.data.isSuccess) {
+              toastr.success('Category Successfully Deleted.');
+              toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+              $scope.getMealsHeader();
+            }
+          }, (err) => {
+            console.log(JSON.stringify(err));
+          });
+        }
+      };
+
+      $scope.daysSelected = (arg, day, sday) => {
+        if ($(`#${arg}${day}`).attr('data-selected') == "true")
+          $(`#${arg}${day}`).attr('data-selected', false).addClass('btnBeforemenu').removeClass('btnAfterMenu').css({ 'background-color': '#757575' }).html(`${sday}`);
+        else
+          $(`#${arg}${day}`).attr('data-selected', true).css({ 'background-color': '#4caf50' }).removeClass('btnBeforemenu').addClass('btnAfterMenu').html(`<i class="fas fa-check"></i> ${sday}`);
+      }
+      
+
+      //NRL
+      $scope.firstandfirstteam = "", $scope.firstandsecondteam = "";
+      $scope.teamFirstChanage = (arg) => {
+        $("#Sports_desc").val('');
+        $scope.firstandfirstteam = arg;
+      };
+
+      $scope.teamSecondChanage = (arg) => {
+        $("#Sports_desc").val('');
+        if ($scope.firstandfirstteam != "") {
+          $scope.firstandsecondteam = arg;
+          $("#Sports_desc").val($scope.firstandfirstteam + " Vs " + arg);
+        }
+      };
+
+      //AFL
+      $scope.aflfirstandfirstteam = "", $scope.aflfirstandsecondteam = "";
+      $scope.alfteamFirstChanage = (arg) => {
+        $("#Sports_desc").val('');
+        $scope.aflfirstandfirstteam = arg;
+      };
+
+      $scope.alfteamSeconfChanage = (arg) => {
+        $("#Sports_desc").val('');
+        if ($scope.aflfirstandfirstteam != "") {
+          $scope.aflfirstandsecondteam = arg;
+          $("#Sports_desc").val($scope.aflfirstandfirstteam + " Vs " + arg);
+        }
+      };
+
+      //Rugby
+      $scope.rugbyfirstandfirstteam = "", $scope.rugbyfirstandsecondteam = "";
+      $scope.RugbyteamFirstChanage = (arg) => {
+        $("#Sports_desc").val('');
+        $scope.rugbyfirstandfirstteam = arg;
+      };
+
+      $scope.RugbyteamSecondChanage = (arg) => {
+        $("#Sports_desc").val('');
+        if ($scope.rugbyfirstandfirstteam != "") {
+          $scope.rugbyfirstandsecondteam = arg;
+          $("#Sports_desc").val($scope.rugbyfirstandfirstteam + " Vs " + arg);
+        }
+      };
+
+      //Special_Events
+      $scope.specialeventsLists = [];
+      $scope.specialeventssubLineArray = []; $scope.specialeventsDashLineArray = [];
+      $scope.AddSpecial_Events = () => {
+        var isTrue = true;
+        if ($scope.isBusinessSelect) {
+          if ($scope.specialEventSelectedDays.length > 0) {
+
+            $scope.events_specialEvents = { startTime: null, endTime: null, description: null };
+
+            if (!$scope.events_specialEvents.startTime) {
+              $scope.events_specialEvents.startTime = $("#Special_Events_startTime").val();
+            }
+            if (!$scope.events_specialEvents.endTime) {
+              $scope.events_specialEvents.endTime = $("#Special_Events_endTime").val();
+            }
+            if (!$scope.events_specialEvents.description) {
+              $scope.events_specialEvents.description = $("#Special_Events_desc").val();
+            }
+
+            $("input[name='question_Special_Events']").each(function () {
+              if ($(this).is(':checked')) {
+                if ($(this).attr('id') == "question_specialEvents_Australiaday_1") {
+                  $scope.events_specialEvents.category = "Australia_Day";
+                } else if ($(this).attr('id') == "question_specialEvents_ANZACday_2") {
+                  $scope.events_specialEvents.category = "ANZAC_Day";
+                }
+                else if ($(this).attr('id') == "question_specialEvents_Mothersday_3") {
+                  $scope.events_specialEvents.category = "Mothers_Day";
+                }
+                else if ($(this).attr('id') == "question_specialEvents_Fathersday_4") {
+                  $scope.events_specialEvents.category = "Fathers_Day";
+                }
+                else if ($(this).attr('id') == "question_specialEvents_Oktoberfest_5") {
+                  $scope.events_specialEvents.category = "Oktoberfest";
+                }
+                else if ($(this).attr('id') == "question_specialEvents_Melbourne_Cup_6") {
+                  $scope.events_specialEvents.category = "Melbourne_Cup";
+                }
+                else if ($(this).attr('id') == "question_specialEvents_Boxingday_6") {
+                  $scope.events_specialEvents.category = "Boxing_Day";
+                }
+                else if ($(this).attr('id') == "question_specialEvents_St_Patrick’s_Day_7") {
+                  $scope.events_specialEvents.category = "St_Patrick’s_Day";
+                }
+                else if ($(this).attr('id') == "question_specialEvents_New_Year’s_8") {
+                  $scope.events_specialEvents.category = "New_Year’s";
+                }
+              }
+            });
+
+            if (!$scope.events_specialEvents.startTime) {
+              $("#Special_Events_startTime_Error").text('Start Time is required!');
+              isTrue = false;
+            } else {
+              $("#Special_Events_startTime_Error").text('');
+            }
+
+            if (!$scope.events_specialEvents.endTime) {
+              $("#Special_Events_endTime_Error").text('End Time is required!');
+              isTrue = false;
+            } else {
+              $("#Special_Events_endTime_Error").text('');
+            }
+
+            if (!$scope.events_specialEvents.description) {
+              $("#Special_Events_details_Error").text('Details Time is required!');
+              isTrue = false;
+            } else {
+              $("#Special_Events_details_Error").text('');
+            }
+
+            if (!$scope.events_specialEvents.category) {
+              $("#Special_Events_category_Error").text('Category is required!');
+              isTrue = false;
+            } else {
+              $("#Special_Events_category_Error").text('');
+            }
+
+            if (!$scope.events_specialEvents.startTime.includes(':')) {
+              $("#Special_Events_startTime_Error").text('Start Time is required!');
+              isTrue = false;
+            } else {
+              $("#Special_Events_startTime_Error").text('');
+            }
+
+            if (!$scope.events_specialEvents.endTime.includes(':')) {
+              $("#Special_Events_endTime_Error").text('End Time is required!');
+              isTrue = false;
+            } else {
+              $("#Special_Events_endTime_Error").text('');
+            }
+
+            if (isTrue) {
+
+              $scope.events_specialEvents.index = ($scope.specialeventsDashLineArray.length == 0 ? 0 : ($scope.specialeventsDashLineArray.length - 1));
+              $scope.specialeventsLists.push(JSON.parse(JSON.stringify($scope.events_specialEvents)));
+              $scope.specialeventsDashLineArray.push({ "startTime": $scope.events_specialEvents.startTime, "endTime": $scope.events_specialEvents.endTime, "category": $scope.events_specialEvents.category });
+              $scope.specialeventssubLineArray.push({ "description": $scope.events_specialEvents.description });
+
+              let dateString = $("#datepicker_Special_Events .datepicker-days thead tr .datepicker-switch").html();
+              let month = (jQuery.inArray(dateString.split(' ')[0], $scope.theMonths)) + 1;
+              let year = dateString.split(' ')[1];
+
+              $("#Special_Events").prop('disabled', true);
+
+              if ($scope.specialeventsDashLineArray.length > 0) {
+
+                DashDate.upsertDashDateForAllEvents({
+                  details: {
+                    date: $scope.specialEventSelectedDays, month: month, year: year, businessId: $scope.userId, mainCategory: "Special_Events", dashLine: $scope.specialeventsDashLineArray, dashSubLine: $scope.specialeventssubLineArray
+                  }
+                }).$promise.then(function (result) {
+                  if (result.data.isSuccess) {
+
+                    $scope.specialeventssubLineArray = [];
+                    $scope.specialeventsDashLineArray = [];
+
+                    $scope.data = { "year": year, "month": month, "dates": $scope.specialEventSelectedDays };
+                    DashDate.getDashdateByDateAndIdForAllEvents({ details: { date: $scope.data, businessId: $scope.userId, mainCategory: "Special_Events" } }).$promise.then(function (res) {
+                      $scope.specialeventsLists = [];
+                      if (res.data.isSuccess) {
+                        if (res.data.res.length > 0) {
+                          var specialeventsObj = {};
+                          $.each(res.data.res[0].dashLines, function (key, val) {
+                            specialeventsObj.startTime = val.startTime;
+                            specialeventsObj.endTime = val.endTime;
+                            specialeventsObj.category = val.category;
+                            $.each(val.dashSubLines, function (k, v) {
+                              specialeventsObj.description = v.description;
+                              specialeventsObj.dashsubLineId = v.id;
+                              specialeventsObj.dashLineId = v.dashLineId;
+                            });
+                            $scope.specialeventsLists.push(JSON.parse(JSON.stringify(specialeventsObj)));
+                          });
+                        } else {
+                          $("#Special_Events_desc").val('');
+                        }
+                      } else {
+                        $("#Special_Events_desc").val('');
+                      }
+
+                    }, function (err) {
+                      console.log(JSON.stringify(err));
+                    });
+
+                    $('input:checkbox.columnSelect_Special_Events , input:checkbox.rowSelect_Special_Events , input[name="question_Special_Events"]').each(function () {
+                      if ($(this).is(':checked'))
+                        $(this).prop('checked', false);
+                    });
+
+                    $("#Special_Events").prop('disabled', false);
+                    $("#Special_Events_desc,#Special_Events_startTime,#Special_Events_endTime").val('');
+                    toastr.success('Special Events has been created.');
+                    toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                  } else {
+                    $("input[name='question_Special_Events']").each(function () {
+                      $(this).prop('checked', false);
+                    });
+                    $("#Special_Events").prop('disabled', false);
+                    $("#Special_Events_desc").val('');
+                    toastr.error('Special Events not created. Please try again!');
+                    toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                  }
+                });
+
+              } else {
+                $("#Special_Events").prop('disabled', false);
+                toastr.error('Please add data!');
+                toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+              }
+
+              $("input[name='question_Special_Events']").each(function () {
+                $(this).prop('checked', false);
+              });
+              $("#Special_Events_desc").val('');
+            }
+
+          } else {
+            toastr.error('Please select the Date!');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+          }
+        } else {
+          toastr.error('Please select the Business!');
+          toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+        }
+      };
+
+      function dataURItoBlob(dataURI) {
+        var byteString;
+        if (dataURI.split(',')[0].indexOf('base64') >= 0)
+          byteString = atob(dataURI.split(',')[1]);
+        else
+          byteString = unescape(dataURI.split(',')[1]);
+
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+        var ia = new Uint8Array(byteString.length);
+        for (var i = 0; i < byteString.length; i++) {
+          ia[i] = byteString.charCodeAt(i);
+        }
+
+        return new Blob([ia], { type: mimeString });
+      };
+
+      $scope.imageDetails = {};
+      $scope.getFilenameandType = (arg, e) => {
+        var df = new Date();
+        if (e.data('name') == "teaserImage") {
+          $scope.imageDetails.teaserImage = '';
+          $scope.imageDetails.teaserImage = arg;
+        }
+        if (e.data('name') == "fullScreenImage") {
+          $scope.imageDetails.fullScreenImage = '';
+          $scope.imageDetails.fullScreenImage = arg;
+        }
+        if (e.data('name') == "whatshotImageAdd") {
+          $scope.imageDetails.whatshotImageAddCrop = '';
+          $scope.imageDetails.whatshotImageAddCrop = Math.random().toString(36).substring(2) + "_" + arg.replace(/ /g, "_");
+        }
+        if (e.data('name') == "eventOrganiser") {
+          $scope.imageDetails.eventOrganiserAddCrop = '';
+          $scope.imageDetails.eventOrganiserAddCrop = Math.random().toString(36).substring(2) + "_" + arg.replace(/ /g, "_");
+        }
+        if (e.data('name') == "Happenings") {
+          $scope.imageDetails.HappeningsAddCrop = '';
+          $scope.imageDetails.HappeningsAddCrop = Math.random().toString(36).substring(2) + "_" + arg.replace(/ /g, "_");
+        }
+        if (e.data('name') == "Beer") {
+          $scope.imageDetails.beerImg = '';
+          $scope.imageDetails.beerImg = Math.random().toString(36).substring(2) + "_" + arg.replace(/ /g, "_");
+        }
+        if (e.data('name') == "Wine") {
+          $scope.imageDetails.wineImg = '';
+          $scope.imageDetails.wineImg = Math.random().toString(36).substring(2) + "_" + arg.replace(/ /g, "_");
+        }
+        if (e.data('name') == "Spirit") {
+          $scope.imageDetails.spiritImg = '';
+          $scope.imageDetails.spiritImg = Math.random().toString(36).substring(2) + "_" + arg.replace(/ /g, "_");
+        }
+        if (e.data('name') == "Cocktail") {
+          $scope.imageDetails.cocktailImg = '';
+          $scope.imageDetails.cocktailImg = Math.random().toString(36).substring(2) + "_" + arg.replace(/ /g, "_");
+        }
+        if (e.data('name') == "Cider") {
+          $scope.imageDetails.ciderImg = '';
+          $scope.imageDetails.ciderImg = Math.random().toString(36).substring(2) + "_" + arg.replace(/ /g, "_");
+        }
+      };
+
+
+      //Sponsors image convert a base64 image into a image file
+      $scope.sponsorTeaserImage = []; $scope.sponsorFullImage = []; $scope.whatshotImage = []; $scope.happyHour_Beer_Img = [];
+      $scope.happyHour_Wine_Img = []; $scope.happyHour_Spirit_Img = []; $scope.happyHour_Cocktail_Img = []; $scope.happyHour_Cider_Img = [];
+      $scope.HappeningsFullImage = [];
+      $scope.imageconverttofile = (data) => {
+        $('#imageCropModal').modal('hide');
+        if ($(".action #btnCrop").data('name') === "teaserImage") {
+          $scope.sponsorTeaserImage = [];
+          $("#upload__btn__wrap2").html('');
+          $(".container .imageBox").css('background-image', '');
+          $("#upload__btn__wrap2").append(`<img src=${data} style="height: 105px;margin-top: -21px;margin-left: -21px;object-fit: cover;" />`);
+          $scope.sponsorTeaserImage.push(dataURItoBlob(data));
+        }
+        else if ($(".action #btnCrop").data('name') === "fullScreenImage") {
+          $scope.sponsorFullImage = [];
+          $("#upload__btn__wrap3").html('');
+          $(".container .imageBox").css('background-image', '');
+          $("#upload__btn__wrap3").append(`<img src=${data} style="height: 105px;margin-top: -21px;margin-left: -21px;    object-fit: cover;" />`);
+          $scope.sponsorFullImage.push(dataURItoBlob(data));
+        }
+        else if ($(".action #btnCrop").data('name') === "whatshotImageAdd") {
+          $scope.whatshotImage = [];
+          $("#upload__btn__wrap1").html('');
+          $(".container .imageBox").css('background-image', '');
+          $("#upload__btn__wrap1").append(`<img src=${data} style="height: 105px;margin-top: -21px;margin-left: -21px;object-fit: cover;" />`);
+          $scope.whatshotImage.push({ imgBlop: dataURItoBlob(data), imgName: $scope.imageDetails.whatshotImageAddCrop });
+        }
+        else if ($(".action #btnCrop").data('name') === "eventOrganiser") {
+          $scope.eventOrganiserFullImage = [];
+          $("#upload__btn__event_organiser").html('');
+          $(".container .imageBox").css('background-image', '');
+          $("#upload__btn__event_organiser").append(`<img src=${data} style="height: 105px;margin-top: -21px;margin-left: -21px;    object-fit: cover;" />`);
+          $scope.eventOrganiserFullImage.push({ imgBlop: dataURItoBlob(data), imgName: $scope.imageDetails.eventOrganiserAddCrop });
+        }
+        else if ($(".action #btnCrop").data('name') === "Happenings") {
+          $scope.eventOrganiserFullImage = [];
+          $("#upload__btn__wrap_Happenings").html('');
+          $(".container .imageBox").css('background-image', '');
+          $("#upload__btn__wrap_Happenings").append(`<img src=${data} style="height: 105px;margin-top: -21px;margin-left: -21px;    object-fit: cover;" />`);
+          $scope.HappeningsFullImage.push({ imgBlop: dataURItoBlob(data), imgName: $scope.imageDetails.HappeningsAddCrop });
+        }
+        else if ($(".action #btnCrop").data("name") === "Beer") {
+          $scope.happyHour_Beer_Img = [];
+          $("#upload__btn__event_Beer").html('');
+          $(".container .imageBox").css('background-image', '');
+          $("#upload__btn__event_Beer").append(`<img src=${data} style="height: 105px;margin-top: -21px;margin-left: -21px;    object-fit: cover;" />`);
+          $scope.happyHour_Beer_Img.push({ imgBlop: dataURItoBlob(data), imgName: $scope.imageDetails.beerImg });
+        }
+        else if ($(".action #btnCrop").data("name") === "Wine") {
+          $("#upload__btn__event_Wine").html('');
+          $(".container .imageBox").css('background-image', '');
+          $("#upload__btn__event_Wine").append(`<img src=${data} style="height: 105px;margin-top: -21px;margin-left: -21px;    object-fit: cover;" />`);
+          $scope.happyHour_Wine_Img = []; $scope.happyHour_Wine_Img.push({ imgBlop: dataURItoBlob(data), imgName: $scope.imageDetails.wineImg });
+        }
+        else if ($(".action #btnCrop").data("name") === "Spirit") {
+          $("#upload__btn__event_Spirit").html('');
+          $(".container .imageBox").css('background-image', '');
+          $("#upload__btn__event_Spirit").append(`<img src=${data} style="height: 105px;margin-top: -21px;margin-left: -21px;    object-fit: cover;" />`);
+          $scope.happyHour_Spirit_Img = []; $scope.happyHour_Spirit_Img.push({ imgBlop: dataURItoBlob(data), imgName: $scope.imageDetails.spiritImg });
+        }
+        else if ($(".action #btnCrop").data("name") === "Cocktail") {
+          $("#upload__btn__event_Cocktail").html('');
+          $(".container .imageBox").css('background-image', '');
+          $("#upload__btn__event_Cocktail").append(`<img src=${data} style="height: 105px;margin-top: -21px;margin-left: -21px;    object-fit: cover;" />`);
+          $scope.happyHour_Cocktail_Img = []; $scope.happyHour_Cocktail_Img.push({ imgBlop: dataURItoBlob(data), imgName: $scope.imageDetails.cocktailImg });
+        }
+        else if ($(".action #btnCrop").data("name") === "Cider") {
+          $("#upload__btn__event_Cider").html('');
+          $(".container .imageBox").css('background-image', '');
+          $("#upload__btn__event_Cider").append(`<img src=${data} style="height: 105px;margin-top: -21px;margin-left: -21px;    object-fit: cover;" />`);
+          $scope.happyHour_Cider_Img = []; $scope.happyHour_Cider_Img.push({ imgBlop: dataURItoBlob(data), imgName: $scope.imageDetails.ciderImg });
+        }
+      };
+
+      $scope.events = [{
+        "title": "Events",
+        "name_id": "Events",
+        "img_url": "fas fa-calendar-alt",
+        "startTime": "",
+        "endTime": "",
+        "desc": "",
+        "types": [
+          {
+            "name": "Poker Night",
+            "id": "events_pokernight_1",
+            "isSelected": false
+          },
+          {
+            "name": "Trivia Night",
+            "id": "events_Trivianight_2",
+            "isSelected": false
+          }
+        ]
+      }, {
+        "title": "Special Events",
+        "name_id": "Special_Events",
+        "img_url": "fas fa-calendar",
+        "startTime": "",
+        "endTime": "",
+        "desc": "",
+        "types": [
+          {
+            "name": "Australia Day",
+            "id": "specialEvents_Australiaday_1",
+            "isSelected": false
+          },
+          {
+            "name": "ANZAC Day",
+            "id": "specialEvents_ANZACday_2",
+            "isSelected": false
+          },
+          {
+            "name": "Mothers Day",
+            "id": "specialEvents_Mothersday_3",
+            "isSelected": false
+          },
+          {
+            "name": "Fathers Day",
+            "id": "specialEvents_Fathersday_4",
+            "isSelected": false
+          },
+          {
+            "name": "Oktoberfest",
+            "id": "specialEvents_Oktoberfest_5",
+            "isSelected": false
+          },
+          {
+            "name": "Melbourne Cup",
+            "id": "specialEvents_Melbourne_Cup_6",
+            "isSelected": false
+          },
+          {
+            "name": "Boxing Day",
+            "id": "specialEvents_Boxingday_6",
+            "isSelected": false
+          }, {
+            "name": "St Patrick’s Day",
+            "id": "specialEvents_St_Patrick’s_Day_7",
+            "isSelected": false
+          }
+          , {
+            "name": "New Year’s",
+            "id": "specialEvents_New_Year’s_8",
+            "isSelected": false
+          }
+        ]
+      }];
+
+      //Weekly Prize
+      $scope.weeklyPrize = {};
+      $scope.weeklyPrizeBronzeError = true; $scope.weeklyPrizeSilverError = true; $scope.weeklyPrizeGoldError = true; $scope.weeklyPrizeplatinumError = true; $scope.weeklyPrizevipError = true;
+      $scope.addWeeklyPrize = () => {
+        $scope.weeklyPrizeBronzeError = false; $scope.weeklyPrizeSilverError = false; $scope.weeklyPrizeGoldError = false; $scope.weeklyPrizeplatinumError = false; $scope.weeklyPrizevipError = false;
+        if ($scope.weeklyPrize) {
+          var isTrue = false;
+          if ($scope.weeklyPrize.bronze) {
+            $scope.weeklyPrizeBronzeError = true;
+            isTrue = true;
+          }
+
+          if ($scope.weeklyPrize.silver) {
+            $scope.weeklyPrizeSilverError = true;
+            isTrue = true;
+          }
+
+          if ($scope.weeklyPrize.gold) {
+            $scope.weeklyPrizeGoldError = true;
+            isTrue = true;
+          }
+
+          if ($scope.weeklyPrize.platinum) {
+            $scope.weeklyPrizeplatinumError = true;
+            isTrue = true;
+          }
+
+          if ($scope.weeklyPrize.vip) {
+            $scope.weeklyPrizevipError = true;
+            isTrue = true;
+          }
+
+          if (isTrue) {
+            $scope.weeklyPrize.ownerId = $scope.userId;
+            WeeklyPrize.create($scope.weeklyPrize)
+              .$promise
+              .then(function (res) {
+                toastr.success('Weekly Price has been created');
+                toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                $scope.weeklyPrizeSelected($scope.userId);
+                $scope.weeklyPrize = null;
+              }, function (err) {
+                console.log(JSON.stringify(err));
+                toastr.error('Weekly Price not created. Please try again!');
+                toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+              });
+          }
+        }
+      };
+
+      $scope.sponsorList = [];
+      $scope.Addsponsors = () => {
+
+        let createSponsor = () => {
+          Sponsor.createAndUpsertWithWhere({ details: { dateArray: dateArraySponsor, month: month, year: year, sponsordata: $scope.sponsor } })
+            .$promise.then(function (result) {
+              $(".rowSelect_sponsor,.columnSelect_sponsor").each(function () { if ($(this).is(':checked')) $(this).prop('checked', false); });
+              $scope.imageDetails = {}; $scope.sponsorTeaserImage = $scope.sponsorFullImage = [];
+              $("#upload__btn__wrap2,#upload__btn__wrap3").html('');
+              $scope.sponsorList.push($scope.sponsor);
+              $scope.sponsor = {};
+              $(`#_addSponser_create_btn`).html('<i class="fa fa-plus"></i> Add').prop('disabled', true);
+              toastMsg(true, "Successfully created.");
+              $("#sponsor_name,#sponsor_video_1").val('');
+              $("#upload__btn__wrap2 .tools .btn-cancel,#upload__btn__wrap3 .tools .btn-cancel").click();
+            });
+        }
+
+        $scope.sponsor = {};
+
+        var fd = new FormData(), cnt = 0, isVaild = false;
+        if ($scope.imageDetails.teaserImage) {
+          $scope.sponsor.teaserImageUrl = "/uploads/" + $scope.imageDetails.teaserImage;
+          fd.append(`file${cnt}`, $scope.sponsorTeaserImage[0], $scope.imageDetails.teaserImage);
+          fd.append(`fileDetails_${cnt}`, $scope.imageDetails.teaserImage);
+          isVaild = true;
+        }
+        cnt++;
+        if ($scope.imageDetails.fullScreenImage) {
+          $scope.sponsor.fullscreenImageUrl = "/uploads/" + $scope.imageDetails.fullScreenImage;
+          fd.append(`file${cnt}`, $scope.sponsorFullImage[0], $scope.imageDetails.fullScreenImage);
+          fd.append(`fileDetails_${cnt}`, $scope.imageDetails.fullScreenImage);
+          isVaild = true;
+        }
+
+        $scope.sponsor.name = $.trim($("#sponsor_name").val());
+        $scope.sponsor.videoUrl = $.trim($("#sponsor_video_1").val());
+
+        var dateArraySponsor = $.map($("#datepicker_sponsor .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+
+        let dateString = $("#datepicker_sponsor .datepicker-days thead tr .datepicker-switch").html(),
+          month = (jQuery.inArray(dateString.split(' ')[0], $scope.theMonths)) + 1,
+          year = dateString.split(' ')[1];
+
+        if (isVaild) {
+          $(`#_addSponser_create_btn`).html('<i class="fas fa-spinner fa-spin"></i> Add').prop('disabled', true);
+          $http.post('/uploadSponsor', fd, { headers: { 'Content-Type': undefined } })
+            .then(function (res) {
+              if (res && res.statusText && res.statusText == "OK") createSponsor();
+            });
+        } else createSponsor();
+      };
+
+
+      $scope.pushNotificationList = [];
+      $scope.addnotification = () => {
+        $scope.pushNotificationList = [];
+        $("#notification_promo_message_err,#notification_promo_code_err").css('display', 'none');
+        $("#notificationAdd").attr('disabled', 'disabled');
+        var dates = $.map($("#datepicker_push_notification .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); })
+          , month = ($("#datepicker_push_notification .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0]
+          , year = ($("#datepicker_push_notification .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1]
+          , monthIndex = monthNames.indexOf(month) + 1;
+        if ($scope.isBusinessSelect) {
+          if (dates.length > 0) {
+            var isTrue = true;
+            $scope.notification_time = null; $scope.notification_promo_code = null; $scope.notification_promo_message = null;
+            $scope.notification_time = $("#notification_start_Time").val();
+            if (!$scope.notification_time) {
+              $("#notificationTimeErr").css('display', 'block'); isTrue = false;
+            }
+
+            if (!$scope.notification_promo_code) {
+              if (!$("#notification_promo_code").val()) {
+                $("#notification_promo_code_err").css('display', 'block'); isTrue = false;
+              } else {
+                $scope.notification_promo_code = $("#notification_promo_code").val();
+              }
+            }
+            if (!$scope.notification_promo_message) {
+              if (!$("#notification_promo_message").val()) {
+                $("#notification_promo_message_err").css('display', 'block'); isTrue = false;
+              } else {
+                $scope.notification_promo_message = $("#notification_promo_message").val();
+              }
+            }
+
+            if (!$scope.notification_title) {
+              if (!$("#notification_title").val()) {
+                $("#notification_title_err").css('display', 'block'); isTrue = false;
+              } else {
+                $scope.notification_title = $("#notification_title").val();
+              }
+            }
+
+            var dataArray = [];
+            if (isTrue) {
+
+              dates.forEach((val, key) => {
+                dataArray.push({
+                  dateUtc: (new Date(`${year}-${("0" + monthIndex).slice(-2)}-${("0" + val).slice(-2)} ${convertTime12to24($scope.notification_time)}`)).toJSON(), month: monthIndex, businessId: $scope.userId, title: $scope.notification_title,
+                  year: year, date: val, promoCode: $scope.notification_promo_code, promoMessage: $scope.notification_promo_message, notificationTime: $scope.notification_time, _24notificationTime: convertTime12to24($scope.notification_time)
+                });
+              });
+
+              BulkNotification.createandupdate({ details: { notificationData: dataArray } }).$promise.then((res) => {
+                if (res.data.isSuccess) {
+                  $(".columnSelect_Push_notification").each(function () {
+                    if ($(this).is(':checked'))
+                      $(this).prop('checked', false);
+                  });
+                  $(".row_Push_notification").each(function () {
+                    if ($(this).is(':checked'))
+                      $(this).prop('checked', false);
+                  });
+                  $("#notification_promo_code,#notification_promo_message,#notification_title").val('');
+                  $scope.data = { "year": year, "month": monthIndex, "dates": dates };
+                  BulkNotification.getDateData({ details: { date: $scope.data, businessId: $scope.userId } }).$promise.then(function (res) {
+                    if (res.data.isSuccess) {
+                      $scope.pushNotificationList = [];
+                      $scope.pushNotificationList = res.data.result;
+                    }
+                  }, function (err) {
+                    console.log(JSON.stringify(err));
+                  });
+                  toastr.success('Notification has been created!');
+                  toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                  $("#notificationAdd").removeAttr("disabled");
+                }
+              }, (err) => {
+                console.log(JSON.stringify(err));
+                $("#notificationAdd").removeAttr("disabled");
+              });
+            } else {
+              toastr.error('Please try again');
+              toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+              $("#notificationAdd").removeAttr("disabled");
+            }
+          } else {
+            toastr.error('Please select date!');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+            $("#notificationAdd").removeAttr("disabled");
+          }
+        } else {
+          toastr.error('Please select business name!');
+          toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+          $("#notificationAdd").removeAttr("disabled");
+        }
+      };
+
+      $scope.pushnotificationDelete = (id, index) => {
+        if (index != null) {
+          $scope.pushNotificationList.splice(index, 1);
+
+          var month = ($("#datepicker_push_notification .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+          var year = ($("#datepicker_push_notification .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+          var monthIndex = monthNames.indexOf(month) + 1;
+
+          BulkNotification.removeBulkNotificationCron({ details: { cronUniqueId: id } }).$promise.then((res) => {
+            toastr.success('Deleted has been successfully!');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+          }, (err) => {
+            toastr.error('Not delete. Please try again!');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+          });
+
+          if ($scope.pushNotificationList.length == 0) {
+            $('#datepicker_push_notification').data('datepicker').setDate(null);
+            $scope.getNotificationSelected(monthIndex, year);
+          }
+        }
+      };
+
+      $scope.editNotification = (id, i) => {
+        $("#notificationEditBtn_" + i).css('display', 'none');
+        $("#notificationUpdateBtn_" + i).css('display', 'block');
+        $('#notificationtable_list tbody tr:nth-child(' + (i + 1) + ') td').each(function () {
+          var html = '';
+          if ($(this).data('name') == 'PromoCode') {
+            html = `<div class="form-group">
+                    <div class="col-md-12"><input type="text" id="notification_promocode" class="form-control" value="${$.trim($(this).html())}" /></div>
+                  </div> `;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') == 'time') {
+            html = `<input type="text" id="notification_time_am_pm_edit" value="${$.trim($(this).html())}" style="padding: 6px 3px;" data-name="notification_time_am_pm_edit"
+          placeholder="Start Time" class="form-control focus time" name="startTime" autocomplete="off" required />
+                     <script>
+                     $(document).ready(function () {
+                      var timeing = ["12:00 AM", "12:15 AM", "12:30 AM", "12:45 AM", "1:00 AM", "1:15 AM", "1:30 AM", "1:45 AM", "2:00 AM", "2:15 AM", "2:30 AM", "2:45 AM", "3:00 AM", "3:15 AM", "3:30 AM", "3:45 AM", "4:00 AM", "4:15 AM", "4:30 AM", "4:45 AM", "5:00 AM", "5:15 AM", "5:30 AM", "5:45 AM", "6:00 AM", "6:15 AM", "6:30 AM", "6:45 AM", "7:00 AM", "7:15 AM", "7:30 AM", "7:45 AM", "8:00 AM", "8:15 AM", "8:30 AM", "8:45 AM", "9:00 AM", "9:15 AM", "9:30 AM", "9:45 AM", "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "1:00 PM", "1:15 PM", "1:30 PM", "1:45 PM", "2:00 PM", "2:15 PM", "2:30 PM", "2:45 PM", "3:00 PM", "3:15 PM", "3:30 PM", "3:45 PM", "4:00 PM", "4:15 PM", "4:30 PM", "4:45 PM", "5:00 PM", "5:15 PM", "5:30 PM", "5:45 PM", "6:00 PM", "6:15 PM", "6:30 PM", "6:45 PM", "7:00 PM", "7:15 PM", "7:30 PM", "7:45 PM", "8:00 PM", "8:15 PM", "8:30 PM", "8:45 PM", "9:00 PM", "9:15 PM", "9:30 PM", "9:45 PM", "10:00 PM", "10:15 PM", "10:30 PM", "10:45 PM", "11:00 PM", "11:15 PM", "11:15 PM", "11:45 PM", "All Day", "Every Day", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Late"];
+                      var timeing_suggestion = new Bloodhound({ datumTokenizer: Bloodhound.tokenizers.whitespace, queryTokenizer: Bloodhound.tokenizers.whitespace, local: timeing });
+                      $('#notification_time_am_pm_edit').typeahead({ minLength: 1 }, { source: timeing_suggestion })
+                    }); $(function () {
+                      $(document).on('keyup keypress keydown click change mousemove mouseleave', '.time', function () {
+                        if ($('.tt-menu .tt-dataset div').length == 1) { $('span.twitter-typeahead .tt-menu').css({ "height": "45px", "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", }) }
+                        else if ($('.tt-menu .tt-dataset div').length == 2) { $('span.twitter-typeahead .tt-menu').css({ "height": "90px", "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", }) } else if ($('.tt-menu .tt-dataset div').length >= 5) { $('span.twitter-typeahead .tt-menu').css({ "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", "overflow-y": "auto", "height": "200px" }) }
+                      })
+                    });
+                    </script>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') == 'promoMessage') {
+            html = `<div class="form-group">
+                    <div class="col-md-12"><input type="text" id="notification_promoMessage" class="form-control" value="${$.trim($(this).html())}" /></div>
+                  </div> `;
+            $(this).html('');
+            $(this).append(html);
+          }
+        });
+      };
+
+      $scope.notificationUpdate = (id, i) => {
+        $scope.notification_obj = {};
+        $scope.notification_obj.time = $.trim($("#notification_time_am_pm_edit").val());
+        $scope.notification_obj.promoCode = $.trim($("#notification_promocode").val());
+        $scope.notification_obj.promoMessage = $.trim($("#notification_promoMessage").val());
+
+        BulkNotification.upsertWithWhere({ where: { id } }, $scope.notification_obj, function (res, err) {
+          if (res) {
+            $("#notificationUpdateBtn_" + i).css('display', 'none');
+            $("#notificationEditBtn_" + i).css('display', 'block');
+            toastr.success('Notification has been updated!');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+          }
+        });
+        $('#notificationtable_list tbody tr:nth-child(' + (i + 1) + ') td').each(function () {
+          if ($(this).data('name') == 'time') {
+            $(this).html('');
+            $(this).append($scope.notification_obj.time);
+          }
+          if ($(this).data('name') == 'PromoCode') {
+            $(this).html('');
+            $(this).append($scope.notification_obj.promoCode);
+          }
+          if ($(this).data('name') == 'promoMessage') {
+            $(this).html('');
+            $(this).append($scope.notification_obj.promoMessage);
+          }
+        });
+      };
+
+      $scope.loyaltyRewayds = [];
+      $scope.getDatebyLoyaltyRewards = (dateNo, month, year) => {
+        $scope.loyaltyRewayds = [];
+        $scope.getLoyaltyRewardsSelected(month, year);
+        if (dateNo && month && year) {
+          let ownerId = $scope.userId;
+          LoyaltyRewards.find({ filter: { where: { dateNo, month, year, ownerId } } }).$promise.then((res) => {
+            if (res && res.length > 0) {
+              $scope.loyaltyRewayds = res;
+            } else {
+              $scope.loyaltyRewayds = [];
+            }
+          }, (err) => {
+            console.log(JSON.stringify(err));
+          });
+        }
+      };
+
+      $scope.editLoyaltyRewardsNotification = (id, i) => {
+        $("#loyalty_rewards_notificationEditBtn_" + i).css('display', 'none');
+        $("#loyalty_rewards_notificationUpdateBtn_" + i).css('display', 'block');
+        $('#loyaltyRewardsTable tbody tr:nth-child(' + (i + 1) + ') td').each(function () {
+          var html = '';
+
+          if ($(this).data('name') == 'startTime') {
+            html = `<input type="text" id="loyalty_notification_time_am_start_edit" value="${$.trim($(this).html())}" style="padding: 6px 3px;" data-name="notification_time_am_pm_edit"
+          placeholder="Start Time" class="form-control focus time" name="startTime" autocomplete="off" required />
+                     <script>
+                     $(document).ready(function () {
+                      var timeing = ["12:00 AM", "12:15 AM", "12:30 AM", "12:45 AM", "1:00 AM", "1:15 AM", "1:30 AM", "1:45 AM", "2:00 AM", "2:15 AM", "2:30 AM", "2:45 AM", "3:00 AM", "3:15 AM", "3:30 AM", "3:45 AM", "4:00 AM", "4:15 AM", "4:30 AM", "4:45 AM", "5:00 AM", "5:15 AM", "5:30 AM", "5:45 AM", "6:00 AM", "6:15 AM", "6:30 AM", "6:45 AM", "7:00 AM", "7:15 AM", "7:30 AM", "7:45 AM", "8:00 AM", "8:15 AM", "8:30 AM", "8:45 AM", "9:00 AM", "9:15 AM", "9:30 AM", "9:45 AM", "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "1:00 PM", "1:15 PM", "1:30 PM", "1:45 PM", "2:00 PM", "2:15 PM", "2:30 PM", "2:45 PM", "3:00 PM", "3:15 PM", "3:30 PM", "3:45 PM", "4:00 PM", "4:15 PM", "4:30 PM", "4:45 PM", "5:00 PM", "5:15 PM", "5:30 PM", "5:45 PM", "6:00 PM", "6:15 PM", "6:30 PM", "6:45 PM", "7:00 PM", "7:15 PM", "7:30 PM", "7:45 PM", "8:00 PM", "8:15 PM", "8:30 PM", "8:45 PM", "9:00 PM", "9:15 PM", "9:30 PM", "9:45 PM", "10:00 PM", "10:15 PM", "10:30 PM", "10:45 PM", "11:00 PM", "11:15 PM", "11:15 PM", "11:45 PM", "All Day", "Every Day", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Late"];
+                      var timeing_suggestion = new Bloodhound({ datumTokenizer: Bloodhound.tokenizers.whitespace, queryTokenizer: Bloodhound.tokenizers.whitespace, local: timeing });
+                      $('#loyalty_notification_time_am_start_edit').typeahead({ minLength: 1 }, { source: timeing_suggestion })
+                    }); $(function () {
+                      $(document).on('keyup keypress keydown click change mousemove mouseleave', '.time', function () {
+                        if ($('.tt-menu .tt-dataset div').length == 1) { $('span.twitter-typeahead .tt-menu').css({ "height": "45px", "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", }) }
+                        else if ($('.tt-menu .tt-dataset div').length == 2) { $('span.twitter-typeahead .tt-menu').css({ "height": "90px", "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", }) } else if ($('.tt-menu .tt-dataset div').length >= 5) { $('span.twitter-typeahead .tt-menu').css({ "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", "overflow-y": "auto", "height": "200px" }) }
+                      })
+                    });
+                    </script>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+          if ($(this).data('name') == 'endTime') {
+            html = `<input type="text" id="loyalty_notification_time_am_end_edit" value="${$.trim($(this).html())}" style="padding: 6px 3px;" data-name="notification_time_am_pm_edit"
+          placeholder="Start Time" class="form-control focus time" name="startTime" autocomplete="off" required />
+                     <script>
+                     $(document).ready(function () {
+                      var timeing = ["12:00 AM", "12:15 AM", "12:30 AM", "12:45 AM", "1:00 AM", "1:15 AM", "1:30 AM", "1:45 AM", "2:00 AM", "2:15 AM", "2:30 AM", "2:45 AM", "3:00 AM", "3:15 AM", "3:30 AM", "3:45 AM", "4:00 AM", "4:15 AM", "4:30 AM", "4:45 AM", "5:00 AM", "5:15 AM", "5:30 AM", "5:45 AM", "6:00 AM", "6:15 AM", "6:30 AM", "6:45 AM", "7:00 AM", "7:15 AM", "7:30 AM", "7:45 AM", "8:00 AM", "8:15 AM", "8:30 AM", "8:45 AM", "9:00 AM", "9:15 AM", "9:30 AM", "9:45 AM", "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "1:00 PM", "1:15 PM", "1:30 PM", "1:45 PM", "2:00 PM", "2:15 PM", "2:30 PM", "2:45 PM", "3:00 PM", "3:15 PM", "3:30 PM", "3:45 PM", "4:00 PM", "4:15 PM", "4:30 PM", "4:45 PM", "5:00 PM", "5:15 PM", "5:30 PM", "5:45 PM", "6:00 PM", "6:15 PM", "6:30 PM", "6:45 PM", "7:00 PM", "7:15 PM", "7:30 PM", "7:45 PM", "8:00 PM", "8:15 PM", "8:30 PM", "8:45 PM", "9:00 PM", "9:15 PM", "9:30 PM", "9:45 PM", "10:00 PM", "10:15 PM", "10:30 PM", "10:45 PM", "11:00 PM", "11:15 PM", "11:15 PM", "11:45 PM", "All Day", "Every Day", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Late"];
+                      var timeing_suggestion = new Bloodhound({ datumTokenizer: Bloodhound.tokenizers.whitespace, queryTokenizer: Bloodhound.tokenizers.whitespace, local: timeing });
+                      $('#loyalty_notification_time_am_end_edit').typeahead({ minLength: 1 }, { source: timeing_suggestion })
+                    }); $(function () {
+                      $(document).on('keyup keypress keydown click change mousemove mouseleave', '.time', function () {
+                        if ($('.tt-menu .tt-dataset div').length == 1) { $('span.twitter-typeahead .tt-menu').css({ "height": "45px", "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", }) }
+                        else if ($('.tt-menu .tt-dataset div').length == 2) { $('span.twitter-typeahead .tt-menu').css({ "height": "90px", "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", }) } else if ($('.tt-menu .tt-dataset div').length >= 5) { $('span.twitter-typeahead .tt-menu').css({ "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", "overflow-y": "auto", "height": "200px" }) }
+                      })
+                    });
+                    </script>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+          if ($(this).data('name') == 'promoCode') {
+            html = `<div class="form-group">
+          <div class="col-md-12"><input type="text" id="loyalty_rewards_promoCode_edit" class="form-control" value="${$.trim($(this).html())}" /></div>
+        </div> `;
+            $(this).html('');
+            $(this).append(html);
+          }
+          if ($(this).data('name') == 'promoMessage') {
+            html = `<div class="form-group">
+          <div class="col-md-12"><input type="text" id="loyalty_rewards_promoMessage_edit" class="form-control" value="${$.trim($(this).html())}" /></div>
+        </div> `;
+            $(this).html('');
+            $(this).append(html);
+          }
+        });
+      };
+
+      $scope.LoyaltyRewardsNotificationUpdate = (id, i) => {
+        var dates = $.map($("#datepicker_loyality_rewards_notification .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); })
+          , month = ($("#datepicker_loyality_rewards_notification .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0]
+          , year = ($("#datepicker_loyality_rewards_notification .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1]
+          , monthIndex = monthNames.indexOf(month) + 1;
+
+        $("#loyalty_rewards_notificationEditBtn_" + i).css('display', 'block');
+        $("#loyalty_rewards_notificationUpdateBtn_" + i).css('display', 'none');
+
+        $scope._12_start_time = $("#loyalty_notification_time_am_start_edit").val();
+
+        $scope._12_end_time = $("#loyalty_notification_time_am_end_edit").val();
+
+        $scope.startDateFormat = (new Date(`${year}-${("0" + monthIndex).slice(-2)}-${("0" + dates[0]).slice(-2)} ${convertTime12to24($scope._12_start_time)}`)).toJSON();
+        $scope.endDateFormat = (new Date(`${year}-${("0" + monthIndex).slice(-2)}-${("0" + dates[0]).slice(-2)} ${convertTime12to24($scope._12_end_time)}`)).toJSON();
+
+        $scope.offsetFormat = (new Date()).getTimezoneOffset();
+
+        $scope.loyaltyRewards = {
+          promoCode: $.trim($("#loyalty_rewards_promoCode_edit").val()), promoMessage: $.trim($("#loyalty_rewards_promoMessage_edit").val()), startTime: $scope._12_start_time, endTime: $scope._12_end_time,
+          _24startTimeFormat: convertTime12to24($scope._12_start_time), _24endTimeFormat: convertTime12to24($scope._12_end_time), offsetHour: ((new Date()).getTimezoneOffset()) / -60, offsetFormat: $scope.offsetFormat,
+          startDateFormat: $scope.startDateFormat, endDateFormat: $scope.endDateFormat
+        };
+
+        if (id) {
+          LoyaltyRewards.upsertWithWhere({ where: { id } }, $scope.loyaltyRewards).$promise.then((res) => {
+            toastr.success('Loyalty rewards successfully updated.');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+          });
+        }
+
+        $('#loyaltyRewardsTable tbody tr:nth-child(' + (i + 1) + ') td').each(function () {
+          if ($(this).data('name') == 'promoCode') {
+            $(this).html('');
+            $(this).append($scope.loyaltyRewards.promoCode);
+          } else if ($(this).data('name') == 'promoMessage') {
+            $(this).html('');
+            $(this).append($scope.loyaltyRewards.promoMessage);
+          }
+          else if ($(this).data('name') == 'startTime') {
+            $(this).html('');
+            $(this).append($scope.loyaltyRewards.startTime);
+          }
+          else if ($(this).data('name') == 'endTime') {
+            $(this).html('');
+            $(this).append($scope.loyaltyRewards.endTime);
+          }
+        });
+
+      };
+
+      $scope.deleteLoyaltyRewards = (id, index) => {
+        $scope.loyaltyRewayds.splice(index, 0);
+        if (index == 0) {
+          $('#datepicker_loyality_rewards_notification').datepicker('setDates', null);
+        }
+        LoyaltyRewards.destroyById({ id }).$promise.then((res) => {
+          if (res && res.count == 1) {
+            toastr.success('Loyalty rewards successfully deleted.');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+            var dates = $.map($("#datepicker_loyality_rewards_notification .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); })
+              , month = ($("#datepicker_loyality_rewards_notification .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0]
+              , year = ($("#datepicker_loyality_rewards_notification .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1]
+              , monthIndex = monthNames.indexOf(month) + 1;
+            $scope.getDatebyLoyaltyRewards(("0" + dates[0]).slice(-2), ("0" + monthIndex).slice(-2), year);
+          } else {
+            toastr.error('Please try again!');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+          }
+        }, (err) => {
+          toastr.error('Please try again!');
+          toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+        });
+      };
+
+      $scope.addLoyaltyRewards = () => {
+        $("#Loyalty_notification_promo_message_err,#Loyalty_notification_promo_code_err,#loyalty_reward_err").css('display', 'none');
+        $("#loyalty_rewards_notificationAdd").attr('disabled', 'disabled');
+        var dates = $.map($("#datepicker_loyality_rewards_notification .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); })
+          , month = ($("#datepicker_loyality_rewards_notification .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0]
+          , year = ($("#datepicker_loyality_rewards_notification .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1]
+          , monthIndex = monthNames.indexOf(month) + 1, ownerId = $scope.userId,
+          isTrue = true, loyaltyRewards = {};
+        if ($scope.isBusinessSelect) {
+          let category = "";
+          $("[name='rewards_notifi_loyalty']:checked").each(function () {
+            category = $(this).val();
+          });
+          if (!category) {
+            isTrue = false;
+            $("#loyalty_reward_err").css('display', 'block');
+          }
+          if (!$("#rewards_notification_promo_code").val()) {
+            isTrue = false;
+            $("#Loyalty_notification_promo_code_err").css('display', 'block');
+          }
+          if (!$("#rewards_notification_promo_message").val()) {
+            isTrue = false;
+            $("#Loyalty_notification_promo_message_err").css('display', 'block');
+          }
+          loyaltyRewards.startTime = $('#rewards_notification_start_Time').val();
+          loyaltyRewards.endTime = $('#rewards_notification_end_Time').val();
+
+          if (isTrue) {
+            $scope.loyaltyRewardsArray = [];
+            if (loyaltyRewards.startTime && loyaltyRewards.endTime) {
+
+              loyaltyRewards._24startTimeFormat = convertTime12to24(loyaltyRewards.startTime);
+              loyaltyRewards._24endTimeFormat = convertTime12to24(loyaltyRewards.endTime);
+
+              month = monthIndex;
+
+              for (let date of dates) {
+                $scope.loyaltyRewardsArray.push({
+                  _24startTimeFormat: loyaltyRewards._24startTimeFormat, _24endTimeFormat: loyaltyRewards._24endTimeFormat, startTime: loyaltyRewards.startTime, endTime: loyaltyRewards.endTime,
+                  offsetFormat: (new Date()).getTimezoneOffset(), offsetHour: ((new Date()).getTimezoneOffset()) / -60, category, year, month: ("0" + month).slice(-2), dateNo: ("0" + date).slice(-2),
+                  startDateFormat: (new Date(year + "-" + ("0" + month).slice(-2) + "-" + ("0" + date).slice(-2) + " " + convertTime12to24(loyaltyRewards.startTime))).toJSON(),
+                  endDateFormat: (new Date(year + "-" + ("0" + month).slice(-2) + "-" + ("0" + date).slice(-2) + " " + convertTime12to24(loyaltyRewards.endTime))).toJSON(),
+                  promoCode: $("#rewards_notification_promo_code").val(), promoMessage: $("#rewards_notification_promo_message").val(), createTs: new Date(), ownerId: $scope.userId,
+                  date: `${year}-${("0" + month).slice(-2)}-${("0" + date).slice(-2)}T00:00:00.000Z`
+                });
+              }
+
+
+              LoyaltyRewards.createandupdate({ details: { data: $scope.loyaltyRewardsArray } }).$promise.then((res) => {
+                if (res && res.data && res.data.isSuccess) {
+                  $("[name='rewards_notifi_loyalty']:checked").each(function () {
+                    $(this).prop('checked', false);
+                  });
+                  $("#rewards_notification_promo_code,#rewards_notification_promo_message,#rewards_notification_end_Time,#rewards_notification_start_Time").val('');
+                  toastr.success('Loyalty rewards successfully created.');
+                  toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                  if (dates && dates.length > 0) {
+                    $scope.getDatebyLoyaltyRewards(("0" + dates[0]).slice(-2), ("0" + month).slice(-2), year);
+                  }
+                } else {
+                  toastr.error('Not updated. please try again!');
+                  toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                }
+              }, (err) => {
+                toastr.error('Not updated. please try again!');
+                toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+              });
+            }
+
+          }
+          $("#loyalty_rewards_notificationAdd").removeAttr('disabled');
+        } else {
+          toastr.error('Please select business name!');
+          toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+          $("#loyalty_rewards_notificationAdd").removeAttr('disabled');
+        }
+      };
+
+
+      //Loyalty
+      $scope.LoyaltyList = [];
+      $scope.addloyality = () => {
+        $scope.LoyaltyList = [];
+        $("#loyalty_category_err,#loyalty_Price_err").css('display', 'none');
+        $("#loyaltyAdd").attr('disabled', 'disabled');
+        var dates = $.map($("#datepicker_loyality .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); })
+          , month = ($("#datepicker_loyality .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0]
+          , year = ($("#datepicker_loyality .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1]
+          , monthIndex = monthNames.indexOf(month) + 1;
+
+        if ($scope.isBusinessSelect) {
+          if (dates.length > 0) {
+            var isTrue = true;
+            $scope.loyaltyTime = null; $scope.loyalty_category = null; $scope.loyalty_price = null;
+
+            $scope.loyalty_category = ($("input[name='loyality_category']:checked").map(function () { return this.value; }).get())[0];
+            $scope.loyaltyTime = $("#loyalty_time").val();
+            $scope.loyalty_price = $("#loyalty_Price").val();
+
+            if (!$scope.loyalty_category) {
+              $("#loyalty_category_err").css('display', 'block'); isTrue = false;
+            }
+
+            if (!$scope.loyalty_price) {
+              $("#loyalty_Price_err").css('display', 'block'); isTrue = false;
+            }
+
+            var dataArray = [];
+            if (isTrue) {
+              dates.forEach((val, key) => {
+                dataArray.push({
+                  mainCategory: "loyalty", loyaltyTimeUTC: (new Date(`${year}-${("0" + monthIndex).slice(-2)}-${("0" + val).slice(-2)} ${convertTime12to24($scope.loyaltyTime)}`)).toJSON(), month: monthIndex, businessId: $scope.userId, category: $scope.loyalty_category,
+                  year: year, date: val, dateFormat: (new Date(`${year}-${("0" + monthIndex).slice(-2)}-${("0" + val).slice(-2)}`)).toJSON(), time12Format: $scope.loyaltyTime, time24Format: convertTime12to24($scope.loyaltyTime), price: $scope.loyalty_price, timeZoneOffSet: (new Date()).getTimezoneOffset()
+                });
+              });
+
+              DashDate.upsertDashDateForLoyalty({ details: { dateArray: dataArray } }).$promise.then((res) => {
+                if (res.data.isSuccess) {
+                  $(".columnSelect_loyality, input[name='loyality_category']:checked, .row_loyality").each(function () {
+                    if ($(this).is(':checked'))
+                      $(this).prop('checked', false);
+                  });
+
+                  $("#loyalty_Price,#loyalty_time").val('');
+                  $scope.data = { "year": year, "month": monthIndex, "dates": dates };
+                  DashDate.getLoyaltyData({ details: { date: $scope.data, businessId: $scope.userId } }).$promise.then(function (res) {
+                    if (res.data.isSuccess) {
+                      toastr.success('Loyalty has been created!');
+                      toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                      $("#loyaltyAdd").removeAttr("disabled");
+                      $scope.loyaltyList = [];
+                      if (res.data.result.length > 0) {
+                        if (res.data.result[0].dashLines.length > 0) {
+                          $scope.loyaltyList = res.data.result[0].dashLines;
+                        }
+                      }
+                    } else {
+                      toastr.error('Loyalty not created!.Please try again');
+                      toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                      $("#loyaltyAdd").removeAttr("disabled");
+                    }
+                  }, function (err) {
+                    toastr.error('Loyalty not created!.Please try again');
+                    toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                    $("#loyaltyAdd").removeAttr("disabled");
+                  });
+                } else {
+                  toastr.error('Loyalty not created!.Please try again');
+                  toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                  $("#loyaltyAdd").removeAttr("disabled");
+                }
+              }, (err) => {
+                toastr.error('Loyalty not created!.Please try again');
+                toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                $("#loyaltyAdd").removeAttr("disabled");
+              });
+            } else {
+              $("#loyaltyAdd").removeAttr("disabled");
+            }
+          } else {
+            toastr.error('Please select date!');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+            $("#loyaltyAdd").removeAttr("disabled");
+          }
+        } else {
+          toastr.error('Please select business name!');
+          toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+          $("#loyaltyAdd").removeAttr("disabled");
+        }
+      };
+      $scope.loyaltyDelete = (id, index) => {
+        $scope.loyaltyList.splice(index, 1);
+
+        DashDate.deleteLoyaltyData({ details: { dashLineId: id } });
+        $('#datepicker_loyality').data('datepicker').setDate(null);
+        toastr.success('Deleted has been successfully!');
+        toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+      };
+      $scope.editloyalty = (id, i) => {
+        $("#loyaltyEditBtn_" + i).css('display', 'none');
+        $("#loyaltyUpdateBtn_" + i).css('display', 'block');
+        $('#loyalty_list_table tbody tr:nth-child(' + (i + 1) + ') td').each(function () {
+          var html = '';
+          if ($(this).data('name') == 'category') {
+            var category = $.trim($(this).html());
+            console.log(category);
+            html = `<div class="form-group">
+          <div class="col-md-12" style="padding-left:10px;padding-right:10px;">
+          <select class="form-control" id="loyalty_edit_category">
+             <option ${(category == "Bronze" ? "selected='selected'" : "")}>Bronze</option>
+               <option ${(category == "Silver" ? "selected='selected'" : "")}>Silver</option>
+            <option ${(category == "Gold" ? "selected='selected'" : "")}>Gold</option>
+             <option ${(category == "Platinum" ? "selected='selected'" : "")}>Platinum</option>
+             <option ${(category == "Vip" ? "selected='selected'" : "")}>Vip</option>
+            </select>
+          </div>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') == 'time') {
+            html = `<input type="text" id="loyalty_time_edit" value="${$.trim($(this).html())}" style="padding: 6px 3px;" data-name="loyalty_time_edit"
+          placeholder="Time" class="form-control focus time" name="time" autocomplete="off" required />
+                     <script>
+                     $(document).ready(function () {
+                      var timeing = ["12:00 AM", "12:15 AM", "12:30 AM", "12:45 AM", "1:00 AM", "1:15 AM", "1:30 AM", "1:45 AM", "2:00 AM", "2:15 AM", "2:30 AM", "2:45 AM", "3:00 AM", "3:15 AM", "3:30 AM", "3:45 AM", "4:00 AM", "4:15 AM", "4:30 AM", "4:45 AM", "5:00 AM", "5:15 AM", "5:30 AM", "5:45 AM", "6:00 AM", "6:15 AM", "6:30 AM", "6:45 AM", "7:00 AM", "7:15 AM", "7:30 AM", "7:45 AM", "8:00 AM", "8:15 AM", "8:30 AM", "8:45 AM", "9:00 AM", "9:15 AM", "9:30 AM", "9:45 AM", "10:00 AM", "10:15 AM", "10:30 AM", "10:45 AM", "11:00 AM", "11:15 AM", "11:30 AM", "11:45 AM", "12:00 PM", "12:15 PM", "12:30 PM", "12:45 PM", "1:00 PM", "1:15 PM", "1:30 PM", "1:45 PM", "2:00 PM", "2:15 PM", "2:30 PM", "2:45 PM", "3:00 PM", "3:15 PM", "3:30 PM", "3:45 PM", "4:00 PM", "4:15 PM", "4:30 PM", "4:45 PM", "5:00 PM", "5:15 PM", "5:30 PM", "5:45 PM", "6:00 PM", "6:15 PM", "6:30 PM", "6:45 PM", "7:00 PM", "7:15 PM", "7:30 PM", "7:45 PM", "8:00 PM", "8:15 PM", "8:30 PM", "8:45 PM", "9:00 PM", "9:15 PM", "9:30 PM", "9:45 PM", "10:00 PM", "10:15 PM", "10:30 PM", "10:45 PM", "11:00 PM", "11:15 PM", "11:15 PM", "11:45 PM", "All Day", "Every Day", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Late"];
+                      var timeing_suggestion = new Bloodhound({ datumTokenizer: Bloodhound.tokenizers.whitespace, queryTokenizer: Bloodhound.tokenizers.whitespace, local: timeing });
+                      $('#loyalty_time_edit').typeahead({ minLength: 1 }, { source: timeing_suggestion })
+                    }); $(function () {
+                      $(document).on('keyup keypress keydown click change mousemove mouseleave', '.time', function () {
+                        if ($('.tt-menu .tt-dataset div').length == 1) { $('span.twitter-typeahead .tt-menu').css({ "height": "45px", "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", }) }
+                        else if ($('.tt-menu .tt-dataset div').length == 2) { $('span.twitter-typeahead .tt-menu').css({ "height": "90px", "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", }) } else if ($('.tt-menu .tt-dataset div').length >= 5) { $('span.twitter-typeahead .tt-menu').css({ "min-width": "" + Math.round($(this).width() + 25) + "px", "max-width": "100px", "overflow-y": "auto", "height": "200px" }) }
+                      })
+                    });
+                    </script>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') == 'price') {
+            html = `<div class="form-group">
+          <div class="col-md-12"><input type="text" id="loyalty_price" class="form-control" value="${$.trim($(this).html())}" /></div>
+        </div> `;
+            $(this).html('');
+            $(this).append(html);
+          }
+        });
+      }
+      $scope.Updateloyalty = (id, i) => {
+
+        var dates = $.map($("#datepicker_loyality .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); })
+          , month = ($("#datepicker_loyality .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0]
+          , year = ($("#datepicker_loyality .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1]
+          , monthIndex = monthNames.indexOf(month) + 1;
+        $("#loyaltyEditBtn_" + i).css('display', 'block');
+        $("#loyaltyUpdateBtn_" + i).css('display', 'none');
+
+        $scope.price = $.trim($("#loyalty_price").val());
+        $scope.category = $.trim($("#loyalty_edit_category :selected").text());
+        $scope._12_time = $.trim($("#loyalty_time_edit").val());
+        $scope._24_time = convertTime12to24($scope._12_time);
+        $scope.timeUtc = (new Date(`${year}-${("0" + monthIndex).slice(-2)}-${("0" + dates[0]).slice(-2)} ${convertTime12to24($scope._12_time)}`)).toJSON();
+        $scope.timeZoneOffSet = (new Date()).getTimezoneOffset();
+
+        DashLine.upsertWithWhere({ where: { id } }, {
+          price: $scope.price, category: $scope.category, _12_time: $scope._12_time, _24_time: $scope._24_time,
+          timeUtc: $scope.timeUtc, timeZoneOffSet: $scope.timeZoneOffSet
+        }).$promise.then((res) => {
+          if (res) {
+            toastr.success('Loyalty has been updated!');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+          }
+        }, (err) => {
+        });
+
+        $('#loyalty_list_table tbody tr:nth-child(' + (i + 1) + ') td').each(function () {
+          if ($(this).data('name') == 'price') {
+            $(this).html('');
+            $(this).append($scope.price);
+          } else if ($(this).data('name') == 'time') {
+            $(this).html('');
+            $(this).append($scope._12_time);
+          }
+          else if ($(this).data('name') == 'category') {
+            $(this).html('');
+            $(this).append($scope.category);
+          }
+        });
+
+      };
+
+      //FreebieDelete
+      $scope.freebieDelete = (dashdateId, dashlineId, category, index, arrayIndex) => {
+        $(".GiveawaysDeleteBtn").css('pointer-events', 'none');
+        $("#freebieDeleteBtn").prop('disabled', true);
+        var items = $.map($("#datepicker_intantPrice .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+        if (items.length > 0) {
+          DashDate.removeDashModelsForFreebie({
+            details: { "dashLineId": dashlineId, "dashDateId": dashdateId }
+          }).$promise.then(function (res) {
+            if (res.data.isSuccess) {
+
+              $scope.freebieList.splice(index, 1);
+              if (arrayIndex != undefined) {
+                $scope.freeSublineArray.splice(arrayIndex, 1);
+              }
+              if ($scope.freebieList.length == 0) {
+                $("#instantStartTime,#instantEndTime,#freebie").val('');
+                $('input:checkbox.columnSelect_InstantPrice,input:checkbox.rowInstantPrice,.frequencyPrice').each(function () {
+                  if ($(this).is(':checked'))
+                    $(this).prop('checked', false);
+                });
+                $('#datepicker_intantPrice').data('datepicker').setDate(null);
+              }
+            }
+            $(".GiveawaysDeleteBtn").css('pointer-events', '');
+          }, function (err) {
+            console.log(JSON.stringify(err));
+          });
+        } else {
+          toastr.error('Please select the date!');
+          toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+          $(".GiveawaysDeleteBtn").css('pointer-events', '');
+        }
+        $("#freebieDeleteBtn").prop('disabled', false);
+        $(".GiveawaysDeleteBtn").css('pointer-events', '');
+      };
+
+      //Events Delete
+      $scope.eventsSubLineDelete = (dashlineId, dashsublineId, category, index, arrayIndex) => {
+        if (dashlineId != null || dashsublineId != null) {
+           if (category == "Sports") {
+            $("#sportsDeleteBtn").prop('disabled', true);
+          }
+          else if (category == "Events") {
+            $("#eventsDeleteBtn").prop('disabled', true);
+          }
+          else if (category == "Special_Events") {
+            $("#specialeventsDeleteBtn").prop('disabled', true);
+          }
+          DashDate.removeDashModels({
+            "details": { "dashSubLineId": dashsublineId, "dashLineId": dashlineId }
+          }, function (result, err) {
+             if (category == "Sports") {
+              if (result.data.isSuccess) {
+                if (result.data.res) {
+                  $scope.sportsLists.splice(index, 1);
+                  $("#sportsDeleteBtn").prop('disabled', false);
+                  if (arrayIndex != undefined) {
+                    $scope.sportsDashLineArray.splice(arrayIndex, 1);
+                    $scope.sportssubLineArray.splice(arrayIndex, 1);
+                  }
+                  if ($scope.sportsLists.length == 0) {
+                    $scope.sportsLists = [];
+                    $scope.sportsDashLineArray = [];
+                    $scope.sportssubLineArray = [];
+                    $("#Sports_startTime").val(''); $("#Sports_endTime").val(''); $("#Sports_desc").val('');
+                    $('#datepicker_Sports').data('datepicker').setDate(null);
+                  }
+
+                }
+              }
+            }
+            else if (category == "Events") {
+              if (result.data.isSuccess) {
+                if (result.data.res) {
+                  $scope.eventsLists.splice(index, 1);
+                  if (arrayIndex != undefined) {
+                    $scope.eventsDashLineArray.splice(arrayIndex, 1);
+                    $scope.eventssubLineArray.splice(arrayIndex, 1);
+                  }
+                  if ($scope.eventsLists.length == 0) {
+                    $scope.eventsLists = [];
+                    $scope.eventsDashLineArray = [];
+                    $scope.eventssubLineArray = [];
+                    $("#Events_startTime").val(''); $("#Events_endTime").val(''); $("#Events_desc").val('');
+                    $('#datepicker_Events').data('datepicker').setDate(null);
+                  }
+
+                  $("#eventsDeleteBtn").prop('disabled', false);
+                }
+              }
+            }
+            else if (category == "Special_Events") {
+              if (result.data.isSuccess) {
+                if (result.data.res) {
+                  $scope.specialeventsLists.splice(index, 1);
+                  if (arrayIndex != undefined) {
+                    $scope.specialeventssubLineArray.splice(arrayIndex, 1);
+                    $scope.specialeventsDashLineArray.splice(arrayIndex, 1);
+                  }
+                  if ($scope.specialeventsLists.length == 0) {
+                    $scope.specialeventsLists = [];
+                    $scope.specialeventssubLineArray = [];
+                    $scope.specialeventsDashLineArray = [];
+                    $("#Special_Events_startTime").val(''); $("#Special_Events_endTime").val(''); $("#Special_Events_desc").val('');
+                    $('#datepicker_Special_Events').data('datepicker').setDate(null);
+                  }
+                  $("#specialeventsDeleteBtn").prop('disabled', false);
+                }
+              }
+            }
+          });
+
+        }
+      };
+
+      //Weekly Prize Delete
+      $scope.weeklyPrizeDelete = (i, id) => {
+        WeeklyPrize.deleteById({ "id": id }).$promise
+          .then(function () {
+            toastr.success('Weekly Price has been Deleted.');
+            toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+            $scope.weeklyPrizeSelected($scope.userId);
+          });
+      };
+
+      //  Freebie find
+      $scope.getfreebieSigledate = (year, month, date) => {
+        if (date.length == 1) {
+          $scope.freebieList = [];
+          $scope.data = { "year": year, "month": month, "dates": date };
+          DashDate.getDashdateByDateAndId({ details: { date: $scope.data, businessId: $scope.userId, category: "Freebie" } }).$promise.then(function (res) {
+            if (res.data.isSuccess) {
+              if (res.data.res) {
+                if (res.data.res.length > 0) {
+                  if (res.data.res[0].dashLines) {
+                    if (res.data.res[0].dashLines.length > 0) {
+                      $.each(res.data.res[0].dashLines, function (key, val) {
+                        $scope.freebieList.push({ "dashDateId": val.dashDateId, "dashLineId": val.id, "freebie": val.freebie, "frequency": val.frequency, "frequencyWeekday": val.frequencyWeekday, "promoCode": val.promoCode, "startTime": val.startTime, "endTime": val.endTime });
+                      });
+                    }
+                  }
+                }
+              }
+            }
+          }, function (err) { console.log(JSON.stringify(err)) });
+        } else {
+          $scope.freebieList = [];
+        }
+      };
+
+
+      //Get Events data
+      $scope.getEventData = (year, month, dates) => {
+        $scope.eventsLists = [];
+        $scope.eventssubLineArray = [];
+        $scope.eventsDashLineArray = [];
+        if (dates.length == 1) {
+          $scope.data = { "year": year, "month": month, "dates": dates };
+          DashDate.getDashdateByDateAndIdForAllEvents({ details: { date: $scope.data, businessId: $scope.userId, mainCategory: "Events" } }).$promise.then(function (res) {
+            $scope.eventsLists = [];
+            $scope.eventssubLineArray = [];
+            $scope.eventsDashLineArray = [];
+            if (res.data.isSuccess) {
+              if (res.data.res.length > 0) {
+                var eventsObj = {};
+                $.each(res.data.res[0].dashLines, function (key, val) {
+                  eventsObj.startTime = val.startTime;
+                  eventsObj.endTime = val.endTime;
+                  eventsObj.category = val.category;
+                  $.each(val.dashSubLines, function (k, v) {
+                    eventsObj.description = v.description;
+                    eventsObj.dashsubLineId = v.id;
+                    eventsObj.dashLineId = v.dashLineId;
+                  });
+                  $scope.eventsLists.push(JSON.parse(JSON.stringify(eventsObj)));
+                });
+              } else {
+                $("#Events_startTime").val(''); $("#Events_endTime").val(''); $("#Events_desc").val('');
+              }
+            } else {
+              $("#Events_startTime").val(''); $("#Events_endTime").val(''); $("#Events_desc").val('');
+            }
+
+          }, function (err) {
+            console.log(JSON.stringify(err));
+          });
+        }
+      };
+
+      //Get Special data
+      $scope.getSpecialEventData = (year, month, dates) => {
+        $scope.specialeventsLists = [];
+        $scope.specialeventssubLineArray = [];
+        $scope.specialeventsDashLineArray = [];
+        if (dates.length == 1) {
+          $scope.data = { "year": year, "month": month, "dates": dates };
+          DashDate.getDashdateByDateAndIdForAllEvents({ details: { date: $scope.data, businessId: $scope.userId, mainCategory: "Special_Events" } }).$promise.then(function (res) {
+            $scope.specialeventsLists = [];
+            $scope.specialeventssubLineArray = [];
+            $scope.specialeventsDashLineArray = [];
+            if (res.data.isSuccess) {
+              if (res.data.res.length > 0) {
+                var specialeventsObj = {};
+                $.each(res.data.res[0].dashLines, function (key, val) {
+                  specialeventsObj.startTime = val.startTime;
+                  specialeventsObj.endTime = val.endTime;
+                  specialeventsObj.category = val.category;
+                  $.each(val.dashSubLines, function (k, v) {
+                    specialeventsObj.description = v.description;
+                    specialeventsObj.dashsubLineId = v.id;
+                    specialeventsObj.dashLineId = v.dashLineId;
+                  });
+                  $scope.specialeventsLists.push(JSON.parse(JSON.stringify(specialeventsObj)));
+                });
+              } else {
+                $("#Special_Events_desc").val('');
+              }
+            } else {
+              $("#Special_Events_desc").val('');
+            }
+
+          }, function (err) {
+            console.log(JSON.stringify(err));
+          });
+        }
+      };
+
+
+      //Sponsor data
+      $scope.getSponsorData = (year, month, dates) => {
+        $scope.sponsorList = [];
+        $scope.isAddImg = true;
+        if (dates.length == 1) {
+          $scope.data = { "year": year, "month": month, "dates": dates };
+          Sponsor.getSponsorByDateandId({ details: { date: $scope.data } }).$promise.then(function (res) {
+            $scope.sponsorList = [];
+            if (res.data.isSuccess) {
+              if (res.data.result.length > 0) {
+                $scope.sponsorList = [];
+                $.each(res.data.result, function (key, val) {
+                  $scope.sponsorList.push({ "name": val.name, "teaserImageUrl": val.teaserImageUrl, "videoUrl": `${val.videoUrl.replace('watch?v=', 'embed/')}`, "fullscreenImageUrl": val.fullscreenImageUrl, id: val.id });
+                });
+              }
+            }
+          }, function (err) {
+            console.log(JSON.stringify(res));
+          });
+        } else {
+          $scope.whatshotList = [];
+        }
+      };
+
+
+      //Notification 
+      $scope.getNotificationData = (dates, month, year) => {
+        if (dates.length == 1) {
+          $scope.data = { "year": year, "month": month, "dates": dates };
+          BulkNotification.getDateData({ details: { date: $scope.data, businessId: $scope.userId } }).$promise.then(function (res) {
+            if (res.data.isSuccess) {
+              $scope.pushNotificationList = [];
+              $scope.pushNotificationList = res.data.result;
+            }
+          }, function (err) {
+            console.log(JSON.stringify(err));
+          });
+        } else {
+          $scope.whatshotList = [];
+        }
+      };
+
+      //Loyalty 
+      $scope.getLoyaltyData = (dates, month, year) => {
+        if (dates.length == 1) {
+          $scope.data = { "year": year, "month": month, "dates": dates };
+          DashDate.getLoyaltyData({ details: { date: $scope.data, businessId: $scope.userId } }).$promise.then(function (res) {
+            if (res.data.isSuccess) {
+              $scope.loyaltyList = [];
+              if (res.data && res.data.result && res.data.result.length) {
+                if (res.data.result[0].dashLines.length) {
+                  $scope.loyaltyList = res.data.result[0].dashLines;
+                }
+              }
+            }
+          }, function (err) {
+            console.log(JSON.stringify(err));
+          });
+        } else {
+          $scope.whatshotList = [];
+        }
+      };
+
+      //Show sub menu
+      $scope.showSubmenu = (arg) => {
+        $(`#opeinghours_Menu,#bistrohours_Menu,#giveaways_Menu,#beverages_Menu,#meals_Menu,#Entertainment_Menu,#Sports_Menu,#Events_Menu,#Special_Events_Menu,
+      #sponsorDisplay,#weeklyPrizeDisplay,#push_notification,#loyalty,#loyaltyRewards`).css('display', 'none');
+
+        $('.collapse').each(function () {
+          if ($(this).hasClass('in')) {
+            $(this).removeClass('in');
+          }
+        });
+
+        if (arg == "opening_hours") {
+          $("#buttonMenu").css('display', 'none');
+          $("#opeinghours_Menu").css('display', 'block');
+          $("#openinghoursCollapse").addClass('in');
+        } else if (arg == "bistro_Hours") {
+          $("#buttonMenu").css('display', 'none');
+          $("#bistrohours_Menu").css('display', 'block');
+          $("#bistrohoursCollapse").addClass('in');
+        }
+        else if (arg == "loyaltyRewards") {
+          $("#buttonMenu").css('display', 'none');
+          $("#loyaltyRewards").css('display', 'block');
+          $("#loyaltyRewardsNotification").addClass('in');
+        }
+        else if (arg == "loyalty") {
+          $("#buttonMenu").css('display', 'none');
+          $("#loyalty").css('display', 'block');
+          $("#loyalty_collapse").addClass('in');
+        }
+        else if (arg == "push_notification") {
+          $("#buttonMenu").css('display', 'none');
+          $("#push_notification").css('display', 'block');
+          $("#pushnotification_collapse").addClass('in');
+        }
+        else if (arg == "giveawys") {
+          $("#buttonMenu").css('display', 'none');
+          $("#giveaways_Menu").css('display', 'block');
+          $("#GiveawaysCollapse").addClass('in');
+        } else if (arg == "beverages") {
+          $("#buttonMenu").css('display', 'none');
+          $("#beveragesCollapse").addClass('in');
+          $("#beverages_Menu").css('display', 'block');
+        }
+        else if (arg == "entertainment") {
+          $("#buttonMenu").css('display', 'none');
+          $("#events_Entertainment").addClass('in');
+          $("#Entertainment_Menu").css('display', 'block');
+        }
+        else if (arg == "sports") {
+          $("#buttonMenu").css('display', 'none');
+          $("#events_Sports").addClass('in');
+          $("#Sports_Menu").css('display', 'block');
+        }
+        else if (arg == "events") {
+          $("#buttonMenu").css('display', 'none');
+          $("#events_Events").addClass('in');
+          $("#Events_Menu").css('display', 'block');
+        }
+        else if (arg == "special_events") {
+          $("#buttonMenu").css('display', 'none');
+          $("#events_Special_Events").addClass('in');
+          $("#Special_Events_Menu").css('display', 'block');
+        }
+        else if (arg == "weeklyPrize") {
+          $("#buttonMenu").css('display', 'none');
+          $("#weeklyPrize").addClass('in');
+          $("#weeklyPrizeDisplay").css('display', 'block');
+        }
+        else if (arg == "sponsor") {
+          $("#buttonMenu").css('display', 'none');
+          $("#sponsor").addClass('in');
+          $("#sponsorDisplay").css('display', 'block');
+        }
+      };
+
+      $scope.goback = () => {
+        $(".btnCard").each(function () {
+          if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+          }
+        });
+        $("#buttonMenu").css('display', 'block');
+        $(`#opeinghours_Menu,#bistrohours_Menu,#giveaways_Menu,#beverages_Menu,#meals_Menu,#Entertainment_Menu,#Sports_Menu,#Events_Menu,#Special_Events_Menu,
+          #sponsorDisplay,#weeklyPrizeDisplay,#push_notification,#loyalty,#loyaltyRewards`).css('display', 'none');
+      };
+
+      var date = new Date();
+
+      //Freebie Edit
+      $scope.freebieeditindex = undefined; $scope.freebieEdit = true;
+      $scope.freebieEdit = (i, arrayIndex) => {
+
+        $('#freebieTable tbody tr:nth-child(' + (i + 1) + ') td').each(function () {
+          var html = ''; let option = "", startTime = "", endTime = "";
+          if ($(this).data('name') === 'startTime') {
+            startTime = $(this).html().split(' ')[0];
+            $($scope.startTimeSelect).each((k, v) => {
+              option += `<option ${(startTime == v ? "selected='selected'" : "")} value=${v}>${v}</option>`;
+            });
+            html = `<div class="form-group"> <div class="col-md-6" style="padding-left:2px;"><select id="giveawaysStartTime_edit" class="form-control" name="giveawaysStartTime_edit">${option}</select></div>
+          <div class="col-md-3 question" style="padding-left:2px;">
+                <input type="checkbox" id="giveaways_start_am_edit_checkbox" ${ ($(this).html().split(' ')[1] == "AM" ? "checked='checked'" : "")} name="giveaways_start_am_pm_checkbox" data-name="AM" value="AM" style="margin: 0px 0 0" />
+                <label for="giveaways_start_am_edit_checkbox" style="margin-bottom:0px;">&nbsp;&nbsp;AM</label>
+          </div>
+         <div class="col-md-3 question" style="padding-left:2px;">
+                 <input type="checkbox" id="giveaways_start_pm_edit_checkbox" ${ ($(this).html().split(' ')[1] == "PM" ? "checked='checked'" : "")} name="giveaways_start_am_pm_checkbox" data-name="PM" value="PM" style="margin: 0px 0 0" />
+                <label for="giveaways_start_pm_edit_checkbox" style="margin-bottom:0px;">&nbsp;&nbsp;PM</label>
+          </div>
+           <script type="text/javascript" rel="stylesheet">
+                 $("input[name='giveaways_start_am_pm_checkbox']").on('change', function () {
+                  $("input[name='giveaways_start_am_pm_checkbox']").not(this).prop('checked', false);
+                });
+           </script> `;
+            $(this).html('');
+            $(this).append(html);
+          } else if ($(this).data('name') === 'endTime') {
+            endTime = $(this).html().split(' ')[0];
+            $($scope.startTimeSelect).each((k, v) => {
+              option += `<option ${(endTime == v ? "selected='selected'" : "")} value=${v}>${v}</option>`;
+            });
+            html = `<div class="form-group">
+           <div class="col-md-6" style="padding-left:2px;">
+              <select id="giveawaysEditTime_edit" class="form-control" name="giveawaysStartTime_edit">${ option}</select>
+          </div>
+          <div class="col-md-3 question" style="padding-left:2px;">
+                <input type="checkbox" id="giveaways_end_am_edit_checkbox" ${ ($(this).html().split(' ')[1] == "AM" ? "checked='checked'" : "")} name="giveaways_end_am_pm_checkbox" data-name="AM" value="AM" style="margin: 0px 0 0" />
+                <label for="giveaways_end_am_edit_checkbox" style="margin-bottom:0px;">&nbsp;&nbsp;AM</label>
+          </div>
+          <div class="col-md-3 question" style="padding-left:2px;">
+                 <input type="checkbox" id="giveaways_end_pm_edit_checkbox" ${ ($(this).html().split(' ')[1] == "PM" ? "checked='checked'" : "")} name="giveaways_end_am_pm_checkbox" data-name="PM" value="PM" style="margin: 0px 0 0" />
+                <label for="giveaways_end_pm_edit_checkbox" style="margin-bottom:0px;">&nbsp;&nbsp;PM</label>
+          </div>
+           <script type="text/javascript" rel="stylesheet">
+                 $("input[name='giveaways_end_am_pm_checkbox']").on('change', function () {
+                  $("input[name='giveaways_end_am_pm_checkbox']").not(this).prop('checked', false);
+                });
+           </script> `;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') === 'frequency') {
+            let option = "", frequencyValue = $(this).html();
+            $(["15", "30", "40", "60", "Weekly"]).each((k, v) => {
+              option += `<option ${(frequencyValue == v ? "selected='selected'" : "")} value=${v}>${v}</option>`;
+            });
+            html = `<div class="form-group"> <select id="freequencyChange_edit" class="form-control" type="text" name="freequencyChange_edit" class="form-control">${option}</select></div>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') === 'freebie') {
+            html = `<div class="form-group"><input id="giveawaysFreebie" class="form-control" type="text" name="myCountry" value="${$(this).html()}" placeholder="Freebie"></div>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+
+          $scope.freebieeditindex = i;
+        });
+      }
+
+      $scope.updateFreebie = (i, arrayIndex) => {
+        $(".GiveawaysUpdateBtn").css('pointer-events', 'none');
+        $scope.freebieeditindex = undefined;
+        let giveawaysStartandEndAmorPm = "", giveawaysEndandEndAmorPm = "";
+        $("input[name='giveaways_start_am_pm_checkbox']:checked").each(function () {
+          giveawaysStartandEndAmorPm = $(this).val();
+        });
+        $("input[name='giveaways_end_am_pm_checkbox']:checked").each(function () {
+          giveawaysEndandEndAmorPm = $(this).val();
+        });
+        var date = new Date();
+        $scope.instantpirce.startTime = ($("#giveawaysStartTime_edit option:selected").text()) + " " + giveawaysStartandEndAmorPm;
+        $scope.instantpirce.endTime = ($("#giveawaysEditTime_edit option:selected").text()) + " " + giveawaysEndandEndAmorPm;
+        $scope.instantpirce.startTimeDateFormat = JSON.parse(JSON.stringify(new Date(`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)} ${(convertTime12to24($scope.instantpirce.startTime))}`)));
+        $scope.instantpirce.endTimeDateFormat = JSON.parse(JSON.stringify(new Date(`${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${("0" + date.getDate()).slice(-2)} ${(convertTime12to24($scope.instantpirce.endTime))}`)));
+        $scope.instantpirce.category = "Freebie";
+
+        $scope.instantpirce.freebie = $("#giveawaysFreebie").val();
+
+        $scope.instantpirce.frequency = $("#freequencyChange_edit option:selected").text();
+
+        if ($scope.freebieList[i].dashDateId != "" || $scope.freebieList[i].dashDateId != null) {
+          $scope.instantpirce.dashDateId = $scope.freebieList[i].dashDateId;
+        }
+        if ($scope.freebieList[i].dashLineId != "" || $scope.freebieList[i].dashLineId != null) {
+          $scope.instantpirce.dashLineId = $scope.freebieList[i].dashLineId;
+        }
+
+        if ($scope.instantpirce.dashDateId) {
+          if ($scope.instantpirce.dashLineId) {
+            if ($scope.instantpirce.dashDateId != "" && $scope.instantpirce.dashLineId != "") {
+              DashLine.upsertWithWhere({ "where": { "id": $scope.instantpirce.dashLineId } }, $scope.instantpirce, function (res) {
+                toastr.success('Giveaways has been updated!');
+                toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+              });
+            }
+          }
+        }
+
+        $(".GiveawaysUpdateBtn").css('pointer-events', '');
+
+        $scope.freebieList[i] = $scope.instantpirce;
+        $('#freebieTable tbody tr:nth-child(' + (i + 1) + ') td').each(function () {
+          if ($(this).data('name') === 'startTime') {
+            $(this).html('');
+            $(this).html($scope.freebieList[i].startTime);
+          }
+          else if ($(this).data('name') === 'endTime') {
+            $(this).html('');
+            $(this).html($scope.freebieList[i].endTime);
+          }
+          else if ($(this).data('name') === 'frequency') {
+            $(this).html('');
+            $(this).html($scope.freebieList[i].frequency);
+          }
+          else if ($(this).data('name') === 'freebie') {
+            $(this).html('');
+            $(this).html($scope.freebieList[i].freebie);
+          }
+
+        });
+        $scope.isfreebieEdit = true; $scope.isfreebieupdate = false;
+        $('.frequencyPrice').each(function () {
+          $(this).prop('checked', false);
+        });
+        $("#freebie").val('');
+        $(".GiveawaysUpdateBtn").css('pointer-events', '');
+      };
+
+      //Weekly Prize Edit & Update
+      $scope.weeklyEditBtn = true;
+      $scope.weeklyDaysEdit = (i, id) => {
+        $scope.weeklyEditBtn = false;
+        $('#weeklyPrizeListtable tbody tr:nth-child(' + (i + 1) + ') td').each(function () {
+          var html = '';
+          if ($(this).data('name') === 'bronze') {
+            html = `<div class="form-group" style = "margin-bottom: 0px !important;" > <textarea id="weeklyprizeBronze" class="form-control" type="text" name="weeklyprizeBronze" placeholder="Bronze">${$.trim($(this).html())}</textarea>   </div > `;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') === 'silver') {
+            html = `<div class="form-group" style = "margin-bottom: 0px !important;" > <textarea id="weeklyprizeSilver" class="form-control" name="weeklyprizeSilver" placeholder="Silver"> ${$.trim($(this).html())}</textarea> </div > `;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') === 'gold') {
+            html = `<div class="form-group" style = "margin-bottom: 0px !important;" > <textarea id="weeklyprizeGold" class="form-control" type="text" name="weeklyprizeGold" placeholder="Gold"> ${$.trim($(this).html())}</textarea> </div > `;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') === 'platinum') {
+            html = `<div class="form-group" style = "margin-bottom: 0px !important;" > <textarea id="weeklyprizePlatinum" class="form-control" type="text" name="weeklyprizePlatinum" placeholder="Platinum"> ${$.trim($(this).html())}</textarea></div > `;
+            $(this).html('');
+            $(this).append(html);
+          }
+          else if ($(this).data('name') === 'vip') {
+            html = `<div class="form-group" style = "margin-bottom: 0px !important;" > <textarea id="weeklyprizeVip" class="form-control" type="text" name="weeklyprizeVip" placeholder="Vip"> ${$.trim($(this).html())} </textarea></div > `;
+            $(this).html('');
+            $(this).append(html);
+          }
+        });
+      };
+
+      $scope.weeklyDaysUpdate = (i, id) => {
+        $scope.weeklyEditBtn = true;
+        $scope.weeklyPrize1 = {};
+        $scope.weeklyPrize1.bronze = $.trim($("#weeklyprizeBronze").val());
+        $scope.weeklyPrize1.silver = $.trim($("#weeklyprizeSilver").val());
+        $scope.weeklyPrize1.gold = $.trim($("#weeklyprizeGold").val());
+        $scope.weeklyPrize1.platinum = $.trim($("#weeklyprizePlatinum").val());
+        $scope.weeklyPrize1.vip = $.trim($("#weeklyprizeVip").val());
+
+        WeeklyPrize.upsertWithWhere({ "where": { id } }, $scope.weeklyPrize1, function (res) {
+          toastr.success('WeeklyPrize has been updated!');
+          toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+        });
+
+        $('#weeklyPrizeListtable tbody tr:nth-child(1) td').each(function () {
+          if ($(this).data('name') === 'bronze') {
+            $(this).html('');
+            $(this).append($scope.weeklyPrize1.bronze);
+          }
+          else if ($(this).data('name') === 'silver') {
+            $(this).html('');
+            $(this).append($scope.weeklyPrize1.silver);
+          }
+          else if ($(this).data('name') === 'gold') {
+            $(this).html('');
+            $(this).append($scope.weeklyPrize1.gold);
+          }
+          else if ($(this).data('name') === 'platinum') {
+            $(this).html('');
+            $(this).append($scope.weeklyPrize1.platinum);
+          }
+          else if ($(this).data('name') === 'vip') {
+            $(this).html('');
+            $(this).append($scope.weeklyPrize1.vip);
+          }
+        });
+      };
+
+      //Sponsor Edit & Update
+      $scope.sponsoreditindex = undefined;
+      $scope.sponsorEdit = (i, id) => {
+        $scope.sponsoreditindex = i;
+        $('#SponsorListTable tbody tr:nth-child(' + (i + 1) + ') td').each(function () {
+          var html = '';
+          if ($(this).data('name') === 'name') {
+            html = `<div class="form-group" style = "margin-bottom: 0px !important;" > <input id="sponsorName" class="form-control" type="text" name="sponsorName" placeholder="Name" value="${$(this).html()}">  </div>`;
+            $(this).html('');
+            $(this).append(html);
+          }
+        });
+      };
+      $scope.sponsorUpdate = (i, id) => {
+        $scope.sponsoreditindex = undefined;
+        $scope.sponsor = {};
+        $scope.sponsor.name = $("#sponsorName").val();
+
+        Sponsor.upsertWithWhere({ "where": { "id": id } }, $scope.sponsor, function (res) {
+          toastr.success('Sponsor has been updated!');
+          toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+        });
+
+        $('#SponsorListTable tbody tr:nth-child(' + (i + 1) + ') td').each(function () {
+          var html = '';
+          if ($(this).data('name') === 'name') {
+            $(this).html('');
+            $(this).append($scope.sponsor.name);
+          }
+        });
+      };
+      $scope.sponsorDelete = (i, id, teaserImgUrl, FullImgUrl) => {
+
+        if (teaserImgUrl) {
+          let fileName = teaserImgUrl.split('/')[2];
+          $http.post('/spaceFileDelete', { fileName })
+        }
+        if (FullImgUrl) {
+          let fileName = FullImgUrl.split('/')[2];
+          $http.post('/spaceFileDelete', { fileName })
+        }
+        if (id) {
+          Sponsor.destroyById({ id }).$promise.then((res)=>{
+            console.log(JSON.stringify(res));
+          });
+          toastMsg(true, "Successfully deleted.");
+
+          $('#datepicker_sponsor .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+            $(tr).find('td').each(function (tr1, td) {
+              if ($("#datepicker_sponsor .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').hasClass('active')) {
+                $("#datepicker_sponsor .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').removeClass('active').removeClass('card');
+              }
+            });
+          });
+          if ($scope.sponsorList.length == 1) {
+            $('#datepicker_sponsor .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+              $(tr).find('td').each(function (tr1, td) {
+                if ($("#datepicker_sponsor .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').hasClass('activeCustom')) {
+                  $("#datepicker_sponsor .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').removeClass('activeCustom').removeClass('card');
+                }
+              });
+            });
+            $('#datepicker_sponsor').datepicker('setDates', null);
+          }
+          $scope.sponsorList.splice(i, 1);
+        } else {
+          toastMsg(false, "Please try again!");
+        }
+      };
+
+    }]);

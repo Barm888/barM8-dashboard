@@ -1,0 +1,1204 @@
+<script>
+    $(".event-tab-header").on('click', function () {
+        $(".event-tab-header").each(function () {
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+<style>
+    .form-control[disabled],
+    .form-control[readonly],
+    fieldset[disabled] .form-control {
+        background-color: #eee !important;
+        opacity: 1;
+        border: 1px solid #0000001f !important;
+    }
+
+    .btn {
+        border-radius: 21px;
+    }
+
+    .card {
+        margin: 0rem 0 0rem 0
+    }
+
+    .box-shadow-2 {
+        -webkit-box-shadow: 0 10px 18px 0 rgba(62, 57, 107, .2);
+        box-shadow: 0 10px 18px 0 rgba(62, 57, 107, .2)
+    }
+
+    .wrapper-content {
+        padding: 20px 10px 0px !important
+    }
+
+    @media(min-width:768px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-primary:active,
+    .btn-primary.active,
+    .open .dropdown-toggle.btn-primary,
+    .btn-primary:active:focus,
+    .btn-primary:active:hover,
+    .btn-primary.active:hover,
+    .btn-primary.active:focus {
+
+        border-color: #4CAF50 !important;
+    }
+
+    .project-tab #tabs {
+        background: #007b5e;
+        color: #eee;
+    }
+
+    .nav-tabs {
+        border-bottom: 0px solid #ddd !important;
+    }
+
+    .project-tab .nav-item {
+        padding: 20px 20px 8px 20px;
+    }
+
+    .project-tab #tabs h6.section-title {
+        color: #eee;
+    }
+
+    .project-tab .nav-item {
+        text-transform: uppercase;
+    }
+
+    .project-tab #tabs .nav-tabs .nav-item.show .nav-link,
+    .nav-tabs .nav-link.active {
+        color: #f9a141;
+        background-color: transparent;
+        border-color: transparent transparent #f3f3f3;
+        border-bottom: 3px solid !important;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .project-tab .nav-link {
+        border: 1px solid transparent;
+        border-top-left-radius: .25rem;
+        border-top-right-radius: .25rem;
+        color: #f9a141;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .project-tab thead {
+        background: #f3f3f3;
+        color: #333;
+    }
+
+    .project-tab a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .tab-div {
+        background-color: #e7eaec69;
+        padding: 20px 40px 12px 20px;
+    }
+
+    .mt-event {
+        margin-top: 2rem;
+    }
+
+    .btn-outline {
+        color: #43a047;
+        background-color: #ffffff;
+        border-color: #43a047;
+        font-weight: bold;
+        letter-spacing: 0.05em;
+    }
+
+    .btn-outline {
+        color: #43a047;
+        background-color: #ffffff;
+        border-color: #43a047;
+        font-weight: bold;
+        border-radius: 0;
+    }
+
+    .btn-outline:hover,
+    .btn-outline:active,
+    .btn-outline:focus,
+    .btn-outline.active {
+        background: #43a047 !important;
+        color: #ffffff;
+        border-color: #43a047;
+    }
+
+    hr {
+        border-top: 1px solid #999;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .label-sub {
+        font-size: 10px;
+        margin: 0 0 0px;
+    }
+
+    .ticket-active {
+        display: block !important;
+        padding: .5rem 1rem !important;
+        border: 1px solid transparent !important;
+        border-top-left-radius: .25rem;
+        border-top-right-radius: .25rem;
+        color: #495057;
+        background-color: #fff;
+        border-color: #dee2e6 #dee2e6 #fff !important;
+    }
+
+    .col-padding {
+        padding-right: 5px !important;
+        padding-left: 5px !important;
+    }
+
+    .box-shadow-2 {
+        -webkit-box-shadow: 0 10px 18px 0 rgba(62, 57, 107, .2);
+        box-shadow: 0 10px 18px 0 rgba(62, 57, 107, .2)
+    }
+
+    .wrapper-content {
+        padding: 20px 10px 0px !important
+    }
+
+    @media(min-width:768px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="assets/css/dashboard.css" />
+<link rel="stylesheet" type="text/css" href="assets/css/radiobutton.css" />
+<link rel="stylesheet" type="text/css" href="css/material-radio.css" />
+<div class="wrapper wrapper-content" id="viewEvent" ng-controller="viewEventCtl">
+    <div class="m-t-sm" style="margin-top:3rem;">
+        <section id="tabs" class="project-tab">
+            <div class="row card">
+                <div
+                    class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-xl-8 col-xl-offset-2">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                            <h2>{{viewEventObj.title}}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 tab-div">
+                    <div class="row">
+                        <div
+                            class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-xl-8 col-xl-offset-2">
+                            <nav>
+                                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                    <a class="nav-item nav-link active event-tab-header" id="nav-event-tab"
+                                        data-toggle="tab" data-target="#nav-event-create" href="javascript:;" role="tab"
+                                        aria-controls="nav-home" aria-selected="true">Event
+                                        Details</a>
+                                    <a class="nav-item nav-link event-tab-header" id="nav-ticket-tab" data-toggle="tab"
+                                        ng-click="businessVaild(true)" data-target="#nav-ticket-type"
+                                        href="javascript:;" role="tab" aria-controls="nav-ticket-type"
+                                        aria-selected="false">Ticket
+                                        Details</a>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade event-tab-content active in" id="nav-event-create" role="tabpanel"
+                            aria-labelledby="nav-home-tab">
+                            <div class="row mt-event">
+                                <div
+                                    class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-xl-8 col-xl-offset-2">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div class="form-group">
+                                                <label>Are you selling tickets with BarM8?
+                                                    &nbsp;
+                                                    <span id="example" class="pop" data-toggle="popover"
+                                                        data-placement="right"
+                                                        data-content="Events that don’t require ticket sales through BarM8 can still be listed for promotional purposes."><i
+                                                            class="far fa-question-circle"
+                                                            style="font-size: 15px;"></i></span>
+                                                </label>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <div class="md-radio md-radio-inline">
+                                                            <input id="event_selling_yes" type="radio"
+                                                                name="event-ticket-selling-r" value="true"
+                                                                ng-disabled="true"
+                                                                ng-checked="viewEventObj.SellTicketToBarM8">
+                                                            <label for="event_selling_yes">Yes</label>
+                                                        </div>
+                                                        <div class="md-radio md-radio-inline">
+                                                            <input id="event_selling_no" value="false" type="radio"
+                                                                name="event-ticket-selling-r" ng-disabled="true"
+                                                                ng-checked="!viewEventObj.SellTicketToBarM8">
+                                                            <label for="event_selling_no">No</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div class="form-group">
+                                                <label for="eventHeader">Event Title<span
+                                                        style="color: red;">*</span></label>
+                                                <input type="text" class="form-control" ng-disabled="true"
+                                                    ng-model="viewEventObj.title" id="eventTitle">
+                                                <span id="event-t-Error" style="color:red;display:none;">Event
+                                                    title
+                                                    is
+                                                    required!</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div class="form-group">
+                                                <label for="organiser_venue">Event
+                                                    Organiser<span style="color: red;">*</span></label>
+                                                <p class="label-sub">The name of the person or
+                                                    group
+                                                    putting on the event
+                                                </p>
+                                                <input type="text" class="form-control" ng-disabled="true"
+                                                    ng-model="viewEventObj.organiser.name" id="event_organiser_name">
+                                                <span id="event-t-organ-name-error"
+                                                    style="color:red;display:none;">Organiser
+                                                    name
+                                                    is
+                                                    required!</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div class="form-group">
+                                                <label for="organiser_details">Organiser
+                                                    Description<span style="color: red;">*</span></label>
+                                                <textarea class="form-control" rows="2" ng-disabled="true"
+                                                    ng-model="viewEventObj.organiser.desc"
+                                                    id="event_organiser_details"></textarea>
+                                                <span id="event-t-organ-desc-error"
+                                                    style="color:red;display:none;">Organiser
+                                                    description is
+                                                    required!</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                            <label>Organiser Image</label>
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                                    <div class="form-group">
+                                                        <img class="img-thumbnail" src=""
+                                                            ng-src="{{viewEventObj.organiser.img[0].fullPath}}"
+                                                            style="width: 200px; height: 120px; object-fit: cover;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div class="form-group">
+                                                <label for="organiser_details">Artists and
+                                                    guest</label>
+                                                <p class="label-sub">Any performers, speakers or
+                                                    artists that are
+                                                    appearing at the event</p>
+                                                <textarea class="form-control" rows="2" ng-model="viewEventObj.artist"
+                                                    id="event_artists_guest"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                            <div class="form-group">
+                                                <label for="usr">Age Restriction <span
+                                                        style="color: red;">*</span></label>
+                                                <select class="form-control" ng-disabled="true" id="ageRegistriction">
+                                                    <option ng-repeat="age in eventAgeRegtriction"
+                                                        ng-selected="viewEventObj.ageRestrict==age" value="{{age}}">
+                                                        {{age}}
+                                                    </option>
+                                                </select>
+                                                <span id="event-age-restriction-error"
+                                                    style="color:red;display:none;">Age
+                                                    restriction is required!</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                            <div class="form-group">
+                                                <label for="eventCategory">Select category <span
+                                                        style="color: red;">*</span></label>
+                                                <select class="form-control" id="eventCategory" ng-model="categoryId"
+                                                    ng-selected="viewEventObj.eventCategoryId"
+                                                    ng-options="list.id as list.category for list in eventCategories track by list.id">
+                                                    <option value="">Please select...</option>
+                                                </select>
+                                                <span id="event-category-error" style="color:red;display:none;">Category
+                                                    is required!</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                            <div class="form-group">
+                                                <label for="usr">Select Genre <span style="color: red;">*</span></label>
+                                                <select class="form-control"
+                                                    ng-init="eventGenre=eventGenreArrayList.default"
+                                                    ng-model="eventGenre"
+                                                    ng-options="list.is as list.name for list in eventGenreArrayList track by list.id">
+                                                    <option value="">Please select...</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <h2> <i class="far fa-image"></i> &nbsp;Event Image
+                                            </h2>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+
+                                            <div class="form-group"
+                                                ng-show="viewEventObj.img && viewEventObj.img.length">
+                                                <script>  $(document).ready(() => { $(".event_popover").popover({ trigger: "hover" }); });</script>
+                                                <span style="position: absolute;left: 13rem;bottom: 7.5rem;"
+                                                    ng-show="isEdit" data-toggle="popover" data-placement="top"
+                                                    data-content="Delete" class="pull-right event_popover"><button
+                                                        class="btn" ng-click="deleteImg('eventImg', viewEventObj.id)"
+                                                        style="background-color: #d50000 !important;padding: 1px 6px!important;"><i
+                                                            class="fas fa-times"></i></button></span>
+                                                <img class="img-thumbnail" ng-src="{{viewEventObj.img[0].fullPath}}"
+                                                    style="width: 200px; height: 120px; object-fit: cover;">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                            <h4 style="color: #999;font-weight:400;">Event
+                                                thumbnail
+                                            </h4>
+                                            <p><i class="far fa-image" style="font-size: 3rem;color: #999;"></i>
+                                            </p>
+                                            <b style="color: #999;"> Visible on the event page
+                                                and
+                                                in search results</b>
+                                            <p style="color: #999;font-size:10px;">Recommended
+                                                size
+                                                600x600px</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <h2> &nbsp;Description</h2>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div class="form-group">
+                                                <label for="event_venue">Teaser</label>
+                                                <p class="label-sub">A one-liner that describes
+                                                    the
+                                                    event, visible in
+                                                    search results and the evnet page</p>
+                                                <input type="text" class="form-control" ng-disabled="true"
+                                                    ng-model="viewEventObj.teaserMsg" id="event_teaser_desc">
+                                                <span id="event-teaser-error" style="color:red;display:none;">Teaser
+                                                    is
+                                                    required!</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div class="form-group" style="margin-bottom: 1rem;">
+                                                <label>Full description</label>
+                                                <p class="label-sub">Displayed on the event
+                                                    page,
+                                                    outlining anything
+                                                    people need to know about your event.</p>
+                                                <textarea class="form-control" ng-disabled="true"
+                                                    ng-model="viewEventObj.fullDesc" id="event-full-desc"></textarea>
+                                                <span id="event-full-desc-error" style="color:red;display:none;">Full
+                                                    description is required!</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                            <h2> <i class="far fa-calendar-alt"></i> &nbsp;Dates
+                                            </h2>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                            <p class="label-sub" style="text-align: right;margin-top:2rem;">
+                                                Dates
+                                                &
+                                                times follow the venue timezone</p>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-show="eventsDateList && eventsDateList.length">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div class="table-resposive card"
+                                                style="margin: 1rem 0 1rem 0;padding: 4px;">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Date</th>
+                                                            <th>Start Time</th>
+                                                            <th>End Time</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="(key, value) in eventsDateList">
+                                                            <td>{{value.date}}</td>
+                                                            <td>{{value.startTime}}</td>
+                                                            <td>{{value.endTime}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                            <label for="usr">Announcement date</label>
+                                            <div class="row">
+                                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" ng-disabled="true"
+                                                            value="{{viewEventObj.announceDate}}" id="announcement_date"
+                                                            placeholder="01-08-2019">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" ng-disabled="true"
+                                                            ng-model="viewEventObj.announceTime" id="announcement_time"
+                                                            placeholder="02:00 PM">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <h2> &nbsp;Venue</h2>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" ng-disabled="true"
+                                                    ng-model="viewEventObj.venue.name" id="events_venue_name"
+                                                    placeholder="Enter the venue's name">
+                                                <span id="event-venue-name-error" style="color:red;display:none;">Venue
+                                                    name is required!</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" ng-disabled="true"
+                                                    ng-model="viewEventObj.venue.address" id="events_venue_address"
+                                                    placeholder="Address">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" ng-disabled="true"
+                                                    ng-model="viewEventObj.venue.city" id="events_venue_city"
+                                                    placeholder="City">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" ng-disabled="true"
+                                                    ng-model="viewEventObj.venue.state" id="events_venue_state"
+                                                    placeholder="State">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" ng-disabled="true"
+                                                    ng-model="viewEventObj.venue.zip" id="events_venue_zip"
+                                                    placeholder="Zip/code">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade event-tab-content" id="nav-ticket-type" role="tabpanel"
+                            aria-labelledby="nav-profile-tab">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="row">
+                                        <div class="col-xs-12 com-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <h2 style="margin-top:0px;">
+                                                <i class="fas fa-cog"></i> Ticket Settings
+                                            </h2>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 com-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div class="card" style="padding:10px 20px;">
+                                                <div class="row">
+                                                    <div class="col-xs-2 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <h3>Fees</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                                        <div class="md-radio md-radio-inline" style="margin: 4px 0;">
+                                                            <input id="ticket_fixed_fee"
+                                                                ng-checked="ticketSettings.isCheckedFixedFee"
+                                                                value="fixedFee" type="radio" ng-disabled="true"
+                                                                name="ticket-fee-type">
+                                                            <label for="ticket_fixed_fee">Fixed
+                                                                Fee</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                                        <div class="form-group">
+                                                            <span
+                                                                style="position: absolute; margin-left: 3px; margin-top: 8px;">$</span>
+                                                            <input class="form-control numbervaild"
+                                                                id="ticket-setting-fixed-fee"
+                                                                ng-model="ticketSettings.fixedFee" type="text"
+                                                                ng-disabled="true" style="padding-left: 14px;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                                        <div class="md-radio md-radio-inline" style="margin: 4px 0;">
+                                                            <input id="ticket_fee_percentage"
+                                                                ng-checked="ticketSettings.isCheckedPercent"
+                                                                value="percent" type="radio" ng-disabled="true"
+                                                                name="ticket-fee-type">
+                                                            <label for="ticket_fee_percentage">Percentage
+                                                                <p class="label-sub"> (Of Ticket
+                                                                    Price)</p>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                                        <div class="form-group">
+                                                            <select class="form-control" id="ticket_settings_fee_per"
+                                                                style="padding: 6px 2px !important;">
+                                                                <option ng-repeat="number in ticket_settings_per"
+                                                                    ng-selected="ticketSettings.percent"
+                                                                    value="{{number}}">
+                                                                    {{number}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card" style="margin-top: 0.5rem;padding:10px 20px;">
+                                                <div class="row">
+                                                    <div class="col-xs-2 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <h3>Sales Channel</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <div class="row">
+                                                            <div
+                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                <div class="md-radio md-radio-inline"
+                                                                    style="margin: 4px 0;">
+                                                                    <input id="ticket_s_c_app_only" value="appOnly"
+                                                                        ng-checked="ticketSettings.appOnly" type="radio"
+                                                                        ng-disabled="true" name="ticket-sales-channel">
+                                                                    <label for="ticket_s_c_app_only">App
+                                                                        Only (Barm8
+                                                                        Only)</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div
+                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                <div class="md-radio md-radio-inline"
+                                                                    style="margin: 4px 0;">
+                                                                    <input id="ticket_s_c_app_only_and_door"
+                                                                        ng-checked="ticketSettings.appAndDoor"
+                                                                        value="appAndDoorOnly" type="radio"
+                                                                        ng-disabled="true" name="ticket-sales-channel">
+                                                                    <label for="ticket_s_c_app_only_and_door">App
+                                                                        and At
+                                                                        the door</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div
+                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                <div class="md-radio md-radio-inline"
+                                                                    style="margin: 4px 0;">
+                                                                    <input id="ticket_s_c_door_only" type="radio"
+                                                                        ng-checked="ticketSettings.doorOnly"
+                                                                        value="doorOnly" ng-disabled="true"
+                                                                        name="ticket-sales-channel">
+                                                                    <label for="ticket_s_c_door_only">At
+                                                                        the door
+                                                                        only</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card" style="margin-top: 0.5rem;padding:10px 20px;">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <h3>Purchase Restrictions</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                                        <div class="form-group">
+                                                            <label for="min_ticket_per_order">Min
+                                                                Tickets per order</label>
+                                                            <input type="text" ng-disabled="true"
+                                                                class="form-control numbervaild"
+                                                                ng-model="ticketSettings.restrictionsMin"
+                                                                id="min_ticket_per_order">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                                        <div class="form-group">
+                                                            <label for="max_ticket_per_order">Max
+                                                                Tickets per order</label>
+                                                            <input type="text" ng-disabled="true"
+                                                                class="form-control numbervaild"
+                                                                ng-model="ticketSettings.restrictionsMax"
+                                                                id="max_ticket_per_order">
+                                                            <span id="max_ticket_per_order_error"
+                                                                style="color:red;display:none;">Please
+                                                                select the
+                                                                return Policy!</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card" style="margin-top: 0.5rem;padding:10px 20px;">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <h3>Return Policy</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <div class="md-radio md-radio-inline" style="margin: 4px 0;">
+                                                            <input id="ticket-return-policy-1"
+                                                                ng-checked="ticketSettings.returnPolicy._1Day"
+                                                                type="radio" value="1" ng-disabled="true"
+                                                                name="ticket-return-type-list">
+                                                            <label for="ticket-return-policy-1"
+                                                                style="font-weight: 300;"><b>1
+                                                                    day:</b>
+                                                                Attendees can receive refunds up
+                                                                to
+                                                                1 day before your event
+                                                                start date.</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <div class="md-radio md-radio-inline" style="margin: 4px 0;">
+                                                            <input id="ticket-return-policy-7" type="radio"
+                                                                ng-checked="ticketSettings.returnPolicy._7Days"
+                                                                value="7" ng-disabled="true"
+                                                                name="ticket-return-type-list">
+                                                            <label for="ticket-return-policy-7"
+                                                                style="font-weight: 300;"><b>7
+                                                                    days:</b>
+                                                                Attendees can receive refunds up
+                                                                to
+                                                                7 days before your event
+                                                                start date.</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <div class="md-radio md-radio-inline" style="margin: 4px 0;">
+                                                            <input id="ticket-return-policy-30" type="radio"
+                                                                ng-checked="ticketSettings.returnPolicy._30Days"
+                                                                value="30" ng-disabled="true"
+                                                                name="ticket-return-type-list">
+                                                            <label for="ticket-return-policy-30"
+                                                                style="font-weight: 300;"><b>30
+                                                                    days:</b>
+                                                                Attendees can receive refunds up
+                                                                to
+                                                                30 days before your event
+                                                                start date.</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <div class="md-radio md-radio-inline" style="margin: 4px 0;">
+                                                            <input ng-disabled="true"
+                                                                id="ticket-return-policy-no-refunds"
+                                                                ng-checked="ticketSettings.returnPolicy._noRefund"
+                                                                value="noRefunds" type="radio"
+                                                                name="ticket-return-type-list">
+                                                            <label for="ticket-return-policy-no-refunds"
+                                                                style="font-weight: 300;"><b>No
+                                                                    refunds:</b> No refunds at
+                                                                any
+                                                                time.</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card" style="margin-top: 0.5rem;padding:10px 20px;">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <h3>Important ticket infomation</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <textarea class="form-control"
+                                                            ng-model="ticketSettings.ticketInfo" rows="3"
+                                                            ng-disabled="true" id="ticketInfoGenSet"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card" style="margin-top: 0.5rem;padding:10px 20px;">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <h3>Pricing and fee infomation</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <textarea class="form-control"
+                                                            ng-model="ticketSettings.pricingInfo" rows="3"
+                                                            ng-disabled="true" id="pricingAndFeeInfoGenSet"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card" style="margin-top: 0.5rem;padding:10px 20px;">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <h3>Collection/delivery infomation</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <textarea class="form-control"
+                                                            ng-model="ticketSettings.deliveryInfo" rows="3"
+                                                            ng-disabled="true"
+                                                            id="collectionAndDeliveryInfoGenSet"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div class="row">
+                                                <div class="col-xs-12 com-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                    <h2 style="margin-top:0px;"><i class="fas fa-ticket-alt"></i>
+                                                        &nbsp;Create Tickets</h2>
+                                                </div>
+                                                <div class="col-xs-12 com-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                    <b style="font-size: 12px;float:right;">Need
+                                                        tickets to share
+                                                        common questities?</b>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="padding: 10px;">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                    style="border:1px solid #ddd;">
+                                                    <div class="row" ng-show="ticketTypesList && ticketTypesList.length"
+                                                        style="margin-top: 0.5rem;">
+                                                        <div class="col-xs-12 com-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <div class="row" style="border-bottom:1px solid #ddd;">
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                    <b>Ticket group</b>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                    <b>Ticket Type</b>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-1 col-lg-1 col-xl-1 col-padding">
+                                                                    <b>Promo Code</b>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                    <b>Quantity Allocated</b>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                    <b>Base Price</b>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                    <b>Total Price</b>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-1 col-lg-1 col-xl-1 col-padding">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="border-bottom:1px solid #ddd;"
+                                                                ng-repeat="tickettype in ticketTypesList">
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                    <div class="form-group"
+                                                                        style="margin-top: 1rem;margin-bottom: 4px;">
+                                                                        <select class="form-control"
+                                                                            onchange="addNewTicketList('ticketGroup',this)"
+                                                                            id="ticket_group_name_{{$index}}">
+                                                                            <option value="select">
+                                                                                Select option...
+                                                                            </option>
+                                                                            <option
+                                                                                ng-repeat="eventGroup in EventTicketGroupsList"
+                                                                                ng-selected="eventGroup.name==tickettype.group"
+                                                                                value="{{eventGroup.id}}">
+                                                                                {{eventGroup.name}}
+                                                                            </option>
+                                                                            <option value="addNew">
+                                                                                &#x2B; Add New
+                                                                            </option>
+                                                                        </select>
+                                                                        <span id="ticket-group-error-{{$index}}"
+                                                                            style="color:red;display:none;">Group
+                                                                            is required!</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                    <div class="form-group pop"
+                                                                        style="margin-top: 1rem;margin-bottom: 4px;">
+                                                                        <select class="form-control"
+                                                                            onchange="addNewTicketList('ticketType',this)"
+                                                                            data-toggle="popover" data-placement="top"
+                                                                            data-content="Give your ticket a name, like General Admission, Early Bird, RSVP, etc..."
+                                                                            id="ticket_name_{{$index}}">
+                                                                            <option value="select">
+                                                                                Select option...
+                                                                            </option>
+                                                                            <option
+                                                                                ng-repeat="eventType in eventTicketTypesList"
+                                                                                ng-selected="eventType.name==tickettype.name"
+                                                                                value="{{eventType.id}}">
+                                                                                {{eventType.name}}
+                                                                            </option>
+                                                                            <option value="addNew">
+                                                                                &#x2B; Add New
+                                                                            </option>
+                                                                        </select>
+                                                                        <span id="ticket-name-error-{{$index}}"
+                                                                            style="color:red;display:none;">Name
+                                                                            is
+                                                                            required!</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-1 col-lg-1 col-xl-1 col-padding">
+                                                                    <div class="form-group"
+                                                                        style="margin-top: 1rem;margin-bottom: 4px;">
+                                                                        <select class="form-control"
+                                                                            onchange="addNewTicketPromoCode(this)"
+                                                                            id="ticket_promo_code_{{$index}}">
+                                                                            <option value="select">
+                                                                                Select option...
+                                                                            </option>
+                                                                            <option
+                                                                                ng-selected="'Bronze'==tickettype.promoCode"
+                                                                                value="Bronze">
+                                                                                Bronze
+                                                                            </option>
+                                                                            <option
+                                                                                ng-selected="'Silver'==tickettype.promoCode"
+                                                                                value="Silver">
+                                                                                Silver
+                                                                            </option>
+                                                                            <option
+                                                                                ng-selected="'Gold'==tickettype.promoCode"
+                                                                                value="Gold">
+                                                                                Gold
+                                                                            </option>
+                                                                            <option
+                                                                                ng-selected="'Platinum'==tickettype.promoCode"
+                                                                                value="Platinum">
+                                                                                Platinum
+                                                                            </option>
+                                                                            <option
+                                                                                ng-selected="'Vip'==tickettype.promoCode"
+                                                                                value="Vip">Vip
+                                                                            </option>
+                                                                            <option
+                                                                                ng-repeat="eventType in EventPromoCodeList"
+                                                                                ng-selected="eventType.name==tickettype.promoCode"
+                                                                                value="{{eventType.value}}">
+                                                                                {{eventType.name}}
+                                                                            </option>
+                                                                            <option value="addNew">
+                                                                                &#x2B; Add New
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                    <div class="form-group"
+                                                                        style="margin-top: 1rem;margin-bottom: 4px;">
+                                                                        <input type="text"
+                                                                            ng-show="tickettype.type=='paid'"
+                                                                            class="form-control pop numbervaild"
+                                                                            ng-model="tickettype.qty"
+                                                                            data-toggle="popover" data-placement="top"
+                                                                            id="ticket_qty_{{$index}}"
+                                                                            data-content="Enter the total number of tickets available for this ticket type">
+                                                                        <span ng-show="tickettype.type!='paid'">{{
+                                                                            tickettype.type }}</span>
+                                                                        <span id="ticket-quantity-error-{{$index}}"
+                                                                            style="color:red;display:none;">Quantity
+                                                                            is
+                                                                            required!</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                    <div class="form-group"
+                                                                        style="margin-top: 1rem;margin-bottom: 4px;">
+                                                                        <input type="text"
+                                                                            ng-show="tickettype.type=='paid'"
+                                                                            id="ticket_base_price_{{$index}}"
+                                                                            ng-model="tickettype.basePrice"
+                                                                            class="form-control numbervaild">
+                                                                        <span ng-show="tickettype.type!='paid'">{{
+                                                                            tickettype.type }}</span>
+                                                                        <span id="ticket-base-price-error-{{$index}}"
+                                                                            style="color:red;display:none;">Base
+                                                                            price is
+                                                                            required!</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                    <div class="form-group"
+                                                                        style="margin-top: 1rem;margin-bottom: 4px;">
+                                                                        <input type="text"
+                                                                            ng-show="tickettype.type=='paid'"
+                                                                            class="form-control pop numbervaild"
+                                                                            data-toggle="popover"
+                                                                            id="ticket_online_price_{{$index}}"
+                                                                            data-placement="top"
+                                                                            ng-model="tickettype.totalPrice"
+                                                                            data-content="Set your ticket price. (You'll select payout options later on the Manage page)" />
+                                                                        <span ng-show="tickettype.type!='paid'">{{
+                                                                            tickettype.type }}</span>
+                                                                        <span id="ticket-online-price-error-{{$index}}"
+                                                                            style="color:red;display:none;">Total
+                                                                            price is
+                                                                            required!</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-xs-6 col-sm-6 col-md-1 col-lg-1 col-xl-1 "
+                                                                    style="padding: 0px;">
+                                                                    <div class="form-group" style="margin-bottom: 4px;">
+                                                                        <ul class="nav nav-tabs" role="tablist"
+                                                                            style="margin-top:1rem;">
+                                                                            <li class="nav-item"
+                                                                                style="padding: 0 !important;">
+                                                                                <button title="Setting"
+                                                                                    id="ticket-type-settings-{{$index}}"
+                                                                                    data-toggle="tab" role="tab"
+                                                                                    aria-controls="home"
+                                                                                    aria-selected="true"
+                                                                                    data-index="{{$index}}"
+                                                                                    data-panelId="#create_ticket_adv_setting_{{$index}}"
+                                                                                    onclick="createTicketSPanel(this)"
+                                                                                    data-name="setting"
+                                                                                    style="font-size: 100%;font-family: inherit;border:0;padding: 10px 15px;background-color:#fff;"><i
+                                                                                        class="fas fa-cog"></i></button>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                    <div class="row">
+                                                                        <div
+                                                                            class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                            <div id="create_ticket_adv_setting_{{$index}}"
+                                                                                class="panel-collapse collapse"
+                                                                                aria-expanded="true">
+                                                                                <div class="panel-content">
+                                                                                    <div class="row">
+                                                                                        <div
+                                                                                            class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                                            <div class="form-group">
+                                                                                                <label
+                                                                                                    for="ticket_settings_desc_{{$index}}">Ticket
+                                                                                                    Description</label>
+                                                                                                <textarea
+                                                                                                    class="form-control"
+                                                                                                    rows="5"
+                                                                                                    ng-model="tickettype.desc"
+                                                                                                    id="ticket_settings_desc_{{$index}}"></textarea>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <hr>
+                                                                                    <div class="row">
+                                                                                        <div
+                                                                                            class="col-xs-2 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                                            <h3>Ticket
+                                                                                                Sales
+                                                                                            </h3>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <div
+                                                                                            class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                                                                            <div class="form-group">
+                                                                                                <label
+                                                                                                    for="ticket_settings_start_date_{{$index}}">Start
+                                                                                                    date</label>
+                                                                                                <input type="date"
+                                                                                                    class="form-control"
+                                                                                                    ng-value="tickettype.salesStartDate"
+                                                                                                    placeholder="12/08/2019"
+                                                                                                    id="ticket_settings_start_date_{{$index}}">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="col-sm-3 col-xs-3 col-md-3 col-lg-3 col-xl-3">
+                                                                                            <div class="form-group">
+                                                                                                <input type="text"
+                                                                                                    class="form-control time"
+                                                                                                    style="margin-top: 1.8rem;"
+                                                                                                    placeholder="04.00 pm"
+                                                                                                    ng-model="tickettype.salesStartTime"
+                                                                                                    id="ticket_settings_start_time_{{$index}}">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <div
+                                                                                            class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                                                                            <div class="form-group">
+                                                                                                <label
+                                                                                                    for="ticket_settings_end_date_{{$index}}">End
+                                                                                                    date</label>
+                                                                                                <input type="date"
+                                                                                                    class="form-control"
+                                                                                                    placeholder="14/08/2019"
+                                                                                                    ng-value="tickettype.salesEndDate"
+                                                                                                    id="ticket_settings_end_date_{{$index}}">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="col-sm-3 col-xs-3 col-md-3 col-lg-3 col-xl-3">
+                                                                                            <div class="form-group">
+                                                                                                <input type="text"
+                                                                                                    class="form-control time"
+                                                                                                    style="margin-top: 1.8rem;"
+                                                                                                    placeholder="04.00 pm"
+                                                                                                    ng-model="tickettype.salesEndTime"
+                                                                                                    id="ticket_settings_end_time_{{$index}}">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <hr>
+                                                                                    <div class="row">
+                                                                                        <div
+                                                                                            class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                                            <h4>Ticket
+                                                                                                Visibility
+                                                                                            </h4>
+                                                                                            <div class="form-group">
+                                                                                                <div class="md-radio md-radio-inline"
+                                                                                                    style="margin: 4px 0;">
+                                                                                                    <input
+                                                                                                        id="ticket-visibility-type-{{$index}}"
+                                                                                                        value="true"
+                                                                                                        ng-disabled="true"
+                                                                                                        type="radio"
+                                                                                                        ng-checked="tickettype.visibility"
+                                                                                                        name="ticket-visibility-type">
+                                                                                                    <label
+                                                                                                        for="ticket-visibility-type-{{$index}}">Hide
+                                                                                                        this
+                                                                                                        ticket
+                                                                                                        type</label>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

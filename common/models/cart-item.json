@@ -1,0 +1,69 @@
+{
+  "name": "CartItem",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "status": {
+      "type": "string",
+      "default": "New"
+    },
+    "date": {
+      "type": "date"
+    },
+    "qty": {
+      "type": "number"
+    },
+    "price": {
+      "type": "number"
+    },
+    "timeZone": {
+      "type": "string"
+    },
+    "totalAmt": {
+      "type": "number",
+      "default": 0
+    },
+    "totalPay": {
+      "type": "number",
+      "default": 0
+    },
+    "taxPer": {
+      "type": "number",
+      "default": 0
+    },
+    "taxAmt": {
+      "type": "number",
+      "default": 0
+    },
+    "totalCnt": {
+      "type": "number",
+      "default": 0
+    },
+    "currency": {
+      "type": "string",
+      "default": "AUD"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "cart": {
+      "type": "belongsTo",
+      "model": "cart",
+      "foreignKey": ""
+    },
+    "cartAddons": {
+      "type": "hasMany",
+      "model": "CartAddons",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

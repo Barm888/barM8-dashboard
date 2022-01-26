@@ -1,0 +1,50 @@
+{
+  "name": "DrinksMixer",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "default": null
+    },
+    "_name": {
+      "type": "string",
+      "default": null
+    },
+    "isSpecial": {
+      "type": "boolean",
+      "default": false
+    },
+    "isOrder": {
+      "type": "boolean",
+      "default": false
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "drinksDashLine": {
+      "type": "belongsTo",
+      "model": "DrinksDashLine",
+      "foreignKey": ""
+    },
+    "drinksSpecialDashLine": {
+      "type": "belongsTo",
+      "model": "DrinksSpecialDashLine",
+      "foreignKey": ""
+    },
+    "drinksOrderLine": {
+      "type": "belongsTo",
+      "model": "DrinksOrderLine",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

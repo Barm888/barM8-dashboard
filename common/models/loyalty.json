@@ -1,0 +1,69 @@
+{
+  "name": "Loyalty",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "date": {
+      "type": "date"
+    },
+    "points": {
+      "type": "number"
+    },
+    "multiplicationFactor": {
+      "type": "number"
+    },
+    "scanTime": {
+      "type": "string"
+    },
+    "scanDateTimeFormat": {
+      "type": "date"
+    },
+    "country": {
+      "type": "string"
+    },
+    "dateFormat": {
+      "type": "string"
+    },
+    "month": {
+      "type": "string"
+    },
+    "year": {
+      "type": "string"
+    },
+    "timeZone": {
+      "type": "string"
+    },
+    "level": {
+      "type": "string"
+    },
+    "createTs": {
+      "type": "date"
+    },
+    "createProgId": {
+      "type": "string"
+    },
+    "modifyTs": {
+      "type": "date"
+    },
+    "modifyProgId": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "customer": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

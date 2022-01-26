@@ -1,0 +1,54 @@
+{
+  "name": "DrinksSpecialDashSubLine",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "order": {
+      "type": "number"
+    },
+    "dispense": {
+      "type": "string"
+    },
+    "dispenseTxt": {
+      "type": "string"
+    },
+    "dispenseType": {
+      "type": "string",
+      "default": null
+    },
+    "_dispenseType": {
+      "type": "string",
+      "default": null
+    },
+    "price": {
+      "type": "number",
+      "default": 0
+    },
+    "inAppSpecial": {
+      "type": "boolean",
+      "default": false
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "drinksSpecialDashLine": {
+      "type": "belongsTo",
+      "model": "DrinksSpecialDashLine",
+      "foreignKey": ""
+    },
+    "drinksOrderSubLines": {
+      "type": "hasMany",
+      "model": "DrinksOrderSubLine",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -1,0 +1,78 @@
+{
+  "name": "VenueSettings",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "category": {
+      "type": "string"
+    },
+    "isEnabled": {
+      "type": "boolean"
+    },
+    "isAbsorb": {
+      "type": "boolean",
+      "default": false
+    },
+    "absorbFee": {
+      "type": "number",
+      "default": 0
+    },
+    "isFixed": {
+      "type": "boolean",
+      "default": false
+    },
+    "fixedFee": {
+      "type": "number",
+      "default": 0
+    },
+    "isPercentage": {
+      "type": "boolean",
+      "default": 0
+    },
+    "percentageFee": {
+      "type": "number",
+      "default": 0
+    },
+    "isUrl": {
+      "type": "boolean",
+      "default": 0
+    },
+    "url": {
+      "type": "string",
+      "default": null
+    },
+    "isDesc": {
+      "type": "boolean",
+      "default": 0
+    },
+    "desc": {
+      "type": "string",
+      "default": null
+    },
+    "isPhoneNumber": {
+      "type": "boolean",
+      "default": 0
+    },
+    "phoneNumber": {
+      "type": "string",
+      "default": null
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

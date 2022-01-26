@@ -1,0 +1,35 @@
+{
+  "name": "SponsorDetails",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "sponsorLogo": {
+      "type": "object"
+    },
+    "sponsorName": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "promotion": {
+      "type": "hasOne",
+      "model": "Promotion",
+      "foreignKey": ""
+    },
+    "sportsScheduleForAdmins": {
+      "type": "hasOne",
+      "model": "SportsScheduleForAdmin",
+      "foreignKey": "sponsorId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

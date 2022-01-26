@@ -1,0 +1,155 @@
+<style>
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-primary:active,
+    .btn-primary.active,
+    .open .dropdown-toggle.btn-primary,
+    .btn-primary:active:focus,
+    .btn-primary:active:hover,
+    .btn-primary.active:hover,
+    .btn-primary.active:focus {
+        border-color: #FF9800 !important;
+    }
+
+    .btn {
+        border-radius: 21px;
+    }
+
+    .card {
+        margin: 0rem 0 0rem 0
+    }
+
+    .box-shadow-2 {
+        -webkit-box-shadow: 0 10px 18px 0 rgba(62, 57, 107, .2);
+        box-shadow: 0 10px 18px 0 rgba(62, 57, 107, .2)
+    }
+
+    .wrapper-content {
+        padding: 20px 10px 0px !important
+    }
+
+    @media(min-width:768px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-primary:active,
+    .btn-primary.active,
+    .open .dropdown-toggle.btn-primary,
+    .btn-primary:active:focus,
+    .btn-primary:active:hover,
+    .btn-primary.active:hover,
+    .btn-primary.active:focus {
+
+        border-color: #4CAF50 !important;
+    }
+</style>
+<script>
+    $(".event-tab-header").on('click', function () {
+        $('.event-tab-header').each(function () {
+            if ($(this).hasClass('active'))
+                $(this).removeClass('active');
+        });
+        $(this).addClass('active');
+    });
+    $("#nav-ticket-tab").on('click', () => {
+        $("#alloca_group_Level_1,#ticket_types_Level_1").addClass('in');
+    });
+    createTicketSPanel = (arg) => {
+        let value = $(arg).data('panelid');
+        if ($(value).hasClass('in'))
+            $(value).removeClass('in');
+        else
+            $(value).addClass('in');
+    }
+</script>
+<div class="wrapper wrapper-content" id="manageEvent" ng-controller="manageEventCtl">
+    <div class="m-t-sm" style="margin-top:3rem;" ng-show="isBusinessSelect">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                <div class="row card eventCard">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                        <div class="autocomplete col-sm-12 col-xs-8 col-md-6 col-lg-6 col-xl-6"
+                            style="padding-right:0px;padding-left:0px;">
+                            <input id="autocompleteBusiness" type="text" name="BusinessName"
+                                placeholder="Enter Business name">
+                            <span id="businessErr" style="color:red;"></span>
+                        </div>
+                        <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                        <script
+                            type="text/javascript">autocomplete(document.getElementById("autocompleteBusiness"), 'manageEvent');</script>
+                        <div class="autocomplete col-sm-12 col-xs-4 col-md-6 col-lg-6 col-xl-6">
+                            <button type="button" ng-click="BusinessSelected('manageEvent')" id="businessSubmit"
+                                class="btn btn-raised btn-primary businessSubmit">
+                                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12"
+                style="margin-bottom: 10px; margin-top:10px;">
+                <div class="row card">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                                <h2> Manage Events</h2>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-xl-6 col-lg-6">
+                                <button class="btn btn-primary pull-right" ui-sref="create-events"
+                                    style="margin-top: 1rem; background-color: #4caf50;color:#fff"><i
+                                        class="fas fa-plus"></i> Create an Event </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="removeConfirmModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <b>Do you want Remove this event?</b>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="confirmRemove_Yes_btn"
+                    style="padding: 5px 30px!important;background-color:#4caf50 !important;" class="btn btn-success"
+                    ng-click="confirmRemoveEvent()">Yes</button>
+                <button type="button" class="btn btn-danger" style="padding: 5px 20px!important;"
+                    data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #page-wrapper {
+        padding: 0 0px !important;
+    }
+</style>

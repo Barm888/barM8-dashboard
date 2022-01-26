@@ -1,0 +1,994 @@
+<style>
+    .btn {
+        border-radius: 21px;
+    }
+
+    #page-wrapper {
+        padding: 0 0px;
+    }
+
+    @media(min-width:768px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    .back-txt {
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #000 !important;
+    }
+
+    .manage-txt {
+        font-size: 1.4rem;
+        color: #000 !important;
+    }
+
+    .manage-txt-1 {
+        font-size: 1.044rem;
+        color: #000 !important;
+    }
+
+    .manage-txt {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+</style>
+<div class="wrapper wrapper-content" id="whatsOnEventsView" ng-controller="whatsOnEventsView">
+    <div class="m-t-sm" style="margin-top:2.5rem;">
+        <div class="row card">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <a href="#" onclick="history.back();">
+                            <i style="color: #ff9800 !important;vertical-align: -0.4em !important;"
+                                class="fas fa-long-arrow-alt-left fa-4x"></i>
+                            <b class="back-txt">Back to Overview</b>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <b class="manage-txt">View events
+                        </b>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 1rem;">
+                    <br>
+                    <div class="col-sm-12 col-xs-12 col-md-6 col-xl-6 col-lg-6">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th> <b class="header-1">Date</b></th>
+                                    <td>
+                                        <span class="view-size">{{viewHappenings.date | date : "EEE, dd MMM ,
+                                            y"}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th> <b class="header-1">Start Time</b></th>
+                                    <td>
+                                        <span class="view-size">{{viewHappenings.startTime}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th> <b class="header-1">Category</b></th>
+                                    <td>
+                                        <span class="view-size">{{viewHappenings.happeningsCategory.name}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th> <b class="header-1">Title</b></th>
+                                    <td>
+                                        <span class="view-size">{{viewHappenings.title}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th> <b class="header-1">Description</b></th>
+                                    <td>
+                                        <span class="view-size">{{viewHappenings.fullDesc}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th> <b class="header-1">Entry type</b></th>
+                                    <td>
+                                        <span class="view-size">{{viewHappenings.entryType}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th> <b class="header-1">Entry fee</b></th>
+                                    <td>
+                                        <span class="view-size">{{viewHappenings.entryFee}}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th> <b class="header-1">Status</b></th>
+                                    <td>
+                                        <span ng-show="viewHappenings.status!='Live'"><span class="in-progress">
+                                                {{viewHappenings.status}}
+                                            </span>
+                                        </span>
+                                        <span ng-show="viewHappenings.status=='Live'"><span class="in-live">
+                                                {{viewHappenings.status}}
+                                            </span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-6 col-xl-6 col-lg-6">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 col-lg-6 col-lg-6">
+                                <div class="row" style="text-align: left;">
+                                    <div class="col-sm-12 col-ms-12 col-lg-12 col-xl-12">
+                                        <b class="header-1">Primary Image</b>
+                                    </div>
+                                    <div class="col-sm-12 col-ms-12 col-lg-12 col-xl-12">
+                                        <img ng-src="{{viewHappenings.primaryImg.path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png' }}"
+                                            data-toggle="tooltip" data-placement="top"
+                                            title="{{viewHappenings.primaryImg.fileName || 'No Image'}}"
+                                            class="img-thumbnail" style="object-fit: cover;width: 270px;height: 160px;"
+                                            alt="{{viewHappenings.primaryImg.fileName || 'No Image'}}"
+                                            title="{{viewHappenings.primaryImg.fileName}}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-6 col-lg-6 col-lg-6">
+                                <div class="row" style="text-align: right;">
+                                    <div class="col-sm-12 col-ms-12 col-lg-12 col-xl-12">
+                                        <b class="header-1">Secondary Image</b>
+                                    </div>
+                                    <div class="col-sm-12 col-ms-12 col-lg-12 col-xl-12">
+                                        <img ng-src="{{viewHappenings.secondaryImg.path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png' }}"
+                                            data-toggle="tooltip" data-placement="top"
+                                            title="{{viewHappenings.secondaryImg.fileName || 'No Image'}}"
+                                            class="img-thumbnail" style="object-fit: cover;width: 270px;height: 160px;"
+                                            alt="{{viewHappenings.secondaryImg.fileName || 'No Image'}}"
+                                            title="{{viewHappenings.secondaryImg.fileName}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 1rem;">
+                            <div class="col-sm-12 col-ms-12 col-lg-12 col-xl-12">
+                                <b class="header-1">Video</b>
+                            </div>
+                            <div class="col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <video ng-if="viewHappenings.primaryVideo.path" muted loop="true" autoplay="true"
+                                    controls class="card" width="240" height="280">
+                                    <source src="{{viewHappenings.primaryVideo.path}}" type="video/mp4">
+                                    <source src="{{viewHappenings.primaryVideo.path}}" type="video/ogg">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="viewHappenings.happeningsCategory.name=='Poker'">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <div class="row" style="padding:0px 20px 0px 20px;margin-top:1rem;">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                style="text-align: center !important;">
+                                <h2> Game start &nbsp;<span
+                                        style="text-transform: uppercase;">{{viewHappenings.startTime}}</span>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-121 col-md-12 col-lg-12 col-xl-12">
+                                <div class="row" style="padding:20px 20px 20px 20px;margin-bottom:1rem;">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                        <div class="media">
+                                            <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                                <font size="5" color="#f9a141"><i class="fas fa-dice"></i>
+                                                </font>
+                                            </div>
+                                            <div class="latest-comment-wrap media-body">
+                                                <span class="latest-comments-user">
+                                                    <p style="margin:0 0 0px !important;font-size: 16px;
+                                                font-weight: 700;">Game Type</p>
+                                                </span>
+                                                <span class="latest-comments-date"
+                                                    style="font-size:14px; font-weight:500;">
+                                                    {{viewHappenings.gameType}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                        <div class="media">
+                                            <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                                <font size="5" color="#f9a141"><i class="far fa-clock"></i>
+                                                </font>
+                                            </div>
+                                            <div class="latest-comment-wrap media-body">
+                                                <span class="latest-comments-user">
+                                                    <p style="margin:0 0 0px !important;font-size: 16px;
+                                                font-weight: 700;">Date</p>
+                                                </span>
+                                                <span class="latest-comments-date"
+                                                    style="font-size:14px; font-weight:500;">
+                                                    {{viewHappenings.dateFormat}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                        <div class="media">
+                                            <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                                <font size="5" color="#f9a141"><i class="far fa-clock"></i>
+                                                </font>
+                                            </div>
+                                            <div class="latest-comment-wrap media-body">
+                                                <span class="latest-comments-user">
+                                                    <p style="margin:0 0 0px !important;font-size: 16px;
+                                                font-weight: 700;">Rego Closes</p>
+                                                </span>
+                                                <span class="latest-comments-date"
+                                                    style="font-size:14px; font-weight:500;">
+                                                    {{viewHappenings.registrationCloses}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                        <div class="media">
+                                            <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                                <font size="5" color="#f9a141"><i class="far fa-clock"></i>
+                                                </font>
+                                            </div>
+                                            <div class="latest-comment-wrap media-body">
+                                                <span class="latest-comments-user">
+                                                    <p style="margin:0 0 0px !important;font-size: 16px;
+                                                font-weight: 700;">Late Rego</p>
+                                                </span>
+                                                <span class="latest-comments-date"
+                                                    style="font-size:14px; font-weight:500;">
+                                                    {{ viewHappenings.lateRegoTime }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding:20px 20px 20px 20px;margin-bottom:1rem;">
+
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                        <div class="media">
+                                            <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                                <font size="5" color="#f9a141"><i class="fas fa-dollar-sign"></i></font>
+                                            </div>
+                                            <div class="latest-comment-wrap media-body">
+                                                <span class="latest-comments-user">
+                                                    <p style="margin:0 0 0px !important;font-size: 16px;
+                                                font-weight: 700;">Guarantee</p>
+                                                </span>
+                                                <span class="latest-comments-date"
+                                                    style="font-size:14px; font-weight:500;">
+                                                    {{ viewHappenings.guarantee }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                        <div class="media">
+                                            <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                                <font size="5" color="#f9a141"><i class="fas fa-dollar-sign"></i></font>
+                                            </div>
+                                            <div class="latest-comment-wrap media-body">
+                                                <span class="latest-comments-user">
+                                                    <p style="margin:0 0 0px !important;font-size: 16px;
+                                                font-weight: 700;">Added</p>
+                                                </span>
+                                                <span class="latest-comments-date"
+                                                    style="font-size:14px; font-weight:500;">
+                                                    {{ viewHappenings.added }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <div class="row" style="padding:20px 20px 20px 20px;margin-bottom:1rem;">
+                            <div class="col-sm-3 col-xs-3 col-md-3 col-xl-3 col-lg-3">
+                                <div class="media">
+                                    <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                        <font size="5" color="#f9a141"><i class="fas fa-dollar-sign"></i></font>
+                                    </div>
+                                    <div class="latest-comment-wrap media-body">
+                                        <span class="latest-comments-user">
+                                            <p style="margin:0 0 0px !important;font-size: 16px;
+                                            font-weight: 700;">Buy-in</p>
+                                        </span>
+                                        <span class="latest-comments-date" style="font-size:14px; font-weight:500;">
+                                            {{viewHappenings.buyIn}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-3 col-md-3 col-xl-3 col-lg-3">
+                                <div class="media">
+                                    <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                        <font size="5" color="#f9a141"><i class="fas fa-dollar-sign"></i></font>
+                                    </div>
+                                    <div class="latest-comment-wrap media-body">
+                                        <span class="latest-comments-user">
+                                            <p style="margin:0 0 0px !important;font-size: 16px;
+                                            font-weight: 700;">Re-Buy</p>
+                                        </span>
+                                        <span class="latest-comments-date" style="font-size:14px; font-weight:500;">
+                                            {{viewHappenings.reBuy}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-3 col-md-3 col-xl-3 col-lg-3">
+                                <div class="media">
+                                    <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                        <font size="5" color="#f9a141"><i class="fas fa-dollar-sign"></i></font>
+                                    </div>
+                                    <div class="latest-comment-wrap media-body">
+                                        <span class="latest-comments-user">
+                                            <p style="margin:0 0 0px !important;font-size: 16px;
+                                            font-weight: 700;">Add-ons</p>
+                                        </span>
+                                        <span class="latest-comments-date" style="font-size:14px; font-weight:500;">
+                                            {{viewHappenings.addon}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-3 col-md-3 col-xl-3 col-lg-3">
+                                <div class="media">
+                                    <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                        <font size="5" color="#f9a141"><i class="fas fa-dollar-sign"></i></font>
+                                    </div>
+                                    <div class="latest-comment-wrap media-body">
+                                        <span class="latest-comments-user">
+                                            <p style="margin:0 0 0px !important;font-size: 16px;
+                                            font-weight: 700;">Re-entry</p>
+                                        </span>
+                                        <span class="latest-comments-date" style="font-size:14px; font-weight:500;">
+                                            {{viewHappenings.reEntry}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <div class="row" style="padding:20px 20px 20px 20px;margin-bottom:1rem;">
+                            <div class="col-sm-3 col-xs-3 col-md-3 col-xl-3 col-lg-3">
+                                <div class="media">
+                                    <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                        <font size="5" color="#f9a141"><i class="fas fa-dice"></i></font>
+                                    </div>
+                                    <div class="latest-comment-wrap media-body">
+                                        <span class="latest-comments-user">
+                                            <p style="margin:0 0 0px !important;font-size: 16px;
+                                            font-weight: 700;">Starting stack</p>
+                                        </span>
+                                        <span class="latest-comments-date" style="font-size:14px; font-weight:500;">
+                                            {{viewHappenings.startingStack}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-3 col-md-3 col-xl-3 col-lg-3">
+                                <div class="media">
+                                    <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                        <font size="5" color="#f9a141"><i class="fas fa-dice"></i></font>
+                                    </div>
+                                    <div class="latest-comment-wrap media-body">
+                                        <span class="latest-comments-user">
+                                            <p style="margin:0 0 0px !important;font-size: 16px;
+                                            font-weight: 700;">Re-Buy stack</p>
+                                        </span>
+                                        <span class="latest-comments-date" style="font-size:14px; font-weight:500;">
+                                            {{viewHappenings.reBuyStack}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-3 col-md-3 col-xl-3 col-lg-3">
+                                <div class="media">
+                                    <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                        <font size="5" color="#f9a141"><i class="fas fa-dice"></i></font>
+                                    </div>
+                                    <div class="latest-comment-wrap media-body">
+                                        <span class="latest-comments-user">
+                                            <p style="margin:0 0 0px !important;font-size: 16px;
+                                            font-weight: 700;">Add-on stack</p>
+                                        </span>
+                                        <span class="latest-comments-date" style="font-size:14px; font-weight:500;">
+                                            {{viewHappenings.addOnStack}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-3 col-md-3 col-xl-3 col-lg-3">
+                                <div class="media">
+                                    <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                        <font size="5" color="#f9a141"><i class="fas fa-dice"></i></font>
+                                    </div>
+                                    <div class="latest-comment-wrap media-body">
+                                        <span class="latest-comments-user">
+                                            <p style="margin:0 0 0px !important;font-size: 16px;
+                                            font-weight: 700;">Re-entry stack</p>
+                                        </span>
+                                        <span class="latest-comments-date" style="font-size:14px; font-weight:500;">
+                                            {{viewHappenings.reEntryStack}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <div class="row" style="padding:20px 20px 20px 20px;margin-bottom:1rem;">
+                            <div class="col-sm-3 col-xs-3 col-md-3 col-xl-3 col-lg-3">
+                                <div class="media">
+                                    <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                        <font size="5" color="#f9a141"><i class="far fa-clock"></i></font>
+                                    </div>
+                                    <div class="latest-comment-wrap media-body">
+                                        <span class="latest-comments-user">
+                                            <p style="margin:0 0 0px !important;font-size: 16px;
+                                            font-weight: 700;">Buy-in closes</p>
+                                        </span>
+                                        <span class="latest-comments-date" style="font-size:14px; font-weight:500;">
+                                            {{viewHappenings.buyInCloses}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-3 col-md-3 col-xl-3 col-lg-3">
+                                <div class="media">
+                                    <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                        <font size="5" color="#f9a141"><i class="far fa-clock"></i></font>
+                                    </div>
+                                    <div class="latest-comment-wrap media-body">
+                                        <span class="latest-comments-user">
+                                            <p style="margin:0 0 0px !important;font-size: 16px;
+                                            font-weight: 700;">Re-buy closes</p>
+                                        </span>
+                                        <span class="latest-comments-date" style="font-size:14px; font-weight:500;">
+                                            {{viewHappenings.addOnCloses}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-3 col-md-3 col-xl-3 col-lg-3">
+                                <div class="media">
+                                    <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                        <font size="5" color="#f9a141"><i class="far fa-clock"></i></font>
+                                    </div>
+                                    <div class="latest-comment-wrap media-body">
+                                        <span class="latest-comments-user">
+                                            <p style="margin:0 0 0px !important;font-size: 16px;
+                                            font-weight: 700;">Add-on closes</p>
+                                        </span>
+                                        <span class="latest-comments-date" style="font-size:14px; font-weight:500;">
+                                            {{viewHappenings.reBuyCloses}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-3 col-md-3 col-xl-3 col-lg-3">
+                                <div class="media">
+                                    <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                        <font size="5" color="#f9a141"><i class="far fa-clock"></i></font>
+                                    </div>
+                                    <div class="latest-comment-wrap media-body">
+                                        <span class="latest-comments-user">
+                                            <p style="margin:0 0 0px !important;font-size: 16px;
+                                            font-weight: 700;">Re-entry closes</p>
+                                        </span>
+                                        <span class="latest-comments-date" style="font-size:14px; font-weight:500;">
+                                            {{viewHappenings.reEntryCloses}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <div class="row" style="padding:20px 20px 20px 20px;margin-bottom:1rem;">
+                            <div class="col-sm-3 col-xs-3 col-md-3 col-xl-3 col-lg-3">
+                                <div class="media">
+                                    <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                        <font size="5" color="#f9a141"><i class="fas fa-dice"></i></font>
+                                    </div>
+                                    <div class="latest-comment-wrap media-body">
+                                        <span class="latest-comments-user">
+                                            <p style="margin:0 0 0px !important;font-size: 16px;
+                                            font-weight: 700;">Max no of re-buys</p>
+                                        </span>
+                                        <span class="latest-comments-date" style="font-size:14px; font-weight:500;">
+                                            {{viewHappenings.maxNoOfReBuy}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-3 col-md-3 col-xl-3 col-lg-3">
+                                <div class="media">
+                                    <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                        <font size="5" color="#f9a141"><i class="fas fa-dice"></i></font>
+                                    </div>
+                                    <div class="latest-comment-wrap media-body">
+                                        <span class="latest-comments-user">
+                                            <p style="margin:0 0 0px !important;font-size: 16px;
+                                            font-weight: 700;">Max no of add-ons</p>
+                                        </span>
+                                        <span class="latest-comments-date" style="font-size:14px; font-weight:500;">
+                                            {{viewHappenings.maxNoOfAddOns}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-3 col-md-3 col-xl-3 col-lg-3">
+                                <div class="media">
+                                    <div class="latest-comments-image media-left" style="padding-right:10px;">
+                                        <font size="5" color="#f9a141"><i class="fas fa-dice"></i></font>
+                                    </div>
+                                    <div class="latest-comment-wrap media-body">
+                                        <span class="latest-comments-user">
+                                            <p style="margin:0 0 0px !important;font-size: 16px;
+                                            font-weight: 700;">Max no of re-entry</p>
+                                        </span>
+                                        <span class="latest-comments-date" style="font-size:14px; font-weight:500;">
+                                            {{viewHappenings.maxNoOfReEntry}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row card" ng-show="viewHappenings.isTicketedEvent" style="margin-top: 1rem;">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                <h2 style="font-weight: 400;">Let’s set up your tickets for this event.</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="row">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th><span>Ticket name</span></th>
+                                        <th><span>Quantity available</span></th>
+                                        <th><span>Price</span></th>
+                                        <th><span>Ticket type</span></th>
+                                        <th><span>Actions</span></th>
+                                    </tr>
+                                </tbody>
+                                <tbody>
+                                    <tr ng-repeat="ticket in viewHappenings.happeningsTickets"
+                                        style="text-align: center;">
+                                        <td><span>{{ticket.ticketName}}</span></td>
+                                        <td><span>{{ticket.ticketQty}}</span></td>
+                                        <td><span>$&nbsp;{{ticket.salePrice}}</span></td>
+                                        <td><span>{{ticket.ticketType | capitalize}}</span></td>
+                                        <td>
+                                            <button class="btn btn-success" ng-click="ticketView(ticket.id)"
+                                                style="background-color: #10ac0d !important;    padding: 5.5px 9px !important;"><i
+                                                    class="far fa-eye"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot ng-show="viewHappenings && viewHappenings.length==0">
+                                    <tr>
+                                        <td colspan="5" style="text-align: center;">
+                                            <span style="font-size: 1.4rem;font-weight:600;">No Data!</span>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div id="ticketViewAndEditModal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header" style="padding: 20px !important;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h2 class="modal-title" style="font-weight: 600;font-size:1.4rem;" id="ticket_header"></h2>
+                        </div>
+                        <div class="modal-body"
+                            style="text-align: left !important; padding: 0px 30px 0px 30px !important;">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="row">
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                            <div class="form-group">
+                                                <label for="ticket_name" class="label-size">Ticket
+                                                    name</label>
+                                                <input type="text" ng-model="viewHappeningsModal.ticketName"
+                                                    ng-disabled="ticketDisabled" class="form-control custom-input"
+                                                    id="ticket_name">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                            <div class="form-group">
+                                                <label for="ticket_sale_qty" class="label-size">Quantity
+                                                    available</label>
+                                                <input type="text" ng-model="viewHappeningsModal.ticketQty"
+                                                    ng-disabled="ticketDisabled" class="form-control custom-input"
+                                                    id="ticket_sale_qty">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                            <div class="form-group">
+                                                <label for="ticket_ticketType" class="label-size">Ticket
+                                                    type</label>
+                                                <select class="form-control custom-input" id="ticket_type"
+                                                    disabled="disabled">
+                                                    <option value="free"
+                                                        ng-selected="viewHappeningsModal.ticketType=='free'">
+                                                        Free
+                                                    </option>
+                                                    <option value="paid"
+                                                        ng-selected="viewHappeningsModal.ticketType=='paid'">
+                                                        Paid
+                                                    </option>
+                                                    <option value="donation"
+                                                        ng-selected="viewHappeningsModal.ticketType=='donation'">
+                                                        Donation
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                            <div class="form-group">
+                                                <label for="ticket_salePrice" class="label-size">Price</label>
+                                                <input type="text" ng-model="viewHappeningsModal.salePrice"
+                                                    ng-disabled="ticketDisabled" class="form-control custom-input"
+                                                    id="ticket_salePrice">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                            <div class="form-group">
+                                                <label for="_ticket_desc_0" class="label-size">Ticket
+                                                    description</label>
+                                                <textarea rows="3" ng-model="viewHappeningsModal.ticketDesc"
+                                                    ng-disabled="ticketDisabled" class="form-control custom-textarea"
+                                                    id="_ticket_desc_0"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                            <div class="form-group">
+                                                <label for="ticket_salesStartDate" class="label-size">Ticket
+                                                    sales start</label>
+                                                <input type="date" ng-model="viewHappeningsModal.salesStartDate"
+                                                    ng-disabled="ticketDisabled" class="form-control custom-input"
+                                                    id="ticket_salesStartDate">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                            <div class="form-group">
+                                                <label for="ticket_salesStartTime" class="label-size">Time</label>
+                                                <input type="text" ng-model="viewHappeningsModal.salesStartTime"
+                                                    ng-disabled="ticketDisabled"
+                                                    class="form-control custom-input time ui-timepicker-input"
+                                                    id="ticket_salesStartTime">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                            <div class="form-group">
+                                                <label for="ticket_salesEndDate" class="label-size">Ticket
+                                                    sales end</label>
+                                                <input type="date" ng-model="viewHappeningsModal.salesEndDate"
+                                                    ng-disabled="ticketDisabled" class="form-control custom-input"
+                                                    id="ticket_salesEndDate">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                            <div class="form-group">
+                                                <label for="ticket_salesEndTime" class="label-size">Time</label>
+                                                <input type="text" ng-model="viewHappeningsModal.salesEndTime"
+                                                    ng-disabled="ticketDisabled"
+                                                    class="form-control custom-input time ui-timepicker-input"
+                                                    id="ticket_salesEndTime">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                            <div class="form-group">
+                                                <label for="ticket_max" class="label-size">Tickets allowed
+                                                    per order (Max)</label>
+                                                <input type="number" ng-model="viewHappeningsModal.maxTicket"
+                                                    ng-disabled="ticketDisabled" class="form-control custom-input"
+                                                    id="ticket_max">
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                            <div class="form-group">
+                                                <label for="ticket_min" class="label-size">Tickets allowed
+                                                    per order (Min)</label>
+                                                <input type="number" ng-model="viewHappeningsModal.minTicket"
+                                                    ng-disabled="ticketDisabled" class="form-control custom-input"
+                                                    id="ticket_min">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="appPreviewModal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" style="font-size: 40px !important;"
+                                data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                    <div class="row"
+                                        style="  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);">
+                                        <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12" style="padding-right: 0px;
+                                        padding-left: 0px;">
+                                            <img class="img-app-pre" src="/assets/img/app_preview.png">
+                                            <img class="img-app-pre" ng-src="{{viewHappenings.img[0].path}}">
+                                        </div>
+                                        <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12" style="padding-right: 0px;
+                                        padding-left: 0px;">
+                                            <div class="app-pre-content">
+                                                <div class="row" style="margin-left: 0.5rem;">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                        style="margin-top: 1rem;">
+                                                        <b class="pre-app-title">{{viewHappenings.title}}</b>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                        style="margin-top: 0.5rem;">
+                                                        <b>{{viewHappenings.business.businessName}}</b>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                        style="margin-top: 1.5rem;">
+                                                        <b style="font-weight: 400;
+                                                        font-size: 0.8rem;">Starts :
+                                                            {{viewHappenings.startTime}} ,
+                                                            {{viewHappenings.date | date : "EEEE, dd MMM
+                                                            y"}}</b>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                        style="margin-top: 1.5rem;">
+                                                        <b style="font-weight: 400;
+                                                        font-size: 0.8rem;text-decoration:underline;">About</b>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                        style="margin-top: 0.3rem;">
+                                                        <b style="font-weight: 400;
+                                                        font-size: 0.9rem;">{{viewHappenings.fullDesc}}</b>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12" style="padding-right: 0px;
+                                        padding-left: 0px;">
+                                            <div class="app-preview-footer">
+                                                <div class="row">
+                                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                                        <a href="#" style="color: #fff !important;">Free!</a>
+                                                    </div>
+                                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                                        <a href="#"
+                                                            style="background-color: #f9a141;color:#000 !important;padding: 8px 10px !important;">Sign
+                                                            up/Book</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="padding: 0px !important;"> </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<style>
+    .view-size {
+        font-size: 1.1rem;
+        font-weight: 700;
+    }
+
+    .header-1 {
+        font-size: 1.3rem;
+    }
+
+    .in-progress {
+        vertical-align: middle;
+        display: table-cell;
+        width: 120px;
+        background-color: rgb(197, 90, 17);
+        box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+        color: #fff;
+        text-align: center;
+        border-radius: 4px;
+        padding: 6px 0px;
+        font-size: 16px;
+    }
+
+    .img-thumbnail {
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
+    }
+
+    .img-app-pre {
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+    }
+
+    @media (min-width: 768px) {
+        .modal-sm {
+            width: 315px !important;
+        }
+    }
+
+    .app-pre-content {
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        background-color: #000;
+        color: #ffffff;
+        padding-bottom: 3rem;
+    }
+
+    .app-preview-footer {
+        border-top: 1px solid #ffffff26;
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        background-color: #000;
+        color: #ffffff;
+        padding: 15px;
+    }
+
+    .pre-app-title {
+        text-transform: uppercase !important;
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+
+    }
+
+    .modal-body {
+        text-align: left !important;
+    }
+
+    .in-live {
+        vertical-align: middle;
+        display: table-cell;
+        width: 120px;
+        background-color: #3e9e02;
+        box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+        color: #fff;
+        text-align: center;
+        border-radius: 4px;
+        padding: 6px 0px;
+        font-size: 16px;
+    }
+
+    .modal {
+        z-index: 999999 !important;
+    }
+
+    .col-xs-5ths,
+    .col-sm-5ths,
+    .col-md-5ths,
+    .col-lg-5ths,
+    .col-xl-5ths,
+    .col-xs-two5ths,
+    .col-sm-two5ths,
+    .col-md-two5ths,
+    .col-lg-two5ths,
+    .col-xl-two5ths,
+    .col-xs-three5ths,
+    .col-sm-three5ths,
+    .col-md-three5ths,
+    .col-lg-three5ths,
+    .col-xl-three5ths,
+    .col-xs-four5ths,
+    .col-sm-four5ths,
+    .col-md-four5ths,
+    .col-lg-four5ths,
+    .col-xl-four5ths,
+    .col-xs-five5ths,
+    .col-sm-five5ths,
+    .col-md-five5ths,
+    .col-lg-five5ths,
+    .col-xl-five5ths {
+        position: relative;
+        min-height: 1px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .dollar {
+        display: block;
+        position: relative;
+    }
+
+    .dollar input {
+        padding-left: 20px;
+    }
+
+    .dollar:before {
+        position: absolute;
+        content: "$";
+        left: 5px;
+        top: 10px;
+        font-size: 20px;
+        color: #999;
+    }
+
+    .table-bordered>thead>tr>th,
+    .table-bordered>thead>tr>td {
+        background-color: #fff !important;
+    }
+
+    th>span {
+        font-size: 1.3rem;
+        font-weight: 500;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    .label-txt {
+        font-size: 1.3rem;
+        font-weight: 500;
+    }
+
+    td>span {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .label-size {
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+</style>

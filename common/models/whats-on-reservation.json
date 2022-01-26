@@ -1,0 +1,130 @@
+{
+  "name": "WhatsOnReservation",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "eventTitle": {
+      "type": "string"
+    },
+    "tickets": {
+      "type": [
+        "object"
+      ]
+    },
+    "requestDate": {
+      "type": "date"
+    },
+    "request": {
+      "type": {
+        "countryFormat": {
+          "type": "date"
+        },
+        "date": {
+          "type": "string",
+          "default": null
+        },
+        "time": {
+          "type": "string",
+          "default": null
+        }
+      }
+    },
+    "confirm": {
+      "type": {
+        "countryFormat": {
+          "type": "date"
+        },
+        "date": {
+          "type": "string",
+          "default": null
+        },
+        "time": {
+          "type": "string",
+          "default": null
+        }
+      }
+    },
+    "waitList": {
+      "type": {
+        "countryFormat": {
+          "type": "date"
+        },
+        "date": {
+          "type": "string",
+          "default": null
+        },
+        "time": {
+          "type": "string",
+          "default": null
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "default": "new"
+    },
+    "isTicketedEvent": {
+      "type": "boolean",
+      "default": false
+    },
+    "isGroupPayment": {
+      "type": "boolean",
+      "default": false
+    },
+    "entryType": {
+      "type": "string"
+    },
+    "paymentStatus": {
+      "type": "string"
+    },
+    "partySize": {
+      "type": "number",
+      "default": 0
+    },
+    "teamName": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "whatsOnTickets": {
+      "type": "hasMany",
+      "model": "WhatsOnTickets",
+      "foreignKey": ""
+    },
+    "happenings": {
+      "type": "belongsTo",
+      "model": "Happenings",
+      "foreignKey": ""
+    },
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    },
+    "happeningsCategory": {
+      "type": "belongsTo",
+      "model": "HappeningsCategory",
+      "foreignKey": ""
+    },
+    "pokerExtraBookings": {
+      "type": "hasMany",
+      "model": "PokerExtraBooking",
+      "foreignKey": ""
+    },
+    "whatsOnTeamMembers": {
+      "type": "hasMany",
+      "model": "WhatsOnTeamMember",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

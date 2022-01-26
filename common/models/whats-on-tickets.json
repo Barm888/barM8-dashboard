@@ -1,0 +1,41 @@
+{
+  "name": "WhatsOnTickets",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "qty": {
+      "type": "number",
+      "default": 0
+    },
+    "price": {
+      "type": "number",
+      "default": 0
+    },
+    "totalPrice": {
+      "type": "number",
+      "default": 0
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "whatsOnReservation": {
+      "type": "belongsTo",
+      "model": "WhatsOnReservation",
+      "foreignKey": ""
+    },
+    "happeningsTicket": {
+      "type": "belongsTo",
+      "model": "HappeningsTicket",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

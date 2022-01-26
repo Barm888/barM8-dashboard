@@ -1,0 +1,493 @@
+<script type="text/javascript" src="/js/js/typeahead.js"></script>
+<link href="/assets/css/typeahead.css" rel="stylesheet" />
+<div class="wrapper wrapper-content" id="openingHoursCtl" ng-controller="openingHoursCtl">
+    <div class="m-t-sm" style="margin-top:2.5rem;">
+
+        <div class="row" ng-show="userDetails.isAdmin">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12" style="padding-left: 0px;padding-right:0px;">
+                <div class="row card cCard" style="margin: 0rem 0 0rem 0 !important;">
+                    <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                    <div class="autocomplete col-sm-8 col-xs-8 col-md-6 col-lg-6 col-xl-6">
+                        <input id="autocompleteBusiness" type="text" name="BusinessName"
+                            placeholder="Enter Business name">
+                        <span id="businessErr" style="color:red;"></span>
+                    </div>
+                    <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                    <script
+                        type="text/javascript">autocomplete(document.getElementById("autocompleteBusiness"), 'openingHours');</script>
+                    <div class="autocomplete col-sm-4 col-xs-4 col-md-6 col-lg-6 col-xl-6">
+                        <button type="button" ng-click="BusinessSelected('openingHours')" id="businessSubmit"
+                            class="btn btn-raised btn-primary businessSubmit">
+                            <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 0.5rem;margin-left:-2rem;">
+            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                <a class="btn btn-s" href="#" onclick="history.back();">
+                    <span>Back</span>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 card">
+                <div class="row" style="margin-top: 1rem;">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <b class="manage-txt">Operating Hours</b>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <label style="color: gray;">Your operating hours should reflect when your venue is
+                            physically open and
+                            providing service to customers.</label>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 1rem;">
+                    <div class="col-sm-6 col-xs-6 col-md-2 col-lg-2 col-xl-2">
+                        <div class="form-group">
+                            <label>Start Time</label>
+                            <input type="text" id="opening_hours_starttime" data-name="weeklyStartTime_select"
+                                class="form-control custom-input time" name="startTime" autocomplete="off" required />
+                            <span id="weeklystarttimingErr" style="color:#f44336;"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-6 col-md-2 col-lg-2 col-xl-2">
+                        <div class="form-group">
+                            <label>End Time</label>
+                            <input type="text" id="opening_hours_endtime" data-name="weeklyEndTime_select"
+                                class="form-control custom-input time" name="endTime" autocomplete="off" required />
+                            <span id="weeklyendtimingErr" style="color:#f44336;"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-6 col-md-7 col-lg-7 col-xl-7">
+                        <label>Days</label>
+                        <div class="btn-p-s pop">
+                            <a href="javascript:;" class="pop" data-toggle="popover" data-placement="top"
+                                data-content="{{day.txt}}" ng-repeat="day in mealsWeekDays">
+                                <button class="btn btnBeforemenu daysBtn oHoursDaysBtn day-btn-s"
+                                    data-dayname="{{day.val}}" data-selected="false" id="weekdays_{{day.val}}"
+                                    style="border-radius: 3px;background-color:#757575;color:#fff;"
+                                    ng-click="daysSelected('weekdays_', day.val , day.name)">{{day.name}}
+                                    <script>
+                                        $(".pop").popover({ trigger: "manual", html: true, animation: true })
+                                            .on("mouseenter", function () {
+                                                var _this = this;
+                                                $(this).popover("show");
+                                                $(".popover").on("mouseleave", function () {
+                                                    $(_this).popover('hide');
+                                                });
+                                            }).on("mouseleave", function () {
+                                                var _this = this;
+                                                setTimeout(function () {
+                                                    if (!$(".popover:hover").length) {
+                                                        $(_this).popover("hide");
+                                                    }
+                                                });
+                                            });
+                                    </script>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-6 col-md-1 col-lg-1 col-xl-1">
+                        <button type="button" id="addOpeningHoursBtn" ng-click="addOpeningHoursTiming()"
+                            class=" btn btn-s pull-right addBtn" style="margin-top: 1.88rem;">&nbsp;Add
+                        </button>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse"
+                                    data-parent="#accordion" data-target="#bistroCollapse" href="javascript:;"
+                                    aria-expanded="true" aria-controls="bistroCollapse">
+                                    <h4 class="panel-title">
+                                        <a role="button">
+                                            Manage Operating Hours
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="bistroCollapse" class="panel-collapse collapse in" role="tabpanel"
+                                    aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <table class="table  table-bordered" id="weeklyListtable">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <span>Days</span>
+                                                    </th>
+                                                    <th>
+                                                        <span> Start Time</span>
+                                                    </th>
+                                                    <th>
+                                                        <span>End Time</span>
+                                                    </th>
+                                                    <th>
+                                                        <span>Status</span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="list in weeklyTimingListD"
+                                                    ng-mouseover="showTheMiddle($event, $index)"
+                                                    ng-mouseleave="hiddenTheMiddle($index)" style="position: relative;">
+                                                    <td data-name="day">
+                                                        {{ list.day }}
+                                                    </td>
+                                                    <td data-name="startTime">
+                                                        {{ list.startTime }}
+                                                    </td>
+                                                    <td data-name="endTime">
+                                                        {{ list.endTime }}
+                                                    </td>
+                                                    <td>
+                                                        <!-- ng-click="updateStaus(list.id)" -->
+                                                        <div class="dropdown">
+                                                            <button class="btn bdropdown-toggle"
+                                                                style="background-color: green;border:1px solid green;color:#fff;"
+                                                                data-toggle="dropdown" ng-show="list.status=='Open'">
+                                                                Open
+                                                            </button>
+                                                            <button class="btn dropdown-toggle"
+                                                                style="background-color: red;border:1px solid red;color:#fff;"
+                                                                data-toggle="dropdown" ng-show="list.status=='Closed'">
+                                                                Closed
+                                                            </button>
+                                                            <button class="btn dropdown-toggle"
+                                                                style="background-color: #ff9800;border:1px solid red;color:#ff9800;"
+                                                                data-toggle="dropdown"
+                                                                ng-show="list.status=='Takeaway'">
+                                                                Takeaway
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                <span class="dropdown-header"
+                                                                    ng-hide="list.status=='Takeaway'"
+                                                                    ng-click="updateStaus(list.id, 'Takeaway')">Takeaway</span>
+                                                                <span class="dropdown-header"
+                                                                    ng-hide="list.status=='Closed'"
+                                                                    ng-click="updateStaus(list.id, 'Closed')">Closed</span>
+                                                                <span class="dropdown-header"
+                                                                    ng-hide="list.status=='Open'"
+                                                                    ng-click="updateStaus(list.id, 'Open')">Open</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="middle_{{$index}}"
+                                                        style="display: none;background-color: rgba(250, 250, 250, 0);padding: 4.5px !important;border: 0px solid #e7eaec;">
+                                                        &nbsp;
+                                                        <button class="btn" style="border-radius: 50%;padding: 4px 7.5px !important;
+                                                background-color: #3f51b5 !important;color:#fff !important;"
+                                                            ng-click="viewOpeningHours(list.id)" title="View"><i
+                                                                class="fas fa-eye"></i></button>
+                                                        &nbsp;
+                                                        <button class="btn" style="border-radius: 50%;padding: 4px 8px !important;
+                                                background-color: #2e7d32 !important;color:#fff !important;"
+                                                            ng-click="editOpeningHours(list.id)" title="Edit"><i
+                                                                class="fas fa-pencil-alt"></i></button>
+                                                        &nbsp;
+                                                        <button class="btn" style="border-radius: 50%;padding: 4px 9px !important;
+                                                background-color: #d50000 !important;color:#fff !important;"
+                                                            ng-click="weeklyDaysDelete(list.id)" title="Delete"><i
+                                                                class="fas fa-trash"></i></button>
+                                                        &nbsp;
+                                                    </td>
+                                                </tr>
+                                                <tr ng-show="weeklyTimingListD.length==0" style="text-align: center;">
+                                                    <td colspan="4">
+                                                        <span style="font-size: 1.2rem;">No Data!</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal" tabindex="-1" id="viewPopup" role="dialog" style="top: 0px!important;">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" style="background-color: #FF9800;color:#fff;">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h3 class="modal-title" style="padding: 8px;">View opening hours</h3>
+                            </div>
+                            <div class="modal-body"
+                                style="padding: 20px 30px 0px 20px !important;text-align:left !important;">
+                                <div class="row">
+                                    <div class="col-xs-12 col-ms-12 col-md-12 col-xl-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="days_txt">Days</label>
+                                            <input type="text" class="form-control custom-input" id="days_txt"
+                                                ng-model="viewOpenHoursData.day" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6 col-ms-6 col-md-6 col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="startTime">Start time</label>
+                                            <input type="text" class="form-control custom-input" id="startTime"
+                                                ng-model="viewOpenHoursData.startTime" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-ms-6 col-md-6 col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="endTime">End time</label>
+                                            <input type="text" class="form-control custom-input" id="endTime"
+                                                ng-model="viewOpenHoursData.endTime" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="text-align: right !important;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal" tabindex="-1" id="editPopup" role="dialog" style="top: 0px!important;">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" style="background-color: #FF9800;color:#fff;">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h3 class="modal-title" style="padding: 8px;">Edit opening hours</h3>
+                            </div>
+                            <div class="modal-body"
+                                style="padding: 20px 30px 0px 20px !important;text-align:left !important;">
+                                <div class="row">
+                                    <div class="col-xs-12 col-ms-12 col-md-12 col-xl-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label for="days_txt">Days</label>
+                                            <input type="text" class="form-control custom-input" id="days_txt"
+                                                ng-model="editOpenHoursData.day" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6 col-ms-6 col-md-6 col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="startTime">Start time</label>
+                                            <input type="text" class="form-control custom-input time"
+                                                id="startTime_up_v" ng-model="editOpenHoursData.startTime">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-ms-6 col-md-6 col-xl-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="endTime">End time</label>
+                                            <input type="text" class="form-control custom-input time" id="endTime_up_v"
+                                                ng-model="editOpenHoursData.endTime">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12"
+                                        style="text-align: right;">
+                                        <button class="btn btn-success"
+                                            style="background-color: green;padding: 10px 18px !important;"
+                                            ng-show="statusOpen=='Open'" ng-click="updateChangeStaus(statusOpen)">
+                                            Open
+                                        </button>
+                                        <button class="btn btn-success"
+                                            style="background-color: red;padding: 10px 18px !important;"
+                                            ng-show="statusOpen=='Closed'" ng-click="updateChangeStaus(statusOpen)">
+                                            Closed
+                                        </button>
+                                        <button class="btn" style="padding: 6px 24px !important;font-size:20px;
+                                background-color: #2e7d32 !important;color:#fff !important;"
+                                            ng-click="updateOpeningAllHours()" title="Edit">Update all</button>
+                                        <button
+                                            style="padding: 6px 10px !important;font-size:20px;box-shadow: none !important;background-color:#fff !important;"
+                                            class="btn">OR</button>
+                                        <button class="btn" style="padding: 6px 24px !important;font-size:20px;
+                                background-color: #2e7d32 !important;color:#fff !important;"
+                                            ng-click="updateOpeningHours()" title="Edit">Update</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer" style="text-align: right !important;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link href="/assets/css/jquery.timepicker.min.css" type="text/css" rel="stylesheet" />
+<script src="/assets/js/jquery.timepicker.min.js"></script>
+<script>
+    $(() => {
+        $('.time').timepicker({ 'scrollDefault': 'now', 'timeFormat': 'h:i a', 'step': 5 });
+    });
+    $('.panel-collapse').on('show.bs.collapse', function () {
+        $(this).siblings('.panel-heading').addClass('active');
+    });
+
+    $('.panel-collapse').on('hide.bs.collapse', function () {
+        $(this).siblings('.panel-heading').removeClass('active');
+    });
+</script>
+<style>
+    .btn-s {
+        color: #000;
+        border: 3px solid green !important;
+        background-color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .btn-s:hover {
+        color: #fff !important;
+        background: green !important;
+    }
+
+    .btn-s:active {
+        letter-spacing: 1px;
+    }
+
+    .day-btn-s {
+        border-radius: 3px;
+        background-color: #757575;
+        color: #fff;
+        max-width: 50px;
+        width: 100%;
+    }
+
+    .panel-heading a:before {
+        font-family: 'Glyphicons Halflings';
+        content: "\e114";
+        float: right;
+        transition: all 0.5s;
+    }
+
+    .panel-heading.active a:before {
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+
+    .btn-p-s {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .dropdown-menu {
+        min-width: 120px !important;
+    }
+
+    .dropdown-menu>span {
+        padding: 10px 10px !important;
+        font-size: 1.2rem !important;
+        font-weight: 400 !important;
+        cursor: pointer;
+    }
+
+    .manage-txt {
+        font-size: 1.4rem;
+        color: #000 !important;
+    }
+
+    .ui-timepicker-wrapper {
+        overflow-y: auto;
+        max-height: 300px;
+        width: 11em;
+    }
+
+    .back-txt {
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #000 !important;
+    }
+
+    .card {
+        position: relative;
+        margin: .5rem 0 1rem 0;
+        background-color: #fff;
+        -webkit-transition: -webkit-box-shadow .25s;
+        transition: -webkit-box-shadow .25s;
+        transition: box-shadow .25s;
+        transition: box-shadow .25s, -webkit-box-shadow .25s;
+        border-radius: 2px;
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    .cardRadius {
+        position: relative;
+        margin: .5rem 0 1rem 0;
+        background-color: #fff;
+        -webkit-transition: -webkit-box-shadow .25s;
+        transition: -webkit-box-shadow .25s;
+        transition: box-shadow .25s;
+        transition: box-shadow .25s, -webkit-box-shadow .25s;
+        border-radius: 0px;
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    @media(min-width:768px) {
+        .cCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .cCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .cCard {
+            padding: 20px;
+        }
+    }
+
+    .tCard {
+        border-radius: 2px;
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (min-width: 768px) {
+
+        .seven-cols .col-md-1,
+        .seven-cols .col-sm-1,
+        .seven-cols .col-lg-1 {
+            width: 100%;
+            *width: 100%;
+        }
+    }
+
+    @media (min-width: 992px) {
+
+        .seven-cols .col-md-1,
+        .seven-cols .col-sm-1,
+        .seven-cols .col-lg-1 {
+            width: 14.285714285714285714285714285714%;
+            *width: 14.285714285714285714285714285714%;
+        }
+    }
+
+    @media (min-width: 1200px) {
+
+        .seven-cols .col-md-1,
+        .seven-cols .col-sm-1,
+        .seven-cols .col-lg-1 {
+            width: 14.285714285714285714285714285714%;
+            *width: 14.285714285714285714285714285714%;
+        }
+    }
+
+    .table>thead>tr>th,
+    .table>tbody>tr>th,
+    .table>tfoot>tr>th,
+    .table>thead>tr>td,
+    .table>tbody>tr>td,
+    .table>tfoot>tr>td {
+        padding: 10px !important;
+    }
+</style>

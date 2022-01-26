@@ -1,0 +1,293 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+<div id="analyticsId" ng-controller="specialAnalyticsCtl">
+    <div class="wrapper wrapper-content animated fadeIn" id="specialAnalyticsCtl"
+        style="margin-top:2.5rem;height: 100% important;">
+        <div class="row card" ng-show="currentUser.isAdmin" style="padding:20px;margin: 0rem 0 0.5rem 0;">
+            <div class="col-xs-8 col-sm-8 col-md-6 col-lg-6 col-xl-6">
+                <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                <div class="autocomplete col-md-12" style="padding-right:0px;padding-left:0px;">
+                    <input id="autocompleteBusiness" type="text" name="BusinessName" placeholder="Enter Business name">
+                    <span id="businessErr" style="color:red;"></span>
+                </div>
+                <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                <script type="text/javascript">
+                    autocomplete(document.getElementById("autocompleteBusiness"), 'analytics-special');
+                </script>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-6 col-lg-6 col-xl-6">
+                <button type="button" id="businessSubmit" ng-click="BusinessSelected('analytics-special')"
+                    class="btn btn-raised btn-primary businessSubmit" style="margin-bottom: 10px;border-radius:30px;">
+                    <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+            </div>
+        </div>
+        <div class="row card" style="margin: 0rem 0 0.4rem 0 !important;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 tab-M-ch">
+                <ul class="nav nav-tabs" id="analyticsTab" role="tablist">
+                    <li class="active col-md-4 col-sm-4 col-xs-4 col-lg-4 col-xl-4 tab-M-ch">
+                        <a data-target="#DailySpecial" class="tab-a-tag" href="javascript:;" onclick="taggleFun(this);"
+                            role="tab" data-toggle="tab">Daily Special</a>
+                    </li>
+                    <li class="col-md-4 col-sm-4 col-xs-4 col-lg-4 col-xl-4 tab-M-ch">
+                        <a data-target="#DrinkSpecial" onclick="taggleFun(this);" class="tab-a-tag" href="javascript:;"
+                            role="tab" data-toggle="tab">Drink Special</a>
+                    </li>
+                    <li class="col-md-4 col-sm-4 col-xs-4 col-lg-4 col-xl-4 tab-M-ch">
+                        <a data-target="#LimitedOffer" onclick="taggleFun(this);" class="tab-a-tag" href="javascript:;"
+                            role="tab" data-toggle="tab">Limited Offers</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane active" id="DailySpecial">
+                <div class="row card">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 m-t">
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                <div class="form-group">
+                                    <label>Special Title</label>
+                                    <select class="form-control custom-input" id="_Daily_S_Txt">
+                                        <option value="select">Select an option</option>
+                                        <option value="{{selectedOffer.titleTxt}}" data-val="{{selectedOffer}}"
+                                            ng-selected="{{$index==0}}" ng-repeat="selectedOffer in specialTxtList">
+                                            {{selectedOffer.title}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                <div class="form-group">
+                                    <label>Special Dates</label>
+                                    <select class="form-control custom-input" id="_Daily_S_Dat">
+                                        <option value="select" selected>Select an option</option>
+                                        <option value="{{y.id}}" data-val="{{y.date |
+                                                date:'dd-MM-yyyy'}}" ng-repeat="(x, y) in dailySpecialDates">{{y.date |
+                                            date:'dd-MM-yyyy'}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div id="special-anly"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="DrinkSpecial">
+                <div class="row card">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 m-t">
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                <div class="form-group">
+                                    <label>Special Title</label>
+                                    <select class="form-control custom-input" id="_Drinks_S_txt">
+                                        <option value="select">Select an option</option>
+                                        <option value="{{selectedOffer.titleTxt}}" data-val="{{selectedOffer}}"
+                                            ng-selected="{{$index==0}}" ng-repeat="selectedOffer in specialTxtList">
+                                            {{selectedOffer.title}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                <div class="form-group">
+                                    <label>Special Dates</label>
+                                    <select class="form-control custom-input" id="_Drinks_S_Date">
+                                        <option value="select">Select an option</option>
+                                        <option data-val="{{selectedOffer.date |
+                                            date:'dd-MM-yyyy'}}" value="{{selectedOffer.id}}"
+                                            ng-repeat="selectedOffer in drinksSpecialDates">
+                                            {{selectedOffer.date |
+                                            date:'dd-MM-yyyy'}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div id="special-anly-happy"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="LimitedOffer">
+                <div class="row card">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 m-t">
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                <div class="form-group">
+                                    <label>Offer Title</label>
+                                    <select class="form-control custom-input" id="_Limited_S_txt">
+                                        <option value="select">Select an option</option>
+                                        <option value="{{selectedOffer.titleTxt}}" ng-selected="{{$index==0}}"
+                                            ng-repeat="selectedOffer in specialTxtList">
+                                            {{selectedOffer.title}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                <div class="form-group">
+                                    <label>Special Dates</label>
+                                    <select class="form-control custom-input" id="_Limited_S_Date">
+                                        <option value="select">Select an option</option>
+                                        <option data-val="{{selectedOffer.offerDate |
+                                            date:'dd-MM-yyyy'}}" value="{{selectedOffer.id}}"
+                                            ng-repeat="selectedOffer in limitedSpecialDates">
+                                            {{selectedOffer.offerDate |
+                                            date:'dd-MM-yyyy'}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div id="special-anly-Offers"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal" tabindex="-1" role="dialog" id="day-chat-sepcial">
+            <div class="modal-dialog modal-lg opacity-animate3" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div id="special-chart-day"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                <div id="ageChartD_Daily"></div>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                <div id="malefemaleD_D"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    @media (max-width:800px) {
+        #buttonMenu {
+            margin-top: 10px;
+        }
+
+        .wrapper-content {
+            padding: 20px 0px 10px;
+        }
+    }
+
+    #page-wrapper {
+        padding: 0 1px !important;
+    }
+
+    .active-a {
+        background-color: #f9a141;
+        color: #000000 !important;
+    }
+
+    select option {
+        color: #000;
+        background-color: #fff;
+    }
+
+    .tab-M-ch>.nav>li.active {
+        border-top: 4px solid #3e8e41 !important;
+        border-left: 0px solid #3e8e41 !important;
+    }
+
+    body {
+        background-color: #f3f3f4 !important;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 3px solid #ddd !important;
+        line-height: 40px !important;
+        min-height: 40px !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        top: 8px !important;
+    }
+
+    .wrapper {
+        height: 100%;
+    }
+
+    .tab-M-ch {
+        text-align: center;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+
+    .tab-a-tag {
+        color: #000 !important;
+    }
+
+    .m-t {
+        margin-top: 1rem;
+    }
+
+    @media (min-width: 992px) {
+        .modal-lg {
+            width: 1012px !important;
+        }
+    }
+</style>
+<script type="text/javascript">
+
+    function taggleFun(a) {
+        angular.element(document.getElementById('specialAnalyticsCtl')).scope().tapTagClick($(a).attr('data-target'));
+    }
+
+    $("#_Daily_S_Txt").on('change', function () {
+        angular.element(document.getElementById('specialAnalyticsCtl')).scope().onChanCateDaily($(this).find(':selected').attr('data-val'));
+    })
+
+    $("#_Drinks_S_txt").on('change', function () {
+        angular.element(document.getElementById('specialAnalyticsCtl')).scope().onChanCateDrinks($(this).find(':selected').attr('data-val'));
+    })
+
+    $("#_Daily_S_Dat").on('change', function () {
+        angular.element(document.getElementById('specialAnalyticsCtl')).scope().setDateChart($(this).find(':selected').attr('data-val'), "DailySpecial");
+    })
+
+    $("#_Drinks_S_Date").on('change', function () {
+        angular.element(document.getElementById('specialAnalyticsCtl')).scope().setDateDrinksChart($(this).find(':selected').attr('data-val'), "DrinksSpecial");
+    })
+
+    if ($(window).width() <= 800) {
+        if ($('body').hasClass('pace-running')) {
+            $('body').removeClass('pace-running');
+        }
+        if ($('body').hasClass('pace-done')) {
+            $('body').removeClass('pace-done');
+        }
+    };
+
+</script>

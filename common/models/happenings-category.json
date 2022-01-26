@@ -1,0 +1,46 @@
+{
+  "name": "HappeningsCategory",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "_name": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    },
+    "happenings": {
+      "type": "hasMany",
+      "model": "Happenings",
+      "foreignKey": ""
+    },
+    "whatsOnReservations": {
+      "type": "hasMany",
+      "model": "WhatsOnReservation",
+      "foreignKey": ""
+    },
+    "allCategoryCharts": {
+      "type": "hasMany",
+      "model": "AllCategoryChart",
+      "foreignKey": ""
+    },
+    "allCharts": {
+      "type": "hasMany",
+      "model": "AllChart",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

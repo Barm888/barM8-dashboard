@@ -1,0 +1,26 @@
+{
+  "name": "TokenSession",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    },
+    "token": {
+      "type": "string",
+      "default": null
+    },
+    "email": {
+      "type": "string",
+      "default": null
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

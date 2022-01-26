@@ -1,0 +1,35 @@
+{
+  "name": "MealsExtraDashLine",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "desc": {
+      "type": "string"
+    },
+    "price": {
+      "type": "string"
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "mealsDashSubLine": {
+      "type": "belongsTo",
+      "model": "MealsDashSubLine",
+      "foreignKey": ""
+    },
+    "orderExtraLines": {
+      "type": "hasMany",
+      "model": "OrderExtraLine",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

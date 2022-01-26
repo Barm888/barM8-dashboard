@@ -1,0 +1,57 @@
+{
+  "name": "SlotWhatsHot",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "date": {
+      "type": "date"
+    },
+    "time": {
+      "type": "string"
+    },
+    "hour": {
+      "type": "number"
+    },
+    "minutes": {
+      "type": "number"
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    },
+    "createTs": {
+      "type": "date"
+    },
+    "createProgId": {
+      "type": "string"
+    },
+    "modifyTs": {
+      "type": "date"
+    },
+    "modifyProgId": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "dashLine": {
+      "type": "belongsTo",
+      "model": "DashLine",
+      "foreignKey": ""
+    },
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

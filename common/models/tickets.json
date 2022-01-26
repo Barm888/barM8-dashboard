@@ -1,0 +1,104 @@
+{
+  "name": "Tickets",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "group": {
+      "type": "string"
+    },
+    "qty": {
+      "type": "string"
+    },
+    "totalCount": {
+      "type": "number",
+      "default": 20
+    },
+    "availCount": {
+      "type": "number",
+      "default": 20
+    },
+    "bookedCount": {
+      "type": "number",
+      "default": 0
+    },
+    "basePrice": {
+      "type": "string"
+    },
+    "totalPrice": {
+      "type": "string"
+    },
+    "desc": {
+      "type": "string"
+    },
+    "salesStartDate": {
+      "type": "string"
+    },
+    "salesStartTime": {
+      "type": "string"
+    },
+    "salesStartUTC": {
+      "type": "date"
+    },
+    "salesEndDate": {
+      "type": "string"
+    },
+    "salesEndTime": {
+      "type": "string"
+    },
+    "salesEndUTC": {
+      "type": "date"
+    },
+    "promocode": {
+      "type": "string"
+    },
+    "visibility": {
+      "type": "string"
+    },
+    "isExpired": {
+      "type": "boolean",
+      "default": "false"
+    },
+    "loyaltyLevel": {
+      "type": "string",
+      "default": "All"
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "eventDates": {
+      "type": "belongsTo",
+      "model": "EventDates",
+      "foreignKey": ""
+    },
+    "userTickets": {
+      "type": "hasMany",
+      "model": "UserTicket",
+      "foreignKey": ""
+    },
+    "eventTicketType": {
+      "type": "belongsTo",
+      "model": "EventTicketType",
+      "foreignKey": ""
+    },
+    "eventTicketGroup": {
+      "type": "belongsTo",
+      "model": "EventTicketGroup",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

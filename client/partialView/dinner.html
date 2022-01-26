@@ -1,0 +1,172 @@
+<div class="col-md-6">
+  <div class="row" style="margin-top: 10px;">
+    <div class="col-md-1">
+    </div>
+    <div class="col-md-11">
+      <table class="table-condensed" style="width:100%">
+        <tbody>
+          <tr>
+            <td class="question">
+              <input type="checkbox" id="column_1_dinner" class="columnSelect_dinner" onchange="meals_columnChange(this)" data-name="dinner" value="1" />
+              <label for="column_1_dinner"></label>
+            </td>
+            <td class="question">
+              <input type="checkbox" id="column_2_dinner" class="columnSelect_dinner" onchange="meals_columnChange(this)" data-name="dinner" value="2" />
+              <label for="column_2_dinner"></label>
+            </td>
+            <td class="question">
+              <input type="checkbox" id="column_3_dinner" class="columnSelect_dinner" onchange="meals_columnChange(this)" data-name="dinner" value="3" />
+              <label for="column_3_dinner"></label>
+            </td>
+            <td class="question">
+              <input type="checkbox" id="column_4_dinner" class="columnSelect_dinner" onchange="meals_columnChange(this)" data-name="dinner" value="4" />
+              <label for="column_4_dinner"></label>
+            </td>
+            <td class="question">
+              <input type="checkbox" id="column_5_dinner" class="columnSelect_dinner" onchange="meals_columnChange(this)" data-name="dinner" value="5" />
+              <label for="column_5_dinner"></label>
+            </td>
+            <td class="question">
+              <input type="checkbox" id="column_6_dinner" class="columnSelect_dinner" onchange="meals_columnChange(this)" data-name="dinner" value="6" />
+              <label for="column_6_dinner"></label>
+            </td>
+            <td class="question">
+              <input type="checkbox" id="column_7_dinner" class="columnSelect_dinner" onchange="meals_columnChange(this)" data-name="dinner" value="7" />
+              <label for="column_7_dinner"></label>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-1">
+      <table class="table-condensed" style="margin-top:20px;">
+        <tr>
+          <td><label></label></td>
+        </tr>
+        <tr>
+          <td class="question" style="text-align:center;">
+            <input type="checkbox" id="row_1_dinner" class="rowSelect_dinner" onchange="meals_rowChange(this)" data-name="dinner" value="1" style="margin: 0px 0 0" />
+            <label for="row_1_dinner" style="margin-bottom:0px;"></label>
+          </td>
+        </tr>
+        <tr>
+          <td class="question" style="text-align:center;">
+            <input type="checkbox" id="row_2_dinner" class="rowSelect_dinner" onchange="meals_rowChange(this)" data-name="dinner" value="2" style="margin: 0px 0 0" />
+            <label for="row_2_dinner" style="margin-bottom:0px;"></label>
+          </td>
+        </tr>
+        <tr>
+          <td class="question" style="text-align:center;">
+            <input type="checkbox" id="row_3_dinner" class="rowSelect_dinner" onchange="meals_rowChange(this)" data-name="dinner" value="3" style="margin: 0px 0 0" />
+            <label for="row_3_dinner" style="margin-bottom:0px;"></label>
+          </td>
+        </tr>
+        <tr>
+          <td class="question" style="text-align:center;">
+            <input type="checkbox" id="row_4_dinner" class="rowSelect_dinner" onchange="meals_rowChange(this)" data-name="dinner" value="4" style="margin: 0px 0 0" />
+            <label for="row_4_dinner" style="margin-bottom:0px;"></label>
+          </td>
+        </tr>
+        <tr>
+          <td class="question" style="text-align:center;">
+            <input type="checkbox" id="row_5_dinner" class="rowSelect_dinner" onchange="meals_rowChange(this)" data-name="dinner" value="5" style="margin: 0px 0 0" />
+            <label for="row_5_dinner" style="margin-bottom:0px;"></label>
+          </td>
+        </tr>
+        <tr>
+          <td class="question" style="text-align:center;">
+            <input type="checkbox" id="row_6_dinner" class="rowSelect_dinner" onchange="meals_rowChange(this)" data-name="dinner" value="6" style="margin: 0px 0 0" />
+            <label for="row_6_dinner" style="margin-bottom:0px;"></label>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-md-11">
+      <div id="datepicker-container">
+        <div id="datepicker-center">
+          <div id="datepicker_dinner"></div>
+          <input type="hidden" id="hidden_dinner">
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      $(function () {
+        var selectetDinnerDateStore = [];
+        $('#datepicker_dinner').datepicker();
+        $('#datepicker_dinner').on('changeDate', function () {
+          var date = $('#datepicker_dinner').datepicker('getFormattedDate');
+          if (selectetDinnerDateStore.length > 0) {
+            if (date != null || date != "" || date != undefined) {
+              if (date.split('/')[0] == selectetDinnerDateStore[0].split('/')[0]) {
+                selectetDinnerDateStore.push(date);
+              }
+              else {
+                selectetDinnerDateStore = [];
+                selectetDinnerDateStore.push(date);
+              }
+            }
+          }
+          else {
+            selectetDinnerDateStore.push(date);
+          }
+          $('#datepicker_dinner .datepicker-days .table-condensed tbody').find('tr').each(function (tbody, tr) {
+            $(tr).find('td').each(function (tr1, td) {
+              $.each(selectetDinnerDateStore, function (dates, date) {
+                if (('0' + date.split('/')[1]).slice(-2) == ('0' + $(td).html()).slice(-2)) {
+                  $("#datepicker_dinner .datepicker-days .table-condensed tbody tr:nth-child(" + (tbody + 1) + ") td:nth-child(" + (tr1 + 1) + ")").not('.old').not('.new').addClass('active');
+                }
+              });
+            });
+          });
+          var items = $.map($("#datepicker_dinner .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+          if (items.length > 0) {
+            var month = ($("#datepicker_dinner .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+            var year = ($("#datepicker_dinner .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+            var monthIndex = monthNames.indexOf(month) + 1;
+            angular.element(document.getElementById('businessManager')).scope().dinnerdateSelected(items, monthIndex, year);
+          }
+        });
+
+      });
+    </script>
+  </div>
+</div>
+<div class="col-md-6" style="padding: 0px 17px;">
+  <div class="row" style="padding-top: 22px;padding-bottom:20px;">
+    <div class="col-md-12 question">
+      <input type="checkbox" ng-model="meals_dinner.isSelected" name="question_dinner" class="xClass" id="question_dinner" />
+      <label for="question_dinner"> &nbsp;&nbsp;Dinner</label>
+    </div>
+    <script>
+      $(function () {
+        $('.time').timepicker({ 'scrollDefault': 'now', 'step': 15, 'forceRoundTime': true, 'timeFormat': 'h:i A' });
+      });
+    </script>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <input type="hidden" id="dinner_startTimehideen" />
+        <input id="dinner_startTime" class="form-control time" ng-model="meals_dinner.startTime" placeholder="Start Time" data-name="dinner" onchange="changeTime('startTime',this)" type="text" />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <input type="hidden" id="dinner_endTimehideen" />
+        <input id="dinner_endTime" class="form-control time" ng-model="meals_dinner.endTime" placeholder="End Time" data-name="dinner" onchange="changeTime('endTime',this)" type="text" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <textarea class="form-control" ng-model="meals_dinner.desc" placeholder="Description" rows="5" id="dinner_desc"></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-md-12" style="padding:0px 20px;">
+  <button type="button" ng-click="DinnerCreate()" class=" btn btn-primary pull-right"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;Save</button>
+</div>

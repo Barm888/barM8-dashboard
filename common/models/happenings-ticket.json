@@ -1,0 +1,68 @@
+{
+  "name": "HappeningsTicket",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "ticketType": {
+      "type": "string"
+    },
+    "ticketName": {
+      "type": "string"
+    },
+    "ticketQty": {
+      "type": "number"
+    },
+    "salePrice": {
+      "type": "number"
+    },
+    "ticketDesc": {
+      "type": "string"
+    },
+    "absorbFees": {
+      "type": "boolean",
+      "default": false
+    },
+    "salesStartDate": {
+      "type": "date"
+    },
+    "salesStartTime": {
+      "type": "string"
+    },
+    "salesEndDate": {
+      "type": "date"
+    },
+    "salesEndTime": {
+      "type": "string"
+    },
+    "minTicket": {
+      "type": "number",
+      "default": 1
+    },
+    "maxTicket": {
+      "type": "number",
+      "default": 4
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "whatsOnTickets": {
+      "type": "belongsTo",
+      "model": "WhatsOnTickets",
+      "foreignKey": ""
+    },
+    "happenings": {
+      "type": "belongsTo",
+      "model": "Happenings",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

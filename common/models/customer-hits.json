@@ -1,0 +1,48 @@
+{
+  "name": "CustomerHits",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "scanDateZero": {
+      "type": "date"
+    },
+    "date": {
+      "type": "number"
+    },
+    "month": {
+      "type": "number"
+    },
+    "year": {
+      "type": "number"
+    },
+    "scanDate": {
+      "type": "string"
+    },
+    "scanTime": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "timeZone": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "businessVisitCount": {
+      "type": "belongsTo",
+      "model": "BusinessVisitCount",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

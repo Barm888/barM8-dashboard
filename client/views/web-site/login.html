@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description"
+        content="Bar M8 , BarM8 is a Loyalty Reward App for patrons of Bars, Clubs and Pubs. It is also a platform for Bars Pubs and Clubs to reward their clients patronage by giving free drinks, food or any prize the venue may choose. It also allows venues to advertise their up to the minute special on Food, Drinks and Entertainment.">
+    <meta name="keywords"
+        content="Bar M8, BarM8 is a Loyalty Reward App for patrons of Bars, Clubs and Pubs. It is also a platform for Bars Pubs and Clubs to reward their clients patronage by giving free drinks, food or any prize the venue may choose. It also allows venues to advertise their up to the minute special on Food, Drinks and Entertainment">
+    <meta name="author"
+        content="Bar M8, BarM8 is a Loyalty Reward App for patrons of Bars, Clubs and Pubs. It is also a platform for Bars Pubs and Clubs to reward their clients patronage by giving free drinks, food or any prize the venue may choose. It also allows venues to advertise their up to the minute special on Food, Drinks and Entertainment">
+    <title>Bar M8 , BarM8 is a Loyalty Reward App for patrons of Bars, Clubs and Pubs. It is also a platform for Bars
+        Pubsand Clubs to reward their clients patronage by giving free drinks, food or any prize the venue may choose.
+        It also allows venues to advertise their up to the minute special on Food, Drinks and Entertainment.</title>
+    <link rel="shortcut icon" href="favicon-16x16.png" type="image/x-icon">
+    <link rel="icon" href="favicon-16x16.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js"></script>
+    <link rel="stylesheet" href="views/web-site/css/login-style.css">
+    <script type="text/javascript" src="/../assets/js/toastr.min.js"></script>
+    <link href="/../assets/css/toastr.min.css" rel="stylesheet">
+</head>
+
+<body ng-app="app">
+    <script>
+        angular
+            .module('app', [])
+            .controller('loginCtl', function ($scope, $http) {
+                toastMsg = (isVaild, msg) => {
+                    if (isVaild)
+                        toastr.success(msg);
+                    else
+                        toastr.error(msg);
+                    toastr.options = { "closeButton": true, "progressBar": true, "timeOut": "5000" };
+                }
+                $scope.login = () => {
+                    let email = $("#inputEmail4").val(),
+                        password = $("#inputPassword4").val();
+                    if (email && password) {
+                        $('.loader').css({ display: 'block' });
+                        $http({
+                            method: "GET",
+                            url: `https://www.barm8.com.au/api/Businesses/userLogin?params={"email":"${email}", "password": "${password}"}`
+                        }).then((res) => {
+                            if (res && res.data && res.data.data) {
+                                let { isSuccess, result } = res.data.data;
+                                if (isSuccess) {
+                                    let isAdmin = (email == 'admin@barm8.com.au' ? true : false)
+                                    let userDetails = {
+                                        "id": result.userId,
+                                        "tokenId": result.id,
+                                        "email": email,
+                                        "businessName": result.business.businessName,
+                                        "loginId": result.userId, isAdmin
+                                    };
+                                    $(".loader").fadeOut('slow', function () {
+                                        $(this).css({ display: 'none' })
+                                    });
+                                    localStorage.removeItem("userSession");
+                                    localStorage.setItem("userSession", JSON.stringify(userDetails));
+                                    var link = document.createElement('a');
+                                    if (isAdmin) link.href = "/admin";
+                                    else link.href = "/dashboard-home";
+                                    document.body.appendChild(link);
+                                    link.click();
+                                } else {
+                                    toastMsg(false, "Invaild email or password. Please try again!");
+                                    $(".loader").fadeOut('slow', function () {
+                                        $(this).css({ display: 'none' })
+                                    });
+                                }
+                            } else {
+                                toastMsg(false, "Invaild email or password. Please try again!");
+                                $(".loader").fadeOut('slow', function () {
+                                    $(this).css({ display: 'none' })
+                                });
+                            }
+                        }, (err) => {
+                            toastMsg(false, "Invaild email or password. Please try again!");
+                            $(".loader").fadeOut('slow', function () {
+                                $(this).css({ display: 'none' })
+                            });
+                        });
+                    } else {
+                        toastMsg(false, "Email and Password is required. Please try again!");
+                        $(".loader").fadeOut('slow', function () {
+                            $(this).css({ display: 'none' })
+                        });
+                    }
+                }
+            });
+        function checkValue(element) {
+            // check if the input has any value (if we've typed into it)
+            if ($(element).val())
+                $(element).addClass('has-value');
+            else
+                $(element).removeClass('has-value');
+        }
+        setTimeout(function () {
+            $(".loader").fadeOut('slow', function () {
+                $(this).css({ display: 'none' })
+            });
+        }, 500)
+        $(document).ready(function () {
+            // Run on page load
+            $('.form-control').each(function () {
+                checkValue(this);
+            })
+            // Run on input exit
+            $('.form-control').blur(function () {
+                checkValue(this);
+            });
+        });
+        $(document).ready(function () {
+            $(".btn-login").prop('disabled', true);
+        })
+        $(document).on("keypress keyup change mouseover mouseout", "#inputEmail4,#inputPassword4", function () {
+            let isTrue = true;
+            if (!$("#inputPassword4").val()) {
+                isTrue = false
+            }
+            if (!$("#inputEmail4").val()) {
+                isTrue = false
+            }
+            $(".btn-login").prop('disabled', true);
+            if (isTrue) {
+                $(".btn-login").prop('disabled', false);
+            }
+        });
+
+    </script>
+    <style>
+        body {
+            background: url(views/web-site/images/login-bg.jpg) !important;
+        }
+
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus,
+        select:-webkit-autofill,
+        select:-webkit-autofill:hover,
+        select:-webkit-autofill:focus {
+            border: 0px solid #9990;
+            -webkit-text-fill-color: #f0ad4e;
+            -webkit-box-shadow: 0 0 0px 1000px #000 inset;
+            transition: background-color 50000s ease-in-out 0s;
+        }
+
+        #loader {
+            width: 50px;
+            height: 50px;
+            left: 50%;
+            position: fixed;
+            z-index: 9999;
+            background: url("/../loader/loader.gif") no-repeat center center rgba(255, 255, 255, 0.67);
+            background-size: 170px 138px;
+            top: 50%;
+            border-radius: 50%;
+            background-color: black !important;
+        }
+
+        @media (max-width: 767.98px) {
+            .login-box {
+                position: relative;
+                z-index: 99;
+                top: 20px;
+            }
+        }
+    </style>
+    <div class="loader" data-loader="dashboard">
+        <div id="loader"> </div>
+    </div>
+    <div class="container-fluid" ng-controller="loginCtl">
+        <div class="row">
+            <img class="logoImg" src="views/web-site/images/barm_login_logo.png">
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="login-bg-screen">
+                    <div class="row m-t-w">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <p class="wel-txt"> Welcome back!</p>
+                        </div>
+                    </div>
+                    <div class="row m-t-w-1">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <p class="wel-txt-1"> Sign in to access and manage your venue’s</p>
+                            <p class="wel-txt-2"> details on the BarM8 app.</p>
+                        </div>
+                    </div>
+                    <div class="row m-t-w-1">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <p class="wel-txt-1"> Did you <a href="#" class="forgot-txt">forget your password?</a></p>
+                        </div>
+                    </div>
+                    <div class="row m-t-e-p">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <form autocomplete="off">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <input type="email" class="form-control"
+                                            style="background-color: transparent !important;" autocomplete="off"
+                                            id="inputEmail4">
+                                        <label for="inputEmail4">Email Address</label>
+                                        <div class="line"></div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <input type="password" class="form-control"
+                                            style="background-color: transparent !important;" autocomplete="off"
+                                            id="inputPassword4">
+                                        <label for="inputPassword4">Password</label>
+                                        <div class="line"></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row m-t-l-b">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <button class="btn btn-login" ng-click="login()">Login</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

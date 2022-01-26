@@ -1,0 +1,614 @@
+<div class="wrapper wrapper-content" id="promotionCreateCtl" ng-controller="promotionCreateCtl">
+    <div class="m-t-sm" style="margin-top:2.6rem;">
+        <div class="row card" style="margin: 0.5rem 0 0rem 0 !important;padding:10px;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div class="row" style="margin-bottom: -2.5rem;">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <a href="#" onclick="history.back();">
+                            <i style="color: #ff9800 !important;vertical-align: -0.4em !important;"
+                                class="fas fa-long-arrow-alt-left fa-4x"></i>
+                            <b class="back-txt" style="
+                            font-size: 1.2rem;color: #000;">&nbsp; Back to Overview</b>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 md-12 col-lg-12">
+                        <ul class="nav nav-tabs s-config row">
+                            <li class="active col-md-6 center"><a data-toggle="tab" href="#createPromotion">Create new
+                                    promotion</a></li>
+                            <li class="col-md-6 center"><a data-toggle="tab" href="#promotionConfig">
+                                    Promotion Config</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div id="createPromotion" class="tab-pane fade in active">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-8 col-xl-8 col-lg-8">
+                                        <div class="row" style="margin-top: 1rem;">
+                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label>Select sponsor name</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <div class="form-group">
+                                                            <select class="form-control custom-input"
+                                                                id="select-sponsor">
+                                                                <option value="Select Sponsor">Select </option>
+                                                                <option value="{{sp.id}}"
+                                                                    data-img="{{sp.sponsorLogo.path}}"
+                                                                    ng-repeat="sp in sponsorList">
+                                                                    {{sp.sponsorName}}
+                                                                </option>
+                                                            </select>
+                                                            <span id="sponsor-name-err" style="color: red;"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                        <label>Sponsor logo</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <img id="popul-log"
+                                                            src="https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png"
+                                                            ng-src="https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            style="width: 110px;height:60px;object-fit: contain;padding:10px;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="form-group">
+                                                    <label for="promotion-title" class="required"
+                                                        style="font-size: 1.2rem;">Promotion
+                                                        title</label>
+                                                    <input type="text" class="form-control custom-input"
+                                                        id="promotion-title">
+                                                    <span id="promotion-title-err" style="color: red;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="form-group">
+                                                    <label for="promotion-desc"
+                                                        style="font-size: 1.2rem;">Description</label>
+                                                    <textarea id="promotion-desc" class="form-control" style="border: 2px solid #ddd !important;
+                                                    font-size: 16px !important;" name="promotion-desc"
+                                                        rows="4"></textarea>
+                                                    <span id="promotion-description-err" style="color: red;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="promotion-start-date" class="required"
+                                                        style="font-size: 1.2rem;">Start
+                                                        date</label>
+                                                    <input type="date" class="form-control custom-input"
+                                                        id="promotion-start-date">
+                                                    <span id="promotion-start-date-err" style="color: red;"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="promotion-start-time" class="required"
+                                                        style="font-size: 1.2rem;">Start
+                                                        time</label>
+                                                    <input type="text" class="form-control custom-input time"
+                                                        id="promotion-start-time">
+                                                    <span id="promotion-start-time-err" style="color: red;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="promotion-end-date" class="required"
+                                                        style="font-size: 1.2rem;">End date</label>
+                                                    <input type="date" class="form-control custom-input"
+                                                        id="promotion-end-date">
+                                                    <span id="promotion-end-date-err" style="color: red;"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                <div class="form-group">
+                                                    <label for="promotion-end-time" class="required"
+                                                        style="font-size: 1.2rem;">End time</label>
+                                                    <input type="text" class="form-control custom-input time"
+                                                        id="promotion-end-time">
+                                                    <span id="promotion-end-time-err" style="color: red;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-xl-6 col-lg-6">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <label>Primary image</label>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <div class="form-group">
+                                                            <input type="file" class="form-control custom-input"
+                                                                id="pPrimaryImgCnt"
+                                                                accept="image/jpg,image/png,image/jpeg,image/gif">
+                                                            <span style="color: gray;">image size is
+                                                                700*350</span>
+                                                            <span style="color: red;display: none;" id="image_err">Image
+                                                                is
+                                                                required</span>
+                                                            <span style="color: red;display: none;"
+                                                                id="image_w_p_h">Incorrect
+                                                                the width or height!</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-xl-6 col-lg-6">
+                                                <div class="row">
+                                                    <div class="col-xw-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <label>Secondary images
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                        <div class="form-group">
+                                                            <input type="file" class="form-control custom-input"
+                                                                id="pSecondaryCnt"
+                                                                accept="image/jpg,image/png,image/jpeg,image/gif"
+                                                                multiple>
+                                                            <span style="color: gray;">image size is (600*450
+                                                                <span style="color: #000;"><i>or</i> </span>
+                                                                600*600)</span>
+                                                            <span style="color: red;display: none;"
+                                                                id="image_w_s_h">Incorrect
+                                                                the width or height!</span>
+                                                            <span style="color: red;display: none;"
+                                                                id="image_w_s_h_max">Maximum
+                                                                five
+                                                                images allowed
+                                                                !</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                style="font-size: 1.4rem;text-align:center;">
+                                                <i>or</i>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-xl-6 col-xl-6">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                                        <label>Upload Video thumbnail
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                                        <input type="file" class="form-control custom-input"
+                                                            id="video-thumbnail"
+                                                            accept="image/jpg,image/png,image/jpeg,image/gif">
+                                                        <span style="color: gray;">image size is 700*350</span>
+                                                        <span style="color: red;display: none;"
+                                                            id="image_w_thu_s_h">Incorrect
+                                                            the width or height!</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-xl-6 col-xl-6">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                                        <label>Upload video
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                                        <input type="file" class="form-control custom-input" id="video"
+                                                            accept="video/mp4,video/x-m4v,video/*">
+                                                        <span style="color: gray;">Upload video for you sport
+                                                            (maximum file size 20mb)</span>
+                                                        <span style="color: red;display: none;"
+                                                            id="video_size_error">Maximum
+                                                            file size 20mb!</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-ms-12 col-md-12 col-lg-12 col-xl-12"
+                                                style="margin-top:1rem;text-align:right;">
+                                                <button class="btn btn-primary" ng-click="createPromotion()" disabled
+                                                    id="create-btn"
+                                                    style="font-size: 1.4rem;padding:20px;padding: 6px 50px !important;background-color: #1db842 !important;border: 1px solid #1db842 !important;">Create</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="promotionConfig" class="tab-pane fade">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                        <div class="row" style="margin-top: 1rem;">
+                                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
+                                                <div class="form-group">
+                                                    <label for="sponsorName">Sponsor
+                                                        name</label>
+                                                    <input type="text" class="form-control custom-input"
+                                                        id="sponsorNameTxt">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
+                                                <div class="form-group">
+                                                    <label for="text_promotion_logo">Upload sponsor
+                                                        logo</label>
+                                                    <input type="file" disabled class="form-control custom-input"
+                                                        id="text_promotion_logo" />
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
+                                                <button class="btn btn-outline pull-right" id="create_sponsor_add_btn"
+                                                    ng-click="createSponsorLogo()" disabled
+                                                    style="border-radius: 3px;padding: 6.5px 25px!important;font-size: 1.4rem; border: 1px solid #f9a141 !important;margin-bottom:10px;background-color: #f9a141 !important;color: #fff !important;margin-top:2rem;">Add</button>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><b>Sponsor Name</b></th>
+                                                            <th><b>Logo</b></th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="sp in sponsorList">
+                                                            <td><span>{{sp.sponsorName}}</span></td>
+                                                            <td>
+                                                                <img ng-if="sp.sponsorLogo.path"
+                                                                    ng-src="{{sp.sponsorLogo.path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png' }}"
+                                                                    data-toggle="tooltip" data-placement="top"
+                                                                    title="{{sp.sponsorLogo.fileName || 'No Image'}}"
+                                                                    style="width: 110px;height:60px;object-fit: contain;padding:10px;"
+                                                                    alt="{{sp.sponsorLogo.fileName || 'No Image'}}">
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn" data-toggle="tooltip" style="padding: 6px 10px!important;background-color:#d50000 !important;
+                                                                color:#fff !important;border-radius: 50px !important;"
+                                                                    ng-click="sponsorConDelete(sp.id)"
+                                                                    data-placement="top" title="Delete">
+                                                                    <i class="far fa-trash-alt"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr ng-show="sponsorList && sponsorList.length==0">
+                                                            <td colspan="3" style="text-align: center;">
+                                                                <span>No Data</span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal" id="deleteConfirm" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <b style="font-size: 1.3rem;">Do you want to proceed?</b>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" ng-click="deleteSpConConfirm()"
+                                    style="background-color: #1bbc3b !important;font-size:1.3rem;padding:6px 20px !important;">Yes</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                    style="background-color: #e3360b !important;font-size:1.3rem;padding:6px 20px !important;color:#fff !important;">No</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="/assets/css/jquery.timepicker.min.css" type="text/css" rel="stylesheet" />
+
+<script src="/assets/js/jquery.timepicker.min.js"></script>
+
+<script>
+
+    $("#select-sponsor").on('change', function () {
+        $("#popul-log").attr('src', $(this).find(':selected').attr('data-img'));
+    })
+
+    $("#sponsorNameTxt").on('change keypress keyup', function () {
+        $("#text_promotion_logo").prop('disabled', true);
+        if ($("#sponsorNameTxt").val().length) $("#text_promotion_logo").prop('disabled', false);
+    })
+
+    $("#text_promotion_logo").on('change keypress', function () {
+        $("#create_sponsor_add_btn").prop('disabled', false);
+        if ($("#text_promotion_logo").val()) $("#create_sponsor_add_btn").prop('disabled', false);
+    })
+
+    $(() => {
+        $('.time').timepicker({ 'scrollDefault': 'now', 'timeFormat': 'h:i a', 'step': 15 });
+    })
+
+    var nameCnt = 0, titleCnt = 0, prmSDateCnt = 0, prmEDateCnt = 0, videoThumbnail = 0, prmSTimeCnt = 0, prmETimeCnt = 0, videoCnt = 0, imageCnt = 0;
+
+    var disabledFun = () => {
+        $("#create-btn").prop('disabled', false);
+        // $("#create-btn").prop('disabled', true);
+        // if (nameCnt && titleCnt && prmSDateCnt && prmEDateCnt && prmSTimeCnt && prmETimeCnt) {
+        //     if (videoCnt || imageCnt) $("#create-btn").prop('disabled', false);
+        // }
+    }
+
+    $("#select-sponsor").on('change keypress', function () {
+        if ($("#select-sponsor").find(':selected').attr('data-img').includes('digitaloceanspaces')) {
+            nameCnt = $("#select-sponsor").find(':selected').val().length;
+            disabledFun();
+        }
+    });
+    $("#promotion-title").on('change keypress', function () {
+        titleCnt = $("#promotion-title").val().length;
+        disabledFun();
+    });
+    $("#promotion-start-date").on('change keypress', function () {
+        prmSDateCnt = $("#promotion-start-date").val().length;
+        disabledFun();
+    });
+    $("#promotion-start-time").on('change keypress', function () {
+        prmSTimeCnt = $("#promotion-start-time").val().length;
+        disabledFun();
+    });
+    $("#promotion-end-date").on('change keypress', function () {
+        prmEDateCnt = $("#promotion-end-date").val().length;
+        disabledFun();
+    });
+    $("#promotion-end-time").on('change keypress', function () {
+        prmETimeCnt = $("#promotion-end-time").val().length;
+        disabledFun();
+    });
+    $("#video-thumbnail").on('change keypress', function () {
+        videoThumbnail = $("#video-thumbnail").val().length;
+        $("#pPrimaryImgCnt,#pSecondaryCnt").prop('disabled', false);
+        if (videoThumbnail) {
+            $("#pPrimaryImgCnt,#pSecondaryCnt").prop('disabled', true);
+        }
+
+        let h, w;
+        $("#image_w_thu_s_h").css({ display: 'none' });
+        let reader = new FileReader();
+        reader.onload = () => {
+            let tmpImgNode = document.createElement("img");
+            tmpImgNode.onload = function () {
+                h = this.naturalHeight;
+                w = this.naturalWidth;
+                if (h == 350 && w == 700) {
+                    disabledFun();
+                } else {
+                    $("#image_w_thu_s_h").css({ display: 'block' });
+                }
+            };
+            tmpImgNode.src = reader.result;
+        };
+        reader.readAsDataURL($("#video-thumbnail")[0].files[0]);
+    });
+    $("#video").on('change keypress', function () {
+        videoCnt = $("#video").val().length;
+        $("#pPrimaryImgCnt,#pSecondaryCnt").prop('disabled', false);
+        if (videoCnt) $("#pPrimaryImgCnt,#pSecondaryCnt").prop('disabled', true);
+        disabledFun();
+    });
+    $("#pPrimaryImgCnt").on('change keypress', function () {
+        imageCnt = $("#pPrimaryImgCnt").val().length;
+        videoCnt = $("#video").val().length;
+        $("#video,#video-thumbnail").prop('disabled', false);
+        if (imageCnt) {
+            $("#video,#video-thumbnail").prop('disabled', true);
+        }
+
+        let h, w;
+        $("#image_w_p_h").css({ display: 'none' });
+        let reader = new FileReader();
+        reader.onload = () => {
+            let tmpImgNode = document.createElement("img");
+            tmpImgNode.onload = function () {
+                h = this.naturalHeight;
+                w = this.naturalWidth;
+                if (h == 350 && w == 700) {
+                    disabledFun();
+                } else {
+                    $("#image_w_p_h").css({ display: 'block' });
+                }
+            };
+            tmpImgNode.src = reader.result;
+        };
+        reader.readAsDataURL($("#pPrimaryImgCnt")[0].files[0]);
+
+    });
+
+    $("#pSecondaryCnt").on('change keypress', function () {
+        imageCnt = $("#pSecondaryCnt").val().length;
+        $("#video,#video-thumbnail").prop('disabled', false);
+        if (imageCnt) {
+            $("#video,#video-thumbnail").prop('disabled', true);
+        }
+
+        $("#image_w_s_h_max").css({ display: 'none' });
+
+        var numFiles = $(this).get(0).files.length;
+
+        if (numFiles <= 5) {
+            let h, w;
+            $("#image_w_s_h").css({ display: 'none' });
+            let reader = new FileReader();
+            reader.onload = () => {
+                let tmpImgNode = document.createElement("img");
+                tmpImgNode.onload = function () {
+                    h = this.naturalHeight;
+                    w = this.naturalWidth;
+                    if ((h == 450 && w == 600) || (h == 600 && w == 600)) {
+                        disabledFun();
+                    } else {
+                        $("#image_w_s_h").css({ display: 'block' });
+                    }
+                };
+                tmpImgNode.src = reader.result;
+            };
+            reader.readAsDataURL($("#pSecondaryCnt")[0].files[0]);
+        } else {
+            $("#image_w_s_h_max").css({ display: 'block' });
+        }
+    });
+
+    $(function () {
+        var now = new Date();
+
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+        $("input[type='date']").attr('min', today);
+    });
+
+
+    function formatBytes(bytes, decimals, binaryUnits) {
+        if (bytes == 0) {
+            return '0 Bytes';
+        }
+        var unitMultiple = (binaryUnits) ? 1024 : 1000;
+        var unitNames = (unitMultiple === 1024) ? // 1000 bytes in 1 Kilobyte (KB) or 1024 bytes for the binary version (KiB)
+            ['Bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'] :
+            ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        var unitChanges = Math.floor(Math.log(bytes) / Math.log(unitMultiple));
+        return parseFloat((bytes / Math.pow(unitMultiple, unitChanges)).toFixed(decimals || 0)) + ' ' + unitNames[unitChanges];
+    }
+
+    $("#video").on('change', function () {
+        $("#video_size_error").css("display", "none");
+        let size = formatBytes(this.files[0].size);
+
+        $("#create-btn").prop("disabled", false);
+
+        if (size) size = size.split(' ');
+
+        if (size[1] == "MB" || size[1] == "KB" || size[1] == "Bytes") {
+            if (size[1] == "MB") {
+                if (Number(size[0]) <= 20) {
+                    $("#video_size_error").css("display", "none");
+                } else {
+                    disabledFun();
+                    $("#video_size_error").css("display", "block");
+                }
+            } else if (size[1] == "KB" || size[1] == "Bytes") {
+                disabledFun();
+                $("#video_size_error").css("display", "none");
+            } else {
+                disabledFun();
+                $("#video_size_error").css("display", "block");
+            }
+        } else {
+            disabledFun();
+            $("#video_size_error").css("display", "block");
+        }
+
+    })
+</script>
+
+<style type="text/css">
+    .error {
+        color: red;
+    }
+
+    .s-config>li>a {
+        color: #000 !important;
+        background: #fff;
+    }
+
+    .s-config>li.active>a,
+    .s-config>li.active>a:hover,
+    .s-config>li.active>a:focus {
+        border-width: 0px !important;
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    .s-config>li {
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    .disabled {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+
+    .card {
+        margin: 0rem 0 0rem 0
+    }
+
+    @media(min-width:768px) {
+        .eventCard {
+            padding: 20px
+        }
+    }
+
+    @media(min-width:992px) {
+        .eventCard {
+            padding: 20px
+        }
+    }
+
+    @media(min-width:1200px) {
+        .eventCard {
+            padding: 20px
+        }
+    }
+
+    #page-wrapper {
+        padding: 0 0px !important;
+    }
+
+    input,
+    input::-webkit-input-placeholder,
+    textarea::placeholder {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .ui-timepicker-wrapper {
+        width: 11.5em !important;
+    }
+
+    .required:after {
+        content: " *";
+        color: red;
+    }
+</style>

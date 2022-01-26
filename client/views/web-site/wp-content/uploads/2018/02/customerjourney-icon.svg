@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49 (51002) - http://www.bohemiancoding.com/sketch -->
+    <title>customerjourney-icon</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="customerjourney-icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M11,19 L11,11 L6,11 C5.44771525,11 5,10.5522847 5,10 L5,7 C5,6.44771525 5.44771525,6 6,6 L11,6 L11,5.5 C11,5.22385763 11.2238576,5 11.5,5 C11.7761424,5 12,5.22385763 12,5.5 L12,6 L17,6 L18.5184366,8.02260497 C18.7998132,8.39740736 18.7831421,8.91734573 18.4783332,9.27335298 L17,11 L12,11 L12,19 L14.5,19 C14.7761424,19 15,19.2238576 15,19.5 C15,19.7761424 14.7761424,20 14.5,20 L8.5,20 C8.22385763,20 8,19.7761424 8,19.5 C8,19.2238576 8.22385763,19 8.5,19 L11,19 Z M12,10 L16.5397312,10 L17.7187181,8.62298014 L16.5002931,7 L12,7 L11,7 L6,7 L6,10 L11,10 L12,10 Z" id="Combined-Shape" fill="#AFAFAF"></path>
+    </g>
+</svg>

@@ -1,0 +1,996 @@
+<style type="text/css">
+    body {
+        background-color: #f3f3f4 !important
+    }
+
+    .box-shadow-2 {
+        -webkit-box-shadow: 0 10px 18px 0 rgba(62, 57, 107, .2);
+        box-shadow: 0 10px 18px 0 rgba(62, 57, 107, .2)
+    }
+
+    @media only screen and (max-width:1448px) {
+        #readyh1 {
+            margin-top: 1.5px;
+            margin-bottom: 1.5px
+        }
+    }
+
+    .d-in {
+        border-radius: 4px;
+        font-size: 11px;
+        padding: 2px 12px;
+        background-color: #f57c00;
+        color: #fff;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2)
+    }
+
+    .pre-order-round {
+        height: 8px !important;
+        width: 8px !important;
+        background-color: #fff !important;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2)
+    }
+
+    .dine-order-round {
+        height: 8px !important;
+        width: 8px !important;
+        background-color: #fff !important;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2)
+    }
+
+    .pre-o-text {
+        color: #2196f3 !important
+    }
+
+    .d-in-text {
+        color: #f57c00 !important
+    }
+
+    .p-order {
+        border-radius: 4px;
+        font-size: 11px;
+        padding: 2px 5px;
+        background-color: rgb(14, 44, 209);
+        color: #fff;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2)
+    }
+
+    .green-dot {
+        height: 8px !important;
+        width: 8px !important;
+        background-color: #8bc34a !important;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2)
+    }
+
+    .amber-dot {
+        height: 8px !important;
+        width: 8px !important;
+        background-color: #ffa000 !important;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2)
+    }
+
+    .rejected-dot {
+        height: 8px !important;
+        width: 8px !important;
+        background-color: #f43506 !important;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2)
+    }
+
+    .red-dot {
+        height: 8px !important;
+        width: 8px !important;
+        background-color: #d32f2f !important;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2)
+    }
+
+    thead {
+        border-bottom: 3px solid #000
+    }
+
+    #autocompleteBusiness:focus {
+        box-shadow: inset 0 1px 1px rgb(250, 250, 250), 0 0 8px rgb(250, 250, 250)
+    }
+
+    .pre-order-border {
+        border: 8px solid #2196f3;
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        box-shadow: inset 0 1px 1px rgb(250, 250, 250), 0 0 8px rgb(250, 250, 250)
+    }
+
+
+    .dine-border {
+        border: 8px solid #f57c00;
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        box-shadow: inset 0 1px 1px rgb(250, 250, 250), 0 0 8px rgb(250, 250, 250)
+    }
+
+    #_B_0_O_L {
+        background-color: #000;
+        width: auto;
+        height: 100%;
+        color: #fff
+    }
+
+    .O_C_B {
+        font-size: 11px
+    }
+
+    .wrapper-content {
+        padding: 20px 10px 0px !important
+    }
+
+    p {
+        margin: 0 0 0px !important
+    }
+
+    .checkmark {
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        -ms-transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg)
+    }
+
+    .checkmark_circle_no_check {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: #6d6666;
+        border-radius: 11px;
+        left: 0;
+        top: 0
+    }
+
+    .checkmark_circle_accepted {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: #f50000;
+        border-radius: 11px;
+        left: 0;
+        top: 0
+    }
+
+    .checkmark_circle_reparation {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: #fba919;
+        border-radius: 11px;
+        left: 0;
+        top: 0
+    }
+
+    .checkmark_circle_serve {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: #2ab31a;
+        border-radius: 11px;
+        left: 0;
+        top: 0
+    }
+
+    .checkmark_stem {
+        position: absolute;
+        width: 3px;
+        height: 10px;
+        background-color: #fff;
+        left: 10px;
+        top: 4px
+    }
+
+    .checkmark_kick {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background-color: #fff;
+        left: 7px;
+        top: 11px
+    }
+
+    .hr_status {
+        border: 1px solid #99999994;
+        position: absolute;
+        width: 90vh;
+        margin-top: 24px
+    }
+
+    .T_N_CNT_0 {
+        padding: 3px 5px 5px 6px;
+        background-color: #fff;
+        box-shadow: inset 0 1px 1px rgb(250, 250, 250), 0 0 8px rgb(250, 250, 250);
+        border-radius: 50px;
+        color: #000;
+        width: 18px;
+        height: 18px;
+        display: inline-block;
+        font-size: 10px;
+        top: 10px
+    }
+
+    .awaiting-dot {
+        height: 8px !important;
+        width: 8px !important;
+        background-color: #3f51b5 !important;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2);
+    }
+
+    .checkmark_circle_awaiting {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: rgb(63, 81, 181);
+        border-radius: 11px;
+        left: 0;
+        top: 0;
+    }
+
+    .word-blurry {
+        color: transparent;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.97);
+    }
+</style>
+<script>
+    $(() => { $("#analyticsId").css({ "opacity": "0.1" }); setTimeout(function () { $("#analyticsId").css({ "opacity": "" }) }, 1000) });
+</script>
+<link href="/assets/datepicker.min.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/assets/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/css/dashboard.css" />
+<div class="wrapper wrapper-content" id="orders">
+    <div class="m-t-sm" style="margin-top:2rem;" ng-show="isBusinessSelect">
+        <div class="row">
+            <div class="col-md-12 card">
+                <div class="row">
+                    <div class="col-md-12 ordercard">
+                        <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                        <div class="autocomplete col-sm-8 col-xs-8 col-md-6 col-lg-6 col-xl-6"
+                            style="padding-right:0px;padding-left:0px;">
+                            <input id="autocompleteBusiness" type="text" name="BusinessName"
+                                placeholder="Enter Business name">
+                            <span id="businessErr" style="color:red;"></span>
+                        </div>
+                        <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                        <script
+                            type="text/javascript">autocomplete(document.getElementById("autocompleteBusiness"), 'order');</script>
+                        <div class="autocomplete col-sm-4 col-xs-4 col-md-6 col-lg-6 col-xl-6 auto-btn">
+                            <button type="button" ng-click="BusinessSelected('BusinessManager')" id="businessSubmit"
+                                class="btn btn-raised btn-primary businessSubmit">
+                                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12" id="O_F_L_1">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 card"
+                        style="padding:10px 10px 0px 10px;margin: -0.5rem 0 1rem 0;">
+                        <h4 style="font-size: 1.6rem;font-weight: 500;">Filter</h4>
+                        <div class="row seven-cols">
+                            <div class="col-md-1 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="O_T_F">Type</label>
+                                    <select class="form-control custom-input" id="O_T_F">
+                                        <option value="Dine-in">Dine-in</option>
+                                        <option value="Pre-order">Pre-order</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="O_D_F">Date</label>
+                                    <input type="text" class="form-control custom-input" placeholder="dd/mm/yyyy"
+                                        id="O_D_F">
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="O_T_F_TIME">Time</label>
+                                    <input type="text" class="form-control custom-input" placeholder="00:00 PM"
+                                        id="O_T_F_TIME">
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="O_OI_F">Order ID</label>
+                                    <input type="text" class="form-control custom-input" placeholder="B00123"
+                                        id="O_OI_F">
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="O_CU_F">Customer</label>
+                                    <input type="text" class="form-control custom-input" placeholder="Name or Contact"
+                                        id="O_CU_F">
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-sm-6 col-xs-6">
+                                <div class="form-group">
+                                    <label for="O_S_F">Status</label>
+                                    <select class="form-control custom-input" id="O_S_F">
+                                        <option value="waiting">Awaiting accepts</option>
+                                        <option value="accepted">Order accepted</option>
+                                        <option value="preparation">In preparations</option>
+                                        <option value="readytoserve">Ready to serve</option>
+                                        <option value="rejected">Rejected</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-1 col-sm-12 col-xs-12">
+                                <button type="button" class="btn btn-primary searchBtn" ng-click="searchClk()"
+                                    style="font-size: 1.2rem !important;margin-bottom: 0.5rem;"><i
+                                        class="fas fa-search"></i> Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="orderList_T">
+                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 card"
+                        ng-show="productsDetails && productsDetails.length>0"
+                        style="padding:0px 0px 0px 0px;margin: 0rem 0 1rem 0;">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="center">Type</th>
+                                        <th>Service</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th>Order ID</th>
+                                        <th>Name</th>
+                                        <th>Contact</th>
+                                        <th class="center">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="list in productsDetails"
+                                        ng-click="listClk(list.id,list.isReservation)">
+                                        <td class="center">
+                                            <span ng-if="!list.isReservation" class="d-in">Dine-in</span>
+                                            <span ng-if="list.isReservation" class="p-order">Pre-order</span>
+                                        </td>
+                                        <td>
+                                            <span>{{list.deliveryType}}</span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="!list.reservations">{{list.orderDate}}</span>
+                                            <span
+                                                ng-if="list.reservations && list.reservations.request">{{list.reservations.request.date
+                                                | date:'dd-MM-yyyy'}}</span>
+                                        </td>
+                                        <td>
+                                            <span ng-if="!list.reservations">{{list.orderTime}}</span>
+                                            <span
+                                                ng-if="list.reservations && list.reservations.request">{{list.reservations.request.time}}</span>
+                                        </td>
+                                        <td>
+                                            {{list.orderId}}
+                                        </td>
+                                        <td>
+                                            {{list.customer.firstName}} &nbsp; {{ list.customer.lastName }}
+                                        </td>
+                                        <td>
+                                            {{list.customer.mobile}}
+                                        </td>
+                                        <td class="center">
+                                            <span ng-if="list.status=='readytoserve'" class="green-dot"></span>
+                                            <span ng-if="list.status=='preparation'" class="amber-dot"></span>
+                                            <span ng-if="list.status=='accepted'" class="red-dot"></span>
+                                            <span ng-if="list.status=='awaiting'" class="awaiting-dot"></span>
+                                            <span ng-if="list.status=='rejected'" class="rejected-dot"></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="productsDetails && productsDetails.length==0">
+                    <div class="col-md-12 card center" style="margin: -0.5rem 0 1rem 0;">
+                        <p style="padding: 20px;">No Orders!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal left fade" id="foodOrderViewModal" tabindex="-1" role="dialog"
+                aria-labelledby="myModalLabel" style="top: 0px!important;">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header"
+                            style="background-color: #f57c00 !important;box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);">
+                            <button type="button" class="close"
+                                style="font-size: 28px !important;color:#fff !important;" data-dismiss="modal"
+                                aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                <span style="font-size:20px;">
+                                    <p id="O_S_B_E_4" style="color: #fff !important;padding:2px 2px 2px 10px;">
+                                    </p>
+                                </span>
+                            </h4>
+                        </div>
+                        <div class="modal-body"
+                            style="text-align: inherit !important;background-color:#000 !important;">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="row" id="_B_0_O_L">
+                                        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12" style="margin-top: 9px;">
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                                                    <b class="O_C_B"
+                                                        ng-if="!order_product.reservations">{{order_product.orderDate}}</b>
+                                                    <b class="O_C_B"
+                                                        ng-if="order_product.reservations.request">{{order_product.reservations.request.date
+                                                        | date:'dd-MM-yyyy'}}</b>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6 col-xs-6 col-lg-6"
+                                                    style="margin-top: 5px;padding-right: 0px;">
+                                                    <p class="O_C_O_ID">Order ID : {{order_product.orderId}}</p>
+
+                                                    <script>
+                                                        $(document).ready(() => { $('[data-toggle="tooltip"]').tooltip(); });
+                                                    </script>
+                                                    <div class="row">
+                                                        <div class="col-md-8 col-sm-8 col-xs-8 col-lg-8">
+                                                            <div class="form-group">
+                                                                <input type="text"
+                                                                    ng-show="order_product.deliveryType=='Table Service' && order_product.status=='awaiting'"
+                                                                    ng-model="order_product.tableNo" id="tableNo_txt"
+                                                                    class="form-control" data-toggle="tooltip"
+                                                                    data-placement="top" title="Table No."
+                                                                    style="background-color: #fff !important;padding: 2px 4px;height: 30px;"
+                                                                    placeholder="Table no.">
+                                                                <p class="O_C_O_ID"
+                                                                    ng-show="order_product.status!='awaiting'">
+                                                                    Table No.&nbsp;:&nbsp;
+                                                                    {{order_product.tableNo}}</p>
+                                                            </div>
+                                                            <div class="form-group"
+                                                                ng-show="order_product.deliveryType=='Collect @ Bar'">
+                                                                <b
+                                                                    style="color: #0ae10a !important;">{{order_product.deliveryType}}</b>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6 col-xs-6 col-lg-6"
+                                                    style="text-align: right;margin-top:10px;padding-left: 0px;">
+                                                    <p>{{order_product.customer.firstName}}
+                                                        {{order_product.customer.lastName}}</p>
+                                                    <p>{{order_product.customer.mobile}}</p>
+
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 2rem;">
+                                                <hr class="hr_status">
+                                                <div class="col-md-12"
+                                                    style="padding-right: 0px; padding-left: 0px;margin-top:15px;margin-bottom: 15px;">
+                                                    <div class="row">
+                                                        <div class="col-md-3 col-sm-3 col-xs-3 col-lg-3 center">
+                                                            <span class="checkmark"
+                                                                ng-if="order_product.status!='rejected'">
+                                                                <div class="checkmark_circle_no_check"
+                                                                    ng-if="order_product.status!='awaiting' && order_product.status!='accepted' && order_product.status=='preparation' && order_product.status!='readytoserve'">
+                                                                </div>
+                                                                <div class="checkmark_circle_awaiting"
+                                                                    ng-if="order_product.status=='awaiting' || order_product.status=='accepted' || order_product.status=='preparation' || order_product.status=='readytoserve'">
+                                                                </div>
+                                                                <div class="checkmark_stem"
+                                                                    ng-if="order_product.status=='awaiting' || order_product.status=='accepted' || order_product.status=='preparation' || order_product.status=='readytoserve'">
+                                                                </div>
+                                                                <div class="checkmark_kick"
+                                                                    ng-if="order_product.status=='awaiting' || order_product.status=='accepted' || order_product.status=='preparation' || order_product.status=='readytoserve'">
+                                                                </div>
+                                                            </span>
+                                                            <span class="checkmark"
+                                                                ng-if="order_product.status=='rejected'">
+                                                                <div class="checkmark_circle_no_check"></div>
+                                                            </span>
+                                                            <p style="font-size: 8px;color: #999;">Awaiting
+                                                                acceptance</p>
+                                                            <p style="font-size: 8px;">
+                                                                {{order_product.awaiting.time}}</p>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 col-xs-3 col-lg-3 center">
+                                                            <span class="checkmark"
+                                                                ng-if="order_product.status!='rejected'">
+                                                                <div class="checkmark_circle_no_check"
+                                                                    ng-if="order_product.status!='preparation' && order_product.status!='readytoserve' && order_product.status=='awaiting'">
+                                                                </div>
+                                                                <div class="checkmark_circle_accepted"
+                                                                    ng-if="order_product.status=='accepted' || order_product.status=='preparation' || order_product.status=='readytoserve'">
+                                                                </div>
+                                                                <div class="checkmark_stem"
+                                                                    ng-if="order_product.status=='accepted' || order_product.status=='preparation' || order_product.status=='readytoserve'">
+                                                                </div>
+                                                                <div class="checkmark_kick"
+                                                                    ng-if="order_product.status=='accepted' || order_product.status=='preparation' || order_product.status=='readytoserve'">
+                                                                </div>
+                                                            </span>
+                                                            <span class="checkmark"
+                                                                ng-if="order_product.status=='rejected'">
+                                                                <div class="checkmark_circle_no_check"></div>
+                                                            </span>
+                                                            <p style="font-size: 8px;color: #999;">Order
+                                                                accepted</p>
+                                                            <p style="font-size: 8px;">
+                                                                {{order_product.accepted.time}}</p>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 col-xs-3 col-lg-3 center">
+                                                            <span class="checkmark"
+                                                                ng-if="order_product.status!='rejected'">
+                                                                <div class="checkmark_circle_reparation"
+                                                                    ng-if="order_product.status=='preparation' || order_product.status=='readytoserve'">
+                                                                </div>
+                                                                <div class="checkmark_circle_no_check"
+                                                                    ng-if="order_product.status!='preparation' && order_product.status!='readytoserve'">
+                                                                </div>
+                                                                <div class="checkmark_stem"
+                                                                    ng-if="order_product.status=='preparation' || order_product.status=='readytoserve'">
+                                                                </div>
+                                                                <div class="checkmark_kick"
+                                                                    ng-if="order_product.status=='preparation' || order_product.status=='readytoserve'">
+                                                                </div>
+                                                            </span>
+                                                            <span class="checkmark"
+                                                                ng-if="order_product.status=='rejected'">
+                                                                <div class="checkmark_circle_no_check"></div>
+                                                            </span>
+                                                            <p style="font-size: 8px;color: #999;">In
+                                                                preparation</p>
+                                                            <p style="font-size: 8px;">
+                                                                {{order_product.preparation.time}}
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-3 col-xs-3 col-lg-3 center">
+                                                            <span class="checkmark"
+                                                                ng-if="order_product.status!='rejected'">
+                                                                <div class="checkmark_circle_serve"
+                                                                    ng-if="order_product.status=='readytoserve'">
+                                                                </div>
+                                                                <div class="checkmark_circle_no_check"
+                                                                    ng-if="order_product.status!='readytoserve'">
+                                                                </div>
+                                                                <div class="checkmark_stem"
+                                                                    ng-if="order_product.status=='readytoserve'">
+                                                                </div>
+                                                                <div class="checkmark_kick"
+                                                                    ng-if="order_product.status=='readytoserve'">
+                                                                </div>
+                                                            </span>
+                                                            <span class="checkmark"
+                                                                ng-if="order_product.status=='rejected'">
+                                                                <div class="checkmark_circle_no_check"></div>
+                                                            </span>
+                                                            <p style="font-size: 8px;color: #999;">Ready to
+                                                                serve</p>
+                                                            <p style="font-size: 8px;">
+                                                                {{order_product.readytoserve.time}}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row" ng-repeat="groupOrder in order_product.groupOrders">
+                                                <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                                                    <div class="table-responsive" style="font-size: 12px;">
+                                                        <div class="panel panel-default" style="margin-bottom: 2px;">
+                                                            <div class="panel-heading" data-toggle="collapse"
+                                                                data-parent="2" data-parent="#accordion1"
+                                                                data-target="#{{groupOrder.id}}"
+                                                                style="background-color:#f9a143;border-radius: 4px;padding: 9px 15px;">
+                                                                <div class="panel-title"
+                                                                    style="color:#fff !important;cursor:pointer;">
+                                                                    <div class="row">
+                                                                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4"
+                                                                            style="padding-right: 4px;
+                                                                        padding-left: 4px;">
+                                                                            <b>Name :
+                                                                                {{groupOrder.customer.firstName
+                                                                                | capitalize}}
+                                                                                {{groupOrder.customer.lastName}}</b>
+                                                                        </div>
+                                                                        <div class="col-xs-5 col-sm-5 col-md-4 col-lg-5 col-xl-5"
+                                                                            style="padding-right: 4px;
+                                                                        padding-left: 4px;">
+                                                                            <b>Mobile No :
+                                                                                {{groupOrder.customer.mobile}}</b>
+                                                                        </div>
+                                                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3"
+                                                                            style="padding-right: 4px;
+                                                                        padding-left: 4px;">
+                                                                            <b>Total Qty :
+                                                                                {{groupOrder.orderLines.length}}</b>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="{{groupOrder.id}}"
+                                                            class="panel-collapse collapse  parentpanel in">
+                                                            <div class="panel-body" style="padding: 5px;">
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                                                        <table class="table" id="B_T_P_O_L_0_3">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th style="font-size: 1.2rem;">
+                                                                                        <span>Qty</span>
+                                                                                    </th>
+                                                                                    <th style="font-size: 1.2rem;">
+                                                                                        <span>Item</span>
+                                                                                    </th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr
+                                                                                    ng-repeat="line in groupOrder.orderLines">
+                                                                                    <td>
+                                                                                        <span
+                                                                                            class="T_N_CNT_0 ng-binding">{{line.qty}}</span>
+
+                                                                                    </td>
+                                                                                    <td
+                                                                                        ng-class="{'word-blurry': groupOrder.paymentStatus == 'Not Paid'}">
+                                                                                        <div class="row">
+                                                                                            <div
+                                                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                                                <span
+                                                                                                    style="font-size:1.1rem;">{{line.mealsDashSubLine.menu}}</span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row"
+                                                                                            ng-show="line.notes">
+                                                                                            <div
+                                                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                                                <span
+                                                                                                    style="color: red;">Notes</span>
+                                                                                                <span>
+                                                                                                    &nbsp;:&nbsp;
+                                                                                                </span>
+                                                                                                <span>{{line.notes}}</span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row"
+                                                                                            ng-show="line.orderExtraLines && line.orderExtraLines.length">
+                                                                                            <div
+                                                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                                                <span
+                                                                                                    style="color: red;">Extras</span>
+                                                                                                <span>
+                                                                                                    &nbsp;:&nbsp;
+                                                                                                </span>
+                                                                                                <span
+                                                                                                    ng-repeat="extra in line.orderExtraLines">{{
+                                                                                                    extra.mealsExtraDashLine.desc
+                                                                                                    }} {{$last ?
+                                                                                                    '' : ',
+                                                                                                    '}}</span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row"
+                                                                    style="text-align: right;margin-bottom:0.5rem;font-size: 14px !important;">
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <div class="row">
+                                                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10"
+                                                                                style="text-align: right;">
+                                                                                <b class="footer-txt">Order
+                                                                                    Total</b>
+                                                                            </div>
+                                                                            <div
+                                                                                class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                                                                <b class="footer-txt">{{groupOrder.orderTotal
+                                                                                    | currency : ' $ ' : 2}}</b>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <div class="row">
+                                                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10"
+                                                                                style="text-align: right;">
+                                                                                <b class="footer-txt">Tip</b>
+                                                                            </div>
+                                                                            <div
+                                                                                class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                                                                <b class="footer-txt">{{groupOrder.tipAmt
+                                                                                    | currency : ' $ ' : 2}}</b>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <div class="row">
+                                                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10"
+                                                                                style="text-align: right;">
+                                                                                <b class="footer-txt">Subtotal</b>
+                                                                            </div>
+                                                                            <div
+                                                                                class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                                                                <b class="footer-txt">{{groupOrder.subTotal
+                                                                                    | currency : ' $ ' : 2}}</b>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <div class="row">
+                                                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10"
+                                                                                style="text-align: right;">
+                                                                                <b class="footer-txt">Service
+                                                                                    Fee</b>
+                                                                            </div>
+                                                                            <div
+                                                                                class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                                                                <b class="footer-txt">{{groupOrder.serviceFee
+                                                                                    | currency : ' $ ' : 2}}</b>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <div class="row">
+                                                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10"
+                                                                                style="text-align: right;">
+                                                                                <b class="footer-txt">Total</b>
+                                                                            </div>
+                                                                            <div
+                                                                                class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                                                                <b class="footer-txt">{{groupOrder.totalAmt
+                                                                                    | currency : ' $ ' : 2}}</b>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <div class="row">
+                                                                            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10"
+                                                                                style="text-align: right;">
+                                                                                <b class="footer-txt">Status</b>
+                                                                            </div>
+                                                                            <div
+                                                                                class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                                                                <b class="footer-txt">
+                                                                                    <span
+                                                                                        ng-if="groupOrder.paymentStatus=='succeeded'"
+                                                                                        style="background-color: #4caf50;padding: 0px 2px;border-radius: 4px;">Paid</span>
+                                                                                    <span
+                                                                                        ng-if="groupOrder.paymentStatus=='Not Paid'"
+                                                                                        style="background-color: #ec370a;padding: 0px 2px;border-radius: 4px;">Not
+                                                                                        Paid</span>
+                                                                                    <span
+                                                                                        ng-if="groupOrder.paymentStatus=='failed'"
+                                                                                        style="background-color: #ec370a;padding: 0px 2px;border-radius: 4px;">Failed</span>
+                                                                                </b>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row">
+                                <div class="col-md-12" style="margin-top: 0.5rem;margin-bottom:1rem;">
+                                    <button class="btn btn-success col-md-5" ng-if="order_product.status=='awaiting'"
+                                        style="background-color: #4caf50 !important;border-radius: 3px !important;font-size: 1.6rem !important;"
+                                        ng-click="updateStatus(order_product.id,'accepted', order_product.isReservation)"><i
+                                            class="fas fa-check"></i> &nbsp;
+                                        Accept</button>
+                                    <button class="btn btn-success col-md-5 pull-right"
+                                        ng-if="order_product.status=='awaiting'"
+                                        style="background-color: #ec370a !important;border-radius: 3px !important;font-size: 1.6rem !important;"
+                                        ng-click="updateStatus(order_product.id,'rejected', order_product.isReservation)"><i
+                                            class="fas fa-times"></i> &nbsp;
+                                        Reject</button>
+                                    <button class="btn btn-success" ng-if="order_product.status=='accepted'"
+                                        style="background-color: #f1c40f !important;border-radius: 3px !important;width: 100% !important;font-size: 1.6rem !important;"
+                                        ng-click="updateStatus(order_product.id,'preparation',order_product.isReservation)">Start
+                                        Preparation</button>
+                                    <button class="btn btn-success" ng-if="order_product.status=='preparation'"
+                                        style="background-color: #61c51b !important;border-radius: 3px !important;width: 100% !important;font-size: 1.6rem !important;"
+                                        ng-click="updateStatus(order_product.id,'readytoserve' , order_product.isReservation)">Ready
+                                        To Serve</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/js/typeahead.min.js"></script>
+<link href="/assets/css/typeahead.min.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(function () { $('#O_D_F').datepicker({ format: "dd-mm-yyyy", todayHighlight: !0, autoclose: !0 }); $('#O_D_F').val((('0' + ((new Date()).getDate())).slice(-2) + '-' + ('0' + ((new Date()).getMonth() + 1)).slice(-2) + '-' + (new Date()).getFullYear())) }); $(document).ready(function () { var timeing = ["12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM", "7:00 AM", "8:00 AM", "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM"]; var timeing_suggestion = new Bloodhound({ datumTokenizer: Bloodhound.tokenizers.whitespace, queryTokenizer: Bloodhound.tokenizers.whitespace, local: timeing }); $('#O_T_F_TIME').typeahead({ minLength: 1 }, { source: timeing_suggestion }); let time_format = (moment().utcOffset(330).format(`LT`)).split(':'); if (time_format && time_format.length > 0) { $("#O_T_F_TIME").val(`${time_format[0]}:00 ${time_format[1].split(' ')[1]}`) } })
+</script>
+<style>
+    @media(max-width:767px) {
+        .searchBtn {
+            margin-top: -.2rem;
+            margin-bottom: 1rem;
+            background-color: #4caf50 !important;
+            border-radius: 2px;
+            text-align: right;
+            font-size: 1.2rem !important;
+        }
+
+        .ordercard {
+            padding: 10px 10px 55px 10px;
+        }
+
+        .autobtn {
+            padding-right: 0;
+            padding-left: 34px;
+            padding-top: 4px
+        }
+    }
+
+    @media(min-width:768px) {
+
+        .seven-cols.col-md-1,
+        .seven-cols.col-sm-1,
+        .seven-cols.col-lg-1 {
+            width: 100%;
+            *width: 100%
+        }
+
+        .searchBtn {
+            margin-top: 1.8rem;
+            background-color: #4caf50 !important;
+            border-radius: 2px
+        }
+
+        .ordercard {
+            padding: 20px;
+        }
+
+        .autobtn {
+            padding-right: 0;
+            padding-left: 34px;
+            padding-top: 4px
+        }
+    }
+
+    @media(min-width:992px) {
+
+        .seven-cols.col-md-1,
+        .seven-cols.col-sm-1,
+        .seven-cols.col-lg-1 {
+            width: 14.285714285714285714285714285714%;
+            *width: 14.285714285714285714285714285714%
+        }
+
+        .searchBtn {
+            margin-top: 1.8rem;
+            background-color: #4caf50 !important;
+            border-radius: 2px
+        }
+
+        .ordercard {
+            padding: 20px;
+        }
+
+        .autobtn {
+            padding-right: 0px !important;
+            padding-left: 34px !important;
+            padding-top: 10px !important
+        }
+    }
+
+    @media(min-width:1200px) {
+
+        .seven-cols.col-md-1,
+        .seven-cols.col-sm-1,
+        .seven-cols.col-lg-1 {
+            width: 14.285714285714285714285714285714%;
+            *width: 14.285714285714285714285714285714%
+        }
+
+        .searchBtn {
+            margin-top: 1.8rem;
+            background-color: #4caf50 !important;
+            border-radius: 2px
+        }
+
+        .ordercard {
+            padding: 20px;
+        }
+
+        .autobtn {
+            padding-right: 0px !important;
+            padding-left: 34px !important;
+            padding-top: 10px !important;
+            margin-top: 10px
+        }
+    }
+
+    #foodOrderViewModal.left .modal-dialog,
+    #foodOrderViewModal.right .modal-dialog {
+        position: fixed;
+        margin: auto;
+        width: 620px;
+        height: 100%;
+        -webkit-transform: translate3d(0%, 0, 0);
+        -ms-transform: translate3d(0%, 0, 0);
+        -o-transform: translate3d(0%, 0, 0);
+        transform: translate3d(0%, 0, 0);
+    }
+
+    #foodOrderViewModal.left .modal-content,
+    #foodOrderViewModal.right .modal-content {
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    #foodOrderViewModal.left .modal-body,
+    #foodOrderViewModal.right .modal-body {
+        padding: 15px 15px 15px 15px;
+        overflow-x: hidden;
+    }
+
+    /*Left*/
+    #foodOrderViewModal.left.fade .modal-dialog {
+        right: -320px;
+        -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+        -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+        -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+        transition: opacity 0.3s linear, left 0.3s ease-out;
+    }
+
+    #foodOrderViewModal.left.fade.in .modal-dialog {
+        right: 0;
+    }
+
+    #foodOrderViewModal.right.fade .modal-dialog {
+        right: -320px;
+        -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+        -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+        -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+        transition: opacity 0.3s linear, right 0.3s ease-out;
+    }
+
+    #foodOrderViewModal.right.fade.in .modal-dialog {
+        right: 0;
+    }
+
+    .loader {
+        z-index: 99999999999999 !important;
+    }
+</style>

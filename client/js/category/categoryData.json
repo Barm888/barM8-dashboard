@@ -1,0 +1,773 @@
+{
+  "days": [
+    {
+      "dayNo": "day_0",
+      "dayTxt": "Sunday",
+      "date": "",
+      "isSelected": false
+    },
+    {
+      "dayNo": "day_1",
+      "dayTxt": "Monday",
+      "date": "",
+      "isSelected": false
+    },
+    {
+      "dayNo": "day_2",
+      "dayTxt": "Tuesday",
+      "date": "",
+      "isSelected": false
+    },
+    {
+      "dayNo": "day_3",
+      "dayTxt": "Wednesday",
+      "date": "",
+      "isSelected": false
+    },
+    {
+      "dayNo": "day_4",
+      "dayTxt": "Thursday",
+      "date": "",
+      "isSelected": false
+    },
+    {
+      "dayNo": "day_5",
+      "dayTxt": "Friday",
+      "date": "",
+      "isSelected": false
+    },
+    {
+      "dayNo": "day_6",
+      "dayTxt": "Saturday",
+      "date": "",
+      "isSelected": false
+    }
+  ],
+  "happyhour": [
+    {
+      "name": "Beer",
+      "id": "happyhour_Beer_1",
+      "img_url": "/assets/happyhour/beer.png",
+      "class": "Beer_Class",
+      "active": "",
+      "startTime": "",
+      "endTime": "",
+      "price": "",
+      "app_special_price": "app_special_price",
+      "app_special_desc": "app_special_desc",
+      "SelectedTxt": "",
+      "Size": [
+        {
+          "name": "Pint",
+          "id": "Beer_serve_Pint_1",
+          "isSelected": false
+        },
+        {
+          "name": "Schooner",
+          "id": "Beer_serve_Schnooer_2",
+          "isSelected": false
+        },
+        {
+          "name": "Middy",
+          "id": "Beer_serve_Middy_3",
+          "isSelected": false
+        },
+        {
+          "name": "Jug",
+          "id": "Beer_serve_Jug_4",
+          "isSelected": false
+        },
+        {
+          "name": "Pot",
+          "id": "Beer_serve_Pot_4",
+          "isSelected": false
+        },
+        {
+          "name": "Ten",
+          "id": "Beer_serve_Ten_5",
+          "isSelected": false
+        },
+        {
+          "name": "Handle",
+          "id": "Beer_serve_Handle_6",
+          "isSelected": false
+        },
+        {
+          "name": "Tasting paddle",
+          "id": "Beer_serve_Tasting_paddle_7",
+          "isSelected": false
+        },
+        {
+          "name": "Stubbie",
+          "id": "Beer_serve_Stubbie_8",
+          "isSelected": false
+        },
+        {
+          "name": "Tinnie",
+          "id": "Beer_serve_Tinnie_9",
+          "isSelected": false
+        },
+        {
+          "name": "Bottle/s",
+          "id": "Beer_serve_Bottle/s_9",
+          "isSelected": false
+        },
+        {
+          "name": "2 For 1",
+          "id": "Beer_serve_2_For_1_9",
+          "isSelected": false
+        }
+      ],
+      "Brand": [
+        {
+          "name": "House",
+          "id": "Beer_brand_house_1",
+          "isSelected": false
+        },
+        {
+          "name": "Selected",
+          "id": "Beer_brand_Selected_2",
+          "isSelected": false
+        },
+        {
+          "name": "Premium",
+          "id": "Beer_brand_Premium_3",
+          "isSelected": false
+        },
+        {
+          "name": "Tap",
+          "id": "Beer_brand_Tap_4",
+          "isSelected": false
+        }
+
+      ],
+      "types": [
+        {
+          "name": "Ale",
+          "id": "Beer_Type_Ale_1",
+          "isSelected": false
+        },
+        {
+          "name": "Lager",
+          "id": "Beer_Type_Lager_2",
+          "isSelected": false
+        },
+        {
+          "name": "Craft Beer/s",
+          "id": "Beer_Type_Craft_Beer_3",
+          "isSelected": false
+        },
+        {
+          "name": "Stout",
+          "id": "Beer_Type_Stout_4",
+          "isSelected": false
+        },
+        {
+          "name": "Guiness",
+          "id": "Beer_Type_Guiness_5",
+          "isSelected": false
+        },
+        {
+          "name": "Beer/s",
+          "id": "Beer_Type_Beer/s_6",
+          "isSelected": false
+        },
+        {
+          "name": "Tap Beer/s",
+          "id": "Beer_Type_Tap_Beer/s_7",
+          "isSelected": false
+        },
+        {
+          "name": "House Beer/s",
+          "id": "Beer_Type_House_Beer/s_8",
+          "isSelected": false
+        }
+
+      ]
+    },
+    {
+      "name": "Wine",
+      "id": "happyhour_Wine_2",
+      "img_url": "/assets/happyhour/wine.png",
+      "class": "Wine_Class",
+      "active": "",
+      "startTime": "",
+      "endTime": "",
+      "price": "",
+      "app_special_price": "app_special_price",
+      "app_special_desc": "app_special_desc",
+      "SelectedTxt": "",
+      "types": [
+        {
+          "name": "Red",
+          "id": "Wine_Type_Red_1",
+          "isSelected": false
+        },
+        {
+          "name": "White",
+          "id": "Wine_Type_White_2",
+          "isSelected": false
+        },
+        {
+          "name": "Rose",
+          "id": "Wine_Type_Rose_3",
+          "isSelected": false
+        },
+        {
+          "name": "Sparkling",
+          "id": "Wine_Type_Sparkling_4",
+          "isSelected": false
+        },
+        {
+          "name": "Vermouth",
+          "id": "Wine_Type_Vermouth_5",
+          "isSelected": false
+        },
+        {
+          "name": "Champagne",
+          "id": "Wine_Type_Champagne_6",
+          "isSelected": false
+        },
+        {
+          "name": "Wine/s",
+          "id": "Beer_Type_Wine/s_7",
+          "isSelected": false
+        },
+        {
+          "name": "House Wine/s",
+          "id": "Beer_House_Wine_s_8",
+          "isSelected": false
+        }
+      ],
+      "Brand": [
+        {
+          "name": "House",
+          "id": "Wine_Selection_House_Wine_1",
+          "isSelected": false
+        },
+        {
+          "name": "Selected",
+          "id": "Wine_Selection_Selected_2",
+          "isSelected": false
+        },
+        {
+          "name": "Premium",
+          "id": "Wine_Selection_Premium_3",
+          "isSelected": false
+        }
+      ],
+      "Size": [
+        {
+          "name": "Glass",
+          "id": "Wine_Serve_Glass_1",
+          "isSelected": false
+        },
+        {
+          "name": "Bottle",
+          "id": "Wine_Serve_Bottle_2",
+          "isSelected": false
+        },
+        {
+          "name": "Flute",
+          "id": "Wine_Serve_Flute_3",
+          "isSelected": false
+        },
+        {
+          "name": "2 for 1",
+          "id": "Wine_Serve_2_for_1_4",
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "name": "Spirit",
+      "id": "happyhour_Spirit_3",
+      "img_url": "/assets/happyhour/spirit.png",
+      "class": "Spirit_Class",
+      "active": "",
+      "startTime": "",
+      "endTime": "",
+      "price": "",
+      "app_special_price": "app_special_price",
+      "app_special_desc": "app_special_desc",
+      "SelectedTxt": "",
+      "types": [
+        {
+          "name": "Gin",
+          "id": "Spirit_Type_Gin_1",
+          "isSelected": false
+        },
+        {
+          "name": "Vodka",
+          "id": "Spirit_Type_Vodka_2",
+          "isSelected": false
+        },
+        {
+          "name": "Rum",
+          "id": "Spirit_Type_Rum_3",
+          "isSelected": false
+        },
+        {
+          "name": "Whiskey",
+          "id": "Spirit_Type_Whiskey_4",
+          "isSelected": false
+        },
+        {
+          "name": "Tequila",
+          "id": "Spirit_Type_Tequila_5",
+          "isSelected": false
+        },
+        {
+          "name": "Brandy",
+          "id": "Spirit_Type_Brandy_6",
+          "isSelected": false
+        },
+        {
+          "name": "Schnapps",
+          "id": "Spirit_Type_Schnapps_7",
+          "isSelected": false
+        },
+        {
+          "name": "Cachaca",
+          "id": "Spirit_Type_Cachaca_8",
+          "isSelected": false
+        },
+        {
+          "name": "Fireballs",
+          "id": "Spirit_Type_Fireballs_9",
+          "isSelected": false
+        },
+        {
+          "name": "Spirit/s",
+          "id": "Spirit_Type_Spirit_s_7",
+          "isSelected": false
+        },
+        {
+          "name": "House Spirit/s",
+          "id": "Spirit_House_Spirit_s_8",
+          "isSelected": false
+        }
+      ],
+      "Brand": [
+        {
+          "name": "House",
+          "id": "Spirit_Selections_House_Wine_1",
+          "isSelected": false
+        },
+        {
+          "name": "Selected",
+          "id": "Spirit_Selections_Selected_2",
+          "isSelected": false
+        },
+        {
+          "name": "Standard",
+          "id": "Spirit_Selections_Standard_3",
+          "isSelected": false
+        },
+        {
+          "name": "Premium",
+          "id": "Spirit_Selections_Premium_4",
+          "isSelected": false
+        }
+      ],
+      "Size": [
+        {
+          "name": "Single",
+          "id": "Spirit_Size_Single_1",
+          "isSelected": false
+        },
+        {
+          "name": "Double",
+          "id": "Spirit_Size_Double_2",
+          "isSelected": false
+        },
+        {
+          "name": "2 for 1",
+          "id": "Spirit_2_for_1_3",
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "name": "Cocktail",
+      "id": "happyhour_Cocktail_4",
+      "img_url": "/assets/happyhour/cocktail.png",
+      "class": "Cocktail_Class",
+      "active": "",
+      "startTime": "",
+      "endTime": "",
+      "price": "",
+      "app_special_price": "app_special_price",
+      "app_special_desc": "app_special_desc",
+      "SelectedTxt": "",
+      "types": [
+        {
+          "name": "Martini",
+          "id": "Cocktail_Type_Martini_1",
+          "isSelected": false
+        },
+        {
+          "name": "Espresso Martini",
+          "id": "Cocktail_Type_Espresso_Martini_2",
+          "isSelected": false
+        },
+        {
+          "name": "Negroni",
+          "id": "Cocktail_Type_Negroni_3",
+          "isSelected": false
+        },
+        {
+          "name": "Mojito",
+          "id": "Cocktail_Type_Mojito_4",
+          "isSelected": false
+        },
+        {
+          "name": "Bloody Mary",
+          "id": "Cocktail_Type_Bloody_Mary_5",
+          "isSelected": false
+        },
+        {
+          "name": "Daiquiri",
+          "id": "Cocktail_Type_Daiquiri_6",
+          "isSelected": false
+        },
+        {
+          "name": "Mai Tai",
+          "id": "Cocktail_Type_Mai_Tai_7",
+          "isSelected": false
+        },
+		{
+          "name": "Cocktail/s",
+          "id": "Cocktail_Type_Cocktail/s_7",
+          "isSelected": false
+        },
+		{
+          "name": "Spritzer/s",
+          "id": "Cocktail_Type_Spritzer/s_7",
+          "isSelected": false
+        }
+      ],
+      "Brand": [
+        {
+          "name": "Selected",
+          "id": "Cocktail_Selections_Selected_1",
+          "isSelected": false
+        },
+        {
+          "name": "House",
+          "id": "Cocktail_Selections_House_2",
+          "isSelected": false
+        }
+      ],
+      "Size": [
+        {
+          "name": "Glass",
+          "id": "Cocktail_Serve_Glass_1",
+          "isSelected": false
+        },
+        {
+          "name": "Single",
+          "id": "Cocktail_Serve_Single_2",
+          "isSelected": false
+        },
+        {
+          "name": "2 for 1",
+          "id": "Cocktail_Serve_2_for_1_3",
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "name": "Cider",
+      "id": "happyhour_Cider_4",
+      "class": "Cider_Class",
+      "img_url": "/assets/happyhour/cider.png",
+      "startTime": "",
+      "active": "",
+      "endTime": "",
+      "price": "",
+      "app_special_price": "app_special_price",
+      "app_special_desc": "app_special_desc",
+      "SelectedTxt": "",
+      "types": [
+        {
+          "name": "Sparkling",
+          "id": "Cider_Types_Sparkling_1",
+          "isSelected": false
+        },
+        {
+          "name": "Dry",
+          "id": "Cider_Types_dry_2",
+          "isSelected": false
+        },
+        {
+          "name": "Sweet",
+          "id": "Cider_Types_Sweet_3",
+          "isSelected": false
+        },
+        {
+          "name": "Crisp",
+          "id": "Cider_Types_Crisp_4",
+          "isSelected": false
+        },
+        {
+          "name": "Cider/s",
+          "id": "Cider_Types_Cider_s_5",
+          "isSelected": false
+        }
+      ],
+      "Brand": [
+        {
+          "name": "Selected",
+          "id": "Cider_Selections_Selected_1",
+          "isSelected": false
+        },
+        {
+          "name": "House",
+          "id": "Cider_Selections_House_2",
+          "isSelected": false
+        },
+        {
+          "name": "Tap",
+          "id": "Cider_Selections_Tap_2",
+          "isSelected": false
+        }
+      ],
+      "Size": [
+        {
+          "name": "Bottle",
+          "id": "Cider_Serve_Bottle_1",
+          "isSelected": false
+        },
+        {
+          "name": "Glass",
+          "id": "Cider_Serve_Glass_2",
+          "isSelected": false
+        },
+        {
+          "name": "Schooner",
+          "id": "Cider_Serve_Schooner_3",
+          "isSelected": false
+        },
+        {
+          "name": "2 for 1",
+          "id": "Cider_Serve_2_for_1_4",
+          "isSelected": false
+        }
+      ]
+    }
+  ],
+  "events": [
+    {
+      "title": "Meals",
+      "name_id": "Meals",
+      "img_url": "fas fa-utensils",
+      "types": [
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "ALL DAY",
+          "id": "meals_allday_1",
+          "desc": "",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Breakfast",
+          "id": "meals_Breakfast_2",
+          "desc": "",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Lunch",
+          "id": "meals_Lunch_3",
+          "desc": "",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Dinner",
+          "id": "meals_dinner_4",
+          "desc": "",
+          "isSelected": false
+        }
+      ]
+    },
+
+    {
+      "title": "Entertainment",
+      "name_id": "Entertainment",
+      "img_url": "fas fa-lightbulb",
+      "types": [
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Live Band",
+          "id": "entertainment_liveband_1",
+          "desc": "",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "DJ",
+          "id": "entertainment_dj_2",
+          "desc": "",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Karaoke",
+          "id": "entertainment_karaoke_3",
+          "desc": "",
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "title": "Sports",
+      "name_id": "Sports",
+      "img_url": "fas fa-futbol",
+      "types": [
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Rugby League",
+          "id": "sports_rugbyleague_1",
+          "desc": "",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Australian Rues",
+          "id": "sports_australianrues_2",
+          "desc": "",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Rugby Union",
+          "id": "sports_rugbyunion_3",
+          "desc": "",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Soccer",
+          "id": "sports_soccer_4",
+          "desc": "",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Cricket",
+          "id": "sports_cricket_5",
+          "desc": "",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Basketball",
+          "id": "sports_basketball_6",
+          "desc": "",
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "title": "Events",
+      "name_id": "Events",
+      "img_url": "fas fa-calendar-alt",
+      "types": [
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Poker Night",
+          "id": "events_pokernight_1",
+          "desc": "",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Trivia Night",
+          "id": "events_Trivianight_2",
+          "desc": "",
+          "isSelected": false
+        }
+      ]
+    },
+    {
+      "title": "Special Events",
+      "name_id": "Special_Events",
+      "img_url": "fas fa-calendar",
+      "types": [
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Australia Day",
+          "id": "specialEvents_Australiaday_1",
+          "desc": "",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "ANZAC Day",
+          "id": "specialEvents_ANZACday_2",
+          "desc": "",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Mothers Day",
+          "id": "specialEvents_Mothersday_3",
+          "desc": "",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Fathers Day",
+          "id": "specialEvents_Fathersday_4",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Oktoberfest",
+          "id": "specialEvents_Oktoberfest_5",
+          "desc": "",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Melbournecupday",
+          "id": "specialEvents_basketball_6",
+          "desc": "",
+          "isSelected": false
+        },
+        {
+          "startTime": "",
+          "endTime": "",
+          "name": "Boxing Day",
+          "id": "specialEvents_Boxingday_6",
+          "desc": "",
+          "isSelected": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "EventGenre",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "events": {
+      "type": "belongsTo",
+      "model": "Events",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

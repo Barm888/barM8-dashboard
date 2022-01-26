@@ -1,0 +1,51 @@
+{
+  "name": "BusinessPulseCount",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "businessName": {
+      "type": "string"
+    },
+    "counts": {
+      "type": "number",
+      "default": 0
+    },
+    "time": {
+      "type": "date"
+    },
+    "createTs": {
+      "type": "date"
+    },
+    "createProgId": {
+      "type": "string"
+    },
+    "modifyTs": {
+      "type": "date"
+    },
+    "modifyProgId": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    },
+    "customerBusinessPulses": {
+      "type": "hasMany",
+      "model": "CustomerBusinessPulse",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

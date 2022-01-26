@@ -1,0 +1,95 @@
+{
+  "name": "claimscoupon",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "timeZone": {
+      "type": "string"
+    },
+    "dateFormat": {
+      "type": "string"
+    },
+    "time": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    },
+    "dateNo": {
+      "type": "number"
+    },
+    "month": {
+      "type": "number"
+    },
+    "year": {
+      "type": "number"
+    },
+    "cnt": {
+      "type": "number",
+      "default": 0
+    },
+    "isClaim": {
+      "type": "boolean",
+      "default": false
+    },
+    "claimTime": {
+      "type": "string"
+    },
+    "claimDateFormat": {
+      "type": "date"
+    },
+    "claimHour": {
+      "type": "number"
+    },
+    "claimMinute": {
+      "type": "number"
+    },
+    "isRedeemed": {
+      "type": "boolean",
+      "default": false
+    },
+    "redeemedHour": {
+      "type": "number"
+    },
+    "redeemedMinute": {
+      "type": "number"
+    },
+    "redeemedTime": {
+      "type": "string"
+    },
+    "redeemedDateFormat": {
+      "type": "date"
+    },
+    "readed": {
+      "type": "boolean",
+      "default": false
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "customer": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": ""
+    },
+    "exclusiveOffer": {
+      "type": "belongsTo",
+      "model": "ExclusiveOffer",
+      "foreignKey": ""
+    },
+    "couponDate": {
+      "type": "belongsTo",
+      "model": "CouponDate",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

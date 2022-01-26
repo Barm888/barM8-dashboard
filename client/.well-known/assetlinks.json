@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.barm8",
+    "sha256_cert_fingerprints":
+    ["20:3C:C5:9C:99:DD:6D:CB:58:AF:E5:B5:0D:93:75:BD:AF:08:97:E6:24:22:10:74:08:31:5B:1A:6B:A5:0E:B2"]
+  }
+}]

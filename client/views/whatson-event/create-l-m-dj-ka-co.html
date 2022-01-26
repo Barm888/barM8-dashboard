@@ -1,0 +1,1325 @@
+<link href="/assets/datepicker.min.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/assets/bootstrap-datepicker.min.js"></script>
+<link href="/assets/css/jquery.timepicker.min.css" type="text/css" rel="stylesheet" />
+<script src="/assets/js/jquery.timepicker.min.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="css/material-radio.css" /> -->
+<div class="wrapper wrapper-content" id="happenings" ng-controller="whatsonAllEventsCtl">
+    <div class="m-t-sm" style="margin-top:2.5rem;" ng-show="isBusinessSelect">
+        <div class="row b-selection">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <a href="#" onclick="history.back();" class="btn btn-s m-b">Back </a>
+                    </div>
+                </div>
+                <div class="row card">
+                    <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <h2 style="font-weight: 400;margin-left:1rem;">{{title}}</h2>
+                    </div> -->
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <nav>
+                            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                <div class="col-sm-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                                    <a class="nav-item nav-link active event-tab-header create-h-p nav-event-details"
+                                        data-toggle="tab" data-target="#nav-whatson-details" href="javascript:;"
+                                        role="tab" aria-controls="nav-home" aria-selected="true">
+                                        <span style="color: #000;font-size: 16px;">DETAILS</span>
+                                    </a>
+                                </div>
+                                <div class="col-sm-3 col-sm-3 col-md-3 col-lg-3 col-xl-3" ng-show="isTicketedEvent">
+                                    <a class="nav-item nav-link event-tab-header create-t-t nav-ticket-type"
+                                        data-toggle="tab" data-target="#nav-whatson-tickets" href="javascript:;"
+                                        role="tab" aria-controls="nav-ticket-type" aria-selected="false">
+                                        <span style="color: #000;font-size: 16px;">TICKETS</span></a>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade event-tab-content active in" id="nav-whatson-details"
+                                role="tabpanel" aria-labelledby="nav-home-tab">
+                                <div class="row" style="margin-top: 2rem;">
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                        <h2 class="v-h">Your Event Details</h2>
+                                        <span class="manage-txt">Enter details of your Event for users to see on
+                                            the Barm8 app.</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12"
+                                        style="margin-top:0.5rem;">
+                                        <label>Description - Provide details of the Event
+                                            here.</label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
+                                        <div class="form-group">
+                                            <textarea class="form-control custom-textarea" id="desc"
+                                                placeholder="Including any details about the artist and their recent work."
+                                                rows="4" id="desc"></textarea>
+                                            <span id="desc-error" style="color: red;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <h2 class="v-h">Your Event Images / Video</h2>
+                                        <span class="manage-txt">Upload a Primary image and a Secondary image or
+                                            video
+                                            for your Event</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12"
+                                        style="margin-top: 0.5rem;">
+                                        <label>Primary image for your event</label>
+                                        <p class="c-p-1">(For the best results we recommend uploading an
+                                            image
+                                            that is
+                                            700*350
+                                            pixels in size)</p>
+                                    </div>
+                                </div>
+                                <link rel="stylesheet" href="/views/whatson-event/upload-img.css">
+                                <link rel="stylesheet" href="https://fengyuanchen.github.io/cropperjs/css/cropper.css">
+                                <script src="https://fengyuanchen.github.io/cropperjs/js/cropper.js"></script>
+                                <div class="modal" id="image-crop-md" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog opacity-animate3 modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <div class="row page">
+                                                    <div class="box-2">
+                                                        <div class="result"></div>
+                                                    </div>
+                                                    <div class="box-2 img-result hide">
+                                                        <img class="cropped" src="" alt="">
+                                                    </div>
+                                                    <div class="box">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                        style="text-align: right;">
+                                                        <button class="btn btn-primary" id="modalClose"
+                                                            style="background-color: #d32f2f !important; color: #fff;
+                                            border: 1px solid #d32f2f !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Close</button>
+                                                        <button class="btn btn-primary" id="crop-btn"
+                                                            style="background-color: #388e3c !important; color: #fff;
+                                                border: 1px solid #388e3c !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;margin-right:20px;">Crop</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                        <div class="form-group" ng-show="primEvnImg.length==0">
+                                            <input type="file" id="ticketEventImg" accept="image/png, image/jpeg"
+                                                style="display: none;">
+                                            <div class="drag-img-up" id="drag-drop-img"
+                                                onclick="$('#ticketEventImg').trigger('click'); return false;">
+                                                <img src="https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/add-image-icon.svg"
+                                                    class="def-img">
+                                                <p>Drag & drop or click to add image.</p>
+                                                <span>JPEG or PNG</span>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $("#ticketEventImg").on('change', function (e) {
+                                                angular.element(document.getElementById('happenings')).scope().clickImageSection(e.target.files[0]);
+                                            })
+                                        </script>
+                                        <div class="form-group" ng-show="primEvnImg.length">
+                                            <div class="img-content">
+                                                <div class="content-overlay"></div>
+                                                <img class="content-image" ng-src="primEvnImg[0].path"
+                                                    src="{{primEvnImg[0].path}}"
+                                                    style="box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);webkit-box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);border-radius: 4px;">
+                                                <div class="content-details fadeIn-bottom">
+                                                    <button class="btn replaceScnryImg" ng-click="replaceImg()"
+                                                        title="Replace"><i
+                                                            class="fas fa-image"></i>&nbsp;Replace</button>
+                                                    <button class="btn btn-danger" ng-click="imageDelete(primEvnImg)"
+                                                        title="Remove"><i
+                                                            class="far fa-trash-alt"></i>&nbsp;Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                        <label>Secondary image for your event
+                                        </label>
+                                        <p class="c-p-1">(For the best results we recommend uploading an
+                                            image
+                                            that is
+                                            600*450
+                                            pixels in size)</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                        <div class="form-group" ng-show="!seEvImg || seEvImg.length==0">
+                                            <input type="file" id="ticketEventSeImg" accept="image/png, image/jpeg"
+                                                style="display: none;">
+                                            <div class="drag-img-up" id="drag-drop-img"
+                                                onclick="$('#ticketEventSeImg').trigger('click'); return false;">
+                                                <img src="https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/add-image-icon.svg"
+                                                    class="def-img">
+                                                <p>Drag & drop or click to add image.</p>
+                                                <span>JPEG or PNG</span>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $("#ticketEventSeImg").on('change', function (e) {
+                                                angular.element(document.getElementById('happenings')).scope().clickImgSecond(e.target.files[0]);
+                                            })
+                                        </script>
+                                        <div class="form-group" ng-show="seEvImg && seEvImg.length">
+                                            <div class="img-content">
+                                                <div class="content-overlay"></div>
+                                                <img class="content-image" ng-src="seEvImg[0].path"
+                                                    src="{{seEvImg[0].path}}"
+                                                    style="box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);webkit-box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);border-radius: 4px;">
+                                                <div class="content-details fadeIn-bottom">
+                                                    <button class="btn replaceScnryImg" ng-click="replaceImg()"
+                                                        title="Replace"><i
+                                                            class="fas fa-image"></i>&nbsp;Replace</button>
+                                                    <button class="btn btn-danger" ng-click="imageDelete(seEvImg)"
+                                                        title="Remove"><i
+                                                            class="far fa-trash-alt"></i>&nbsp;Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <link rel="stylesheet" href="/views/whatson-event/upload-img-second.css">
+                                <link rel="stylesheet" href="https://fengyuanchen.github.io/cropperjs/css/cropper.css">
+                                <script src="https://fengyuanchen.github.io/cropperjs/js/cropper.js"></script>
+                                <div class="modal" id="image-crop-second-md" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog opacity-animate3 modal-lg" role="document"
+                                        style="max-width: 685px;">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <div class="row page_1">
+                                                    <div class="box-2">
+                                                        <div class="result-second"></div>
+                                                    </div>
+                                                    <div class="box-2 img-result hide">
+                                                        <img class="cropped" src="" alt="">
+                                                    </div>
+                                                    <div class="box">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                        style="text-align: right;">
+                                                        <button class="btn btn-primary" id="modalClose_second"
+                                                            style="background-color: #d32f2f !important; color: #fff;
+                                            border: 1px solid #d32f2f !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Close</button>
+                                                        <button class="btn btn-primary" id="crop-s-btn"
+                                                            style="background-color: #388e3c !important; color: #fff;
+                                                border: 1px solid #388e3c !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;margin-right:20px;">Crop</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                        <label>Secondary Video for you event
+                                            (maximum file size 15mb)</label>
+                                    </div>
+                                </div>
+                                <!-- <div class="row" style="margin-bottom: 1rem;">
+                                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8 col-xl-8">
+                                        <input type="file" class="form-control custom-input"
+                                            id="ticketEventVideo" accept="video/mp4,video/x-m4v,video/*">
+                                        <span style="color: red;display: none;" id="video_size_error">Maximum
+                                            file size 15mb!</span>
+                                    </div>
+                                </div> -->
+
+                                <div class="row video-s-h">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
+                                        <div class="form-group video-u" style="margin-bottom: 10px;">
+                                            <input type="file" id="ticketEventVideo" class="form-control custom-input"
+                                                name="file[]" accept="video/mp4,video/x-m4v,video/*"
+                                                style="display: none;">
+                                            <div class="drag-img-up" id="video-img"
+                                                onclick="$('#ticketEventVideo').trigger('click'); return false;">
+                                                <img src="https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/add-image-icon.svg"
+                                                    class="def-img">
+                                                <p>click to add video.</p>
+                                                <span>MP4</span>
+                                            </div>
+                                        </div>
+                                        <span style="color: red;display: none;" id="video_se_width_height">Try
+                                            to upload
+                                            file less than 12MB!</span>
+                                    </div>
+                                </div>
+                                <div class="row video-obj-s" style="display: none;">
+                                    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                                        <div class="form-group">
+                                            <div class="img-content">
+                                                <div class="content-overlay"></div>
+                                                <div class="video-show"></div>
+                                                <div class="content-details fadeIn-bottom">
+                                                    <button class="btn btn-danger" onclick="videoDelete()"
+                                                        title="Remove"><i
+                                                            class="far fa-trash-alt"></i>&nbsp;Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                        <h2 class="v-h">Your Event Schedule</h2>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <label for="select_dates" class="manage-txt">Select Dates &amp;
+                                            Time</label>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="form-group calendar">
+                                                    <label for="events_date">Date</label>
+                                                    <input type="text" onchange="changeDisabled()"
+                                                        class="form-control custom-input date" id="events_date">
+                                                    <span id="date-error" style="color: red;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                                <div class="form-group time_i">
+                                                    <label for="events_start_time">Start time</label>
+                                                    <input type="text" onchange="changeDisabled()"
+                                                        class="form-control time custom-input" id="events_start_time">
+                                                    <span id="start-time-error" style="color: red;"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                                <div class="form-group time_i">
+                                                    <label for="events_end_time">End time</label>
+                                                    <input type="text" onchange="changeDisabled()"
+                                                        class="form-control time custom-input" id="events_end_time">
+                                                    <span id="end-time-error" style="color: red;"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                style="margin-bottom: 1rem;">
+                                                <button class="btn btn-s pull-right" ng-click="addDates()">Add</button>
+                                            </div>
+                                        </div>
+                                        <div class="row" ng-show="eventDates && eventDates.length"
+                                            style="margin-bottom: 1rem;">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <th><span>Date</span></th>
+                                                            <th><span>Start Time</span></th>
+                                                            <th><span>End Time</span></th>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="data in eventDates">
+                                                                <td>{{data.dateFormat}}</td>
+                                                                <td>{{data.startTime}}</td>
+                                                                <td><span ng-show="data.isEmptyEndTime">NA</span>
+                                                                    <span
+                                                                        ng-show="!data.isEmptyEndTime && data.endTime">{{data.endTime}}</span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade event-tab-content" ng-show="isTicketedEvent"
+                                id="nav-whatson-tickets" role="tabpanel" aria-labelledby="nav-home-tab">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                        <div class="row" style="margin-top: 2rem;margin-bottom:1rem;">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                <p style="font-size: 1.5rem;">Let’s set up your tickets for this
+                                                    event.</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 col-lg-12 col-xl-12">
+                                                <span style="font-size: 1.2rem;">
+                                                    <b style="margin-right: 3.4rem;font-weight: 400;"> Select
+                                                        Event </b>
+                                                    <select class="custom-input" style="width: 38.5%;"
+                                                        id="select_happeings_id">
+                                                        <option value="select">Date</option>
+                                                        <option ng-repeat="date in savedEventDates"
+                                                            value="{{date.happeningsId}}">{{date.dateFormat}}
+                                                        </option>
+                                                    </select>
+                                                </span>
+
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top:2rem;margin-bottom:2rem;">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                                <span style="font-size: 1.2rem;"> Select Ticket Type
+                                                    <button class="btn ticket-btn" data-idname="paid"
+                                                        ng-click="ticketbtnclk('paid')"><i
+                                                            class="fas fa-plus-circle"></i> &nbsp; Paid
+                                                        Ticket</button>
+                                                    <button class="btn ticket-btn" data-idname="free"
+                                                        ng-click="ticketbtnclk('free')">
+                                                        <i class="fas fa-plus-circle"></i> &nbsp; Free
+                                                        Ticket</button>
+                                                    <button class="btn ticket-btn" data-idname="donation"
+                                                        ng-click="ticketbtnclk('donation')">
+                                                        <i class="fas fa-plus-circle"></i> &nbsp;
+                                                        Donation</button>
+                                                </span>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row" ng-show="allTicketArray && allTicketArray.length">
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 card">
+                                                <table class="table ticket-preview-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><span>Ticket name</span></th>
+                                                            <th><span>Quantity available</span></th>
+                                                            <th><span>Price</span></th>
+                                                            <th><span>Ticket Type</span></th>
+                                                            <th><span></span></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="list in allTicketArray track by $index">
+                                                            <td>{{list.ticketName}}</td>
+                                                            <td>{{list.ticketQty}}</td>
+                                                            <td>{{list.salePrice}}</td>
+                                                            <td>{{list.ticketType}}</td>
+                                                            <td>
+                                                                <button class="btn" style="padding: 2px 5.5px !important;
+                                                                font-size: 1.2rem;
+                                                                background-color: #faa141;
+                                                                color: #fff;" ng-click="viewTicketEvent($index)"><i
+                                                                        class="fas fa-eye"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" style="margin-bottom:0.5rem;"
+                                            ng-show="whatsonticketList.length">
+                                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4 center">
+                                                <b style="font-size: 16px!important;">Ticket name</b>
+                                            </div>
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 center">
+                                                <b style="font-size: 16px!important;">Quantity available </b>
+                                            </div>
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 center">
+                                                <b style="font-size: 16px!important;">Price</b>
+                                            </div>
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 center">
+                                                <b style="font-size: 16px!important;">Ticket Type</b>
+                                            </div>
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 center">
+                                                <b style="font-size: 16px!important;">Actions</b>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                                <hr>
+                                            </div>
+                                        </div>
+                                        <div class="row" ng-repeat="ticket in whatsonticketList">
+                                            <script>
+                                                $('.time').timepicker({ 'scrollDefault': 'now', 'timeFormat': 'h:i a', 'step': 30 });
+                                            </script>
+                                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control ticket-p custom-input"
+                                                        placeholder="Early bird, general admission, etc."
+                                                        id="e-ticket-name-{{$index}}">
+                                                    <span id="ticket-name-err-{{$index}}" style="color: red;"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                                <div class="form-group">
+                                                    <input type="number" id="e-ticket-qty-{{$index}}"
+                                                        class="form-control ticket-p custom-input" placeholder="100">
+                                                    <span id="ticket-qty-err-{{$index}}" style="color: red;"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 center">
+                                                <div class="form-group">
+                                                    <input type="number" ng-disabled="eventTtype=='free'" step="any"
+                                                        class="form-control ticket-p custom-input t-price-num"
+                                                        placeholder="$ 10" id="e-ticket-price-{{$index}}" value="0.00">
+                                                    <span style="color: #999 !important;">Buyer total :
+                                                        $10.80</span>
+                                                    <span id="ticket-price-err-{{$index}}" style="color: red;"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 center">
+                                                <div class="form-group">
+                                                    <span class="btn" id="e-ticket-type-{{$index}}"
+                                                        data-type="{{ticket.type}}" style="
+                                                     border-radius: 2px;background-color: rgb(0,112,192);
+                                                     color:#fff;">{{ticket.type | capitalize}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2 center">
+                                                <a class="ticket-tab-{{$index}} tap-t-setting"
+                                                    ng-click="ticketTabClk($index)" data-toggle="tab"
+                                                    data-target="#whatson-ticket-{{$index}}"
+                                                    style="font-size: 2rem;color:#3f51b5 !important" href="javascript:;"
+                                                    role="tab" aria-controls="nav-home" aria-selected="true">
+                                                    <i class="fas fa-cog"></i>
+                                                </a>
+                                                &nbsp;
+                                                <a href="javascript:;" ng-click="deleteTickets($index)"
+                                                    style="font-size: 2rem;color:#dd2c00 !important"><i
+                                                        class="far fa-trash-alt"></i></a>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                                <div class="tab-content" id="nav-tabContent">
+                                                    <div class="tab-pane fade event-tab-content tap-t-setting-p"
+                                                        id="whatson-ticket-{{$index}}" role="tabpanel"
+                                                        aria-labelledby="nav-home-tab">
+                                                        <div class="row">
+                                                            <div
+                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                <div class="form-group">
+                                                                    <p style="font-size: 1.5rem;">Ticket
+                                                                        description</p>
+                                                                    <textarea rows="5"
+                                                                        class="form-control custom-textarea"
+                                                                        id="_ticket_desc_{{$index}}"
+                                                                        placeholder="Tell us a little bit about this ticket type"></textarea>
+                                                                    <span id="_ticket_desc_err"
+                                                                        style="color: red;"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-xs-3 col-sm-3 col-md-3 col-xl-3 col-xl-3">
+                                                                <p style="font-size: 14px!important;">Ticket
+                                                                    sales start</p>
+                                                                <div class="form-group">
+                                                                    <input type="date" class="form-control custom-input"
+                                                                        placeholder="Date"
+                                                                        id="_ticket_sales_start_date_{{$index}}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-3 col-sm-3 col-md-3 col-xl-3 col-xl-3">
+                                                                <p style="font-size: 14px!important;">Time</p>
+                                                                <div class="form-group">
+                                                                    <input type="text"
+                                                                        class="form-control custom-input time"
+                                                                        placeholder="Time"
+                                                                        id="_ticket_sales_start_time_{{$index}}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-3 col-sm-3 col-md-3 col-xl-3 col-xl-3">
+                                                                <p style="font-size: 14px!important;">Ticket
+                                                                    sales End</p>
+                                                                <div class="form-group">
+                                                                    <input type="date" class="form-control custom-input"
+                                                                        placeholder="Date"
+                                                                        id="_ticket_sales_end_date_{{$index}}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-3 col-sm-3 col-md-3 col-xl-3 col-xl-3">
+                                                                <p style="font-size: 14px!important;">Time</p>
+                                                                <div class="form-group">
+                                                                    <input type="text"
+                                                                        class="form-control custom-input time"
+                                                                        placeholder="Time"
+                                                                        id="_ticket_sales_end_time_{{$index}}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-3 col-sm-3 col-md-3 col-xl-3 col-xl-3">
+                                                                <p style="font-size: 14px!important;">Tickets
+                                                                    allowed per order</p>
+                                                                <div class="form-group">
+                                                                    <input type="number"
+                                                                        class="form-control custom-input"
+                                                                        placeholder="Minimum"
+                                                                        id="_ticket_allowed_mini_{{$index}}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-3 col-sm-3 col-md-3 col-xl-3 col-xl-3">
+                                                                <div class="form-group" style="margin-top: 2rem;">
+                                                                    <input type="number"
+                                                                        class="form-control custom-input"
+                                                                        placeholder="Miximum"
+                                                                        id="_ticket_allowed_max_{{$index}}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-bottom: 2rem;">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                        <button class="btn ticket-btn" ng-disabled="saveShow" ng-click="saveTicket()"
+                                            style="background-color: rgb(68, 171 ,72);">Save</button>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6"
+                                        style="text-align: right;">
+                                        <button class="btn ticket-btn" ng-disabled="isTicktedVisible"
+                                            style="background-color:#f9a141 !important;"
+                                            ng-click="saveToPreview()">Create</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="!isTicketedEvent">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-bottom: 1rem;">
+                        <button class="btn btn-s pull-right c-btn" id="finsihTicket_btn" ng-show="isTicketedEvent"
+                            ng-click="saveEvents()">PROCEED
+                            TO TICKETS</button>
+                        <button class="btn btn-s pull-right c-btn" id="finsihTicket_btn" ng-show="!isTicketedEvent"
+                            ng-click="saveEvents()">Save
+                            and Preview</button>
+                        <div class="checkbox pull-right" ng-show="!isTicketedEvent" style="margin-right: 1rem;">
+                            <label><input type="checkbox" id="non-ticket-go-live" value="">Go
+                                Live</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal" id="myCalendarModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2" style="margin-top:7.4rem;">
+                            <div ng-repeat="v in [1, 2, 3, 4, 5, 6]"
+                                style="display: flex; flex-flow: column; justify-content: space-between;margin-left:15px;">
+                                <input type="checkbox" id="_row_c_{{v}}" data-i="{{v}}" name="r-s-check"
+                                    style="margin-top: 16px;" onclick="setRChecked(this)">
+                            </div>
+                        </div>
+                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10"
+                            style="padding-left: 0px;padding-right:0px;">
+                            <div id="datepicker_dd_s"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="text-align: right !important;">
+                    <button type="button" class="btn btn-success" onclick="AddCdatesDSpe()"
+                        style="background-color: green;border:1px solid green;color:#fff;font-size: 1.2rem;">Save</button>
+                    <button type="button" class="btn btn-danger"
+                        style="background-color: red;border:1px solid red;color:#fff;font-size: 1.2rem;"
+                        data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $("#events_date").on('click', function () {
+        $("#datepicker_dd_s .datepicker-days .table-condensed tbody tr td").not('.old').not('.new').not('.disabled').removeClass('active');
+        $('input[name^="r-s-check"]:checked').each(function (i) {
+            $(this).prop('checked', false);
+        });
+        $('input[name^="c-cal-check"]:checked').each(function (i) {
+            $(this).prop('checked', false);
+        });
+        $("#events_date").val('');
+        $('#myCalendarModal').modal({
+            show: 'true'
+        });
+    })
+    $('#datepicker_dd_s').datepicker({ startDate: new Date(), todayHighlight: false, multidate: true, });
+
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+
+    var AddCdatesDSpe = () => {
+        var items = $.map($("#datepicker_dd_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+        var month = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+        var year = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+        var monthIndex = monthNames.indexOf(month) + 1;
+        var datesAdd = [];
+        $.each(items, function (key, val) {
+            datesAdd.push(`${val}-${monthIndex}-${year}`);
+        });
+        $('#myCalendarModal').modal('hide');
+        let stVa = '';
+        for (let val of datesAdd) stVa += `${val},`;
+        $("#events_date").val(stVa.replace(/,(?=\s*$)/, ''));
+    }
+
+    var setChecked = (e) => {
+        setTimeout(function () {
+            if ($(e).prop("checked")) {
+                $(`#datepicker_dd_s table tbody tr td:nth-child(${$(e).attr('data-i')})`).removeClass('active');
+                $(e).prop('checked', false);
+                var items = $.map($("#datepicker_dd_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+                var month = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+                var year = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+                var monthIndex = monthNames.indexOf(month) + 1;
+                var datesAdd = [];
+                $.each(items, function (key, val) {
+                    datesAdd.push(new Date(parseInt(year), parseInt((monthIndex - 1)), parseInt(val)));
+                });
+                $('#datepicker_dd_s').datepicker('setDates', datesAdd);
+            }
+            else {
+                $(`#datepicker_dd_s table tbody tr td:nth-child(${$(e).attr('data-i')})`)
+                    .not('.old')
+                    .not('.new')
+                    .not('.disabled')
+                    .addClass('active');
+                $(e).prop('checked', true);
+                var items = $.map($("#datepicker_dd_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+                var month = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+                var year = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+                var monthIndex = monthNames.indexOf(month) + 1;
+                var datesAdd = [];
+                $.each(items, function (key, val) {
+                    datesAdd.push(new Date(parseInt(year), parseInt((monthIndex - 1)), parseInt(val)));
+                });
+                $('#datepicker_dd_s').datepicker('setDates', datesAdd);
+            }
+        }, 1)
+    }
+
+    var setRChecked = (e) => {
+        let i = $(e).attr('data-i');
+        if ($(e).prop("checked")) {
+            $("#datepicker_dd_s .datepicker-days .table-condensed tbody tr:nth-child(" + i + ") td").not('.old').not('.new').not('.disabled').addClass('active');
+            var items = $.map($("#datepicker_dd_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+            var month = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+            var year = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+            var monthIndex = monthNames.indexOf(month) + 1;
+            var datesAdd = [];
+            $.each(items, function (key, val) {
+                datesAdd.push(new Date(parseInt(year), parseInt((monthIndex - 1)), parseInt(val)));
+            });
+            $('#datepicker_dd_s').datepicker('setDates', datesAdd);
+        } else {
+            $("#datepicker_dd_s .datepicker-days .table-condensed tbody tr:nth-child(" + i + ") td").not('.old').not('.new').not('.disabled').removeClass('active');
+            var items = $.map($("#datepicker_dd_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+            var month = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+            var year = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+            var monthIndex = monthNames.indexOf(month) + 1;
+            var datesAdd = [];
+            $.each(items, function (key, val) {
+                datesAdd.push(new Date(parseInt(year), parseInt((monthIndex - 1)), parseInt(val)));
+            });
+            $('#datepicker_dd_s').datepicker('setDates', datesAdd);
+        }
+    }
+
+
+    var cVCal = ['_1_col_ck', '_2_col_ck', '_3_col_ck', '_4_col_ck', '_5_col_ck', '_6_col_ck', '_7_col_ck'];
+    $(() => {
+        let cVal = '';
+        for (let v of cVCal) {
+            let i = v.split('_')[1];
+            cVal += `<td> <input type="checkbox" name="c-cal-check" id="${v}" data-i="${i}" onclick="setChecked(this)"></td>`;
+        }
+        $('#datepicker_dd_s table thead tr:nth-child(1)').before(`<tr>${cVal}</tr>`);
+    })
+
+    function formatBytes(bytes, decimals, binaryUnits) {
+        if (bytes == 0) {
+            return '0 Bytes';
+        }
+        var unitMultiple = (binaryUnits) ? 1024 : 1000;
+        var unitNames = (unitMultiple === 1024) ? // 1000 bytes in 1 Kilobyte (KB) or 1024 bytes for the binary version (KiB)
+            ['Bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'] :
+            ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        var unitChanges = Math.floor(Math.log(bytes) / Math.log(unitMultiple));
+        return parseFloat((bytes / Math.pow(unitMultiple, unitChanges)).toFixed(decimals || 0)) + ' ' + unitNames[unitChanges];
+    }
+
+    $("#ticketEventVideo").on('change', function () {
+        $("#video_size_error").css("display", "none");
+        let size = formatBytes(this.files[0].size);
+
+        if (size) size = size.split(' ');
+
+        if (size[1] == "MB" || size[1] == "KB" || size[1] == "Bytes") {
+            if (size[1] == "MB") {
+                if (Number(size[0]) <= 15) {
+                    $(".video-s-h").css({ display: 'none' });
+                    $(".video-obj-s").css({ display: 'block' })
+                    $(".video-show").html(null).css({ display: 'block' })
+                    console.log(this.files[0]);
+                    var video = $('<video />', {
+                        id: 'video',
+                        src: URL.createObjectURL(this.files[0]),
+                        type: 'video/mp4',
+                        controls: true
+                    });
+                    video.appendTo($('.video-show'));
+                    $(".c-btn").prop("disabled", false);
+                    $("#video_size_error").css("display", "none");
+                } else {
+
+                    // $("#video").val('');
+                    $(".c-btn").prop("disabled", true);
+                    $("#video_size_error").css("display", "block");
+                }
+            } else if (size[1] == "KB" || size[1] == "Bytes") {
+                $(".c-btn").prop("disabled", false);
+                $("#video_size_error").css("display", "none");
+            } else {
+                $(".c-btn").prop("disabled", true);
+                $("#video_size_error").css("display", "block");
+            }
+        } else {
+            $(".c-btn").prop("disabled", true);
+            $("#video_size_error").css("display", "block");
+        }
+
+    })
+
+
+    $(function () {
+        // $('.date').datepicker({ startDate: new Date(), multidate: true, format: "dd-mm-yyyy" });
+        $('.time').timepicker({ 'scrollDefault': 'now', 'timeFormat': 'h:i a', 'step': 15 });
+        $(".happenings-btn").on('click', function () {
+            $(".happenings-btn").each(function () {
+                $(this).removeClass('active-happen');
+            });
+            $(this).addClass('active-happen')
+        })
+    });
+
+    var now = new Date();
+
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+    $("input[type='date']").attr('min', now.getFullYear() + "-" + (month) + "-" + (day));
+</script>
+<style>
+    .m-b {
+        margin-bottom: 0.5rem;
+    }
+
+    @media (min-width: 768px) {
+        #myCalendarModal .modal-dialog {
+            max-width: 335px !important;
+        }
+    }
+
+    .time_i {
+        display: block;
+        position: relative;
+    }
+
+    .time_i input {
+        padding-left: 40px;
+    }
+
+    .time_i:before {
+        font-family: 'FontAwesome';
+        content: '\f017';
+        position: absolute;
+        left: 10px;
+        top: 33px;
+        font-size: 20px;
+        color: #000;
+    }
+
+    .calendar {
+        display: block;
+        position: relative;
+    }
+
+    .calendar input {
+        padding-left: 40px;
+    }
+
+    .calendar:before {
+        font-family: 'FontAwesome';
+        content: '\f133';
+        position: absolute;
+        left: 10px;
+        top: 33px;
+        font-size: 20px;
+        color: #000;
+    }
+
+    input[type=checkbox] {
+        zoom: 1.2;
+    }
+
+    .btn-s {
+        color: #000;
+        border: 3px solid green !important;
+        background-color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .btn-s:hover {
+        color: #fff !important;
+        background: green !important;
+    }
+
+    .btn-s:active {
+        letter-spacing: 1px;
+    }
+
+    .c-p-1 {
+        font-size: 15px;
+        color: gray;
+    }
+
+    #image-crop-md .modal-dialog {
+        width: 756px;
+    }
+
+    #image-crop-second-md .modal-dialog {
+        width: 436px;
+    }
+
+    p {
+        margin: 0px 0px 4px !important;
+    }
+
+    .def-img {
+        width: 79px;
+        height: 79px;
+    }
+
+    .drag-img-up {
+        padding: 20px;
+        border: 1px dotted gray;
+        text-align: center;
+    }
+
+    .drag-img-up span {
+        color: gray;
+    }
+
+    .ticket-p::placeholder {
+        text-align: center;
+    }
+
+    .ui-timepicker-wrapper {
+        overflow-y: auto;
+        max-height: 300px;
+        width: 11em;
+    }
+
+    .m-t-h-1 {
+        margin-top: 1rem;
+    }
+
+    .active-happen {
+        background-color: #000 !important;
+        border-radius: 2px;
+        padding: 12px 35px !important;
+        color: #f9a141;
+    }
+
+    .active-happen:active {
+        color: #f9a141 !important;
+    }
+
+    .active-happen:focus {
+        color: #f9a141 !important;
+    }
+
+    .happenings-btn {
+        background-color: rgb(217, 217, 217);
+        border-radius: 2px;
+        padding: 12px 35px !important;
+    }
+
+    .no-ticket-p {
+        font-size: 1.5rem;
+        font-size: 400;
+    }
+
+    .m-t-h-2 {
+        margin-top: 2rem;
+    }
+
+    .m-t-h {
+        margin-top: 4rem;
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    .no-ticket-img {
+        width: 6rem;
+    }
+
+    hr {
+        margin-top: 0px !important;
+        margin-bottom: 1px !important;
+        border: 0;
+        border-top: 1px solid #443737b5 !important;
+    }
+
+    .project-tab #tabs {
+        background: #007b5e;
+        color: #eee;
+    }
+
+    .nav-tabs {
+        border-bottom: 0px solid #ddd !important;
+    }
+
+    .project-tab .nav-item {
+        padding: 20px 20px 8px 20px;
+    }
+
+    .project-tab #tabs h6.section-title {
+        color: #eee;
+    }
+
+    .project-tab .nav-item {
+        text-transform: uppercase;
+    }
+
+    .project-tab #tabs .nav-tabs .nav-item.show .nav-link,
+    .nav-tabs .nav-link.active {
+        color: #f9a141;
+        background-color: transparent;
+        border-color: transparent transparent #f3f3f3;
+        border-bottom: 3px solid !important;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .project-tab .nav-link {
+        border: 1px solid transparent;
+        border-top-left-radius: .25rem;
+        border-top-right-radius: .25rem;
+        color: #f9a141;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .project-tab thead {
+        background: #f3f3f3;
+        color: #333;
+    }
+
+    .project-tab a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .tab-div {
+        background-color: #e7eaec69;
+        padding: 20px 40px 12px 20px;
+    }
+
+    .mt-event {
+        margin-top: 2rem;
+    }
+
+    .btn-outline {
+        color: #43a047;
+        background-color: #ffffff;
+        border-color: #43a047;
+        font-weight: bold;
+        letter-spacing: 0.05em;
+    }
+
+    .btn-outline {
+        color: #43a047;
+        background-color: #ffffff;
+        border-color: #43a047;
+        font-weight: bold;
+        border-radius: 0;
+    }
+
+    .btn-outline:hover,
+    .btn-outline:active,
+    .btn-outline:focus,
+    .btn-outline.active {
+        background: #43a047 !important;
+        color: #ffffff;
+        border-color: #43a047;
+    }
+
+    hr {
+        border-top: 1px solid #999;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .label-sub {
+        font-size: 10px;
+        margin: 0 0 0px;
+    }
+
+    .col-padding {
+        padding-right: 5px !important;
+        padding-left: 5px !important;
+    }
+
+    .box-shadow-2 {
+        -webkit-box-shadow: 0 10px 18px 0 rgba(62, 57, 107, .2);
+        box-shadow: 0 10px 18px 0 rgba(62, 57, 107, .2)
+    }
+
+    .tab-div {
+        background-color: #e7eaec69;
+        padding: 20px 40px 12px 20px;
+    }
+
+    .event-tab-header {
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        padding: 5px;
+    }
+
+    .label {
+        font-size: 16px !important;
+    }
+
+    .img-box {
+        box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .14), 0 1px 18px 0 rgba(0, 0, 0, .12);
+        width: 255px;
+        height: 125px;
+        border-radius: 4px;
+    }
+
+    .img-content {
+        position: relative;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .img-content .content-overlay {
+        background: rgba(0, 0, 0, 0.7);
+        position: absolute;
+        height: 99%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        opacity: 0;
+        -webkit-transition: all 0.4s ease-in-out 0s;
+        -moz-transition: all 0.4s ease-in-out 0s;
+        transition: all 0.4s ease-in-out 0s;
+    }
+
+    .img-content:hover .content-overlay {
+        opacity: 1;
+    }
+
+    .content-image {
+        width: 100%;
+    }
+
+    .content-details {
+        position: absolute;
+        text-align: center;
+        padding-left: 1em;
+        padding-right: 1em;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        opacity: 0;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        -webkit-transition: all 0.3s ease-in-out 0s;
+        -moz-transition: all 0.3s ease-in-out 0s;
+        transition: all 0.3s ease-in-out 0s;
+    }
+
+    .img-content:hover .content-details {
+        top: 50%;
+        left: 50%;
+        opacity: 1;
+    }
+
+    .content-details button {
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        margin-bottom: 0.5em;
+    }
+
+    .content-details p {
+        color: #fff;
+        font-size: 0.8em;
+    }
+
+    .manage-txt {
+        font-size: 1.3526rem;
+        color: #000 !important;
+    }
+
+    .dollar {
+        display: block;
+        position: relative;
+    }
+
+    .dollar input {
+        padding-left: 20px;
+    }
+
+    .dollar:before {
+        position: absolute;
+        content: "$";
+        left: 5px;
+        top: 10px;
+        font-size: 15px;
+        color: #999;
+    }
+
+    input,
+    input::-webkit-input-placeholder,
+    textarea::placeholder {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .datepicker.dropdown-menu th,
+    .datepicker.datepicker-inline th,
+    .datepicker.dropdown-menu td,
+    .datepicker.datepicker-inline td {
+        padding: 8px 10px !important;
+    }
+
+    .styled-checkbox:checked+label:before {
+        background: #fba919 !important;
+    }
+
+    .datepicker table tr td.active:hover,
+    .datepicker table tr td.active:hover:hover,
+    .datepicker table tr td.active.disabled:hover,
+    .datepicker table tr td.active.disabled:hover:hover,
+    .datepicker table tr td.active:active,
+    .datepicker table tr td.active:hover:active,
+    .datepicker table tr td.active.disabled:active,
+    .datepicker table tr td.active.disabled:hover:active,
+    .datepicker table tr td.active.active,
+    .datepicker table tr td.active:hover.active,
+    .datepicker table tr td.active.disabled.active,
+    .datepicker table tr td.active.disabled:hover.active,
+    .datepicker table tr td.active.disabled,
+    .datepicker table tr td.active:hover.disabled,
+    .datepicker table tr td.active.disabled.disabled,
+    .datepicker table tr td.active.disabled:hover.disabled,
+    .datepicker table tr td.active[disabled],
+    .datepicker table tr td.active:hover[disabled],
+    .datepicker table tr td.active.disabled[disabled],
+    .datepicker table tr td.active.disabled:hover[disabled] {
+        background-color: #faa141 !important;
+    }
+
+    .datepicker table tr td.active,
+    .datepicker table tr td.active:hover,
+    .datepicker table tr td.active.disabled,
+    .datepicker table tr td.active.disabled:hover {
+        background-color: #faa141;
+        background-image: -moz-linear-gradient(top, #faa141, #faa141);
+        background-image: -ms-linear-gradient(top, #faa141, #faa141);
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#faa141), to(#faa141));
+        background-image: -webkit-linear-gradient(top, #faa141, #faa141);
+        background-image: -o-linear-gradient(top, #faa141, #faa141);
+        background-image: linear-gradient(top, #faa141, #faa141);
+        background-repeat: repeat-x;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa141', endColorstr='#faa141', GradientType=0);
+        border-color: #faa141 #faa141 #faa141;
+        border-color: rgba(0, 0, 0, .1) rgba(0, 0, 0, .1) rgba(0, 0, 0, .25);
+        filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+        color: #fff;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
+    }
+
+    .chosen-single {
+        padding-top: 3px !important;
+    }
+
+    /* .btn {
+        border-radius: 21px;
+    } */
+
+    #page-wrapper {
+        padding: 0 0px;
+    }
+
+    @media(min-width:768px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    .header-happenings {
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .3);
+        padding-top: 4px;
+        background-color: #f9a141;
+        border-radius: 4px;
+    }
+
+    .ui-timepicker-wrapper {
+        width: 11.5em !important;
+    }
+</style>
+
+<script>
+    function changeDisabled() {
+        if ($("#events_date").val() && $("#events_start_time").val() && $("#events_end_time").val()) {
+            var scope = angular.element(document.getElementById('happenings')).scope();
+            scope.$apply(function () {
+                scope.dateBtnDisabled = false;
+            });
+        }
+    }
+</script>

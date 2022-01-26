@@ -1,0 +1,47 @@
+<div class="row" style="margin-top: 5rem;margin-left: -0.5rem;margin-right: -0.5rem;">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 card">
+        <div class="row">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-xl-8 col-lg-8">
+                <h2>Venue signup details</h2>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-xl-4 col-lg-4">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-top: 0.5rem;">
+                        <div class="form-group">
+                            <input type="text" class="custom-input form-control" placeholder="Search"
+                                ng-model="filterTxt">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="margin-bottom: 1rem;">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th><span>#</span></th>
+                            <th><span>Name</span></th>
+                            <th><span>Contact No</span></th>
+                            <th><span>Email</span></th>
+                            <th><span>Venue Name</span></th>
+                            <th><span>Type</span></th>
+                            <th><span>Created</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="cus in signupsDs | filter : filterTxt">
+                            <td>{{$index+1}}</td>
+                            <td>{{cus.name}}</td>
+                            <td><span>+</span>{{cus.countryCode}}-{{cus.contactNo}}</td>
+                            <td>{{cus.email}}</td>
+                            <td>{{cus.venueName}}</td>
+                            <td>{{cus.type}}</td>
+                            <td>{{cus.isCreated | date:'dd-MMM-yyyy @ h:mma'}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

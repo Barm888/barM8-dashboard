@@ -1,0 +1,68 @@
+{
+  "name": "cart",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "status": {
+      "type": "string",
+      "default": "New"
+    },
+    "date": {
+      "type": "date"
+    },
+    "timeZone": {
+      "type": "string"
+    },
+    "totalAmt": {
+      "type": "number",
+      "default": 0
+    },
+    "totalPay": {
+      "type": "number",
+      "default": 0
+    },
+    "taxPer": {
+      "type": "number",
+      "default": 0
+    },
+    "taxAmt": {
+      "type": "number",
+      "default": 0
+    },
+    "totalCnt": {
+      "type": "number",
+      "default": 0
+    },
+    "currency": {
+      "type": "string",
+      "default": "AUD"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "customer": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": ""
+    },
+    "cartItems": {
+      "type": "hasMany",
+      "model": "CartItem",
+      "foreignKey": ""
+    },
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

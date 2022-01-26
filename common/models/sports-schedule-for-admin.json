@@ -1,0 +1,97 @@
+{
+  "name": "SportsScheduleForAdmin",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "status": {
+      "type": "string",
+      "default": "Pending"
+    },
+    "timeNo": {
+      "type": "number"
+    },
+    "time": {
+      "type": "string"
+    },
+    "timeTxt": {
+      "type": "string"
+    },
+    "dateTxt": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    },
+    "dateNo": {
+      "type": "number",
+      "default": 0
+    },
+    "month": {
+      "type": "number",
+      "default": 0
+    },
+    "year": {
+      "type": "number",
+      "default": 0
+    },
+    "round": {
+      "type": "number",
+      "default": 0
+    },
+    "isLive": {
+      "type": "boolean",
+      "required": false
+    },
+    "liveDate": {
+      "type": "date"
+    },
+    "liveTime": {
+      "type": "string"
+    },
+    "live": {
+      "type": "any"
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "sportsSchedule": {
+      "type": "belongsTo",
+      "model": "SportsCategory",
+      "foreignKey": "sportsTypeId"
+    },
+    "competitionSchedule": {
+      "type": "belongsTo",
+      "model": "SportsCategory",
+      "foreignKey": "competitionId"
+    },
+    "sponsorDetails": {
+      "type": "belongsTo",
+      "model": "SponsorDetails",
+      "foreignKey": "sponsorId"
+    },
+    "sportsTeamA": {
+      "type": "belongsTo",
+      "model": "SportsTeamAndLogo",
+      "foreignKey": "teamAId"
+    },
+    "sportsTeamB": {
+      "type": "belongsTo",
+      "model": "SportsTeamAndLogo",
+      "foreignKey": "teamBId"
+    },
+    "sports": {
+      "type": "hasOne",
+      "model": "Sports",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

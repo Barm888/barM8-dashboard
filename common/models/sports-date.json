@@ -1,0 +1,82 @@
+{
+  "name": "SportsDate",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "status": {
+      "type": "string",
+      "default": "Pending"
+    },
+    "date": {
+      "type": "string"
+    },
+    "dateFormat": {
+      "type": "date"
+    },
+    "startTime": {
+      "type": "string"
+    },
+    "endTime": {
+      "type": "string"
+    },
+    "startDateUTC": {
+      "type": "date"
+    },
+    "endDateUTC": {
+      "type": "date"
+    },
+    "dateNo": {
+      "type": "number"
+    },
+    "month": {
+      "type": "number"
+    },
+    "year": {
+      "type": "number"
+    },
+    "isLive": {
+      "type": "boolean",
+      "required": false
+    },
+    "isDeleted": {
+      "type": "boolean",
+      "required": false
+    },
+    "liveDate": {
+      "type": "date"
+    },
+    "liveTime": {
+      "type": "string"
+    },
+    "live": {
+      "type": "any"
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "sports": {
+      "type": "belongsTo",
+      "model": "Sports",
+      "foreignKey": ""
+    },
+    "allCharts": {
+      "type": "hasMany",
+      "model": "AllChart",
+      "foreignKey": ""
+    },
+    "sportsReservations": {
+      "type": "hasMany",
+      "model": "SportsReservation",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

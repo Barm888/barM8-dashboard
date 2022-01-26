@@ -1,0 +1,84 @@
+{
+  "name": "SportsReservation",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "dateStr": {
+      "type": "string",
+      "default": null
+    },
+    "timeStr": {
+      "type": "string",
+      "default": null
+    },
+    "country": {
+      "type": "string",
+      "default": null
+    },
+    "timeZone": {
+      "type": "string",
+      "default": null
+    },
+    "date": {
+      "type": "number",
+      "default": 0
+    },
+    "month": {
+      "type": "number",
+      "default": 0
+    },
+    "year": {
+      "type": "number",
+      "default": 0
+    },
+    "dateZero": {
+      "type": "date"
+    },
+    "countryDate": {
+      "type": "date"
+    },
+    "hour": {
+      "type": "string",
+      "default": null
+    },
+    "minute": {
+      "type": "string",
+      "default": null
+    },
+    "isInterest": {
+      "type": "boolean",
+      "default": false
+    },
+    "day": {
+      "type": "string",
+      "default": null
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    },
+    "customer": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": ""
+    },
+    "sports": {
+      "type": "belongsTo",
+      "model": "Sports",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

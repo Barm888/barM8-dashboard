@@ -1,0 +1,2446 @@
+<link href="assets/css/jquery.timepicker.min.css" type="text/css" rel="stylesheet" />
+<script src="assets/js/jquery.timepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/css/dashboard.css" />
+<link rel="stylesheet" type="text/css" href="assets/css/radiobutton.css" />
+<link rel="stylesheet" type="text/css" href="css/material-radio.css" />
+<script>
+    $(".event-tab-header").on('click', function () {
+        $(".event-tab-header").each(function () {
+            $(this).toggleClass('active');
+        });
+    });
+</script>
+<style>
+    .project-tab #tabs {
+        background: #007b5e;
+        color: #eee;
+    }
+
+    .nav-tabs {
+        border-bottom: 0px solid #ddd !important;
+    }
+
+    .project-tab .nav-item {
+        padding: 20px 20px 8px 20px;
+    }
+
+    .project-tab #tabs h6.section-title {
+        color: #eee;
+    }
+
+    .project-tab .nav-item {
+        text-transform: uppercase;
+    }
+
+    .project-tab #tabs .nav-tabs .nav-item.show .nav-link,
+    .nav-tabs .nav-link.active {
+        color: #f9a141;
+        background-color: transparent;
+        border-color: transparent transparent #f3f3f3;
+        border-bottom: 3px solid !important;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .project-tab .nav-link {
+        border: 1px solid transparent;
+        border-top-left-radius: .25rem;
+        border-top-right-radius: .25rem;
+        color: #f9a141;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .project-tab thead {
+        background: #f3f3f3;
+        color: #333;
+    }
+
+    .project-tab a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .tab-div {
+        background-color: #e7eaec69;
+        padding: 20px 40px 12px 20px;
+    }
+
+    .mt-event {
+        margin-top: 2rem;
+    }
+
+    .btn-outline {
+        color: #43a047;
+        background-color: #ffffff;
+        border-color: #43a047;
+        font-weight: bold;
+        letter-spacing: 0.05em;
+    }
+
+    .btn-outline {
+        color: #43a047;
+        background-color: #ffffff;
+        border-color: #43a047;
+        font-weight: bold;
+        border-radius: 0;
+    }
+
+    .btn-outline:hover,
+    .btn-outline:active,
+    .btn-outline:focus,
+    .btn-outline.active {
+        background: #43a047 !important;
+        color: #ffffff;
+        border-color: #43a047;
+    }
+
+    hr {
+        border-top: 1px solid #999;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .label-sub {
+        font-size: 10px;
+        margin: 0 0 0px;
+    }
+
+    .ticket-active {
+        display: block !important;
+        padding: .5rem 1rem !important;
+        border: 1px solid transparent !important;
+        border-top-left-radius: .25rem;
+        border-top-right-radius: .25rem;
+        color: #495057;
+        background-color: #fff;
+        border-color: #dee2e6 #dee2e6 #fff !important;
+    }
+
+    .col-padding {
+        padding-right: 5px !important;
+        padding-left: 5px !important;
+    }
+
+    .box-shadow-2 {
+        -webkit-box-shadow: 0 10px 18px 0 rgba(62, 57, 107, .2);
+        box-shadow: 0 10px 18px 0 rgba(62, 57, 107, .2)
+    }
+
+    .wrapper-content {
+        padding: 20px 10px 0px !important
+    }
+
+    @media(min-width:768px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="assets/css/single-img.css" />
+<div class="wrapper wrapper-content" id="createEvent" ng-controller="createEventCtl">
+    <div class="m-t-sm" style="margin-top:3rem;" ng-show="isBusinessSelect">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                <div class="row card eventCard">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                        <div class="autocomplete col-sm-12 col-xs-8 col-md-6 col-lg-6 col-xl-6"
+                            style="padding-right:0px;padding-left:0px;">
+                            <input id="autocompleteBusiness" type="text" name="BusinessName"
+                                placeholder="Enter Business name">
+                            <span id="businessErr" style="color:red;"></span>
+                        </div>
+                        <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                        <script
+                            type="text/javascript">autocomplete(document.getElementById("autocompleteBusiness"), 'createEvent');</script>
+                        <div class="autocomplete col-sm-12 col-xs-4 col-md-6 col-lg-6 col-xl-6" id="AUTO_BUS_0">
+                            <button type="button" ng-click="BusinessSelected('createEvent')" id="businessSubmit"
+                                class="btn btn-raised btn-primary businessSubmit">
+                                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 0.5rem;margin-bottom: 1rem;">
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <section id="tabs" class="project-tab">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                            <div class="row card">
+                                <div
+                                    class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-xl-8 col-xl-offset-2">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                            <h2>{{eventName}}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 tab-div">
+                                    <div class="row">
+                                        <div
+                                            class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-xl-8 col-xl-offset-2">
+                                            <nav>
+                                                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                                    <a class="nav-item nav-link active event-tab-header"
+                                                        id="nav-event-tab" data-toggle="tab"
+                                                        data-target="#nav-event-create" href="javascript:;" role="tab"
+                                                        aria-controls="nav-home" aria-selected="true">Event Details</a>
+                                                    <a class="nav-item nav-link event-tab-header" id="nav-ticket-tab"
+                                                        data-toggle="tab" ng-click="businessVaild(true)"
+                                                        data-target="#nav-ticket-type" href="javascript:;" role="tab"
+                                                        aria-controls="nav-ticket-type" aria-selected="false">Ticket
+                                                        Details</a>
+                                                </div>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="tab-content" id="nav-tabContent">
+                                        <div class="tab-pane fade event-tab-content active in" id="nav-event-create"
+                                            role="tabpanel" aria-labelledby="nav-home-tab">
+                                            <div class="row mt-event">
+                                                <div
+                                                    class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-xl-8 col-xl-offset-2">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <div class="form-group">
+                                                                <label>Are you selling tickets with BarM8?
+                                                                    &nbsp;
+                                                                    <span id="example" class="pop" data-toggle="popover"
+                                                                        data-placement="right"
+                                                                        data-content="Events that don’t require ticket sales through BarM8 can still be listed for promotional purposes."><i
+                                                                            class="far fa-question-circle"
+                                                                            style="font-size: 15px;"></i></span>
+                                                                </label>
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <div class="md-radio md-radio-inline">
+                                                                            <input id="event_selling_yes" type="radio"
+                                                                                name="event-ticket-selling-r"
+                                                                                value="true"
+                                                                                ng-checked="viewEventObj.SellTicketToBarM8">
+                                                                            <label for="event_selling_yes">Yes</label>
+                                                                        </div>
+                                                                        <div class="md-radio md-radio-inline">
+                                                                            <input id="event_selling_no" value="false"
+                                                                                type="radio"
+                                                                                name="event-ticket-selling-r"
+                                                                                ng-checked="!viewEventObj.SellTicketToBarM8">
+                                                                            <label for="event_selling_no">No</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <div class="form-group">
+                                                                <label for="eventHeader">Event Title<span
+                                                                        style="color: red;">*</span></label>
+                                                                <input type="text" class="form-control"
+                                                                    ng-model="eventTitle" ng-blur="update()"
+                                                                    id="eventTitle">
+                                                                <span id="event-t-Error"
+                                                                    style="color:red;display:none;">Event title
+                                                                    is
+                                                                    required!</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <div class="form-group">
+                                                                <label for="organiser_venue">Event
+                                                                    Organiser<span style="color: red;">*</span></label>
+                                                                <p class="label-sub">The name of the person or
+                                                                    group
+                                                                    putting on the event
+                                                                </p>
+                                                                <input type="text" class="form-control"
+                                                                    id="event_organiser_name">
+                                                                <span id="event-t-organ-name-error"
+                                                                    style="color:red;display:none;">Organiser
+                                                                    name
+                                                                    is
+                                                                    required!</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <div class="form-group">
+                                                                <label for="organiser_details">Organiser
+                                                                    Description<span
+                                                                        style="color: red;">*</span></label>
+                                                                <textarea class="form-control" rows="2"
+                                                                    id="event_organiser_details"></textarea>
+                                                                <span id="event-t-organ-desc-error"
+                                                                    style="color:red;display:none;">Organiser
+                                                                    description is
+                                                                    required!</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <label>Organiser Image <span
+                                                                    style="color: red;">*</span></label>
+                                                            <div class="form-group">
+                                                                <div class="upload">
+                                                                    <div class="upload__wrap2" id="media-list">
+                                                                        <div class="upload__btn card dropzone"
+                                                                            style="height: 109px;width:200px;min-height:108px;"
+                                                                            data-button-done="false" data-ajax="false"
+                                                                            id="upload__btn__event_organiser">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <div class="form-group">
+                                                                <label for="organiser_details">Artists and
+                                                                    guest</label>
+                                                                <p class="label-sub">Any performers, speakers or
+                                                                    artists that are
+                                                                    appearing at the event</p>
+                                                                <textarea class="form-control" rows="2"
+                                                                    id="event_artists_guest"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                                            <div class="form-group">
+                                                                <label for="usr">Age Restriction <span
+                                                                        style="color: red;">*</span></label>
+                                                                <select class="form-control" id="ageRegistriction">
+                                                                    <option ng-repeat="age in eventAgeRegtriction"
+                                                                        value="{{age}}">{{age}}
+                                                                    </option>
+                                                                </select>
+                                                                <span id="event-age-restriction-error"
+                                                                    style="color:red;display:none;">Age
+                                                                    restriction is required!</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                                            <div class="form-group">
+                                                                <label for="eventCategory">Select category <span
+                                                                        style="color: red;">*</span></label>
+                                                                <select class="form-control" id="eventCategory"
+                                                                    ng-change="chgEventCategory(categoryId)"
+                                                                    ng-init="categoryId = eventCategories.default"
+                                                                    ng-model="categoryId"
+                                                                    ng-options="list.id as list.category for list in eventCategories track by list.id">
+                                                                    <option value="">Please select...</option>
+                                                                </select>
+                                                                <span id="event-category-error"
+                                                                    style="color:red;display:none;">Category
+                                                                    is required!</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                                            <div class="form-group">
+                                                                <label for="usr">Select Genre <span
+                                                                        style="color: red;">*</span></label>
+                                                                <select class="form-control"
+                                                                    ng-init="eventGenre=eventGenreArrayList.default"
+                                                                    ng-model="eventGenre"
+                                                                    ng-options="list.is as list.name for list in eventGenreArrayList track by list.id">
+                                                                    <option value="">Please select...</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <h2> <i class="far fa-image"></i> &nbsp;Event Image
+                                                            </h2>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4">
+                                                            <div class="form-group">
+                                                                <div class="upload #{className}">
+                                                                    <div class="upload__wrap2" id="media-list">
+                                                                        <div class="upload__btn card dropzone"
+                                                                            style="height: 109px;width:200px;min-height:108px;"
+                                                                            data-button-done="false" data-ajax="false"
+                                                                            id="upload__btn__wrap1">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <span id="event-images-error"
+                                                                    style="color:red;display:none;">Image is
+                                                                    required!</span>
+                                                            </div>
+                                                            <div class="form-group"
+                                                                ng-show="viewEventObj.img && viewEventObj.img.length">
+                                                                <script>  $(document).ready(() => { $(".event_popover").popover({ trigger: "hover" }); });</script>
+                                                                <span
+                                                                    style="position: absolute;left: 13rem;bottom: 7.5rem;"
+                                                                    ng-show="isEdit" data-toggle="popover"
+                                                                    data-placement="top" data-content="Delete"
+                                                                    class="pull-right event_popover"><button class="btn"
+                                                                        ng-click="deleteImg('eventImg', viewEventObj.id)"
+                                                                        style="background-color: #d50000 !important;padding: 1px 6px!important;"><i
+                                                                            class="fas fa-times"></i></button></span>
+                                                                <img ng-repeat="src in viewEventObj.img"
+                                                                    class="img-thumbnail" ng-src="{{src.fullPath}}"
+                                                                    style="width: 200px; height: 120px; object-fit: cover;">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                                            <h4 style="color: #999;font-weight:400;">Event
+                                                                thumbnail
+                                                            </h4>
+                                                            <p><i class="far fa-image"
+                                                                    style="font-size: 3rem;color: #999;"></i>
+                                                            </p>
+                                                            <b style="color: #999;"> Visible on the event page
+                                                                and
+                                                                in search results</b>
+                                                            <p style="color: #999;font-size:10px;">Recommended
+                                                                size
+                                                                600x600px</p>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <h2> &nbsp;Description</h2>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <div class="form-group">
+                                                                <label for="event_venue">Teaser</label>
+                                                                <p class="label-sub">A one-liner that describes
+                                                                    the
+                                                                    event, visible in
+                                                                    search results and the evnet page</p>
+                                                                <input type="text" class="form-control"
+                                                                    id="event_teaser_desc">
+                                                                <span id="event-teaser-error"
+                                                                    style="color:red;display:none;">Teaser is
+                                                                    required!</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <div class="form-group" style="margin-bottom: 1rem;">
+                                                                <label>Full description</label>
+                                                                <p class="label-sub">Displayed on the event
+                                                                    page,
+                                                                    outlining anything
+                                                                    people need to know about your event.</p>
+                                                                <textarea class="form-control"
+                                                                    id="event-full-desc"></textarea>
+                                                                <span id="event-full-desc-error"
+                                                                    style="color:red;display:none;">Full
+                                                                    description is required!</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                                            <h2> <i class="far fa-calendar-alt"></i> &nbsp;Dates
+                                                            </h2>
+                                                        </div>
+                                                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                                            <p class="label-sub"
+                                                                style="text-align: right;margin-top:2rem;">Dates
+                                                                &
+                                                                times follow the venue timezone</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-xs-4 col-sm-4 col-md-3 col-lg-3 col-xl-3">
+                                                                    <div class="form-group">
+                                                                        <label for="events_start_date">Date
+                                                                            <span style="color: red;">*</span></label>
+                                                                        <input type="date" class="form-control"
+                                                                            id="events_start_date"
+                                                                            placeholder="23-08-2019">
+                                                                        <span id="event-start-date-error"
+                                                                            style="color:red;display:none;">Start
+                                                                            date is
+                                                                            required!</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-4 col-sm-4 col-md-3 col-lg-3 col-xl-3">
+                                                                    <div class="form-group">
+                                                                        <label for="events_start_time">Start
+                                                                            Time
+                                                                            <span style="color: red;">*</span></label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="events_start_time"
+                                                                            placeholder="07:30 PM">
+                                                                        <span id="event-start-time-error"
+                                                                            style="color:red;display:none;">Start
+                                                                            time is
+                                                                            required!</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-4 col-sm-4 col-md-3 col-lg-3 col-xl-3">
+                                                                    <label for="events_end_time">End Time <span
+                                                                            style="color: red;">*</span></label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="events_end_time" placeholder="09:30 PM">
+                                                                    <span id="event-end-time-error"
+                                                                        style="color:red;display:none;">End
+                                                                        time is required!</span>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-4 col-sm-4 col-md-3 col-lg-3 col-xl-3">
+                                                                    <button class="btn btn-primary"
+                                                                        ng-click="eventsDateAdd()"
+                                                                        style="background-color: #f9a141 !important;margin-top:1.5rem;"><i
+                                                                            class="fas fa-plus"></i></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" ng-show="eventsDateList && eventsDateList.length">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <div class="table-resposive card"
+                                                                style="margin: 1rem 0 1rem 0;padding: 4px;">
+                                                                <table class="table table-hover">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Date</th>
+                                                                            <th>Start Time</th>
+                                                                            <th>End Time</th>
+                                                                            <th></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr ng-repeat="(key, value) in eventsDateList">
+                                                                            <td>{{value.date}}</td>
+                                                                            <td>{{value.startTime}}</td>
+                                                                            <td>{{value.endTime}}</td>
+                                                                            <td>
+                                                                                <button class="btn btn-primary"
+                                                                                    style="background-color: #388E3C !important;padding: 7px 11px!important;"><i
+                                                                                        class="fas fa-pencil-alt"></i></button>
+                                                                                <button class="btn btn-primary"
+                                                                                    style="background-color: #D50000 !important;padding: 7px 11px!important;"
+                                                                                    ng-click="eventsDateRemove(key)"><i
+                                                                                        class="far fa-trash-alt"></i></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                                            <label for="usr">Announcement date</label>
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                                                    <div class="form-group">
+                                                                        <input type="date" class="form-control"
+                                                                            id="announcement_date"
+                                                                            placeholder="01-08-2019">
+                                                                        <span id="event-announcement-date-error"
+                                                                            style="color:red;display:none;">Announcement
+                                                                            date is required!</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                                                    <div class="form-group">
+                                                                        <input type="text" class="form-control"
+                                                                            ng-model="viewEventObj.announceTime"
+                                                                            id="announcement_time"
+                                                                            placeholder="02:00 PM">
+                                                                        <span id="event-announcement-time-error"
+                                                                            style="color:red;display:none;">Announcement
+                                                                            time is required!</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <h2> &nbsp;Venue</h2>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control"
+                                                                    id="events_venue_name"
+                                                                    placeholder="Enter the venue's name">
+                                                                <span id="event-venue-name-error"
+                                                                    style="color:red;display:none;">Venue
+                                                                    name is required!</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                                                            <div class="form-group">
+                                                                <button class="btn btn-primary pull-right"
+                                                                    ng-click="venueFind()"
+                                                                    style="background-color: #fba919 !important;"><i
+                                                                        class="fas fa-check"></i>&nbsp;Add</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" ng-show="isVaildVenue">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control"
+                                                                    ng-model="viewEventObj.venue.address"
+                                                                    id="events_venue_address" placeholder="Address">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control"
+                                                                    ng-model="viewEventObj.venue.city"
+                                                                    id="events_venue_city" placeholder="City">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control"
+                                                                    ng-model="viewEventObj.venue.state"
+                                                                    id="events_venue_state" placeholder="State">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                            <div class="form-group">
+                                                                <input type="text" class="form-control"
+                                                                    ng-model="viewEventObj.venue.zip"
+                                                                    id="events_venue_zip" placeholder="Zip/code">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <button class="btn btn-outline pull-right"
+                                                                id="events_add_btn" ng-click="createEvents()"
+                                                                style="border-radius: 3px;padding: 4px 25px!important;border: 1px solid #43a047 !important;margin-bottom:10px;">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade event-tab-content" id="nav-ticket-type"
+                                            role="tabpanel" aria-labelledby="nav-profile-tab">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 com-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <h2 style="margin-top:0px;">
+                                                                <i class="fas fa-cog"></i> Ticket Settings
+                                                            </h2>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 com-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <div class="card" style="padding:10px 20px;">
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-2 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <h3>Fees</h3>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                                                        <div class="md-radio md-radio-inline"
+                                                                            style="margin: 4px 0;">
+                                                                            <input id="ticket_fixed_fee"
+                                                                                ng-checked="ticketAndSettingsView.ticketGeneralSettings.isCheckedFixedFee"
+                                                                                value="fixedFee" type="radio"
+                                                                                name="ticket-fee-type">
+                                                                            <label for="ticket_fixed_fee">Fixed
+                                                                                Fee</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                                                        <div class="form-group">
+                                                                            <span
+                                                                                style="position: absolute; margin-left: 3px; margin-top: 8px;">$</span>
+                                                                            <input class="form-control numbervaild"
+                                                                                id="ticket-setting-fixed-fee"
+                                                                                ng-model="ticketAndSettingsView.ticketGeneralSettings.fixedFee"
+                                                                                type="text" style="padding-left: 14px;">
+                                                                            <span id="ticket-setting-fixed-fee-error"
+                                                                                style="color:red;display:none;">Fixed
+                                                                                fee is
+                                                                                required!</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                                                        <div class="md-radio md-radio-inline"
+                                                                            style="margin: 4px 0;">
+                                                                            <input id="ticket_fee_percentage"
+                                                                                ng-checked="ticketAndSettingsView.ticketGeneralSettings.isCheckedPercent"
+                                                                                value="percent" type="radio"
+                                                                                name="ticket-fee-type">
+                                                                            <label
+                                                                                for="ticket_fee_percentage">Percentage
+                                                                                <p class="label-sub">
+                                                                                    (Of
+                                                                                    Ticket Price)</p>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control"
+                                                                                id="ticket_settings_fee_per"
+                                                                                style="padding: 6px 2px !important;">
+                                                                                <option
+                                                                                    ng-repeat="number in ticket_settings_per"
+                                                                                    ng-selected="ticketAndSettingsView.ticketGeneralSettings.percent"
+                                                                                    value="{{number}}">
+                                                                                    {{number}}</option>
+                                                                            </select>
+                                                                            <span
+                                                                                id="ticket-setting-fixed-fee-per-error"
+                                                                                style="color:red;display:none;">Fixed
+                                                                                fee is
+                                                                                required!</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                                        <span id="ticket-fees-error"
+                                                                        style="color:red;display:none;">Please
+                                                                        select
+                                                                        the
+                                                                        fees!</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card"
+                                                                style="margin-top: 0.5rem;padding:10px 20px;">
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-2 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <h3>Sales Channel</h3>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <div class="row">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                                <div class="md-radio md-radio-inline"
+                                                                                    style="margin: 4px 0;">
+                                                                                    <input id="ticket_s_c_app_only"
+                                                                                        value="appOnly"
+                                                                                        ng-checked="ticketAndSettingsView.salesChannel.appOnly"
+                                                                                        type="radio"
+                                                                                        name="ticket-sales-channel">
+                                                                                    <label for="ticket_s_c_app_only">App
+                                                                                        Only (Barm8
+                                                                                        Only)</label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                                <div class="md-radio md-radio-inline"
+                                                                                    style="margin: 4px 0;">
+                                                                                    <input
+                                                                                        id="ticket_s_c_app_only_and_door"
+                                                                                        ng-checked="ticketAndSettingsView.salesChannel.appAndDoor"
+                                                                                        value="appAndDoorOnly"
+                                                                                        type="radio"
+                                                                                        name="ticket-sales-channel">
+                                                                                    <label
+                                                                                        for="ticket_s_c_app_only_and_door">App
+                                                                                        and At
+                                                                                        the door</label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                                <div class="md-radio md-radio-inline"
+                                                                                    style="margin: 4px 0;">
+                                                                                    <input id="ticket_s_c_door_only"
+                                                                                        type="radio"
+                                                                                        ng-checked="ticketAndSettingsView.salesChannel.doorOnly"
+                                                                                        value="doorOnly"
+                                                                                        name="ticket-sales-channel">
+                                                                                    <label for="ticket_s_c_door_only">At
+                                                                                        the door
+                                                                                        only</label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <div
+                                                                                class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                                                                <span id="ticket-sales-channel-error"
+                                                                                    style="color:red;display:none;">Please
+                                                                                    select the Sales
+                                                                                    Channel!</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card"
+                                                                style="margin-top: 0.5rem;padding:10px 20px;">
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <h3>Purchase Restrictions</h3>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                                                        <div class="form-group">
+                                                                            <label for="min_ticket_per_order">Min
+                                                                                Tickets per order</label>
+                                                                            <input type="text"
+                                                                                class="form-control numbervaild"
+                                                                                ng-model="ticketAndSettingsView.ticketGeneralSettings.restrictionsMin"
+                                                                                id="min_ticket_per_order">
+                                                                            <span id="min_ticket_per_order_error"
+                                                                                style="color:red;display:none;">Please
+                                                                                select the
+                                                                                return Policy!</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                                                                        <div class="form-group">
+                                                                            <label for="max_ticket_per_order">Max
+                                                                                Tickets per order</label>
+                                                                            <input type="text"
+                                                                                class="form-control numbervaild"
+                                                                                ng-model="ticketAndSettingsView.ticketGeneralSettings.restrictionsMax"
+                                                                                id="max_ticket_per_order">
+                                                                            <span id="max_ticket_per_order_error"
+                                                                                style="color:red;display:none;">Please
+                                                                                select the
+                                                                                return Policy!</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card"
+                                                                style="margin-top: 0.5rem;padding:10px 20px;">
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <h3>Return Policy</h3>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <div class="md-radio md-radio-inline"
+                                                                            style="margin: 4px 0;">
+                                                                            <input id="ticket-return-policy-1"
+                                                                                ng-checked="ticketAndSettingsView.ticketGeneralSettings.returnPolicy._1Day"
+                                                                                type="radio" value="1"
+                                                                                name="ticket-return-type-list">
+                                                                            <label for="ticket-return-policy-1"
+                                                                                style="font-weight: 300;"><b>1
+                                                                                    day:</b>
+                                                                                Attendees can receive refunds up
+                                                                                to
+                                                                                1 day before your event
+                                                                                start date.</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <div class="md-radio md-radio-inline"
+                                                                            style="margin: 4px 0;">
+                                                                            <input id="ticket-return-policy-7"
+                                                                                type="radio"
+                                                                                ng-checked="ticketAndSettingsView.ticketGeneralSettings.returnPolicy._7Days"
+                                                                                value="7"
+                                                                                name="ticket-return-type-list">
+                                                                            <label for="ticket-return-policy-7"
+                                                                                style="font-weight: 300;"><b>7
+                                                                                    days:</b>
+                                                                                Attendees can receive refunds up
+                                                                                to
+                                                                                7 days before your event
+                                                                                start date.</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <div class="md-radio md-radio-inline"
+                                                                            style="margin: 4px 0;">
+                                                                            <input id="ticket-return-policy-30"
+                                                                                type="radio"
+                                                                                ng-checked="ticketAndSettingsView.ticketGeneralSettings.returnPolicy._30Days"
+                                                                                value="30"
+                                                                                name="ticket-return-type-list">
+                                                                            <label for="ticket-return-policy-30"
+                                                                                style="font-weight: 300;"><b>30
+                                                                                    days:</b>
+                                                                                Attendees can receive refunds up
+                                                                                to
+                                                                                30 days before your event
+                                                                                start date.</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <div class="md-radio md-radio-inline"
+                                                                            style="margin: 4px 0;">
+                                                                            <input id="ticket-return-policy-no-refunds"
+                                                                                ng-checked="ticketAndSettingsView.ticketGeneralSettings.returnPolicy._noRefund"
+                                                                                value="noRefunds" type="radio"
+                                                                                name="ticket-return-type-list">
+                                                                            <label for="ticket-return-policy-no-refunds"
+                                                                                style="font-weight: 300;"><b>No
+                                                                                    refunds:</b> No refunds at
+                                                                                any
+                                                                                time.</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                                                        <span id="ticket-return-policy-error"
+                                                                            style="color:red;display:none;">Please
+                                                                            select the return
+                                                                            Policy!</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card"
+                                                                style="margin-top: 0.5rem;padding:10px 20px;">
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <h3>Important ticket infomation</h3>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <textarea class="form-control"
+                                                                            ng-model="ticketAndSettingsView.ticketInfo"
+                                                                            rows="3" id="ticketInfoGenSet"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card"
+                                                                style="margin-top: 0.5rem;padding:10px 20px;">
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <h3>Pricing and fee infomation</h3>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <textarea class="form-control"
+                                                                            ng-model="ticketAndSettingsView.pricingInfo"
+                                                                            rows="3"
+                                                                            id="pricingAndFeeInfoGenSet"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card"
+                                                                style="margin-top: 0.5rem;padding:10px 20px;">
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <h3>Collection/delivery infomation</h3>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                        <textarea class="form-control"
+                                                                            ng-model="ticketAndSettingsView.deliveryInfo"
+                                                                            rows="3"
+                                                                            id="collectionAndDeliveryInfoGenSet"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-xs-12 com-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                                    <h2 style="margin-top:0px;"><i
+                                                                            class="fas fa-ticket-alt"></i>
+                                                                        &nbsp;Create Tickets</h2>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-12 com-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                                    <b style="font-size: 12px;float:right;">Need
+                                                                        tickets to share
+                                                                        common questities?</b>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="padding: 10px;">
+                                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                                                    style="border:1px solid #ddd;">
+                                                                    <div class="row"
+                                                                        ng-show="ticketTypesList && ticketTypesList.length"
+                                                                        style="margin-top: 0.5rem;">
+                                                                        <div
+                                                                            class="col-xs-12 com-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                            <div class="row"
+                                                                                style="border-bottom:1px solid #ddd;">
+                                                                                <div
+                                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                                    <b>Ticket group</b>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                                    <b>Ticket Type</b>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xs-6 col-sm-6 col-md-1 col-lg-1 col-xl-1 col-padding">
+                                                                                    <b>Promo Code</b>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                                    <b>Quantity Allocated</b>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                                    <b>Base Price</b>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                                    <b>Total Price</b>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xs-6 col-sm-6 col-md-1 col-lg-1 col-xl-1 col-padding">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row"
+                                                                                style="border-bottom:1px solid #ddd;"
+                                                                                ng-repeat="tickettype in ticketTypesList">
+                                                                                <script type="text/javascript">
+                                                                                    $('.time').timepicker({ 'scrollDefault': 'now', 'timeFormat': 'h:i a', 'step': 60 });
+                                                                                    $(".pop").popover({ trigger: "manual", html: true, animation: true })
+                                                                                        .on("mouseenter", function () {
+                                                                                            var _this = this;
+                                                                                            $(this).popover("show");
+                                                                                            $(".popover").on("mouseleave", function () { $(_this).popover('hide'); });
+                                                                                        }).on("mouseleave", function () {
+                                                                                            var _this = this;
+                                                                                            setTimeout(function () {
+                                                                                                if (!$(".popover:hover").length) $(_this).popover("hide");
+                                                                                            });
+                                                                                        });
+                                                                                </script>
+                                                                                <div
+                                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                                    <div class="form-group"
+                                                                                        style="margin-top: 1rem;margin-bottom: 4px;">
+                                                                                        <select class="form-control"
+                                                                                            onchange="addNewTicketList('ticketGroup',this)"
+                                                                                            id="ticket_group_name_{{$index}}">
+                                                                                            <option value="select">
+                                                                                                Select option...
+                                                                                            </option>
+                                                                                            <option
+                                                                                                ng-repeat="eventGroup in EventTicketGroupsList"
+                                                                                                ng-selected="eventGroup.name==tickettype.group"
+                                                                                                value="{{eventGroup.id}}">
+                                                                                                {{eventGroup.name}}
+                                                                                            </option>
+                                                                                            <option value="addNew">
+                                                                                                &#x2B; Add New
+                                                                                            </option>
+                                                                                        </select>
+                                                                                        <span
+                                                                                            id="ticket-group-error-{{$index}}"
+                                                                                            style="color:red;display:none;">Group
+                                                                                            is required!</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                                    <div class="form-group pop"
+                                                                                        style="margin-top: 1rem;margin-bottom: 4px;">
+                                                                                        <select class="form-control"
+                                                                                            onchange="addNewTicketList('ticketType',this)"
+                                                                                            data-toggle="popover"
+                                                                                            data-placement="top"
+                                                                                            data-content="Give your ticket a name, like General Admission, Early Bird, RSVP, etc..."
+                                                                                            id="ticket_name_{{$index}}">
+                                                                                            <option value="select">
+                                                                                                Select option...
+                                                                                            </option>
+                                                                                            <option
+                                                                                                ng-repeat="eventType in eventTicketTypesList"
+                                                                                                ng-selected="eventType.name==tickettype.name"
+                                                                                                value="{{eventType.id}}">
+                                                                                                {{eventType.name}}
+                                                                                            </option>
+                                                                                            <option value="addNew">
+                                                                                                &#x2B; Add New
+                                                                                            </option>
+                                                                                        </select>
+                                                                                        <span
+                                                                                            id="ticket-name-error-{{$index}}"
+                                                                                            style="color:red;display:none;">Name
+                                                                                            is
+                                                                                            required!</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xs-6 col-sm-6 col-md-1 col-lg-1 col-xl-1 col-padding">
+                                                                                    <div class="form-group"
+                                                                                        style="margin-top: 1rem;margin-bottom: 4px;">
+                                                                                        <select class="form-control"
+                                                                                            onchange="addNewTicketPromoCode(this)"
+                                                                                            id="ticket_promo_code_{{$index}}">
+                                                                                            <option value="select">
+                                                                                                Select option...
+                                                                                            </option>
+                                                                                            <option
+                                                                                                ng-selected="'Bronze'==tickettype.promoCode"
+                                                                                                value="Bronze">
+                                                                                                Bronze
+                                                                                            </option>
+                                                                                            <option
+                                                                                                ng-selected="'Silver'==tickettype.promoCode"
+                                                                                                value="Silver">
+                                                                                                Silver
+                                                                                            </option>
+                                                                                            <option
+                                                                                                ng-selected="'Gold'==tickettype.promoCode"
+                                                                                                value="Gold">
+                                                                                                Gold
+                                                                                            </option>
+                                                                                            <option
+                                                                                                ng-selected="'Platinum'==tickettype.promoCode"
+                                                                                                value="Platinum">
+                                                                                                Platinum
+                                                                                            </option>
+                                                                                            <option
+                                                                                                ng-selected="'Vip'==tickettype.promoCode"
+                                                                                                value="Vip">Vip
+                                                                                            </option>
+                                                                                            <option
+                                                                                                ng-repeat="eventType in EventPromoCodeList"
+                                                                                                ng-selected="eventType.name==tickettype.promoCode"
+                                                                                                value="{{eventType.value}}">
+                                                                                                {{eventType.name}}
+                                                                                            </option>
+                                                                                            <option value="addNew">
+                                                                                                &#x2B; Add New
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                                    <div class="form-group"
+                                                                                        style="margin-top: 1rem;margin-bottom: 4px;">
+                                                                                        <input type="text"
+                                                                                            ng-show="tickettype.type=='paid'"
+                                                                                            class="form-control pop numbervaild"
+                                                                                            ng-model="tickettype.qty"
+                                                                                            data-toggle="popover"
+                                                                                            data-placement="top"
+                                                                                            id="ticket_qty_{{$index}}"
+                                                                                            data-content="Enter the total number of tickets available for this ticket type">
+                                                                                        <span
+                                                                                            ng-show="tickettype.type!='paid'">{{
+                                                                                            tickettype.type
+                                                                                            }}</span>
+                                                                                        <span
+                                                                                            id="ticket-quantity-error-{{$index}}"
+                                                                                            style="color:red;display:none;">Quantity
+                                                                                            is
+                                                                                            required!</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                                    <div class="form-group"
+                                                                                        style="margin-top: 1rem;margin-bottom: 4px;">
+                                                                                        <input type="text"
+                                                                                            ng-show="tickettype.type=='paid'"
+                                                                                            id="ticket_base_price_{{$index}}"
+                                                                                            ng-model="tickettype.basePrice"
+                                                                                            class="form-control numbervaild">
+                                                                                        <span
+                                                                                            ng-show="tickettype.type!='paid'">{{
+                                                                                            tickettype.type
+                                                                                            }}</span>
+                                                                                        <span
+                                                                                            id="ticket-base-price-error-{{$index}}"
+                                                                                            style="color:red;display:none;">Base
+                                                                                            price is
+                                                                                            required!</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xs-6 col-sm-6 col-md-2 col-lg-2 col-xl-2 col-padding">
+                                                                                    <div class="form-group"
+                                                                                        style="margin-top: 1rem;margin-bottom: 4px;">
+                                                                                        <input type="text"
+                                                                                            ng-show="tickettype.type=='paid'"
+                                                                                            class="form-control pop numbervaild"
+                                                                                            data-toggle="popover"
+                                                                                            id="ticket_online_price_{{$index}}"
+                                                                                            data-placement="top"
+                                                                                            ng-model="tickettype.totalPrice"
+                                                                                            data-content="Set your ticket price. (You'll select payout options later on the Manage page)" />
+                                                                                        <span
+                                                                                            ng-show="tickettype.type!='paid'">{{
+                                                                                            tickettype.type
+                                                                                            }}</span>
+                                                                                        <span
+                                                                                            id="ticket-online-price-error-{{$index}}"
+                                                                                            style="color:red;display:none;">Total
+                                                                                            price is
+                                                                                            required!</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-xs-6 col-sm-6 col-md-1 col-lg-1 col-xl-1 "
+                                                                                    style="padding: 0px;">
+                                                                                    <div class="form-group"
+                                                                                        style="margin-bottom: 4px;">
+                                                                                        <ul class="nav nav-tabs"
+                                                                                            role="tablist"
+                                                                                            style="margin-top:1rem;">
+                                                                                            <li class="nav-item"
+                                                                                                style="padding: 0 !important;">
+                                                                                                <button title="Setting"
+                                                                                                    id="ticket-type-settings-{{$index}}"
+                                                                                                    data-toggle="tab"
+                                                                                                    role="tab"
+                                                                                                    aria-controls="home"
+                                                                                                    aria-selected="true"
+                                                                                                    data-index="{{$index}}"
+                                                                                                    data-panelId="#create_ticket_adv_setting_{{$index}}"
+                                                                                                    onclick="createTicketSPanel(this)"
+                                                                                                    data-name="setting"
+                                                                                                    style="font-size: 100%;font-family: inherit;border:0;padding: 10px 15px;background-color:#fff;"><i
+                                                                                                        class="fas fa-cog"></i></button>
+                                                                                            </li>
+                                                                                            <li>
+                                                                                                <button title="Delete"
+                                                                                                    style="font-size: 100%;font-family: inherit;border:0;padding:10px;background-color:#fff;"><i
+                                                                                                        class="fas fa-trash"></i></button>
+                                                                                            </li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                                    <div class="row">
+                                                                                        <div
+                                                                                            class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                                            <div id="create_ticket_adv_setting_{{$index}}"
+                                                                                                class="panel-collapse collapse"
+                                                                                                aria-expanded="true">
+                                                                                                <div
+                                                                                                    class="panel-content">
+                                                                                                    <div class="row">
+                                                                                                        <div
+                                                                                                            class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                                                            <div
+                                                                                                                class="form-group">
+                                                                                                                <label
+                                                                                                                    for="ticket_settings_desc_{{$index}}">Ticket
+                                                                                                                    Description</label>
+                                                                                                                <textarea
+                                                                                                                    class="form-control"
+                                                                                                                    rows="5"
+                                                                                                                    ng-model="tickettype.desc"
+                                                                                                                    id="ticket_settings_desc_{{$index}}"></textarea>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <hr>
+                                                                                                    <div class="row">
+                                                                                                        <div
+                                                                                                            class="col-xs-2 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                                                            <h3>Ticket
+                                                                                                                Sales
+                                                                                                            </h3>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="row">
+                                                                                                        <div
+                                                                                                            class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                                                                                            <div
+                                                                                                                class="form-group">
+                                                                                                                <label
+                                                                                                                    for="ticket_settings_start_date_{{$index}}">Start
+                                                                                                                    date</label>
+                                                                                                                <input
+                                                                                                                    type="date"
+                                                                                                                    class="form-control"
+                                                                                                                    ng-value="tickettype.salesStartDate"
+                                                                                                                    placeholder="12/08/2019"
+                                                                                                                    id="ticket_settings_start_date_{{$index}}">
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="col-sm-3 col-xs-3 col-md-3 col-lg-3 col-xl-3">
+                                                                                                            <div
+                                                                                                                class="form-group">
+                                                                                                                <input
+                                                                                                                    type="text"
+                                                                                                                    class="form-control time"
+                                                                                                                    style="margin-top: 1.8rem;"
+                                                                                                                    placeholder="04.00 pm"
+                                                                                                                    ng-model="tickettype.salesStartTime"
+                                                                                                                    id="ticket_settings_start_time_{{$index}}">
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="row">
+                                                                                                        <div
+                                                                                                            class="col-xs-6 col-sm-6 col-md-3 col-lg-3 col-xl-3">
+                                                                                                            <div
+                                                                                                                class="form-group">
+                                                                                                                <label
+                                                                                                                    for="ticket_settings_end_date_{{$index}}">End
+                                                                                                                    date</label>
+                                                                                                                <input
+                                                                                                                    type="date"
+                                                                                                                    class="form-control"
+                                                                                                                    placeholder="14/08/2019"
+                                                                                                                    ng-value="tickettype.salesEndDate"
+                                                                                                                    id="ticket_settings_end_date_{{$index}}">
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div
+                                                                                                            class="col-sm-3 col-xs-3 col-md-3 col-lg-3 col-xl-3">
+                                                                                                            <div
+                                                                                                                class="form-group">
+                                                                                                                <input
+                                                                                                                    type="text"
+                                                                                                                    class="form-control time"
+                                                                                                                    style="margin-top: 1.8rem;"
+                                                                                                                    placeholder="04.00 pm"
+                                                                                                                    ng-model="tickettype.salesEndTime"
+                                                                                                                    id="ticket_settings_end_time_{{$index}}">
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <hr>
+                                                                                                    <div class="row">
+                                                                                                        <div
+                                                                                                            class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                                                            <h4>Ticket
+                                                                                                                Visibility
+                                                                                                            </h4>
+                                                                                                            <div
+                                                                                                                class="form-group">
+                                                                                                                <div class="md-radio md-radio-inline"
+                                                                                                                    style="margin: 4px 0;">
+                                                                                                                    <input
+                                                                                                                        id="ticket-visibility-type-{{$index}}"
+                                                                                                                        value="true"
+                                                                                                                        type="radio"
+                                                                                                                        name="ticket-visibility-type">
+                                                                                                                    <label
+                                                                                                                        for="ticket-visibility-type-{{$index}}">Hide
+                                                                                                                        this
+                                                                                                                        ticket
+                                                                                                                        type</label>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row"
+                                                                        ng-show="ticketTypesList && ticketTypesList.length">
+                                                                        <div
+                                                                            class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                            <button class="btn btn-outline pull-right"
+                                                                                id="create_ticket_btn"
+                                                                                ng-click="createTickets()"
+                                                                                style="border-radius: 3px;padding: 4px 25px!important;border: 1px solid #43a047 !important;margin-top:10px;">Save</button>
+                                                                            <button class="btn btn-outline pull-right"
+                                                                                id="ticket_update_btn"
+                                                                                style="margin-top:10px;display: none; border-radius: 3px;padding: 4px 25px!important;border: 1px solid #43a047 !important;margin-bottom:10px;">Update</button>
+                                                                            <button class="btn btn-outline pull-right"
+                                                                                id="ticket_cancel_btn"
+                                                                                ng-click="ticketUpdateCancel()"
+                                                                                style="margin-top:10px;display: none; border-radius: 3px;padding: 4px 25px!important;border: 1px solid red !important;margin-bottom:10px;color:red;margin-right:10px;">Cancel</button>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 col-xl-8 col-xl-offset-2"
+                                                                            style="text-align: center;padding:2rem;">
+                                                                            <div class="row">
+                                                                                <div
+                                                                                    class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                                                                    <h4>What of ticket would you
+                                                                                        like to start with?</h4>
+                                                                                </div>
+                                                                            </div>
+                                                                            <br>
+                                                                            <div class="row">
+                                                                                <div
+                                                                                    class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl4">
+                                                                                    <button class="btn btn-outline"
+                                                                                        ng-click="addTicketTypes('free')"
+                                                                                        style="border-radius: 3px;padding: 4px 10px!important;border: 1px solid #43a047 !important;"><i
+                                                                                            class="fas fa-plus-circle"></i>&nbsp;Free
+                                                                                        Ticket</button>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl4">
+                                                                                    <button class="btn btn-outline"
+                                                                                        ng-click="addTicketTypes('paid')"
+                                                                                        style="border-radius: 3px;padding: 4px 10px!important;border: 1px solid #43a047 !important;"><i
+                                                                                            class="fas fa-plus-circle"></i>&nbsp;Paid
+                                                                                        Ticket</button>
+                                                                                </div>
+                                                                                <div
+                                                                                    class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl4">
+                                                                                    <button class="btn btn-outline"
+                                                                                        ng-click="addTicketTypes('donation')"
+                                                                                        style="border-radius: 3px;padding: 4px 10px!important;border: 1px solid #43a047 !important;"><i
+                                                                                            class="fas fa-plus-circle"></i>&nbsp;Donation</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="addNewTypeModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #f9a141;color: #fff;padding: 10px !important;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add New Ticket Type</h4>
+            </div>
+            <div class="modal-body" style="text-align: left !important;padding: 10px 20px 1px 20px;">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="form-group">
+                            <label for="ticket_enter_ticket_type">Enter ticket type</label>
+                            <input type="text" class="form-control" id="ticket_enter_ticket_type">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align: right !important;">
+                <button type="button" class="btn btn-default" onclick="addTicketOption('ticketType')">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="addNewgroupModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #f9a141;color: #fff;padding: 10px !important;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add New Ticket Group</h4>
+            </div>
+            <div class="modal-body" style="text-align: left !important;padding: 10px 20px 1px 20px;">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="form-group">
+                            <label for="ticket_enter_ticket_group">Enter ticket group</label>
+                            <input type="text" class="form-control" id="ticket_enter_ticket_group">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align: right !important;">
+                <button type="button" class="btn btn-default" onclick="addTicketOption('ticketGroup')">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="addNewpromoCodeModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #f9a141;color: #fff;padding: 10px !important;">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add New Promo Code</h4>
+            </div>
+            <div class="modal-body" style="text-align: left !important;padding: 10px 20px 1px 20px;">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="form-group">
+                            <label for="ticket_enter_promo_code">Enter new promo code</label>
+                            <input type="text" class="form-control" id="ticket_enter_promo_code">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="text-align: right !important;">
+                <button type="button" class="btn btn-default" onclick="addAddNewProCode()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="imageCropModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header" style="padding: 5px 4px 0px 0px !important;">
+                <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"
+                    style="padding: 2px 7px !important;" title="Close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+                <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                <!--<h4 class="modal-title">Modal Header</h4>-->
+            </div>
+            <div class="modal-body" style="padding: 5px 0px 5px 0px;">
+                <style type="text/css">
+                    .container {
+                        position: inherit;
+                        top: 10%;
+                        left: 0%;
+                        right: 0;
+                        bottom: 0
+                    }
+
+
+                    @media (max-width: 575px) {
+                        .action {
+                            width: 310px;
+                            height: 30px;
+                            margin: 10px 0;
+                        }
+
+                        .cropped>img {
+                            margin-right: 10px
+                        }
+
+                        .imageBox {
+                            position: relative;
+                            height: 283px;
+                            width: 310px;
+                            border: 1px solid #aaa;
+                            background: #fff;
+                            overflow: hidden;
+                            background-repeat: no-repeat;
+                            cursor: move;
+                        }
+
+                        .imageBox .thumbBox {
+                            position: absolute;
+                            top: 40%;
+                            left: 35%;
+                            width: 290px;
+                            height: 250px;
+                            margin-top: -97px;
+                            margin-left: -99px;
+                            box-sizing: border-box;
+                            border: 1px solid rgb(102, 102, 102);
+                            box-shadow: 0 0 0 1000px rgba(0, 0, 0, .5);
+                            background: none repeat scroll 0% 0% transparent;
+                        }
+
+                        .imageBox .spinner {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            bottom: 0;
+                            right: 0;
+                            text-align: center;
+                            line-height: 400px;
+                            background: rgba(0, 0, 0, .7)
+                        }
+                    }
+
+                    @media (min-width: 576px) {
+                        .action {
+                            width: 599px;
+                            height: 30px;
+                            margin: 10px 0
+                        }
+
+                        .cropped>img {
+                            margin-right: 10px
+                        }
+
+                        .imageBox {
+                            position: relative;
+                            height: 347px;
+                            width: 600px;
+                            border: 1px solid #aaa;
+                            background: #fff;
+                            overflow: hidden;
+                            background-repeat: no-repeat;
+                            cursor: move
+                        }
+
+                        .imageBox .thumbBox {
+                            position: absolute;
+                            top: 39%;
+                            left: 22%;
+                            width: 534px;
+                            height: 280px;
+                            margin-top: -100px;
+                            margin-left: -100px;
+                            box-sizing: border-box;
+                            border: 1px solid rgb(102, 102, 102);
+                            box-shadow: 0 0 0 1000px rgba(0, 0, 0, .5);
+                            background: none repeat scroll 0% 0% transparent
+                        }
+
+                        .imageBox .spinner {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            bottom: 0;
+                            right: 0;
+                            text-align: center;
+                            line-height: 400px;
+                            background: rgba(0, 0, 0, .7)
+                        }
+                    }
+
+                    @media (min-width: 768px) {
+                        .action {
+                            width: 599px;
+                            height: 30px;
+                            margin: 10px 0
+                        }
+
+                        .cropped>img {
+                            margin-right: 10px
+                        }
+
+                        .imageBox {
+                            position: relative;
+                            height: 347px;
+                            width: 600px;
+                            border: 1px solid #aaa;
+                            background: #fff;
+                            overflow: hidden;
+                            background-repeat: no-repeat;
+                            cursor: move
+                        }
+
+                        .imageBox .thumbBox {
+                            position: absolute;
+                            top: 39%;
+                            left: 22%;
+                            width: 534px;
+                            height: 280px;
+                            margin-top: -100px;
+                            margin-left: -100px;
+                            box-sizing: border-box;
+                            border: 1px solid rgb(102, 102, 102);
+                            box-shadow: 0 0 0 1000px rgba(0, 0, 0, .5);
+                            background: none repeat scroll 0% 0% transparent
+                        }
+
+                        .imageBox .spinner {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            bottom: 0;
+                            right: 0;
+                            text-align: center;
+                            line-height: 400px;
+                            background: rgba(0, 0, 0, .7)
+                        }
+                    }
+
+                    @media (min-width: 992px) {
+                        .action {
+                            width: 599px;
+                            height: 30px;
+                            margin: 10px 0
+                        }
+
+                        .cropped>img {
+                            margin-right: 10px
+                        }
+
+                        .imageBox {
+                            position: relative;
+                            height: 347px;
+                            width: 600px;
+                            border: 1px solid #aaa;
+                            background: #fff;
+                            overflow: hidden;
+                            background-repeat: no-repeat;
+                            cursor: move
+                        }
+
+                        .imageBox .thumbBox {
+                            position: absolute;
+                            top: 39%;
+                            left: 22%;
+                            width: 534px;
+                            height: 280px;
+                            margin-top: -100px;
+                            margin-left: -100px;
+                            box-sizing: border-box;
+                            border: 1px solid rgb(102, 102, 102);
+                            box-shadow: 0 0 0 1000px rgba(0, 0, 0, .5);
+                            background: none repeat scroll 0% 0% transparent
+                        }
+
+                        .imageBox .spinner {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            bottom: 0;
+                            right: 0;
+                            text-align: center;
+                            line-height: 400px;
+                            background: rgba(0, 0, 0, .7)
+                        }
+                    }
+
+                    @media (min-width: 1200px) {
+                        .action {
+                            width: 599px;
+                            height: 30px;
+                            margin: 10px 0
+                        }
+
+                        .cropped>img {
+                            margin-right: 10px
+                        }
+
+                        .imageBox {
+                            position: relative;
+                            height: 347px;
+                            width: 600px;
+                            border: 1px solid #aaa;
+                            background: #fff;
+                            overflow: hidden;
+                            background-repeat: no-repeat;
+                            cursor: move
+                        }
+
+                        .imageBox .thumbBox {
+                            position: absolute;
+                            top: 39%;
+                            left: 22%;
+                            width: 534px;
+                            height: 280px;
+                            margin-top: -100px;
+                            margin-left: -100px;
+                            box-sizing: border-box;
+                            border: 1px solid rgb(102, 102, 102);
+                            box-shadow: 0 0 0 1000px rgba(0, 0, 0, .5);
+                            background: none repeat scroll 0% 0% transparent
+                        }
+
+                        .imageBox .spinner {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            bottom: 0;
+                            right: 0;
+                            text-align: center;
+                            line-height: 400px;
+                            background: rgba(0, 0, 0, .7)
+                        }
+                    }
+
+                    @media (min-width:768px) {
+                        #imageCropModal .modal-dialog {
+                            width: 632px;
+                            margin: 30px auto
+                        }
+                    }
+                </style>
+                <script type="text/javascript" src="/assets/js/cropimage.js"></script>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="imageBox">
+                                        <div class="thumbBox"></div>
+                                        <div class="spinner" style="display: none">Loading...</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="action">
+                                        <input type="file" id="file" style="float:left; width: 250px;display:none;">
+                                        <button type="button" id="uploadFile" class="btn btn-success"
+                                            style="float:left;">
+                                            <i class="fas fa-upload"></i>
+                                            Upload Image
+                                        </button>
+                                        <button type="button" class="btn btn-primary" id="btnCrop" data-name=""
+                                            style="float: right;background-color:#4caf50 !important;">
+                                            <i class="fas fa-crop"></i>&nbsp; Crop
+                                        </button>
+                                        <button type="button" class="btn btn-primary" id="btnZoomIn"
+                                            style="float: right;background-color:#e91e63 !important;margin-right:5px;padding: 4px 10px !important;">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-primary" id="btnZoomOut"
+                                            style="float: right;background-color:#009688 !important;padding: 4px 10px !important;margin-right:5px;">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <div class="cropped">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript" src="/assets/js/cropimageinline.js"></script>
+            </div>
+            <div class="modal-footer" style="padding: 0px;">
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .md-switch-container {
+        height: 20px;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer
+    }
+
+    .md-switch-container .md-transition {
+        transition: all 100ms linear
+    }
+
+    .md-switch-container .md-switch-track {
+        width: 34px;
+        height: 14px;
+        border-radius: 34px;
+        background: #9e9e9e;
+        transition: all 100ms linear
+    }
+
+    .md-switch-container .md-switch-handle {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        left: 0;
+        border-radius: 100%;
+        background: white;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
+        transition: all 100ms linear
+    }
+
+    .md-switch-container .md-switch-label {
+        margin-left: 10px;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -o-user-select: none
+    }
+
+    .md-switch-container.checked .md-switch-track {
+        background: rgba(76, 175, 80, .47)
+    }
+
+    .md-switch-container.checked .md-switch-handle {
+        left: 14px;
+        background: #4CAF50
+    }
+
+    .tools .btn {
+        border-radius: 21px;
+        padding: 4px 7px !important;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2)
+    }
+
+    .addBtn {
+        background-color: #4CAF50 !important
+    }
+
+    .upload__btn:after {
+        line-height: 4rem !important
+    }
+
+    .btn-primary {
+        background-color: #E91E63 !important
+    }
+
+    .notactive {
+        pointer-events: none;
+        cursor: default;
+    }
+
+    .card {
+        margin: 0rem 0 0rem 0
+    }
+
+    #wrapper {
+        width: 100%;
+        overflow-x: inherit
+    }
+
+    #error-container {
+        position: absolute;
+        z-index: 9999;
+        color: white;
+        top: -5rem;
+        left: 0;
+        width: 100%
+    }
+
+    .alert-success {
+        background-color: #00c851;
+        border-color: #80c780;
+        color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24)
+    }
+
+    .alert-danger {
+        background-color: #f44336;
+        border-color: #f44336;
+        color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24)
+    }
+
+    .btn-success.btn-outline {
+        color: #f9a141 !important
+    }
+
+    .btnCard {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2);
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2);
+        background-color: #0c0c0cd1
+    }
+
+    @media (min-width:700px) {
+        .menubtn {
+            margin-top: 20px
+        }
+    }
+
+    @media (min-width:1000px) {
+        .spantitle {
+            padding-left: 50px
+        }
+    }
+
+    @media (min-width:1400px) {
+        .spantitle {
+            padding-left: 70px
+        }
+    }
+
+    .panel-default>.panel-heading+.panel-collapse>.panel-body {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2);
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2);
+        border-radius: 5px
+    }
+
+    .btn {
+        border-radius: 21px;
+        padding: 4px 15px !important
+    }
+
+    .abtn {
+        padding: 5px 26px !important;
+        border-radius: 21px
+    }
+
+    .mbtn {
+        padding: 4px 24px !important;
+        border-radius: 21px
+    }
+
+    .hbtn {
+        padding: 5px 25px !important;
+        border-radius: 21px
+    }
+
+    .btn:focus,
+    .btn:hover {
+        background-color: #f9a141 !important;
+        border-color: #ffffff !important;
+        color: #fff !important;
+        text-decoration: none
+    }
+
+    .btn-primary:hover {
+        background-color: #f9a141 !important;
+        border-color: #ffffff !important
+    }
+
+    .navbar-header .btn {
+        border-radius: 2px
+    }
+
+    .mapplybtn {
+        background-color: #4CAF50 !important;
+        margin-bottom: 20px
+    }
+
+    .icondcustom {
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+        color: #2084c6;
+        padding: 1px 7px 1px 7px
+    }
+
+    .iconecustom {
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .16), 0 2px 10px 0 rgba(0, 0, 0, .12);
+        color: #2084c6;
+        padding: 1px 6px 1px 6px
+    }
+
+    .typeahead {
+        border: 1px solid #CCC;
+        border-radius: 4px;
+        padding: 8px 12px;
+        width: 300px;
+        font-size: 1.5em
+    }
+
+    .tt-menu {
+        width: 200px
+    }
+
+    span.twitter-typeahead .tt-suggestion {
+        padding: 10px 20px;
+        border-bottom: #CCC 1px solid;
+        cursor: pointer
+    }
+
+    span.twitter-typeahead .tt-suggestion:last-child {
+        border-bottom: 0
+    }
+
+    .bgColor {
+        max-width: 440px;
+        height: 200px;
+        background-color: #c3e8cb;
+        padding: 40px 70px;
+        border-radius: 4px;
+        margin: 20px auto
+    }
+
+    .demo-label {
+        font-size: 1.5em;
+        color: #686868;
+        font-weight: 500
+    }
+
+    span.twitter-typeahead .tt-menu,
+    span.twitter-typeahead .tt-dropdown-menu {
+        padding: 0 0
+    }
+
+    .btn.disabled,
+    .btn[disabled],
+    fieldset[disabled] .btn {
+        opacity: 12.65
+    }
+
+    .btn:focus,
+    .btn:hover {
+        color: #fff
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-primary:active,
+    .btn-primary.active,
+    .open .dropdown-toggle.btn-primary,
+    .btn-primary:active:focus,
+    .btn-primary:active:hover,
+    .btn-primary.active:hover,
+    .btn-primary.active:focus {
+        border-color: #9e9e9e8f
+    }
+
+    .autocomplete {
+        position: relative;
+        display: inline-block
+    }
+
+    .autocomplete-items {
+        position: absolute;
+        border: 1px solid #d4d4d4;
+        border-bottom: none;
+        border-top: none;
+        z-index: 99;
+        top: 100%;
+        left: 0;
+        right: 0
+    }
+
+    .autocomplete-items div {
+        padding: 10px;
+        cursor: pointer;
+        background-color: #fff;
+        border-bottom: 1px solid #d4d4d4
+    }
+
+    .autocomplete-items div:hover {
+        background-color: #e9e9e9
+    }
+
+    .autocomplete-active {
+        background-color: DodgerBlue !important;
+        color: #fff
+    }
+
+    .wabtn {
+        margin-right: .3rem;
+        margin-top: 1rem
+    }
+
+    .wapplybtn {
+        margin-top: -7.8rem;
+        background-color: #4CAF50 !important;
+        margin-right: .6rem;
+        padding: 4px 9px !important
+    }
+
+    .mealscbtn {
+        background-color: #4CAF50 !important;
+        margin-right: 26px;
+        margin-top: 1rem;
+        margin-bottom: 15px
+    }
+
+    .mealsabtn {
+        margin-right: 40px
+    }
+
+    .animated .fadeInUp {
+        animation-delay: 0.2s
+    }
+
+    .panel-heading {
+        padding: 20px 15px
+    }
+
+    .panel-title span {
+        font-size: 15px
+    }
+
+    .panel-default>.panel-heading+.panel-collapse>.panel-body {
+        background-color: #fff
+    }
+
+    @media(max-width:737px) {
+        .whatshotMarginLeft {
+            margin-left: -20px
+        }
+    }
+
+    @media(max-width:767px) {
+        .whatshotMarginLeft {
+            margin-left: -20px
+        }
+    }
+
+    @media(min-width:768px) {
+        .whatshotMarginLeft {
+            margin-left: -20px
+        }
+    }
+
+    @media(min-width:992px) {
+        .whatshotMarginLeft {
+            margin-left: -16px
+        }
+    }
+
+    @media(min-width:1200px) {
+        .whatshotMarginLeft {
+            margin-left: -26px
+        }
+    }
+
+    @media(min-width:1400px) {
+        .whatshotMarginLeft {
+            margin-left: -34px
+        }
+    }
+
+    @media(min-width:768px) {
+        .MealsMarginLeft {
+            margin-left: -14px
+        }
+    }
+
+    @media(min-width:992px) {
+        .MealsMarginLeft {
+            margin-left: -10px
+        }
+    }
+
+    @media(min-width:1200px) {
+        .MealsMarginLeft {
+            margin-left: -28px
+        }
+    }
+
+    @media(min-width:1400px) {
+        .MealsMarginLeft {
+            margin-left: -34px
+        }
+    }
+
+    .tools .btn {
+        color: #333 !important
+    }
+
+    .tools .btn-success {
+        color: #fff !important;
+        background-color: #5cb85c !important;
+        border-color: #4cae4c !important
+    }
+
+    .tools .btn-danger {
+        background-color: #ed5565 !important;
+        border-color: #ed5565 !important;
+        color: #FFFFFF !important
+    }
+
+    .tools .btn-info {
+        color: #fff !important;
+        background-color: #5bc0de !important;
+        border-color: #46b8da !important
+    }
+
+    .menubtn .btn {
+        border: 2px solid #fff;
+        padding: 8px 10px !important
+    }
+
+    .menubtn .btn:hover {
+        color: #fff;
+        background-color: #f9a141;
+        border: 2px solid #fff
+    }
+
+    .menubtn .btn:active {
+        color: #fff;
+        background-color: #f9a141;
+        border: 2px solid #fff
+    }
+
+    .menubtn .btn:visited {
+        color: #fff;
+        background-color: #f9a141;
+        border: 2px solid #fff
+    }
+
+    .menubtn .active {
+        color: #ffffff !important;
+        background-color: #f9a141;
+        border: 2px solid #fff
+    }
+
+    .addBtn {
+        background-color: #4CAF50 !important
+    }
+
+    .menubtn {
+        margin-top: 20px
+    }
+
+    @media (max-width:800px) {
+        .btnCard {
+            padding: 10px 0
+        }
+
+        .menubtn .btn {
+            margin: 5px 0
+        }
+
+        .menubtn {
+            margin-top: 0
+        }
+
+        .menubtn .btn {
+            border: 2px solid #fff;
+            padding: 10px 100px !important
+        }
+    }
+
+    @media (max-width:800px) {
+        #buttonMenu {
+            margin-top: 10px
+        }
+    }
+
+    .bootstrap-select:not([class*="span"]):not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+        width: 90px !important
+    }
+
+    .selectpicker .btn {
+        border-radius: 4px !important
+    }
+
+    .bootstrap-select .btn {
+        border-radius: 5px !important
+    }
+
+    .form-control[disabled],
+    .form-control[readonly],
+    fieldset[disabled] .form-control {
+        background-color: #eee !important;
+        opacity: 1;
+        border: 1px solid #0000001f !important
+    }
+
+    @media (min-width:768px) {
+        #imageCropModal .modal-dialog {
+            width: 632px;
+            margin: 30px auto
+        }
+    }
+
+    #page-wrapper {
+        padding: 0 0px !important;
+    }
+</style>
+<script>
+    events_category = (e) => {
+        $(".whats_hot_category").each(function () {
+            if ($(this).hasClass('checked')) {
+                $(this).removeClass('checked')
+            }
+        });
+        if ($(e).hasClass('checked')) {
+            $(e).removeClass('checked')
+        }
+        else if (!$(e).hasClass('checked')) {
+            $(e).addClass('checked')
+        }
+    }
+    events_type = (e) => {
+        $(".whats_hot_type").each(function () {
+            if ($(this).hasClass('checked')) {
+                $(this).removeClass('checked')
+            }
+        });
+        if ($(e).hasClass('checked')) {
+            $(e).removeClass('checked')
+        }
+        else if (!$(e).hasClass('checked')) {
+            $(e).addClass('checked')
+        }
+    }
+    $("#uploadFile").on('click', function () { $("#file").click() });
+    function imageAddClk(data) {
+        $(".imageBox").attr('background-image', '');
+        $("#imageCropModal").modal({ backdrop: 'static', keyboard: !1 }); $(".action #btnCrop").data('name', '');
+        $(".action #btnCrop").data('name', data); $("#file").data('name', ''); $("#file").data('name', data);
+    }
+    $("#upload__btn__wrap1").on('click', function () { imageAddClk('whatshotImageAdd') });
+    $("#upload__btn__wrap2").on('click', function () { imageAddClk('teaserImage') });
+    $("#upload__btn__wrap3").on('click', function () { imageAddClk('fullScreenImage') });
+    $("#upload__btn__event_organiser").on('click', function () { imageAddClk('eventOrganiser') });
+    $(".event-tab-header").on('click', function () {
+        $('.event-tab-header').each(function () {
+            if ($(this).hasClass('active'))
+                $(this).removeClass('active');
+        });
+        $(this).addClass('active');
+    });
+    $("#nav-ticket-tab").on('click', () => {
+        $("#alloca_group_Level_1,#ticket_types_Level_1").addClass('in');
+    });
+    $("#ticket_settings_start_time,#ticket_settings_end_time,#events_start_time,#events_end_time,#announcement_time,#offer-period-from-time,#offer-period-to-time").timepicker({ 'scrollDefault': 'now', 'timeFormat': 'h:i a', 'step': 60 });
+    createTicketSPanel = (arg) => {
+        let value = $(arg).data('panelid');
+        if ($(value).hasClass('in'))
+            $(value).removeClass('in');
+        else
+            $(value).addClass('in');
+    }
+    $(document).on("keyup keypress paste", ".numbervaild", (event = window.event) => {
+        if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) event.preventDefault();
+    });
+    addAddNewProCode = () => angular.element(document.getElementById('createEvent')).scope().promoCodeCreate();
+    addNewTicketPromoCode = (th) => angular.element(document.getElementById('createEvent')).scope().createNewPromoCode(th);
+    addTicketOption = (arg, th) => angular.element(document.getElementById('createEvent')).scope().createNewTicketOption(arg, th);
+    addNewTicketList = (arg, th) => angular.element(document.getElementById('createEvent')).scope().addNewTypeAndname(arg, th);
+    $("#events_start_date,#events_end_date,#announcement_date,.date").val((new Date()).getFullYear() + "-" + (("0" + ((new Date()).getMonth() + 1)).slice(-2)) + "-" + (("0" + (new Date()).getDate()).slice(-2)));
+</script>

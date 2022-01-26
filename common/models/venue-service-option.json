@@ -1,0 +1,36 @@
+{
+  "name": "VenueServiceOption",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "tableNo_End": {
+      "type": "string"
+    },
+    "tableNo_Start": {
+      "type": "string"
+    },
+    "services": {
+      "type": "array"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

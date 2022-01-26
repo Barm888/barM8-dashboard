@@ -1,0 +1,36 @@
+{
+  "name": "WhatsOnSubCategory",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "default": "null"
+    },
+    "_name": {
+      "type": "string",
+      "default": "null"
+    },
+    "parent": {
+      "type": "string",
+      "default": "null"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "whatsOns": {
+      "type": "hasMany",
+      "model": "WhatsOn",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

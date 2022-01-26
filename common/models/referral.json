@@ -1,0 +1,56 @@
+{
+  "name": "Referral",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "referralEmail": {
+      "type": "string"
+    },
+    "referralMobileNo": {
+      "type": "number"
+    },
+    "points": {
+      "type": "number"
+    },
+    "multiplicationFactor": {
+      "type": "number"
+    },
+    "referralCode": {
+      "type": "string"
+    },
+    "createTs": {
+      "type": "date"
+    },
+    "createProgId": {
+      "type": "string"
+    },
+    "modifyTs": {
+      "type": "date"
+    },
+    "modifyProgId": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "customer": {
+      "type": "belongsTo",
+      "model": "Customer",
+      "foreignKey": ""
+    },
+    "referralDetails": {
+      "type": "embedsMany",
+      "model": "ReferralDetail",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

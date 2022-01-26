@@ -1,0 +1,92 @@
+{
+  "name": "DashSubLine",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "price": {
+      "type": "number",
+      "default": null
+    },
+    "date": {
+      "type": "date"
+    },
+    "startTime": {
+      "type": "string"
+    },
+    "endTime": {
+      "type": "string"
+    },
+    "size": {
+      "type": "string",
+      "default": null
+    },
+    "brand": {
+      "type": "string",
+      "default": null
+    },
+    "type": {
+      "type": "string",
+      "default": null
+    },
+    "menu": {
+      "type": "string",
+      "default": null
+    },
+    "ingredients": {
+      "type": "string",
+      "default": null
+    },
+    "description": {
+      "type": "string",
+      "default": null
+    },
+    "alsoServedIn": {
+      "type": "string",
+      "default": null
+    },
+    "isServedIn": {
+      "type": "object"
+    },
+    "createTs": {
+      "type": "date"
+    },
+    "modifiedTs": {
+      "type": "number"
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    },
+    "createProgId": {
+      "type": "string"
+    },
+    "modifyTs": {
+      "type": "date"
+    },
+    "modifyProgId": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "dashLine": {
+      "type": "belongsTo",
+      "model": "DashLine",
+      "foreignKey": ""
+    },
+    "drinksCategory": {
+      "type": "belongsTo",
+      "model": "DrinksCategory",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

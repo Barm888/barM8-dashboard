@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cropper.js</title>
+    <link rel="stylesheet" href="https://fengyuanchen.github.io/cropperjs/css/cropper.css">
+    <style>
+        .container {
+            margin: 20px auto;
+            max-width: 640px;
+        }
+
+        img {
+            max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Cropper with fixed crop box</h1>
+        <div>
+            <img id="image" src="https://fengyuanchen.github.io/cropperjs/images/picture.jpg" alt="Picture">
+        </div>
+        <div>
+            <button id="button" type="button">Crop</botton>
+                <div id="result"></div>
+        </div>
+    </div>
+    <script src="https://fengyuanchen.github.io/cropperjs/js/cropper.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+
+            var button = document.getElementById('button');
+            var result = document.getElementById('result');
+
+            var image = document.querySelector('#image');
+            var cropper = new Cropper(image, {
+                dragMode: 'move',
+                aspectRatio: 16 / 9,
+                autoCropArea: 0.65,
+                restore: false,
+                guides: false,
+                center: false,
+                highlight: false,
+                cropBoxMovable: false,
+                cropBoxResizable: false,
+                toggleDragModeOnDblclick: false,
+            });
+
+            button.onclick = function () {
+                var image = new Image();
+
+                image.src = cropper.getCroppedCanvas().toDataURL('image/jpeg');
+                result.appendChild(image);
+            };
+        });
+    </script>
+</body>
+
+</html>

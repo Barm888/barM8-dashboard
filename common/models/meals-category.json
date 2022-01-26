@@ -1,0 +1,325 @@
+{
+  "name": "MealsCategory",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "category": {
+      "type": "string"
+    },
+    "menu": {
+      "type": "string"
+    },
+    "shortName": {
+      "type": "string"
+    },
+    "order": {
+      "type": "string"
+    },
+    "isSpecial": {
+      "type": "boolean",
+      "default": false
+    },
+    "monday": {
+      "type": {
+        "value": {
+          "type": "boolean",
+          "default": false
+        },
+        "startTime": {
+          "type": "string",
+          "default": null
+        },
+        "startHour": {
+          "type": "number",
+          "default": 0
+        },
+        "startMin": {
+          "type": "number",
+          "default": 0
+        },
+        "_24startTime": {
+          "type": "string",
+          "default": null
+        },
+        "endTime": {
+          "type": "string",
+          "default": null
+        },
+        "endHour": {
+          "type": "number",
+          "default": 0
+        },
+        "endMin": {
+          "type": "number",
+          "default": 0
+        },
+        "_24endTime": {
+          "type": "string",
+          "default": null
+        }
+      }
+    },
+    "tuesday": {
+      "type": {
+        "value": {
+          "type": "boolean",
+          "default": false
+        },
+        "startTime": {
+          "type": "string",
+          "default": null
+        },
+        "startHour": {
+          "type": "number",
+          "default": 0
+        },
+        "startMin": {
+          "type": "number",
+          "default": 0
+        },
+        "_24startTime": {
+          "type": "string",
+          "default": null
+        },
+        "endTime": {
+          "type": "string",
+          "default": null
+        },
+        "endHour": {
+          "type": "number",
+          "default": 0
+        },
+        "endMin": {
+          "type": "number",
+          "default": 0
+        },
+        "_24endTime": {
+          "type": "string",
+          "default": null
+        }
+      }
+    },
+    "wednesday": {
+      "type": {
+        "value": {
+          "type": "boolean",
+          "default": false
+        },
+        "startTime": {
+          "type": "string",
+          "default": null
+        },
+        "startHour": {
+          "type": "number",
+          "default": 0
+        },
+        "startMin": {
+          "type": "number",
+          "default": 0
+        },
+        "_24startTime": {
+          "type": "string",
+          "default": null
+        },
+        "endTime": {
+          "type": "string",
+          "default": null
+        },
+        "endHour": {
+          "type": "number",
+          "default": 0
+        },
+        "endMin": {
+          "type": "number",
+          "default": 0
+        },
+        "_24endTime": {
+          "type": "string",
+          "default": null
+        }
+      }
+    },
+    "thursday": {
+      "type": {
+        "value": {
+          "type": "boolean",
+          "default": false
+        },
+        "startTime": {
+          "type": "string",
+          "default": null
+        },
+        "startHour": {
+          "type": "number",
+          "default": 0
+        },
+        "startMin": {
+          "type": "number",
+          "default": 0
+        },
+        "_24startTime": {
+          "type": "string",
+          "default": null
+        },
+        "endTime": {
+          "type": "string",
+          "default": null
+        },
+        "endHour": {
+          "type": "number",
+          "default": 0
+        },
+        "endMin": {
+          "type": "number",
+          "default": 0
+        },
+        "_24endTime": {
+          "type": "string",
+          "default": null
+        }
+      }
+    },
+    "friday": {
+      "type": {
+        "value": {
+          "type": "boolean",
+          "default": false
+        },
+        "startTime": {
+          "type": "string",
+          "default": null
+        },
+        "startHour": {
+          "type": "number",
+          "default": 0
+        },
+        "startMin": {
+          "type": "number",
+          "default": 0
+        },
+        "_24startTime": {
+          "type": "string",
+          "default": null
+        },
+        "endTime": {
+          "type": "string",
+          "default": null
+        },
+        "endHour": {
+          "type": "number",
+          "default": 0
+        },
+        "endMin": {
+          "type": "number",
+          "default": 0
+        },
+        "_24endTime": {
+          "type": "string",
+          "default": null
+        }
+      }
+    },
+    "saturday": {
+      "type": {
+        "value": {
+          "type": "boolean",
+          "default": false
+        },
+        "startTime": {
+          "type": "string",
+          "default": null
+        },
+        "startHour": {
+          "type": "number",
+          "default": 0
+        },
+        "startMin": {
+          "type": "number",
+          "default": 0
+        },
+        "_24startTime": {
+          "type": "string",
+          "default": null
+        },
+        "endTime": {
+          "type": "string",
+          "default": null
+        },
+        "endHour": {
+          "type": "number",
+          "default": 0
+        },
+        "endMin": {
+          "type": "number",
+          "default": 0
+        },
+        "_24endTime": {
+          "type": "string",
+          "default": null
+        }
+      }
+    },
+    "sunday": {
+      "type": {
+        "value": {
+          "type": "boolean",
+          "default": false
+        },
+        "startTime": {
+          "type": "string",
+          "default": null
+        },
+        "startHour": {
+          "type": "number",
+          "default": 0
+        },
+        "startMin": {
+          "type": "number",
+          "default": 0
+        },
+        "_24startTime": {
+          "type": "string",
+          "default": null
+        },
+        "endTime": {
+          "type": "string",
+          "default": null
+        },
+        "endHour": {
+          "type": "number",
+          "default": 0
+        },
+        "endMin": {
+          "type": "number",
+          "default": 0
+        },
+        "_24endTime": {
+          "type": "string",
+          "default": null
+        }
+      }
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    },
+    "mealsDashLines": {
+      "type": "hasMany",
+      "model": "MealsDashLine",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

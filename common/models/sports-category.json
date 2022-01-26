@@ -1,0 +1,56 @@
+{
+  "name": "SportsCategory",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "_name": {
+      "type": "string"
+    },
+    "group": {
+      "type": "string"
+    },
+    "isSports": {
+      "type": "boolean",
+      "default": false
+    },
+    "isCompetition": {
+      "type": "boolean",
+      "default": false
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "allCharts": {
+      "type": "hasMany",
+      "model": "AllChart",
+      "foreignKey": ""
+    },
+    "sportsTeamAndLogos": {
+      "type": "hasMany",
+      "model": "SportsTeamAndLogo",
+      "foreignKey": ""
+    },
+    "sportsSchedule": {
+      "type": "hasOne",
+      "model": "SportsScheduleForAdmin",
+      "foreignKey": "sportsTypeId"
+    },
+    "competitionSchedule": {
+      "type": "hasOne",
+      "model": "SportsScheduleForAdmin",
+      "foreignKey": "competitionId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

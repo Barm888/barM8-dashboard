@@ -1,0 +1,55 @@
+{
+  "name": "DrinksType",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "category": {
+      "type": "string",
+      "default": "null"
+    },
+    "type": {
+      "type": "string",
+      "default": "null"
+    },
+    "_type": {
+      "type": "string",
+      "default": "null"
+    },
+    "order": {
+      "type": "number",
+      "default": 0
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "drinksConfig": {
+      "type": "belongsTo",
+      "model": "DrinksConfig",
+      "foreignKey": ""
+    },
+    "drinksDashLines": {
+      "type": "hasOne",
+      "model": "DrinksDashLine",
+      "foreignKey": ""
+    },
+    "drinksOrderLines": {
+      "type": "hasOne",
+      "model": "DrinksOrderLine",
+      "foreignKey": ""
+    },
+    "drinksSpecialDashLines": {
+      "type": "hasOne",
+      "model": "DrinksSpecialDashLine",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

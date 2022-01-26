@@ -1,0 +1,438 @@
+<script>
+    $(function () {
+        $('.time').timepicker({ 'scrollDefault': 'now', 'timeFormat': 'h:i a', 'step': 15 });
+    });
+</script>
+<link href="/assets/css/jquery.timepicker.min.css" type="text/css" rel="stylesheet" />
+<script src="/assets/js/jquery.timepicker.min.js"></script>
+<div class="wrapper wrapper-content" id="happyHoursEditCtl" ng-controller="happyHoursEditCtl">
+    <div class="m-t-sm" style="margin-top:2.5rem;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 padding-space">
+                <div class="row c-1 is-adm" style="margin: 0rem 0 0.5rem 0;">
+                    <style ng-if="userDetails.isAdmin">
+                        .is-adm {
+                            margin-top: 0.5rem !important;
+                        }
+                    </style>
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <button class="btn btn-s" style="padding: 6px 20px !important;margin-left:-1rem;"
+                            onclick="window.history.go(-1); return false;">Back</button>
+                    </div>
+                </div>
+                <div class="row card c-1">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <h2 class="v-h">Your Offer Details</h2>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <span class="manage-txt">Enter details of your Drink Special for users to see on the
+                            Barm8
+                            app.</span>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-lg-10 c-1">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="form-group">
+                                    <label for="category" class="required">Category</label>
+                                    <input name="category" id="category" disabled="disabled"
+                                        class="form-control custom-input" type="text"
+                                        ng-model="editHappyHoursData.category">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="title" class="required">Title - What do you want to name this
+                                        Drink Special?</label>
+                                    <input type="text" ng-model="editHappyHoursData.title"
+                                        class="form-control custom-input" id="title">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                <div class="form-group" style="margin-bottom: 1rem;">
+                                    <label for="title" class="required">Description - Tell us a bit
+                                        about your
+                                        Drink Special (max. 100 characters)</label>
+                                    <div class="form-group">
+                                        <textarea class="form-control" ng-model="editHappyHoursData.desc" style="border: 2px solid #ddd !important;
+                                        font-size: 16px !important;" rows="5" id="desc"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row card">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <h2 class="v-h">Your Offer Image</h2>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <span class="required manage-txt">Upload an image of your Drink Special</span>
+                        &nbsp; <span style="color: gray;cursor:pointer;" data-toggle="popover" data-index="0"
+                            data-placement="top" data-content='Inbuilt cropping tool is available to resize image'><i
+                                class="fas fa-info"></i></span>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                        <p class="c-p-1">(For the best results we recommend uploading an image 300*300
+                            pixels in size)</p>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-4 cl-xl-4 col-lg-4" style="margin-bottom: 0.5rem;">
+                        <div ng-show="editHappyHoursData.img && editHappyHoursData.img.length==0">
+                            <div class="form-group img-c-s" style="margin-bottom: 1rem;">
+                                <input type="file" id="primary-img" accept="image/png, image/jpeg"
+                                    style="display: none;">
+                                <div class="drag-img-up" id="drag-drop-img"
+                                    onclick="$('#primary-img').trigger('click'); return false;">
+                                    <img src="https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/add-image-icon.svg"
+                                        class="def-img">
+                                    <p>Drag & drop or click to add image.</p>
+                                    <span>JPEG or PNG</span>
+                                </div>
+                            </div>
+                            <script>
+                                $(document).ready(() => {
+                                    $('[data-toggle="popover"]').popover({ html: !0, animation: !0, trigger: "hover" });
+                                });
+                                $("#primary-img").on('change', function (e) {
+                                    angular.element(document.getElementById('happyHoursEditCtl')).scope().clickImageSection(e.target.files[0]);
+                                })
+                                $("#replace-i-img").on('change', function (e) {
+                                    angular.element(document.getElementById('happyHoursEditCtl')).scope().imgReplaceSection(e.target.files[0]);
+                                })
+                                $(document).ready(function () {
+                                    var holder = document.getElementById('drag-drop-img');
+                                    holder.ondragover = function () { return false; };
+                                    holder.ondrop = function (e) {
+                                        e.preventDefault();
+                                        angular.element(document.getElementById('happyHoursEditCtl')).scope().clickImageSection(e.dataTransfer.files[0]);
+                                    };
+                                });
+                            </script>
+                        </div>
+                        <link rel="stylesheet" href="/views/happyHours/happuhour-img.css">
+                        <link rel="stylesheet" href="https://fengyuanchen.github.io/cropperjs/css/cropper.css">
+                        <script src="https://fengyuanchen.github.io/cropperjs/js/cropper.js"></script>
+                        <div class="modal" id="image-crop-md" tabindex="-1" role="dialog">
+                            <div class="modal-dialog opacity-animate3 modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="row page">
+                                            <div class="box-2">
+                                                <div class="result"></div>
+                                            </div>
+                                            <div class="box-2 img-result hide">
+                                                <img class="cropped" src="" alt="">
+                                            </div>
+                                            <div class="box">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                            </div>
+                                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8"
+                                                style="text-align: right;">
+                                                <button class="btn btn-primary" id="crop-btn"
+                                                    style="background-color: #388e3c !important; color: #fff;
+                        border: 1px solid #388e3c !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Crop</button>
+                                                <button class="btn btn-primary" id="modalClose"
+                                                    style="background-color: #d32f2f !important; color: #fff;margin-right:1rem;
+                        border: 1px solid #d32f2f !important;padding: 6px 10px !important;font-size: 1.45rem;border-radius: 4px !important;">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="editHappyHoursData.img && editHappyHoursData.img.length">
+                            <div class="img-content">
+                                <div class="content-overlay"></div>
+                                <img class="content-image" ng-src="editHappyHoursData.img[0].path"
+                                    src="{{editHappyHoursData.img[0].path}}"
+                                    style="box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);webkit-box-shadow: 0 10px 20px rgb(0 0 0 / 19%), 0 6px 6px rgb(0 0 0 / 23%);border-radius: 4px;">
+                                <div class="content-details fadeIn-bottom">
+                                    <input type="file" id="replace-i-img" accept="image/png, image/jpeg"
+                                        style="display: none;">
+                                    <button class="btn replaceScnryImg"
+                                        onclick="$('#replace-i-img').trigger('click'); return false;" title="Replace"><i
+                                            class="fas fa-image"></i>&nbsp;Replace</button>
+                                    <button class="btn btn-danger" ng-click="deleteImage()" title="Remove"><i
+                                            class="far fa-trash-alt"></i>&nbsp;Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row card">
+                    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xl-10" style="margin-bottom: 0.5rem;">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <h2 class="v-h">Your Offer Availability</h2>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <span class="manage-txt">Select Dates &
+                                    Time</span>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="form-group">
+                                    <label for="date" class="required">Date</label>
+                                    <input name="date" class="custom-input from-control" id="date" type="text"
+                                        disabled="disabled" ng-model="editHappyHoursData.dateFormat">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="start_time" class="required">Start Time</label>
+                                    <input type="text" ng-model="editHappyHoursData.startTime"
+                                        placeholder="e.g. 07:00 am" class="time form-control custom-input"
+                                        id="start_time">
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                <div class="form-group">
+                                    <label for="end_time" class="required">End Time</label>
+                                    <input type="text" ng-model="editHappyHoursData.endTime" id="end_time"
+                                        placeholder="e.g. 11:00 am" class="time form-control custom-input"
+                                        id="end_time">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 1rem;">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12" style="margin-bottom: 1rem;">
+                <button class="btn btn-s pull-right" ng-click="updateHappyHour()" id="updateBtn">Update</button>
+                <button class="btn  pull-right" style="background-color: #fff; color: gray;border:1px solid #fff;font-size: 16px;
+                    padding: 6.5px 10px !important;border-radius:0px !important;">OR</button>
+                <button class="btn btn-s pull-right" ng-click="updateAllHappyHour()" id="updateBtn">Update
+                    all</button>
+
+                <button class="btn btn-s pull-right" style="margin-right: 2rem;" ng-show="statusEV=='Live'"
+                    ng-click="updateStatus(statusEV)">Live</button>
+                <button class="btn btn-r pull-right" style="margin-right: 2rem;" ng-show="statusEV=='Pending'"
+                    ng-click="updateStatus(statusEV)">Pending</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .m-t-b {
+        margin-top: 0.8rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .padding-space {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .c-1 {
+        margin-top: 0.3rem;
+    }
+
+    .def-img {
+        width: 79px;
+        height: 79px;
+    }
+
+    .drag-img-up {
+        padding: 20px;
+        border: 2px dotted gray;
+        text-align: center;
+        border-radius: 2px;
+    }
+
+    .drag-img-up span {
+        color: gray;
+    }
+
+    .ui-timepicker-wrapper {
+        width: 11.5em !important;
+    }
+
+    .manage-txt {
+        font-size: 1.4rem;
+        color: #000 !important;
+    }
+
+    .back-txt {
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #000 !important;
+    }
+
+    @media(max-width:767px) {
+        .cCard {
+            padding: 15px;
+        }
+    }
+
+    @media(min-width:768px) {
+        .cCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .cCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .cCard {
+            padding: 20px;
+        }
+    }
+
+    .tCard {
+        border-radius: 2px;
+        -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    .c-p-1 {
+        font-size: 15px;
+        color: gray;
+    }
+
+    .sub-title {
+        font-size: 1.2rem;
+    }
+
+    .label-txt {
+        font-size: 16px;
+        margin-top: 13.5px;
+        margin-bottom: 13.5px;
+    }
+
+    .form-group {
+        margin-bottom: 8px;
+    }
+
+    .card {
+        margin: 0rem 0 0.5rem 0;
+    }
+
+    .img-container {
+        padding: 0 0 0.5rem 0;
+        float: left;
+        width: 50%;
+    }
+
+    @media screen and (max-width: 640px) {
+        .img-container {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    @media screen and (min-width: 900px) {
+        .img-container {
+            width: 33.33333%;
+        }
+    }
+
+    .img-container .title {
+        color: #1a1a1a;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .img-content {
+        position: relative;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .img-content .content-overlay {
+        background: rgba(0, 0, 0, 0.7);
+        position: absolute;
+        height: 99%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        opacity: 0;
+        -webkit-transition: all 0.4s ease-in-out 0s;
+        -moz-transition: all 0.4s ease-in-out 0s;
+        transition: all 0.4s ease-in-out 0s;
+    }
+
+    .img-content:hover .content-overlay {
+        opacity: 1;
+    }
+
+    .content-image {
+        width: 100%;
+    }
+
+    .content-details {
+        position: absolute;
+        text-align: center;
+        padding-left: 1em;
+        padding-right: 1em;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        opacity: 0;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        -webkit-transition: all 0.3s ease-in-out 0s;
+        -moz-transition: all 0.3s ease-in-out 0s;
+        transition: all 0.3s ease-in-out 0s;
+    }
+
+    .img-content:hover .content-details {
+        top: 50%;
+        left: 50%;
+        opacity: 1;
+    }
+
+    .content-details button {
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        margin-bottom: 0.5em;
+    }
+
+    .content-details p {
+        color: #fff;
+        font-size: 0.8em;
+    }
+
+    .btn-s {
+        color: #000;
+        border: 3px solid green !important;
+        background-color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .btn-s:hover {
+        color: #fff !important;
+        background: green !important;
+    }
+
+    .btn-s:active {
+        letter-spacing: 1px;
+    }
+
+    .btn-r {
+        color: #000;
+        border: 3px solid red !important;
+        background-color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .btn-r:hover {
+        color: #fff !important;
+        background: red !important;
+    }
+
+    .btn-r:active {
+        letter-spacing: 1px;
+    }
+</style>

@@ -1,0 +1,45 @@
+{
+  "name": "ReferralDetail",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "referredMobileNo": {
+      "type": "number"
+    },
+    "isRedeemed": {
+      "type": "string"
+    },
+    "isActive": {
+      "type": "string"
+    },
+    "createTs": {
+      "type": "date"
+    },
+    "createProgId": {
+      "type": "string"
+    },
+    "modifyTs": {
+      "type": "date"
+    },
+    "modifyProgId": {
+      "type": "string"
+    },
+    "isCreate": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "referral": {
+      "type": "belongsTo",
+      "model": "Referral",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

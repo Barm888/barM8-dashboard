@@ -1,0 +1,178 @@
+<script>
+  $(() => {
+    $("#barmatemate").css('display', "block");
+  });
+</script>
+<link href='https://fonts.googleapis.com/css?family=Montserrat:400,500' rel='stylesheet' type='text/css'>
+<style>
+  @import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
+
+  .login-block {
+    background-image: url('assets/img/loginhome_1.jpg');
+    width: 100%;
+    height: 100vh;
+    padding: 100px 0;
+  }
+
+  .banner-sec {
+    background: url(https://static.pexels.com/photos/33972/pexels-photo.jpg) no-repeat left bottom;
+    background-size: cover;
+    min-height: 500px;
+    border-radius: 0 10px 10px 0;
+    padding: 0;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 0px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  }
+
+  .carousel-inner {
+    border-radius: 0 10px 10px 0;
+  }
+
+  .carousel-caption {
+    text-align: left;
+    left: 5%;
+  }
+
+  .login-sec {
+    padding: 1px 30px;
+    position: relative;
+  }
+
+  .login-sec .copy-text {
+    position: absolute;
+    width: 80%;
+    bottom: 20px;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .login-sec .copy-text i {
+    color: #FEB58A;
+  }
+
+  .login-sec .copy-text a {
+    color: #E36262;
+  }
+
+  .login-sec h2 {
+    margin-bottom: 30px;
+    font-weight: 400;
+    font-size: 26px;
+    color: #faaa20;
+  }
+
+
+
+  .btn-login {
+    background: #550605;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .banner-text {
+    width: 70%;
+    position: absolute;
+    bottom: 40px;
+    padding-left: 20px;
+  }
+
+  .banner-text h2 {
+    color: #1b31e7;
+    font-weight: 600;
+  }
+
+  .banner-text h2:after {
+    content: " ";
+    width: 100px;
+    height: 5px;
+    background: #FFF;
+    display: block;
+    margin-top: 20px;
+    border-radius: 3px;
+  }
+
+  .banner-text p {
+    color: #fff;
+  }
+
+  .btn:focus,
+  .btn:hover {
+    color: #fefefe !important;
+    text-decoration: none;
+  }
+
+  .form-group {
+    margin-bottom: 8px;
+  }
+
+  span {
+    color: red;
+  }
+
+  .inline>img {
+    display: inline-block;
+  }
+</style>
+<section class="login-block" ng-controller="AuthLoginController">
+  <div class="container">
+    <div class="row">
+      <div
+        class="col-md-4 col-md-push-4  col-sm-8 col-sm-push-2 col-xs-10 col-xs-push-1  login-sec card animated fadeInDown">
+        <h2 class="text-center inline">Welcome to <img src="insp/img/barm8.png" style="width:76px;height:34px;"
+            class="img-responsive" /></h2>
+        <form class="login-form" name="form" ng-submit="login()">
+          <div class="form-group row">
+            <label for="exampleInputEmail1">Username</label>
+            <input type="email" id="email" class="form-control" placeholder="" ng-model="user.email">
+            <span id="emailErr" style="display: none;"> Email is required!</span>
+          </div>
+          <div class="form-group row">
+            <span class="hint" ng-show="form.email.$error.required && submitted">
+              Email is required!
+            </span>
+          </div>
+          <div class="form-group row">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" id="pwd" class="form-control" placeholder="" ng-model="user.password">
+            <span id="pwdErr" style="display: none;"> Password is required!</span>
+          </div>
+          <div class="form-group row">
+            <span class="hint" ng-show="form.password.$error.required && submitted">
+              Password is required!
+            </span>
+            <span>{{error}}</span>
+          </div>
+          <div class="form-group row">
+            <div class="form-check" style="text-align:center;">
+              <button type="submit" id="loginBtn" class="btn btn-login">Login</button>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" style="padding-right: 0px; padding-left: 0px;">
+              <a href="javascript:;" ng-click="registerClk()" class="pull-left" style="color: #550605;">Register Now</a>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6" style="padding-right: 0px; padding-left: 0px;">
+              <a ui-sref="forgotpassword" class="pull-right" ng-click="click()">Change password?</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  $("#loginBtn").on('click', () => {
+    if ($("#email").val() == "") {
+      $("#emailErr").css('display', 'block');
+    }
+    if ($("#pwd").val() == "") {
+      $("#pwdErr").css('display', 'block');
+    }
+  });
+</script>
+
+

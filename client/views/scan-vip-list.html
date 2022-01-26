@@ -1,0 +1,450 @@
+<link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+<div id="wrapper" ng-controller="ScanVIPListCtl">
+    <nav class="navbar-default navbar-static-side sidenav" id="navSidebar" role="navigation"
+        style="box-shadow: 0 2px 5px 0 rgba(0,0,0,.3);">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                      <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:right; ">
+                        <span><i class="fas fa-times" style="cursor:pointer;" id="menuCloseIcon"></i></span>
+                      </div>
+                      <center> <span class="barm8Font barM8Style"> Bar M8 </span></center>
+                      <center style="margin-top: -1rem"><span class="barM8Style"
+                          style="font-size: 1.5rem;color:#fff;">Dashboard</span></center>
+                    </div>
+                  </li>
+                  <li>
+                    <a ui-sref="new-venue" class="menuClk"><i class="fas fa-ankh"></i>&nbsp;&nbsp;Create new venue</a>
+                  </li>
+                <li>
+                    <a ui-sref="dashboard" class="menuClk"> <i class="fas fa-user-plus"></i>&nbsp;Business Manager</a>
+                </li>
+                <li>
+                    <a ui-sref="analytics" class="menuClk"><i class="fas fa-chart-bar"></i> &nbsp;Business Analytics</a>
+                </li>
+               
+                <li>
+                    <a ui-sref="business" class="menuClk" ng-show="currentUser.email=='admin@barm8.com.au'">
+                        <i class="fas fa-list"></i>
+                        &nbsp;Business List
+                    </a>
+                </li>
+                <li>
+                    <a onclick="scanHistoryMenuClk()" class="menuClk"><i class="fas fa-qrcode"></i> &nbsp; Id Scans <i
+                            id="scanHistoryIcon" class="fas fa-angle-right pull-right"></i></a>
+                    <ul class="nav nav-second-level collapse" id="scanHistoryMenu" aria-expanded="false"
+                        style="height: 0px;">
+                        <li><a ui-sref="id-scan-report"><i class="fas fa-chart-bar"></i> &nbsp; Reports</a></li>
+                        <li><a ui-sref="id-scan-vip-list"><i class="fas fa-star"></i> &nbsp; VIP List</a></li>
+                        <li><a ui-sref="id-scan-ban-list"><i class="fas fa-ban"></i> &nbsp; Ban List</a></li>
+                        <li><a ui-sref="scan-ids-details"><i class="fas fa-book"></i> &nbsp; Scan History</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;" aria-expanded="false" class="whats-on-menu"><i class="far fa-calendar-alt"></i>
+                        <span class="nav-label"> &nbsp; What's On</span>
+                        <i class="fas fa-angle-right pull-right"></i>
+                    </a>
+                    <ul class="nav nav-second-level collapse whats-on-sub-menu" aria-expanded="false">
+                        <li><a style="padding: 6px 20px 6px 25px;" ui-sref="create-whats-on">Create New Event</a></li>
+                        <li>
+                            <a style="padding: 6px 20px 6px 16px;" class="whats-on-third-menu">
+                                <span class="nav-label"> &nbsp; Edit events</span>
+                                <i class="fas fa-angle-right pull-right"></i>
+                            </a>
+                            <ul class="nav nav-third-level collapse whats-on-third-sub-menu" aria-expanded="true">
+                                <li><a ui-sref="edit-whatson({ s : 'eticketed' })">Tickted</a></li>
+                                <li><a ui-sref="edit-whatson({ s : 'enticketed' })">Non-Tickted</a></li>
+                              </ul>
+                        </li>
+                        <li>
+                            <a style="padding: 6px 20px 6px 16px;" ui-sref="whatson"><span> &nbsp; Manage Events</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;" aria-expanded="false" class="meals-menu"> <i class="fas fa-utensils"></i>
+                        <span class="nav-label"> &nbsp; Menus</span>
+                        <i class="fas fa-angle-right pull-right"></i>
+                    </a>
+                    <ul class="nav nav-second-level collapse meals-sub-menu" aria-expanded="false">
+                        <li><a style="padding: 6px 20px 6px 25px;" ui-sref="menu-hours">Menu Hours</a></li>
+                        <li><a style="padding: 6px 20px 6px 25px;" ui-sref="menu-manager">Menu Manager</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript:;" aria-expanded="false" class="drinks-menu"> <i class="fas fa-cocktail"></i>
+                        <span class="nav-label"> &nbsp; Drinks Menu</span>
+                        <i class="fas fa-angle-right pull-right"></i>
+                    </a>
+                    <ul class="nav nav-second-level collapse drinks-sub-menu" aria-expanded="false">
+                        <li><a style="padding: 6px 20px 6px 25px;" ui-sref="drinks-menu">Add Drinks Menu</a></li>
+                        <li><a style="padding: 6px 20px 6px 25px;" ui-sref="drinks-manager">Drinks Manager</a></li>
+                        <li><a style="padding: 6px 20px 6px 25px;" ui-sref="drinks-order">Drinks Orders</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a ui-sref="reservation" aria-expanded="false"> <i class="fas fa-table"></i>
+                        &nbsp; Reservations
+                    </a>
+                </li>
+                <li><a ui-sref="venue-images" class="menuClk"><i class="far fa-images"></i> &nbsp;Venue Images</a></li>
+                <li><a ui-sref="orders" class="menuClk"><i class="fas fa-shopping-cart"></i> &nbsp;Orders</a></li>
+                <li><a ui-sref="profile" class="menuClk"><i class="fas fa-user"></i> &nbsp;Profile</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div id="page-wrapper" class="gray-bg topBar" style="min-height: 270px;">
+
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top white-bg navbarTop" role="navigation"
+                style="margin-bottom: 0;box-shadow: 0 2px 5px 0 rgba(0,0,0,.3);">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary"
+                        style="background-color: #f9a141 !important;" id="minimize" href="javascript:;">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <a ui-sref="logout" id="logout"
+                            style="text-align:right !important;  color: #363636 !important;">
+                            <i class="fas fa-sign-out-alt"></i> Log out
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="row" id="vipList" style="margin:4.5em 5px 5px 5px;">
+            <div class="row card" ng-if="userId=='5a311184dddca04a93b5f2f5' || useremail=='admin@barm8.com.au'"
+                style="padding:20px;">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                    <div class="autocomplete col-md-12" style="padding-right:0px;padding-left:0px;">
+                        <input id="autocompleteBusiness" type="text" name="BusinessName"
+                            placeholder="Enter Business name">
+                        <span id="businessErr" style="color:red;"></span>
+                    </div>
+                    <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                    <script type="text/javascript">
+                        autocomplete(document.getElementById("autocompleteBusiness"), 'scansBusiness');
+                    </script>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" style="text-align:center;">
+                    <button type="button" id="businessSubmit" ng-click="BusinessSelected('scans')"
+                        class="btn btn-raised btn-primary businessSubmit"
+                        style="margin-bottom: 10px;border-radius:30px;"> <i class="fa fa-check"
+                            aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-12 card"
+                style="padding-right:0px;padding-left:0px;">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-12">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li data-id="businessApproved"
+                                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 card business active"
+                                style="padding-left: 13px;padding-right: 0px;margin: 0rem 0 1rem 0;padding-top: 5px;background-color: #f9a141;">
+                                <a style="color:#ffffff;" data-target="#business_approved" href="javascript:;"
+                                    role="tab" data-toggle="tab"><i class="fas fa-star"></i> &nbsp; Vip Lists</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-12">
+                        <div class="row" style="margin: 0px 5px;">
+                            <div class="col-lg-5ths col-md-5ths col-xl-5ths col-sm-5ths col-xs-5ths">
+                                <div class="row card" style="padding: 5px;cursor:pointer;">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-12"
+                                        style="height: 100px;background-color:#cd7f32;text-align:center;">
+                                        <p style="color: #fff;font-size:25px;margin-top: 10px;">Bronze</p>
+                                        <p style="color: #fff;font-size:25px;margin-top: 10px;">{{bronzeCnt}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5ths col-md-5ths col-xl-5ths col-sm-5ths col-xs-5ths">
+                                <div class="row card" style="padding: 5px;cursor:pointer;">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-12"
+                                        style="height: 100px;background-color:#bbbec3;text-align:center;">
+                                        <p style="color: #fff;font-size:25px;margin-top: 10px;">Silver</p>
+                                        <p style="color: #fff;font-size:25px;margin-top: 10px;">{{silverCnt}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5ths col-md-5ths col-xl-5ths col-sm-5ths col-xs-5ths">
+                                <div class="row card" style="padding: 5px;cursor:pointer;">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-12"
+                                        style="height: 100px;background-color:#cdaa35;text-align:center;">
+                                        <p style="color: #fff;font-size:25px;margin-top: 10px;">Gold</p>
+                                        <p style="color: #fff;font-size:25px;margin-top: 10px;">{{goldCnt}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5ths col-md-5ths col-xl-5ths col-sm-5ths col-xs-5ths">
+                                <div class="row card" style="padding: 5px;cursor:pointer;">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-12"
+                                        style="height: 100px;background-color:#b6b19e;text-align:center;">
+                                        <p style="color: #fff;font-size:25px;margin-top: 10px;">Platinum</p>
+                                        <p style="color: #fff;font-size:25px;margin-top: 10px;">{{platinumCnt}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5ths col-md-5ths col-xl-5ths col-sm-5ths col-xs-5ths">
+                                <div class="row card" style="padding: 5px;cursor:pointer;">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-12"
+                                        style="height: 100px;background-color:#6a665e;text-align:center;">
+                                        <p style="color: #fff;font-size:25px;margin-top: 10px;">Vip</p>
+                                        <p style="color: #fff;font-size:25px;margin-top: 10px;">{{vipCnt}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-12 card" ng-show="loyaltyDetails.length>0"
+                style="padding-right:0px;padding-left:0px;">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-12">
+                        <div class="table-responsive table-wrapper-scroll-y"
+                            style="display: block;max-height: 25rem;overflow-y: auto;">
+                            <table class="table table-hover table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th>Level</th>
+                                        <th>Date & time</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>Gender</th>
+                                        <th>Age</th>
+                                        <th>Mobile</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="details in loyaltyDetails">
+                                        <th>{{ details.level }}</th>
+                                        <td>{{ details.isCreate | date : "dd-MM-yyyy h:mm a" }}</td>
+                                        <td>{{ details.customer.firstName }}</td>
+                                        <td>{{ details.customer.lastName }}</td>
+                                        <td>{{ details.customer.email }}</td>
+                                        <td>{{ details.customer.gender | capitalize }}</td>
+                                        <td>{{ details.customer.age }}</td>
+                                        <td>{{ details.customer.mobile }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" type="text/css" href="assets/css/dashboard.css" />
+<script>
+    $(() => {
+        $('#scanHistoryMenu').addClass('in');
+        $('ul#scanHistoryMenu li:nth-child(2)').addClass('liactive');
+    });
+    $(() => {
+        $("#vipList").css({ "opacity": "0.1" });
+        setTimeout(function () { $("#vipList").css({ "opacity": "" }); }, 500);
+    });
+</script>
+<style type="text/css">
+    .liactive {
+        color: #000 !important;
+        background-color: #f9a141 !important;
+        border-color: #f9a141 !important;
+    }
+
+    .datepicker table tr td.today,
+    .datepicker table tr td.today:hover,
+    .datepicker table tr td.today.disabled,
+    .datepicker table tr td.today.disabled:hover {
+        color: #fff !important;
+        background-color: #FFC107 !important;
+        border-color: #FFC107 !important;
+    }
+
+    .card {
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        background-color: #ffffff;
+    }
+
+    #business {
+        height: 100vh !important;
+    }
+
+    .h1,
+    .h2,
+    .h3,
+    h1,
+    h2,
+    h3 {
+        margin-top: 0px;
+        margin-bottom: 10px;
+    }
+
+    .modal-content {
+        border-radius: 0px;
+    }
+
+    .modal-header {
+        padding: 0px;
+        border-bottom: 0px solid #e5e5e5;
+    }
+
+    .modal-footer {
+        padding: 7px;
+        text-align: right;
+        border-top: 0px solid #e5e5e5;
+    }
+
+
+    @media (max-width:799px) {
+        #title {
+            padding: 20px 0px 54px 0px;
+        }
+    }
+
+    @media (min-width:800px) {
+        #title {
+            padding: 15px 0px 10px 0px;
+        }
+    }
+
+    .material-checkbox {
+        position: relative;
+        display: inline-block;
+        color: rgba(0, 0, 0, 0.87);
+        cursor: pointer;
+        font-family: "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system;
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    .material-checkbox>input {
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        position: absolute;
+        z-index: -1;
+        left: -15px;
+        top: -15px;
+        display: block;
+        margin: 0;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        background-color: rgba(0, 0, 0, 0.42);
+        outline: none;
+        opacity: 0;
+        transform: scale(1);
+        -ms-transform: scale(0);
+        /* Graceful degradation for IE */
+        transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .material-checkbox>input:checked {
+        background-color: #2196f3;
+    }
+
+    .material-checkbox:active>input {
+        opacity: 1;
+        transform: scale(0);
+        transition: opacity 0s, transform 0s;
+    }
+
+    .material-checkbox>input:disabled {
+        opacity: 0;
+    }
+
+    .material-checkbox>input:disabled+span {
+        cursor: initial;
+    }
+
+    .material-checkbox>span::before {
+        content: "";
+        display: inline-block;
+        margin-right: 17px;
+        border: solid 2px rgba(0, 0, 0, 0.42);
+        border-radius: 2px;
+        width: 21px;
+        height: 21px;
+        vertical-align: -4px;
+        transition: border-color 0.5s, background-color 0.5s;
+    }
+
+    .material-checkbox>input:checked+span::before {
+        border-color: #4CAF50;
+        background-color: #4CAF50;
+    }
+
+    .material-checkbox>input:active+span::before {
+        border-color: #2196f3;
+    }
+
+    .material-checkbox>input:checked:active+span::before {
+        border-color: transparent;
+        background-color: rgba(0, 0, 0, 0.42);
+    }
+
+    .material-checkbox>input:disabled+span::before {
+        border-color: rgba(0, 0, 0, 0.26);
+    }
+
+    .material-checkbox>input:checked:disabled+span::before {
+        border-color: transparent;
+        background-color: rgba(0, 0, 0, 0.26);
+    }
+
+    .material-checkbox>span::after {
+        content: "";
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        left: 2px;
+        width: 7px;
+        height: 15px;
+        border: solid 2px transparent;
+        border-left: none;
+        border-top: none;
+        transform: translate(5.5px, 1px) rotate(45deg);
+        -ms-transform: translate(5.5px, 2px) rotate(45deg);
+    }
+
+    .material-checkbox>input:checked+span::after {
+        border-color: #fff;
+    }
+
+    .nav-tabs {
+        border-bottom: 0px solid #ddd;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-primary:active,
+    .btn-primary.active,
+    .open .dropdown-toggle.btn-primary,
+    .btn-primary:active:focus,
+    .btn-primary:active:hover,
+    .btn-primary.active:hover,
+    .btn-primary.active:focus {
+        border-color: #f9a141;
+    }
+
+    .btn:focus,
+    .btn:hover {
+        color: #fff !important;
+        text-decoration: none;
+    }
+</style>

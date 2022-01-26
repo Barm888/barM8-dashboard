@@ -1,0 +1,893 @@
+<link href="/assets/datepicker.min.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/assets/bootstrap-datepicker.min.js"></script>
+<div class="wrapper wrapper-content" id="dailySpecialManageCtl" ng-controller="dailySpecialManageCtl">
+    <div class="m-t-sm" style="margin-top:2.5rem;margin-bottom:1.5rem;">
+        <div class="row" ng-show="userDetails.isAdmin">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 padding-space">
+                <div class="row card eventCard" style="margin: 0rem 0 0rem 0 !important;">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                        <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+                        <div class="autocomplete col-sm-12 col-xs-8 col-md-6 col-lg-6 col-xl-6"
+                            style="padding-right:0px;padding-left:0px;">
+                            <input id="autocompleteBusiness" type="text" name="BusinessName"
+                                placeholder="Enter Business name">
+                            <span id="businessErr" style="color:red;"></span>
+                        </div>
+                        <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+                        <script
+                            type="text/javascript">autocomplete(document.getElementById("autocompleteBusiness"), 'dailySpecialManage');</script>
+                        <div class="autocomplete col-sm-12 col-xs-4 col-md-6 col-lg-6 col-xl-6">
+                            <button type="button" ng-click="BusinessSelected('dailySpecialManage')" id="businessSubmit"
+                                class="btn btn-raised btn-primary businessSubmit">
+                                <i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row" ng-show="!userDetails.isAdmin && dailySpecailList.length">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <a ui-sref="create-daily-special" class="btn create-btn"
+                    style="padding: 6px 29px !important;margin-top:0.5rem;margin-bottom:0.5rem;margin-left:-1rem;">Create
+                    Daily Special</a>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12 padding-space">
+                <div class="row card" style="margin: 0.5rem 0 0rem 0 !important;padding:5px;">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="row" ng-show="dailySpecailList.length==0">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <h2 class="v-h">Your Daily Specials</h2>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                                        <p class="c-p-1">Offers of Daily Specials which are mainly food appear
+                                            on your venue profile for users to discover. To create a new offer,
+                                            click Create Daily Special button. Once created, the offer will
+                                            appear here as “Pending” in the App Status column. If the details
+                                            look correct and you are ready to make the offer “Live” on the App,
+                                            click the red “Pending” button and it will change to green “Live”.
+                                            The offer is now visible on the App.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12 center">
+                                        <br>
+                                        <img src="assets/img/manage-img.png">
+                                        <br>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12 center">
+                                        <p class="manage-txt">No current Daily specials!</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12"
+                                        style="text-align: center;margin-bottom:1rem;">
+                                        <a ui-sref="create-daily-special" class="btn btn-s"
+                                            style="padding: 6px 29px !important;">Create Daily Special</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="dailySpecailList.length">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-xl-12 col-lg-12">
+                                <div class="row">
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                                        <h2 class="v-h">Manage Daily Specials at your venue</h2>
+                                    </div>
+                                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                        <a ui-sref="create-daily-special" class="btn right btn-s"
+                                            ng-show="dailySpecailList.length"
+                                            style="padding: 6px 29px !important;margin-top:0.8rem;margin-bottom:1rem;">Create
+                                            Daily
+                                            Special</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-xl-12 col-lg-12">
+                                <p class="c-p-1">You can View, Edit or Delete an offer for a single day or
+                                    multiple days. Simply click on Edit icon, make the change and click Update
+                                    or Update-all. You can also use Edit option to change the in App Status of
+                                    the offer by clicking on Pending to go Live and vice versa. Click Update to
+                                    make a single change or Update-all for multiple days for which the offer is
+                                    available.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                                <button ng-show="dailySpecailList.length" data-toggle="collapse"
+                                    data-target="#demo" class="btn" style="border-radius: 5%;padding: 4px 9px !important;
+                                background-color:#f9a141 !important;color:#fff !important;font-size: 20px;"
+                                    title="Filter"><i class="fas fa-filter"></i> Filter</button>
+                            </div> -->
+                            <!-- <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                <a ui-sref="create-daily-special" class="btn right create-btn"
+                                    ng-show="userDetails.isAdmin && dailySpecailList.length"
+                                    style="padding: 6px 29px !important;">Create Daily Special</a>
+                            </div> -->
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                                ng-show="dailySpecailList.length">
+                                <div id="demo" class="collapse in">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-12 col-xs-12 col-xl-12 col-lg-12">
+                                            <div class="row card"
+                                                style="padding:5px;margin: 0.5rem 0 0.5rem 0 !important;">
+                                                <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4 col-xl-4">
+                                                    <div class="from-group">
+                                                        <label for="_daily_s_view" style="font-size: 16px;">View</label>
+                                                        <select id="_daily_s_view" class="form-control custom-input">
+                                                            <option selected value="All">All</option>
+                                                            <option value="7">7 days</option>
+                                                            <option value="14">14 days</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4 col-xl-4">
+                                                    <div class="form-group">
+                                                        <label for="f-category">Category</label>
+                                                        <select id="f-category" class="form-control custom-input">
+                                                            <option value="select">All</option>
+                                                            <option value="{{cate.id}}" ng-repeat="cate in categories"
+                                                                data-val="{{cate.menu}}">
+                                                                {{cate.menu}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 col-xs-4 col-md-4 col-lg-4 col-xl-4">
+                                                    <div class="form-group">
+                                                        <label for="f-title">Title</label>
+                                                        <select id="f-title" class="form-control custom-input">
+                                                            <option value="select">All</option>
+                                                            <option value="{{names.titleTxt}}"
+                                                                ng-repeat="names in dailyNamesList">
+                                                                {{names.title}}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-show="dailySpecailList.length>0" style="cursor: pointer;">
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12 deleteAllDiv"
+                                style="margin-bottom:0.5rem;display:none;">
+                                <button class="btn right"
+                                    style="padding: 6px 20px !important;background-color:red; color: #fff; font-size: 16px;"
+                                    ng-click="DeleteToAll()">Delete
+                                    All</button>
+                            </div>
+                            <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1"
+                                                style="text-align: center;">
+                                                <span>Select All</span>
+                                                <p style="margin:0px !important;"> <input
+                                                        class="form-check-input position-static"
+                                                        onclick="SelectAllClk()" type="checkbox" id="selectAllCheck"
+                                                        value="All"></p>
+
+                                            </th>
+                                            <th class="col-sm-2 col-xs-2 col-md-2 col-lg-2 col-xl-2">
+                                                <span>Image</span>
+                                            </th>
+                                            <th class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1">
+                                                <span>Category</span>
+                                            </th>
+                                            <th class="col-sm-2 col-xs-2 col-md-2 col-lg-2 col-xl-2">
+                                                <span>Title</span>
+                                            </th>
+                                            <th class="col-sm-2 col-xs-2 col-md-2 col-lg-2 col-xl-2">
+                                                <span>Description</span>
+                                            </th>
+                                            <th class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1">
+                                                <span>Date</span>
+                                            </th>
+                                            <th class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1">
+                                                <span>Start Time</span>
+                                            </th>
+                                            <th class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1">
+                                                <!-- <span>End Time</span> -->
+                                            </th>
+                                            <th class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1">
+                                                <span>Status</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="dailySpecial in dailySpecailList"
+                                            ng-mouseover="showTheMiddle($event, $index)"
+                                            ng-mouseleave="hiddenTheMiddle($index)" style="position: relative;">
+                                            <td class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1"
+                                                style="text-align: center;">
+                                                <div class="form-check">
+                                                    <input class="form-check-input tw-s-box" type="checkbox"
+                                                        id="_{{dailySpecial.id}}" value="{{dailySpecial.id}}"
+                                                        onclick="checkBoxClick()">
+                                                </div>
+                                            </td>
+                                            <td class="col-sm-2 col-xs-2 col-md-2 col-lg-2 col-xl-2">
+                                                <div class="imgwrapper">
+                                                    <img ng-src="{{dailySpecial.img[0].path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png' }}"
+                                                        class="img-thumbnail img-responsive"
+                                                        src="{{dailySpecial.img[0].path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png' }}"
+                                                        alt="{{dailySpecial.img[0].fileName || 'No Image'}}"
+                                                        title="{{dailySpecial.img[0].fileName}}"
+                                                        id="img_{{dailySpecial.id}}">
+
+                                                </div>
+                                            </td>
+                                            <td class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1">
+                                                <b>{{dailySpecial.category}}</b>
+                                            </td>
+                                            <td class="col-sm-2 col-xs-2 col-md-2 col-lg-2 col-xl-2">
+                                                <b>{{dailySpecial.title}}</b>
+                                            </td>
+                                            <td class="col-sm-2 col-xs-2 col-md-2 col-lg-2 col-xl-2">
+                                                <b>{{dailySpecial.desc}}</b>
+                                            </td>
+                                            <td class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1">
+                                                <b>{{dailySpecial.dateFormat}}</b>
+                                            </td>
+                                            <td class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1">
+                                                <b>{{dailySpecial.startTime}}</b>
+                                            </td>
+                                            <td class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1 center">
+                                                <!-- <b>{{dailySpecial.endTime}}</b> -->
+                                                <button class="btn btn-primary"
+                                                    style="background-color: #3f51b5 !important;color:#fff !important;padding: 5px 26px !important;border: 1px solid #3f51b5 !important;"
+                                                    ng-click="createDeal(dailySpecial.id);firstOpenCal();">Deal</button>
+                                            </td>
+                                            <td class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1 center">
+                                                <b class="btn" ng-click="updateStatus(dailySpecial.id, 'Pending')"
+                                                    ng-show="dailySpecial.status=='Pending'"
+                                                    style="background-color: red !important;color:#fff !important;">{{dailySpecial.status}}</b>
+                                                <b class="btn" ng-click="updateStatus(dailySpecial.id, 'Live')"
+                                                    ng-show="dailySpecial.status=='Live'"
+                                                    style="background-color: green !important;color:#fff !important;padding: 5px 26px !important;">{{dailySpecial.status}}</b>
+                                            </td>
+                                            <td class="middle_{{$index}}"
+                                                style="display: none;background-color: rgba(250, 250, 250, 0);padding: 4.5px !important;margin-top:62px;border: 0px solid #e7eaec;">
+                                                &nbsp;
+                                                <button class="btn" style="border-radius: 50%;padding: 4px 7.5px !important;
+                                        background-color: #3f51b5 !important;color:#fff !important;"
+                                                    ng-click="viewHappyHours(dailySpecial.id)" title="View"><i
+                                                        class="fas fa-eye"></i></button>
+                                                &nbsp;
+                                                <button class="btn" style="border-radius: 50%;padding: 4px 8px !important;
+                                        background-color: #2e7d32 !important;color:#fff !important;"
+                                                    ng-click="editDailySpecial(dailySpecial.id)" title="Edit"><i
+                                                        class="fas fa-pencil-alt"></i></button>
+                                                &nbsp;
+                                                <button class="btn" style="border-radius: 50%;padding: 4px 9px !important;
+                                        background-color: #d50000 !important;color:#fff !important;"
+                                                    ng-click="delete(dailySpecial.id)" title="Delete"><i
+                                                        class="fas fa-trash"></i></button>
+                                                &nbsp;
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal" tabindex="-1" id="create-Select-date" role="dialog">
+                                <div class="modal-dialog modal-sm opacity-animate3" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="background-color: #FF9800;color:#fff;">
+                                            <h3 class="modal-title" style="padding: 8px;">Select Dates</h3>
+                                        </div>
+                                        <div class="modal-body"
+                                            style="text-align: center !important;padding: 10px 00px 0px 10px !important;">
+                                            <div class="row">
+                                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2"
+                                                    style="margin-top:7.4rem;">
+                                                    <div ng-repeat="v in [1, 2, 3, 4, 5, 6]"
+                                                        style="display: flex; flex-flow: column; justify-content: space-between;margin-left:15px;">
+                                                        <input type="checkbox" id="_row_c_{{v}}" data-i="{{v}}"
+                                                            name="r-s-check" style="margin-top: 13.8px;"
+                                                            onclick="setRChecked(this)">
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-10"
+                                                    style="padding-left: 0px;padding-right:0px;">
+                                                    <div id="datepicker_dd_s"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer" style="text-align: right !important;">
+                                            <button type="button" class="btn btn-s" id="confirmDeleteBtn" data-id=""
+                                                ng-click="confirmCreateDeal()">Submit</button>
+                                            <button type="button" class="btn btn-r" ng-click="modelClose()"
+                                                style="margin-right:10px;">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal" tabindex="-1" id="viewPopup" role="dialog">
+                                <div class="modal-dialog modal-lg opacity-animate3" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header" style="background-color: #FF9800;color:#fff;">
+                                            <div class="row">
+                                                <div class="col-sm-10 col-xs-10 col-md-10 col-lg-10 col-xl-10">
+                                                    <h3 class="modal-title" style="padding: 8px;">
+                                                        {{dailySpecial_view.title}}</h3>
+                                                </div>
+                                                <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 col-xl-2"
+                                                    style="text-align: right;">
+                                                    <button type="button" class="btn btn-secondary" style="background-color: #fff !important;
+                                                    border-radius: 41px;
+                                                    color: rgb(245,0,87) !important;
+                                                    text-align: right !important;
+                                                    padding: 4px 10px !important;" data-dismiss="modal"><i
+                                                            class="fas fa-times"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-body"
+                                            style="padding: 20px 30px 0px 30px !important;text-align:left !important;">
+                                            <div class="row">
+                                                <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                            <div class="img-res">
+                                                                <img ng-src="{{dailySpecial_view.img[0].path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png' }}"
+                                                                    class="img-thumbnail img-responsive"
+                                                                    alt="{{dailySpecial_view.img[0].fileName || 'No Image'}}"
+                                                                    title="{{dailySpecial_view.img[0].fileName}}">
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4 m-b-10">
+                                                                    <b style="font-size: 1.2rem;">Category</b>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-8 col-lg-8 col-xl-8">
+                                                                    {{dailySpecial_view.category
+                                                                    }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4 m-b-10">
+                                                                    <b style="font-size: 1.2rem;">Date </b>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-8 col-lg-8 col-xl-8">
+                                                                    {{dailySpecial_view.date |
+                                                                    date:'dd-MMM-yyyy' }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4 m-b-10">
+                                                                    <b style="font-size: 1.2rem;">Start time
+                                                                    </b>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-8 col-lg-8 col-xl-8">
+                                                                    {{dailySpecial_view.startTime }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4 m-b-10">
+                                                                    <b style="font-size: 1.2rem;">End time </b>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-8 col-lg-8 col-xl-8">
+                                                                    {{dailySpecial_view.endTime }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4 m-b-10">
+                                                                    <b style="font-size: 1.2rem;">Description
+                                                                    </b>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-8 col-lg-8 col-xl-8">
+                                                                    {{dailySpecial_view.desc }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-4 col-lg-4 col-xl-4 m-b-10">
+                                                                    <b style="font-size: 1.2rem;">Status
+                                                                    </b>
+                                                                </div>
+                                                                <div
+                                                                    class="col-xs-6 col-sm-6 col-md-8 col-lg-8 col-xl-8">
+                                                                    <b class="btn"
+                                                                        ng-show="dailySpecial_view.status=='Pending'"
+                                                                        style="background-color: red !important;color:#fff !important;">{{dailySpecial_view.status}}</b>
+                                                                    <b class="btn"
+                                                                        ng-show="dailySpecial_view.status=='Live'"
+                                                                        style="background-color: green !important;color:#fff !important;">{{dailySpecial_view.status}}</b>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer" style="text-align: right !important;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" id="deleteConfirmPopup" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #FF9800;color:#fff;">
+                <h3 class="modal-title" style="padding: 8px;">Message</h3>
+            </div>
+            <div class="modal-body" style="text-align: center !important;padding: 20px 30px 0px 30px !important;">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                        <h3>Do you want to proceed?</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="confirmDeleteBtn" data-id=""
+                    onclick="angular.element(document.getElementById('dailySpecialManageCtl')).scope().confirmDelete()"
+                    style="background-color: #4CAF50 !important;padding: 4px 12px!important;border-radius: 3px;
+                    border:1px solid #4CAF50;font-size: 20px;">Yes</button>
+                <button type="button" class="btn btn-secondary" style="background-color: red !important;border-radius: 3px;color:#fff !important;padding:4px 14px !important;
+                    border:1px solid red;font-size:20px;" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    var theMonths = ["January", "February", "March", "April", "May",
+        "June", "July", "August", "September", "October", "November", "December"];
+
+    $("#f-category").on('change', function () {
+        angular.element(document.getElementById('dailySpecialManageCtl')).scope().getList('category');
+    })
+    $("#f-title").on('change', function () {
+        angular.element(document.getElementById('dailySpecialManageCtl')).scope().getList('sTitle');
+    })
+    $("#_daily_s_view").on('change', function () {
+        angular.element(document.getElementById('dailySpecialManageCtl')).scope().getList('view');
+    })
+    function SelectAllClk() {
+        $(".tw-s-box").prop('checked', false);
+        if ($("#selectAllCheck").is(':checked')) $(".tw-s-box").prop('checked', true);
+        angular.element(document.getElementById('dailySpecialManageCtl')).scope().checkedOffers();
+    }
+    function checkBoxClick() {
+        angular.element(document.getElementById('dailySpecialManageCtl')).scope().checkedOffers();
+    }
+
+    // jQuery DOM ready shortcut event handler (with locally scoped $)
+    $(function () {
+        // Do initial resize
+        let resizeFrame = () => {
+            console.log($(window).width());
+            if ($(window).width() < 900) {
+                $(".img-res").addClass('img-center');
+
+                // $('#h-hour-ta tbody tr')
+                $('#h-hour-ta tbody tr').each(function () {
+                    customeheight = $(this).height();
+                    let maxHeight = 200;
+                    $(this).css('line-height', maxHeight + 'px !important'); //nothing happens!
+                    $(this).css('height', maxHeight + 'px !important'); //nothing happens!
+                    $(this).height(maxHeight); //nothing happens!
+                    //  alert(customeheight);
+                })
+            } else {
+                $(".img-res").removeClass('img-center');
+                $('#h-hour-ta tbody tr').eq(1).css('height', '');
+            }
+        }
+        resizeFrame();
+
+        // Register for window resize
+        $(window).resize(resizeFrame);
+    });
+
+    var date = new Date();
+
+    $('#datepicker_dd_s').datepicker({
+        startDate: new Date(), todayHighlight: false, multidate: true,
+        endDate: new Date(date.getFullYear(), date.getMonth() + 2, 0),
+        autoclose: true
+    });
+
+    $('#datepicker_dd_s').on('changeDate', function (params) {
+        if (params.dates) {
+            params.dates.forEach(v => {
+                let dateN = new Date(v);
+                let va_d = `${("0" + dateN.getDate()).slice(-2)}-${("0" + (dateN.getMonth() + 1)).slice(-2)}-${dateN.getFullYear()}`;
+                angular.element(document.getElementById('dailySpecialManageCtl')).scope().addDates(va_d);
+            })
+        }
+        if (params.date) {
+            angular.element(document.getElementById('dailySpecialManageCtl')).scope().clickDateAndFind(params);
+        } else {
+            let values = $(".datepicker-switch").html();
+            values = values.split(' ');
+            let fMonthIndex = theMonths.findIndex(m => m == values[0]);
+            angular.element(document.getElementById('dailySpecialManageCtl')).scope().getMonthData(`${fMonthIndex}_${values[1]}`);
+        }
+    });
+
+    $('.next').on('click', function (params) {
+        let values = $(".datepicker-switch").html();
+        values = values.split(' ');
+        let fMonthIndex = theMonths.findIndex(m => m == values[0]);
+        angular.element(document.getElementById('dailySpecialManageCtl')).scope().getMonthData(`${fMonthIndex + 1}_${values[1]}`);
+    })
+
+    $('.prev').on('click', function (params) {
+        let values = $(".datepicker-switch").html();
+        values = values.split(' ');
+        let fMonthIndex = theMonths.findIndex(m => m == values[0]);
+        angular.element(document.getElementById('dailySpecialManageCtl')).scope().getMonthData(`${fMonthIndex - 1}_${values[1]}`);
+    })
+
+    var cVCal = ['_1_col_ck', '_2_col_ck', '_3_col_ck', '_4_col_ck', '_5_col_ck', '_6_col_ck', '_7_col_ck'];
+    $(() => {
+        let cVal = '';
+        for (let v of cVCal) {
+            let i = v.split('_')[1];
+            cVal += `<td> <input type="checkbox" name="c-cal-check" id="${v}" data-i="${i}" onclick="setChecked(this)"></td>`;
+        }
+        $('#datepicker_dd_s table thead tr:nth-child(1)').before(`<tr>${cVal}</tr>`);
+    })
+
+    var setChecked = (e) => {
+        setTimeout(function () {
+            if ($(e).prop("checked")) {
+                $(`#datepicker_dd_s table tbody tr td:nth-child(${$(e).attr('data-i')})`).removeClass('active');
+                $(e).prop('checked', false);
+                var items = $.map($("#datepicker_dd_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+                var month = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+                var year = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+                var monthIndex = monthNames.indexOf(month) + 1;
+                var datesAdd = [];
+                $.each(items, function (key, val) {
+                    datesAdd.push(new Date(parseInt(year), parseInt((monthIndex - 1)), parseInt(val)));
+                });
+                $('#datepicker_dd_s').datepicker('setDates', datesAdd);
+            }
+            else {
+                $(`#datepicker_dd_s table tbody tr td:nth-child(${$(e).attr('data-i')})`)
+                    .not('.old')
+                    .not('.new')
+                    .not('.disabled')
+                    .addClass('active');
+                $(e).prop('checked', true);
+                var items = $.map($("#datepicker_dd_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+                var month = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+                var year = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+                var monthIndex = monthNames.indexOf(month) + 1;
+                var datesAdd = [];
+                $.each(items, function (key, val) {
+                    datesAdd.push(new Date(parseInt(year), parseInt((monthIndex - 1)), parseInt(val)));
+                });
+                $('#datepicker_dd_s').datepicker('setDates', datesAdd);
+            }
+        }, 1)
+    }
+
+    var setRChecked = (e) => {
+        let i = $(e).attr('data-i');
+        if ($(e).prop("checked")) {
+            $("#datepicker_dd_s .datepicker-days .table-condensed tbody tr:nth-child(" + i + ") td").not('.old').not('.new').not('.disabled').addClass('active');
+            var items = $.map($("#datepicker_dd_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+            var month = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+            var year = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+            var monthIndex = monthNames.indexOf(month) + 1;
+            var datesAdd = [];
+            $.each(items, function (key, val) {
+                datesAdd.push(new Date(parseInt(year), parseInt((monthIndex - 1)), parseInt(val)));
+            });
+            $('#datepicker_dd_s').datepicker('setDates', datesAdd);
+        } else {
+            $("#datepicker_dd_s .datepicker-days .table-condensed tbody tr:nth-child(" + i + ") td").not('.old').not('.new').not('.disabled').removeClass('active');
+            var items = $.map($("#datepicker_dd_s .datepicker-days .table-condensed tbody tr .active"), function (ele) { return $(ele).text(); });
+            var month = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[0];
+            var year = ($("#datepicker_dd_s .datepicker-days .table-condensed thead  .datepicker-switch").text()).split(" ")[1];
+            var monthIndex = monthNames.indexOf(month) + 1;
+            var datesAdd = [];
+            $.each(items, function (key, val) {
+                datesAdd.push(new Date(parseInt(year), parseInt((monthIndex - 1)), parseInt(val)));
+            });
+            $('#datepicker_dd_s').datepicker('setDates', datesAdd);
+        }
+    }
+</script>
+<style>
+    .btn-s {
+        color: #000;
+        border: 3px solid green !important;
+        background-color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .cal-s {
+        color: #fff;
+        background-color: green;
+        border-radius: 50px !important;
+        cursor: default !important;
+    }
+
+    .cal-s:hover {
+        color: #fff !important;
+        background-color: green !important;
+        border-radius: 50px;
+    }
+
+    .btn-s:hover {
+        color: #fff !important;
+        background: green !important;
+    }
+
+    .btn-r {
+        color: #000;
+        border: 3px solid red !important;
+        background-color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .btn-r:hover {
+        color: #fff !important;
+        background: red !important;
+    }
+
+    .img-center {
+        width: 100%;
+        padding: 10px 10px 20px 10px !important;
+        text-align: center;
+    }
+
+    .imgwrapper {
+        max-width: 180px;
+    }
+
+    .btn-s {
+        color: #000;
+        border: 3px solid green !important;
+        background-color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .btn-s:hover {
+        color: #fff !important;
+        background: green !important;
+    }
+
+    .btn-s:active {
+        letter-spacing: 1px;
+    }
+
+    .v-h {
+        font-weight: 600;
+    }
+
+    .v-h-1 {
+        color: gray;
+    }
+
+    .c-p-1 {
+        font-size: 15px;
+        color: gray;
+    }
+
+    input[type=checkbox] {
+        zoom: 1.3;
+    }
+
+    th>span {
+        font-size: 1rem;
+    }
+
+    .card-header {
+        padding: 10px;
+    }
+
+    .modal {
+        z-index: 999990 !important;
+    }
+
+    .m-b-10 {
+        margin-bottom: 15px;
+    }
+
+    @media(min-width:768px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:992px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    @media(min-width:1200px) {
+        .eventCard {
+            padding: 20px;
+        }
+    }
+
+    .padding-space {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .back-txt {
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #000 !important;
+    }
+
+
+    .manage-txt-1 {
+        font-size: 1.044rem;
+        color: #000 !important;
+    }
+
+    .form-c {
+        height: 40px;
+    }
+
+    .right {
+        float: right;
+    }
+
+    .create-btn {
+        background-color: #1d951d;
+        color: #fff;
+        font-size: 1.2rem;
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    .manage-txt {
+        font-weight: 600;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+        color: #000 !important;
+    }
+
+    th>b {
+        font-size: 1.2rem;
+    }
+
+    .img-center {
+        width: 100%;
+        padding: 10px 10px 20px 10px !important;
+        text-align: center;
+    }
+
+    .imgwrapper {
+        max-width: 180px;
+    }
+
+    .table>thead>tr>th,
+    .table>tbody>tr>th,
+    .table>tfoot>tr>th,
+    .table>thead>tr>td,
+    .table>tbody>tr>td,
+    .table>tfoot>tr>td {
+        padding: 3px !important;
+    }
+
+
+    .calendar {
+        display: block;
+        position: relative;
+    }
+
+    .calendar input {
+        padding-left: 40px;
+    }
+
+    .calendar:before {
+        font-family: 'FontAwesome';
+        content: '\f133';
+        position: absolute;
+        left: 10px;
+        top: 33px;
+        font-size: 20px;
+        color: #000;
+    }
+
+    .datepicker.dropdown-menu th,
+    .datepicker.datepicker-inline th,
+    .datepicker.dropdown-menu td,
+    .datepicker.datepicker-inline td {
+        padding: 8px 10px !important;
+    }
+
+    .datepicker table tr td.active:hover,
+    .datepicker table tr td.active:hover:hover,
+    .datepicker table tr td.active.disabled:hover,
+    .datepicker table tr td.active.disabled:hover:hover,
+    .datepicker table tr td.active:active,
+    .datepicker table tr td.active:hover:active,
+    .datepicker table tr td.active.disabled:active,
+    .datepicker table tr td.active.disabled:hover:active,
+    .datepicker table tr td.active.active,
+    .datepicker table tr td.active:hover.active,
+    .datepicker table tr td.active.disabled.active,
+    .datepicker table tr td.active.disabled:hover.active,
+    .datepicker table tr td.active.disabled,
+    .datepicker table tr td.active:hover.disabled,
+    .datepicker table tr td.active.disabled.disabled,
+    .datepicker table tr td.active.disabled:hover.disabled,
+    .datepicker table tr td.active[disabled],
+    .datepicker table tr td.active:hover[disabled],
+    .datepicker table tr td.active.disabled[disabled],
+    .datepicker table tr td.active.disabled:hover[disabled] {
+        background-color: #faa141 !important;
+    }
+
+    .datepicker table tr td.active,
+    .datepicker table tr td.active:hover,
+    .datepicker table tr td.active.disabled,
+    .datepicker table tr td.active.disabled:hover {
+        background-color: #faa141;
+        background-image: -moz-linear-gradient(top, #faa141, #faa141);
+        background-image: -ms-linear-gradient(top, #faa141, #faa141);
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#faa141), to(#faa141));
+        background-image: -webkit-linear-gradient(top, #faa141, #faa141);
+        background-image: -o-linear-gradient(top, #faa141, #faa141);
+        background-image: linear-gradient(top, #faa141, #faa141);
+        background-repeat: repeat-x;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa141', endColorstr='#faa141', GradientType=0);
+        border-color: #faa141 #faa141 #faa141;
+        border-color: rgba(0, 0, 0, .1) rgba(0, 0, 0, .1) rgba(0, 0, 0, .25);
+        filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+        color: #fff;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
+    }
+
+    .datepicker td,
+    .datepicker th {
+        -webkit-border-radius: 40px;
+        -moz-border-radius: 40px;
+        border-radius: 40px;
+    }
+
+    @media (min-width: 768px) {
+        .modal-sm {
+            width: 350px;
+        }
+    }
+
+    .loader {
+        z-index: 999999 !important;
+    }
+</style>

@@ -1,0 +1,139 @@
+<div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+    <div class="row" style="background-color: #f9a141;color : #fff;margin-right: 0px;margin-left:0px;">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <div class="row" style="padding:0px 20px;">
+                <div class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1" style="padding-right: 4px;padding-left: 4px;">
+                    <h4>Classification</h4>
+                </div>
+                <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 col-xl-2" style="padding-right: 4px;padding-left: 4px;">
+                    <h4>Brand</h4>
+                </div>
+                <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 col-xl-2" style="padding-right: 4px;padding-left: 4px;">
+                    <h4>Type</h4>
+                </div>
+                <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 col-xl-2" style="padding-right: 4px;padding-left: 4px;">
+                    <h4>Description</h4>
+                </div>
+                <div class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1" style="padding-right: 4px;padding-left: 4px;">
+                    <h4>Dispense</h4>
+                </div>
+                <div class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1" style="padding-right: 4px;padding-left: 4px;">
+                    <h4>Price</h4>
+                </div>
+                <div class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1" style="padding-right: 4px;padding-left: 4px;">
+                    <h4>InApp Special</h4>
+                </div>
+                <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 col-xl-2" style="padding-right: 4px;padding-left: 4px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+    <div class="panel-group">
+        <div class="panel panel-default" ng-repeat="menu in happyhour.drinksDashLines"
+            style="padding:0px 10px;margin-top: 0px;">
+            <div class="panel-heading panel-body" style="background-color: #fff;margin-top:5px;">
+                <div class="panel-title">
+                    <div class="row" style="padding: 10px 10px 0px 10px;">
+                        <div class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1"
+                            style="padding-right: 4px;padding-left: 4px;">
+                            <span id="_{{menu.id}}_{{happyhour.id}}_type">{{menu.drinksType.type}}</span>
+                        </div>
+                        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 col-xl-2"
+                            style="padding-right: 4px;padding-left: 4px;">
+                            <span id="_{{menu.id}}_{{happyhour.id}}_brand">{{menu.brand}}</span>
+                        </div>
+                        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 col-xl-2"
+                            style="padding-right: 4px;padding-left: 4px;">
+                            <span id="_{{menu.id}}_{{happyhour.id}}_type">{{menu.type}}</span>
+                        </div>
+                        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 col-xl-2"
+                            style="padding-right: 4px;padding-left: 4px;">
+                            <span id="_{{menu.id}}_{{happyhour.id}}_desc">{{menu.desc}}</span>
+                        </div>
+                        <div class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1"
+                            style="padding-right: 4px;padding-left: 4px;">
+                            <div class="row">
+                                <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="form-group" style="margin-bottom: 5px !important;"
+                                        ng-repeat="dispense in menu.drinksDashSubLines">
+                                        <input type="checkbox" name="_despense_{{ menu.drinksCategoryId }}"
+                                            data-cname="{{dispense.dispense}}" checked="checked" disabled="disabled"
+                                            class="styled-checkbox" value="{{dispense.dispense}}"
+                                            id="_{{menu.id}}_{{dispense.id}}_dispense">
+                                        <label
+                                            for="_{{menu.id}}_{{dispense.id}}_dispense">&nbsp;{{dispense.dispenseTxt}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1"
+                            style="padding-right: 4px;padding-left: 4px;">
+                            <div class="row">
+                                <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12"
+                                    style="padding-right: 1px;padding-left:1px;">
+                                    <div class="form-group" style="margin-bottom: 5px !important;"
+                                        ng-repeat="dispense in menu.drinksDashSubLines">
+                                        <input type="number" disabled="disabled" class="form-control"
+                                            id="_{{menu.id}}_{{dispense.id}}_price"
+                                            style="height: 23px !important;padding: 2px 3px !important;"
+                                            value="{{dispense.price}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1 col-xs-1 col-md-1 col-lg-1 col-xl-1"
+                            style="padding-right: 4px;padding-left: 4px;">
+                            <div class="row" ng-repeat="spiritData in menu.drinksDashSubLines">
+                                <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                                    <div class="form-group" style="margin-bottom: 0px;text-align:center;">
+                                        <div class="md-switch-container {{spiritData.inAppSpecial? 'checked' : ''}}"
+                                            style="padding:13.5px 0px;" onclick="$(this).toggleClass('checked');"
+                                            ng-click="drinksSpiritInAppSpecial(happyhour, menu , $event, spiritData.id)">
+                                            <div class="md-switch-track">
+                                            </div>
+                                            <div class="md-switch-handle">
+                                            </div>
+                                            <div class="md-switch-label">
+                                                <b></b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            $(document).ready(() => { $('[data-toggle="tooltip"]').tooltip(); });
+                        </script>
+                        <div class="col-sm-2 col-xs-2 col-md-2 col-lg-2 col-xl-2"
+                            style="padding-right: 4px;padding-left: 4px;">
+                            <button class="btn btn-primary abtn" data-toggle="tooltip" data-placement="top" title="View"
+                                id="_{{happyhour.name}}_{{menu.id}}_view" ng-click="drinksView(happyhour,menu)"
+                                style="padding: 4px 8px !important;background-color:#f9a141 !important;font-size: 13px;">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-primary abtn" data-toggle="tooltip" data-placement="top" title="Edit"
+                                id="_{{happyhour.name}}_{{menu.id}}_edit" ng-click="drinksEdit(happyhour,menu)"
+                                style="padding: 4px 8px !important;background-color:#1a237e !important;font-size: 13px;">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            <button class="btn btn-primary abtn" data-toggle="tooltip" data-placement="top"
+                                title="Update" ng-click="drinksUpdate(happyhour, menu)"
+                                id="_{{happyhour.name}}_{{menu.id}}_update"
+                                style="padding: 4px 8px !important;background-color:#2e7d32 !important;display: none;font-size: 13px;">
+                                <i class="far fa-save"></i>
+                            </button>
+                            <button class="btn btn-primary abtn" data-toggle="tooltip" data-placement="top"
+                                title="Delete" id="_{{happyhour.name}}_{{menu.id}}"
+                                ng-click="drinksItemDelete(happyhour.name, menu.id)"
+                                style="padding: 4px 8px !important;background-color:#d50000 !important;font-size: 13px;">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

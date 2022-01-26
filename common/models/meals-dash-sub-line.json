@@ -1,0 +1,97 @@
+{
+  "name": "MealsDashSubLine",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "price": {
+      "type": "number",
+      "default": 0
+    },
+    "isAvailable": {
+      "type": "boolean",
+      "default": true
+    },
+    "inAppSpecial": {
+      "type": "boolean",
+      "default": false
+    },
+    "isSpecial": {
+      "type": "boolean",
+      "default": false
+    },
+    "menu": {
+      "type": "string"
+    },
+    "menuId": {
+      "type": "string"
+    },
+    "ingredients": {
+      "type": "string"
+    },
+    "monday": {
+      "type": "boolean",
+      "default": false
+    },
+    "tuesday": {
+      "type": "boolean",
+      "default": false
+    },
+    "wednesday": {
+      "type": "boolean",
+      "default": false
+    },
+    "thursday": {
+      "type": "boolean",
+      "default": false
+    },
+    "friday": {
+      "type": "boolean",
+      "default": false
+    },
+    "saturday": {
+      "type": "boolean",
+      "default": false
+    },
+    "sunday": {
+      "type": "boolean",
+      "default": false
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "mealsDashLine": {
+      "type": "belongsTo",
+      "model": "MealsDashLine",
+      "foreignKey": ""
+    },
+    "orderLines": {
+      "type": "hasMany",
+      "model": "OrderLine",
+      "foreignKey": ""
+    },
+    "cartItems": {
+      "type": "hasMany",
+      "model": "CartItem",
+      "foreignKey": ""
+    },
+    "cartItem": {
+      "type": "belongsTo",
+      "model": "CartItem",
+      "foreignKey": ""
+    },
+    "mealsExtraDashLines": {
+      "type": "hasMany",
+      "model": "MealsExtraDashLine",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

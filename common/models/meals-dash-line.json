@@ -1,0 +1,127 @@
+{
+  "name": "MealsDashLine",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "category": {
+      "type": "string"
+    },
+    "menuHeader": {
+      "type": "string"
+    },
+    "menuHeaderId": {
+      "type": "string"
+    },
+    "mainCategory": {
+      "type": "string"
+    },
+    "breakfast": {
+      "type": "boolean",
+      "default": false
+    },
+    "breakfastSpecial": {
+      "type": "boolean",
+      "default": false
+    },
+    "brunch": {
+      "type": "boolean",
+      "default": false
+    },
+    "lunch": {
+      "type": "boolean",
+      "default": false
+    },
+    "lunchSpecial": {
+      "type": "boolean",
+      "default": false
+    },
+    "dinner": {
+      "type": "boolean",
+      "default": false
+    },
+    "dinnerSpecial": {
+      "type": "boolean",
+      "default": false
+    },
+    "allday": {
+      "type": "boolean",
+      "default": false
+    },
+    "alldaySpecial": {
+      "type": "boolean",
+      "default": false
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    },
+    "inAppSpecial": {
+      "type": "boolean",
+      "default": false
+    },
+    "isSpecial": {
+      "type": "boolean",
+      "default": false
+    },
+    "isAvailable": {
+      "type": "boolean",
+      "default": false
+    },
+    "monday": {
+      "type": "boolean",
+      "default": false
+    },
+    "tuesday": {
+      "type": "boolean",
+      "default": false
+    },
+    "wednesday": {
+      "type": "boolean",
+      "default": false
+    },
+    "thursday": {
+      "type": "boolean",
+      "default": false
+    },
+    "friday": {
+      "type": "boolean",
+      "default": false
+    },
+    "staurday": {
+      "type": "boolean",
+      "default": false
+    },
+    "sunday": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "validations": [],
+  "relations": {
+    "dashSubLines": {
+      "type": "hasMany",
+      "model": "MealsDashSubLine",
+      "foreignKey": ""
+    },
+    "business": {
+      "type": "belongsTo",
+      "model": "Business",
+      "foreignKey": "ownerId"
+    },
+    "mealsCategory": {
+      "type": "belongsTo",
+      "model": "MealsCategory",
+      "foreignKey": ""
+    },
+    "mealsDashLineAddons": {
+      "type": "hasMany",
+      "model": "MealsDashLineAddons",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

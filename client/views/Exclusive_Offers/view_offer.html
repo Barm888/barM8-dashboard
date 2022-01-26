@@ -1,0 +1,164 @@
+<style>
+    .back-txt {
+        margin-left: 1rem;
+        font-size: 1.2rem;
+        color: #000 !important;
+    }
+</style>
+<div class="wrapper wrapper-content" id="exclusiveOffer" ng-controller="ViewExclusiveOfferCtl">
+    <div class="m-t-sm" style="margin-top:2.5rem;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
+                style="padding-left: 5px;padding-right: 5px;">
+                <div class="row card" style="margin: 0rem 0 0rem 0 !important;padding:5px;">
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                        <a href="#" onclick="history.back();">
+                            <i style="color: #ff9800 !important;vertical-align: -0.4em !important;"
+                                class="fas fa-long-arrow-alt-left fa-4x"></i>
+                            <b class="back-txt">Back to Overview</b>
+                        </a>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+                                <br>
+                                <div class="form-group">
+                                    <label for="name">Title - What do you want to name this offer?</label>
+                                    <input type="text" id="title" disabled="disabled"
+                                        class="form-control form-c custom-input" id="name"
+                                        style="font-size: 15px !important;" ng-model="viewOffer.title">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+                                <div class="form-group">
+                                    <label for="offer-txt">Description - Tell us a bit about your offer (max.
+                                        100
+                                        characters)</label>
+                                    <textarea class="form-control" id="desc" style="border: 2px solid #ddd !important;
+                                    font-size: 16px !important;" ng-model="viewOffer.desc" disabled="disabled" rows="4"
+                                        id="offer-txt"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+                                <label for="name">Image</label>
+                                <div class="form-group">
+                                    <img class="img-thumbnail" alt="{{viewOffer.img[0].fileName}}" style="width: 240px;"
+                                        ng-src="{{viewOffer.img[0].path || 'https://barm8-space1.sgp1.digitaloceanspaces.com/default-img/default.png'}}">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+                                <div class="form-group">
+                                    <label for="name">Number of Coupons Available?</label>
+                                    <input type="number" id="availableCnt" placeholder="E.g. 100"
+                                        class="form-control form-c custom-input" id="name" ng-disabled="true"
+                                        ng-model="viewOffer.availableCnt">
+                                    <span id="available-err" style="color: red;"></span>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label for="name">Offers per Customer - Min</label>
+                                            <input type="number" id="perCustomerCntMin" placeholder="Min"
+                                                class="form-control form-c custom-input" ng-disabled="true"
+                                                ng-model="viewOffer.minCustomer">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label for="name">Offers per Customer - Max</label>
+                                            <input type="number" id="perCustomerCntMax" placeholder="Max"
+                                                class="form-control form-c custom-input" ng-disabled="true"
+                                                ng-model="viewOffer.maxCustomer">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label for="name">Offer Value</label>
+                                            <br>
+                                            <div class="dollar">
+                                                <input type="number" id="price" ng-disabled="true"
+                                                    class="form-control form-c custom-input" ng-model="viewOffer.price">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                                        <div class="form-group">
+                                            <label for="name">Offer Date</label>
+                                            <br>
+                                            <input type="text" id="offerDate" ng-disabled="true"
+                                                class="form-control form-c custom-input"
+                                                ng-model="viewOffer.offerDate | date">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+                                <div class="row">
+                                    <div class="col-xs-6 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="name">Redeem start</label>
+                                            <br>
+                                            <input type="text" id="stratTime" ng-disabled="true"
+                                                class="form-control form-c custom-input"
+                                                ng-model="viewOffer.startTimeTxt">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label for="name">Redeem expiry</label>
+                                            <br>
+                                            <input type="text" id="stratTime" ng-disabled="true"
+                                                class="form-control form-c custom-input"
+                                                ng-model="viewOffer.offerExpiryTimeTxt">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    label {
+        font-size: 1.1rem;
+    }
+
+    .dollar {
+        display: block;
+        position: relative;
+    }
+
+    .dollar input {
+        padding-left: 20px;
+    }
+
+    .dollar:before {
+        position: absolute;
+        content: "$";
+        left: 5px;
+        top: 14px;
+        font-size: 15px;
+        color: #999;
+    }
+</style>

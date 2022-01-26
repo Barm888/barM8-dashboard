@@ -1,0 +1,261 @@
+<style type="text/css">
+  body {
+    background-color: #f3f3f4 !important;
+  }
+</style>
+<script>
+  $(() => {
+    $("#analyticsId").css({ "opacity": "0.1" });
+    setTimeout(function () { $("#analyticsId").css({ "opacity": "" }); }, 1000);
+  });
+
+</script>
+
+<link rel="stylesheet" type="text/css"
+  href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/css/analytics.css" />
+<div id="analyticsId" ng-controller="venueAnalyticsCtl">
+  <div class="wrapper wrapper-content animated fadeIn" id="analyticsChart" style="margin-top:2.5rem;">
+    <div class="row card" ng-show="userDetails.isAdmin" style="padding:20px;margin: 0rem 0 0.5rem 0;">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+        <link rel="stylesheet" type="text/css" href="assets/businessAC/css/autocomplete.css" />
+        <div class="autocomplete col-md-12" style="padding-right:0px;padding-left:0px;">
+          <input id="autocompleteBusiness" type="text" name="BusinessName" placeholder="Enter Business name">
+          <span id="businessErr" style="color:red;"></span>
+        </div>
+        <script type="text/javascript" src="assets/businessAC/js/autocomplete.js"></script>
+        <script type="text/javascript">
+          autocomplete(document.getElementById("autocompleteBusiness"), 'analytics');
+        </script>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+        <button type="button" id="businessSubmit" ng-click="BusinessSelected('analytics')"
+          class="btn btn-raised btn-primary businessSubmit" style="margin-bottom: 10px;border-radius:30px;"> <i
+            class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;Submit</button>
+      </div>
+    </div>
+    <div class="row card">
+      <ul class="nav nav-tabs" id="analyticsTab" role="tablist">
+        <li class="active col-md-3 col-sm-3 col-xs-3 col-lg-3 col-xl-3"
+          style="text-align:center;padding-left:0px;padding-right:0px;"><a data-target="#daily"
+            onclick="taggleFun(this)" style="color:#000000 !important;" href="javascript:;" role="tab"
+            data-toggle="tab">Daily</a></li>
+        <li class="card col-md-3 col-sm-3 col-xs-3 col-lg-3 col-xl-3"
+          style="text-align:center;padding-left:0px;padding-right:0px;"><a data-target="#weekly"
+            onclick="taggleFun(this)" style="color:#000000 !important;" href="javascript:;" role="tab"
+            data-toggle="tab">Weekly</a></li>
+        <li class="card col-md-3 col-sm-3 col-xs-3 col-lg-3 col-xl-3"
+          style="text-align:center;padding-left:0px;padding-right:0px;"><a data-target="#monthly"
+            onclick="taggleFun(this)" style="color:#000000 !important;" href="javascript:;" role="tab"
+            data-toggle="tab">Monthly</a></li>
+        <li class="card col-md-3 col-sm-3 col-xs-3 col-lg-3 col-xl-3"
+          style="text-align:center;padding-left:0px;padding-right:0px;"><a data-target="#allTime"
+            onclick="taggleFun(this)" style="color:#000000 !important;" href="javascript:;" role="tab"
+            data-toggle="tab">Yearly</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="daily">
+          <div class="row" style="padding-top:20px">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding: 20px;">
+                  <canvas id="bar" class="chart chart-bar card" chart-colors="dailyBusinessHits.colours"
+                    chart-data="dailyBusinessHits.data" chart-labels="dailyBusinessHits.labels"
+                    chart-series="dailyBusinessHits.series" chart-options="dailyBusinessHits.options"></canvas>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" style="padding:10px 20px;">
+                  <canvas id="radar" class="chart chart-pie card" chart-colors="pieDailyAge.colours"
+                    ng-click="chartClick(idForVisithourCount,'dailyClick')" chart-data="pieDailyAge.data"
+                    chart-options="pieDailyAge.options" chart-series="pieDailyAge.series"
+                    chart-labels="pieDailyAge.labels"></canvas>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" style="padding:10px 20px;">
+                  <canvas id="doughnut" class="chart chart-doughnut card" legend="true" style="padding:10px"
+                    chart-colors="doughnutDailyColor" chart-options="doughnutDailyoptions"
+                    chart-data="doughnutDailydata" chart-labels="doughnutDailylabels"></canvas>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" style="padding:10px 20px;">
+                  <canvas id="newReturn" class="chart chart-doughnut card" legend="true" style="padding:10px"
+                    chart-colors="newReturnDailyColor" chart-options="newReturnDailyoptions"
+                    chart-data="newReturnDailydata" chart-labels="newReturnDailylabels"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="weekly">
+          <div class="row" style="padding-top:20px">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" style="padding: 20px;">
+                  <canvas id="weekbar" class="chart chart-bar card" chart-colors="businessHitsWeekLive.colours"
+                    chart-data="businessHitsWeekLive.data" chart-labels="businessHitsWeekLive.labels"
+                    chart-series="businessHitsWeekLive.series" chart-options="businessHitsWeekLive.options"></canvas>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" style="padding :20px;">
+                  <canvas id="radar" class="chart chart-pie card" chart-colors="pieWeeklyAge.colours"
+                    chart-data="pieWeeklyAge.data" chart-options="pieWeeklyAge.options"
+                    chart-series="pieWeeklyAge.series" chart-labels="pieWeeklyAge.labels"></canvas>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" style="padding:10px 20px;">
+                  <canvas id="doughnut" class="chart chart-doughnut card" legend="true" style="padding:10px"
+                    chart-colors="doughnutWeekColor" chart-options="doughnutWeekoptions" chart-data="doughnutWeeklydata"
+                    chart-labels="doughnutWeeklylabels"></canvas>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" style="padding:10px 20px;">
+                  <canvas id="newReturn" class="chart chart-doughnut card" legend="true" style="padding:10px"
+                    chart-colors="newReturnWeeklyColor" chart-options="newReturnWeeklyoptions"
+                    chart-data="newReturnWeeklydata" chart-labels="newReturnWeeklylabels"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="monthly">
+          <div class="row" style="padding-top:20px">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding: 20px;">
+                  <canvas id="barMonthly" class="chart chart-bar card" chart-colors="businessHitsMonthlyLive.colours"
+                    chart-data="businessHitsMonthlyLive.data" chart-labels="businessHitsMonthlyLive.labels"
+                    chart-series="businessHitsMonthlyLive.series"
+                    chart-options="businessHitsMonthlyLive.options"></canvas>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" style="padding :20px;">
+                  <canvas id="radarpieMonthlyAge" class="chart chart-pie card" chart-colors="pieMonthlyAge.colours"
+                    chart-data="pieMonthlyAge.data" chart-options="pieMonthlyAge.options"
+                    chart-series="pieMonthlyAge.series" chart-labels="pieMonthlyAge.labels"></canvas>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" style="padding:10px 20px;">
+                  <canvas id="doughnut" class="chart chart-doughnut card" legend="true" style="padding:10px"
+                    chart-colors="doughnutMonthlyColor" chart-options="doughnutMonthlyoptions"
+                    chart-data="doughnutMonthlydata" chart-labels="doughnutMonthlylabels"></canvas>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" style="padding:10px 20px;">
+                  <canvas id="newReturn" class="chart chart-doughnut card" legend="true" style="padding:10px"
+                    chart-colors="newReturnMonthlyColor" chart-options="newReturnMonthlyoptions"
+                    chart-data="newReturnMonthlydata" chart-labels="newReturnMonthlylabels"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="allTime">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding: 20px;">
+                  <canvas id="barYearly" class="chart chart-bar card" chart-colors="barYearly.colours"
+                    chart-data="barYearly.data" chart-labels="barYearly.labels" chart-series="barYearly.series"
+                    chart-options="barYearly.options"></canvas>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" style="padding :20px;">
+                  <canvas id="radarpieYearAge" class="chart chart-pie card" chart-colors="pieYearAge.colours"
+                    chart-data="pieYearAge.data" chart-options="pieYearAge.options" chart-series="pieYearAge.series"
+                    chart-labels="pieYearAge.labels"></canvas>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" style="padding:10px 20px;">
+                  <canvas id="doughnut" class="chart chart-doughnut card" legend="true" style="padding:10px"
+                    chart-colors="doughnutYearlyColor" chart-options="doughnutYearlyoptions"
+                    chart-data="doughnutYearlydata" chart-labels="doughnutYearlylabels"></canvas>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6" style="padding:10px 20px;">
+                  <canvas id="newReturn" class="chart chart-doughnut card" legend="true" style="padding:10px"
+                    chart-colors="newReturnYearlyColor" chart-options="newReturnYearlyoptions"
+                    chart-data="newReturnYearlydata" chart-labels="newReturnYearlylabels"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="msgShow" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+
+      <!-- Modal content-->
+      <div class="modal-content animated fadeIn">
+        <div class="modal-header">
+          <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+          <!--<h4 class="modal-title">Modal Header</h4>-->
+        </div>
+        <div class="modal-body">
+          <h4 id="msgTxt"></h4>
+        </div>
+        <div class="modal-footer">
+          <a href="javascript:;" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"
+              aria-hidden="true"></i>&nbsp;Close</a>
+          <!--<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;Close</button>-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <script type="text/javascript" src="/assets/js/analytics.js"></script> -->
+  <style type="text/css">
+    @media (max-width:800px) {
+      #buttonMenu {
+        margin-top: 10px;
+      }
+
+      .wrapper-content {
+        padding: 20px 0px 10px;
+      }
+    }
+
+    #page-wrapper {
+      padding: 0 1px !important;
+    }
+
+    .active-a {
+      background-color: #f9a141;
+      color: #000000 !important;
+    }
+  </style>
+  <script type="text/javascript">
+    if ($(window).width() <= 800) {
+      if ($('body').hasClass('pace-running')) {
+        $('body').removeClass('pace-running');
+      }
+      if ($('body').hasClass('pace-done')) {
+        $('body').removeClass('pace-done');
+      }
+    }
+    var ctx = document.getElementById("bar");
+    ctx.height = 75;
+
+    var barMonthlyctx = document.getElementById("barMonthly");
+    barMonthlyctx.height = 75;
+
+    var barYearctx = document.getElementById("barYearly");
+    barYearctx.height = 75;
+
+    function taggleFun(e) {
+      $.each($("#analyticsTab li"), function () {
+        if (!$(this).hasClass('card')) {
+          $(this).addClass('card');
+        }
+      });
+      $(e).parent('li').removeClass('card');
+    }
+  </script>
+</div>

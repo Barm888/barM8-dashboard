@@ -1,0 +1,55 @@
+{
+  "name": "SportsTeamAndLogo",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "_name": {
+      "type": "string"
+    },
+    "sportGroup": {
+      "type": "string"
+    },
+    "_sportGroup": {
+      "type": "string"
+    },
+    "competitionGroup": {
+      "type": "string"
+    },
+    "_competitionGroup": {
+      "type": "string"
+    },
+    "img": {
+      "type": "object"
+    },
+    "isCreated": {
+      "type": "date",
+      "default": "$now"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "sportsCategory": {
+      "type": "belongsTo",
+      "model": "SportsCategory",
+      "foreignKey": ""
+    },
+    "sportsScheduleTeamA": {
+      "type": "hasOne",
+      "model": "SportsScheduleForAdmin",
+      "foreignKey": "teamAId"
+    },
+    "sportsScheduleTeamB": {
+      "type": "hasOne",
+      "model": "SportsScheduleForAdmin",
+      "foreignKey": "teamBId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
